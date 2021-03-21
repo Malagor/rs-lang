@@ -1,0 +1,29 @@
+import { SET_USER } from 'appConstants';
+import { Reducer } from 'redux';
+import { StateMainPage } from 'types';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Action = { type: string; payload: any };
+
+export const mainPageState: StateMainPage = {
+  user: {
+    id: '',
+    name: '',
+  },
+};
+
+export const mainPageReducer: Reducer<StateMainPage, Action> = (
+  state = mainPageState,
+  action
+) => {
+  switch (action.type) {
+    case SET_USER:
+      return {
+        ...state,
+        user: action.payload,
+      };
+
+    default:
+      return state;
+  }
+};
