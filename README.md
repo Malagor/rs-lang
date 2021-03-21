@@ -1,4 +1,7 @@
-# Getting Started with Create React App
+# RS-Lang
+Study English React Applacation. Team 53
+
+##Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 

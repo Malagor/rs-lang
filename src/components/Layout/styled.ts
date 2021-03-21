@@ -1,4 +1,6 @@
-.layout {
+import styled from 'styled-components';
+
+export const LayoutStyled = styled.div`
   width: 100%;
   min-height: 100%;
   height: 100%;
@@ -6,16 +8,16 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
+`;
 
-.wrapper {
+export const MainWrapper = styled.div`
   width: 100%;
   height: 100%;
   flex-grow: 1;
-}
+`;
 
-.footer {
+export const FooterWrapper = styled.div`
   width: 100%;
   height: 100px;
   background: #ddd;
-}
+`;

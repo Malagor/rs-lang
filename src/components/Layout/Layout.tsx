@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import classes from './Layout.module.scss';
+import { FooterWrapper, LayoutStyled, MainWrapper } from './styled';
 
 type LayoutProps = {};
 
 export const Layout: FC<LayoutProps> = ({ children }) => (
-  <div className={classes.layout}>
+  <LayoutStyled>
     <h1>Layout</h1>
-    <div className={classes.wrapper}>{children}</div>
-    <footer className={classes.footer}>footer</footer>
-  </div>
+    <MainWrapper>{children}</MainWrapper>
+    <FooterWrapper>footer</FooterWrapper>
+  </LayoutStyled>
 );
