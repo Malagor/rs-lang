@@ -1,7 +1,15 @@
 import React from 'react';
-import { APP_NAME } from 'appConstants';
-import classes from './App.module.scss';
+import { Route, Switch } from 'react-router-dom';
+import { MainPage, TextBookPage } from 'modules';
+import { Layout } from 'components';
 
 export function App() {
-  return <div className={classes.app}>{APP_NAME}</div>;
+  return (
+    <Layout>
+      <Switch>
+        <Route path="/textbook" component={TextBookPage} />
+        <Route exact path="/" component={MainPage} />
+      </Switch>
+    </Layout>
+  );
 }
