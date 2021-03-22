@@ -1,6 +1,6 @@
 import React, { ChangeEvent, FC, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { State } from 'types';
+import { State, User } from 'types';
 import { setUser } from './actions';
 
 type MainPageProps = {};
@@ -14,7 +14,14 @@ export const MainPage: FC<MainPageProps> = () => {
   };
 
   const setNewUser = () => {
-    dispatch(setUser({ id: '', name: value }));
+    const userData: User = {
+      message: '',
+      name: value,
+      refreshToken: '',
+      token: '',
+      userId: '',
+    };
+    dispatch(setUser(userData));
   };
 
   return (

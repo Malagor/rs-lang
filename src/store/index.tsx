@@ -5,9 +5,11 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import { State } from 'types';
 import { mainPageReducer } from '../modules/MainPage/mainPageReducer';
+import { textBookReducer } from '../modules/TextBookPage/textBookReducer';
 
 const appReducer = combineReducers<State>({
   mainPageReducer,
+  textBookReducer,
 });
 
 const store = createStore(

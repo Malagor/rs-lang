@@ -7,7 +7,10 @@ type Action = { type: string; payload: any };
 
 export const mainPageState: StateMainPage = {
   user: {
-    id: '',
+    message: '',
+    token: '',
+    refreshToken: '',
+    userId: '',
     name: '',
   },
 };
