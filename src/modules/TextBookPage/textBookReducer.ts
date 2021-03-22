@@ -1,6 +1,6 @@
-import { SET_GROUP, SET_PAGE, SET_WORDS } from 'appConstants';
 import { Reducer } from 'redux';
 import { StateTextBook } from 'types';
+import { SET_GROUP, SET_PAGE, SET_WORDS } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Action = { type: string; payload: any };

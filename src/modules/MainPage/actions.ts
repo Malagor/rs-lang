@@ -1,8 +1,8 @@
 import { StateMainPage, User } from 'types';
-import { SET_USER } from 'appConstants';
 import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { SET_USER } from './actionConst';
 
 export const setUser = (payload: User) => ({
   type: SET_USER,
