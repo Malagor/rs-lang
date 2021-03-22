@@ -1,6 +1,6 @@
-import { SET_USER } from 'appConstants';
 import { Reducer } from 'redux';
 import { StateMainPage } from 'types';
+import { SET_USER } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Action = { type: string; payload: any };

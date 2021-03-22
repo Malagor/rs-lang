@@ -1,8 +1,8 @@
 import { StateTextBook, Word } from 'types';
-import { SET_PAGE, SET_WORDS, SET_GROUP } from 'appConstants';
 import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
+import { SET_PAGE, SET_WORDS, SET_GROUP } from './actionConst';
 
 export const setPage = (payload: number) => ({
   type: SET_PAGE,

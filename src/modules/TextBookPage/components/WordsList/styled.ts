@@ -6,13 +6,29 @@ export const WordListStyled = styled.div`
   grid-gap: 10px;
 `;
 
-export const WordCard = styled.div`
+export const WordCardTitle = styled.h3``;
+
+type PropsCard = {
+  active: boolean;
+};
+
+export const WordCard = styled.div<PropsCard>`
   display: flex;
   flex-direction: column;
   align-items: center;
   border-radius: 7px;
-  background-color: aquamarine;
   padding: 10px 10px 20px;
+  background-color: ${({ active }) => (active ? 'none' : 'yellow')};
+
+  h2 {
+    color: ${({ active }) => (active ? 'black' : 'red')};
+
+    &:hover {
+      font-size: 2rem;
+    }
+  }
 `;
 
-export const WordCardTitle = styled.h3``;
+export const WordCard2 = styled(WordCard)`
+  margin: 5px 10px;
+`;
