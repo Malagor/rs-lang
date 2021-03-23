@@ -23,6 +23,7 @@ export const useStyles = makeStyles((theme) => ({
     }),
     backgroundColor: COLOR_LAYOUT_DARKBLUE,
     color: COLOR_LAYOUT_GRAY,
+    overflowX: 'hidden',
   },
   drawerPaperClose: {
     overflowX: 'hidden',
