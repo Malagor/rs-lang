@@ -8,7 +8,6 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: COLOR_LAYOUT_YELLOW,
   },
   nameApp: {
-    gridArea: 'name',
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.down('sm')]: {
@@ -20,7 +19,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   authorsWrapper: {
-    gridArea: 'authors',
     display: 'flex',
     order: 2,
     [theme.breakpoints.down('sm')]: {
@@ -43,7 +41,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   logoSchool: {
-    gridArea: 'school',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
