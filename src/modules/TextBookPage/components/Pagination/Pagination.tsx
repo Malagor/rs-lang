@@ -7,14 +7,11 @@ import { StyledPaginationContainer } from './styled';
 import { setPage } from '../../actions';
 
 type PaginationProps = {
-  numberOfPages: number;
+  pageCount: number;
   initialPage: number;
 };
 
-export const Pagination: FC<PaginationProps> = ({
-  numberOfPages,
-  initialPage,
-}) => {
+export const Pagination: FC<PaginationProps> = ({ pageCount, initialPage }) => {
   const dispatch = useDispatch();
 
   const handlePageClick = (data: { selected: number }) => {
@@ -28,11 +25,11 @@ export const Pagination: FC<PaginationProps> = ({
         previousLabel={<ArrowLeftIcon fontSize="large" />}
         nextLabel={<ArrowRightIcon fontSize="large" />}
         breakLabel=""
-        pageCount={numberOfPages}
+        pageCount={pageCount}
         initialPage={initialPage}
         marginPagesDisplayed={0}
         onPageChange={handlePageClick}
-        pageRangeDisplayed={2}
+        pageRangeDisplayed={4}
         containerClassName="root"
         pageClassName="page-item"
         previousClassName="previous-page-item"

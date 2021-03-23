@@ -63,7 +63,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       {words && (
         <>
           <WordList words={words} />{' '}
-          <Pagination numberOfPages={20} initialPage={0} />
+          <Pagination pageCount={30} initialPage={0} />
         </>
       )}
     </div>

@@ -4,7 +4,7 @@ export const StyledPaginationContainer = styled.div`
   .root {
     display: flex;
     justify-content: space-between;
-    width: 304px;
+    width: 432px;
     padding: 0;
     margin: 32px auto;
     list-style: none;
