@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
-import { WordList } from './components';
+import { WordList, Pagination } from './components';
 
 type TextBookPageProps = {};
 
@@ -60,7 +60,12 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       </button>
       <hr />
 
-      {words && <WordList words={words} />}
+      {words && (
+        <>
+          <WordList words={words} />{' '}
+          <Pagination numberOfPages={20} initialPage={0} />
+        </>
+      )}
     </div>
   );
 };
