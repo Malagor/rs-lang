@@ -40,8 +40,8 @@ export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
         <PageTitle />
         <div className={classes.grow} />
 
-        <Avatar alt="" src="" className={classes.marginLeft} />
         <Typography className={classes.marginLeft}>Вася пупкин</Typography>
+        <Avatar alt="" src="" className={classes.marginLeft} />
       </Toolbar>
     </AppBar>
   );
