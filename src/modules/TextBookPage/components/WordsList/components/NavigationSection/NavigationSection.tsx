@@ -1,6 +1,7 @@
 import { Grid } from '@material-ui/core';
 import React, { FC } from 'react';
 
+import Paper from '@material-ui/core/Paper';
 import { useSelector } from 'react-redux';
 import { selectPage } from '../../../../selectors';
 
@@ -14,7 +15,7 @@ type NavigationSectionProps = {
 export const NavigationSection: FC<NavigationSectionProps> = ({
   changeGroupPage,
 }) => {
-  const numberOfPage = Array.from({ length: 6 }, (v, k) => k);
+  const arrayNumberOfPage = Array.from({ length: 6 }, (v, k) => k);
 
   const page = useSelector(selectPage);
   const [pageNow, setPageNow] = React.useState(page);
@@ -26,15 +27,17 @@ export const NavigationSection: FC<NavigationSectionProps> = ({
 
   return (
     <NavigationPosition>
-      {numberOfPage.map((numberPage: number) => (
-        <Grid key={numberPage}>
-          <ButtonNavigation
-            onChangePage={onChangePage}
-            numberPage={numberPage}
-            pageNow={pageNow}
-          />
-        </Grid>
-      ))}
+      <Paper elevation={3} style={{ width: '72px', height: '400px' }}>
+        {arrayNumberOfPage.map((numberPage: number) => (
+          <Grid key={numberPage}>
+            <ButtonNavigation
+              onChangePage={onChangePage}
+              numberPage={numberPage}
+              pageNow={pageNow}
+            />
+          </Grid>
+        ))}
+      </Paper>
     </NavigationPosition>
   );
 };
