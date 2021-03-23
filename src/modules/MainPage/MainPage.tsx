@@ -1,7 +1,9 @@
-import React, { ChangeEvent, FC, useState } from 'react';
+import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, User } from 'types';
+import { Container, Paper } from '@material-ui/core';
 import { setUser } from './actions';
+import { setPageTitle } from '../../store/commonState/actions';
 
 type MainPageProps = {};
 
@@ -24,14 +26,19 @@ export const MainPage: FC<MainPageProps> = () => {
     dispatch(setUser(userData));
   };
 
+  useEffect(() => {
+    dispatch(setPageTitle('RS-Lang. Team-53'));
+  }, [dispatch]);
+
   return (
-    <div>
-      <h2>MainPage</h2>
-      <h3>User: {user}</h3>
-      <input type="text" onChange={onChangeHandler} value={value} />
-      <button type="button" onClick={setNewUser}>
-        Поменять пользователя
-      </button>
-    </div>
+    <Container>
+      <Paper>
+        User: {user}
+        <input type="text" onChange={onChangeHandler} value={value} />
+        <button type="button" onClick={setNewUser}>
+          Поменять пользователя
+        </button>
+      </Paper>
+    </Container>
   );
 };

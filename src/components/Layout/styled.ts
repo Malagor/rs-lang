@@ -1,23 +1,15 @@
-import styled from 'styled-components/macro';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
-export const LayoutStyled = styled.div`
-  width: 100%;
-  min-height: 100vh;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const MainWrapper = styled.div`
-  width: 100%;
-  height: 100%;
-  flex-grow: 1;
-`;
-
-export const FooterWrapper = styled.div`
-  width: 100%;
-  height: 100px;
-  background: #ddd;
-`;
+export const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+  },
+  appBarSpacer: theme.mixins.toolbar,
+  content: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexGrow: 1,
+    minHeight: '100vh',
+    overflow: 'auto',
+  },
+}));
