@@ -40,6 +40,10 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setGroup(nextGroup));
   };
 
+  const onChangeGroupPage = (numberPage: number) => {
+    dispatch(setGroup(numberPage));
+  };
+
   return (
     <div>
       <h2>TextBookPage</h2>
@@ -60,7 +64,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       </button>
       <hr />
 
-      {words && <WordList words={words} />}
+      {words && <WordList words={words} changeGroupPage={onChangeGroupPage} />}
     </div>
   );
 };

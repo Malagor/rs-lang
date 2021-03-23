@@ -7,9 +7,10 @@ import { NavigationSection } from './components';
 
 type WordListProps = {
   words: Word[];
+  changeGroupPage: Function;
 };
 
-export const WordList: FC<WordListProps> = ({ words }) => (
+export const WordList: FC<WordListProps> = ({ words, changeGroupPage }) => (
   <WordListWrapper>
     <WordListStyled>
       {words.map((word, index) => (
@@ -23,6 +24,6 @@ export const WordList: FC<WordListProps> = ({ words }) => (
         </Paper>
       ))}
     </WordListStyled>
-    <NavigationSection />
+    <NavigationSection changeGroupPage={changeGroupPage} />
   </WordListWrapper>
 );
