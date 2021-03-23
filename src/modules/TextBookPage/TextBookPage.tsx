@@ -2,9 +2,9 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { Container, Paper } from '@material-ui/core';
+import { setPageTitle } from 'store/commonState/actions';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords } from './actions';
-import { setPageTitle } from '../../store/commonState/actions';
 
 type TextBookPageProps = {};
 
