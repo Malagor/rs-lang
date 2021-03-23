@@ -6,9 +6,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { Avatar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import { MOBILE_WIDTH } from 'appConstants';
+import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import { useStyles } from './styled';
 import { PageTitle } from './components';
-import { COLOR_LAYOUT_GRAY } from '../../../../appConstants/colors';
 
 type HeaderProps = {
   open: boolean;

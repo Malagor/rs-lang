@@ -2,8 +2,8 @@ import React, { ChangeEvent, FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { State, User } from 'types';
 import { Container, Paper } from '@material-ui/core';
+import { setPageTitle } from 'store/commonState/actions';
 import { setUser } from './actions';
-import { setPageTitle } from '../../store/commonState/actions';
 
 type MainPageProps = {};
 

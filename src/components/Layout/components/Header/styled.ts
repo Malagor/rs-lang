@@ -40,10 +40,6 @@ export const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
   },
-  loginButton: {
-    marginLeft: '10px',
-    color: '#ffffff',
-  },
   marginLeft: {
     marginLeft: '10px',
   },
