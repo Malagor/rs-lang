@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Word } from 'types';
-import { SERVER_URL } from 'appConstants';
 import { Paper } from '@material-ui/core';
 import { WordListStyled } from './styled';
 import { WordCard } from '../WordCard';
@@ -11,9 +10,9 @@ type WordListProps = {
 
 export const WordList: FC<WordListProps> = ({ words }) => (
   <WordListStyled>
-    {words.map((word, index) => (
+    {words.map((word) => (
       <Paper key={word.id}>
-        <WordCard word={word} />
+        <WordCard color='#F2695C' hoverColor='#f08278' word={word} />
       </Paper>
     ))}
   </WordListStyled>
