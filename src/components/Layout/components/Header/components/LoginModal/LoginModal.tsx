@@ -71,7 +71,12 @@ export const LoginModal: FC = () => {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        color="primary"
+        onClick={handleClickOpen}
+        className={classes.openModalButton}
+      >
         <LockOpenIcon />
         Login
       </Button>

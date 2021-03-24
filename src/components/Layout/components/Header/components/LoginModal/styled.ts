@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { COLOR_LAYOUT_BLUE, COLOR_LAYOUT_DARKBLUE } from 'appConstants/colors';
 
 export const useStyles = makeStyles((theme) => ({
   paper: {
@@ -10,7 +11,7 @@ export const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     margin: theme.spacing(1),
-    backgroundColor: 'blue',
+    backgroundColor: COLOR_LAYOUT_BLUE,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -18,5 +19,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
+    backgroundColor: COLOR_LAYOUT_BLUE,
+  },
+  openModalButton: {
+    color: COLOR_LAYOUT_DARKBLUE,
   },
 }));
