@@ -1,18 +1,37 @@
 import React, { FC } from 'react';
-import { NavLink } from 'react-router-dom';
-import { LoginModal } from 'components';
-import { FooterWrapper, LayoutStyled, MainWrapper } from './styled';
+import { useLocation } from 'react-router-dom';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { MOBILE_WIDTH } from 'appConstants';
+import { Header, Footer, SideBar } from './components';
+import { useStyles } from './styled';
 
-type LayoutProps = {};
+export const Layout: FC = ({ children }) => {
+  const isMobile = window.document.body.offsetWidth < MOBILE_WIDTH;
 
-export const Layout: FC<LayoutProps> = ({ children }) => (
-  <LayoutStyled>
-    <h1>RS-Lang. Team 53</h1>
+  const classes = useStyles();
+  const location = useLocation();
 
-    <LoginModal />
-    <NavLink to="/">Main page</NavLink>
-    <NavLink to="/textbook">TextBook page</NavLink>
-    <MainWrapper>{children}</MainWrapper>
-    <FooterWrapper>footer</FooterWrapper>
-  </LayoutStyled>
-);
+  const [open, setOpen] = React.useState(!isMobile);
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <Header open={open} handleDrawerOpen={handleDrawerOpen} />
+      <SideBar open={open} handleDrawerClose={handleDrawerClose} />
+      <main className={classes.content}>
+        <div
+          className={classes.appBarSpacer}
+          style={{ marginBottom: '20px' }}
+        />
+        {children}
+        {!location.pathname.includes('games') && <Footer />}
+      </main>
+    </div>
+  );
+};
