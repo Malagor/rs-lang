@@ -1,9 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
+import { Button, Container, Paper } from '@material-ui/core';
+import { setPageTitle } from 'store/commonState/actions';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
 import { WordList } from './components';
+import { Pagination } from './components/Pagination';
 
 type TextBookPageProps = {};
 
@@ -17,6 +20,10 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   useEffect(() => {
     dispatch(loadWords(group, page));
   }, [dispatch, page, group]);
+
+  useEffect(() => {
+    dispatch(setPageTitle('TextBook'));
+  }, [dispatch]);
 
   const onNextPageHandler = () => {
     const nextPage = page === 29 ? 29 : page + 1;
@@ -41,26 +48,52 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   };
 
   return (
-    <div>
-      <h2>TextBookPage</h2>
-      <div>Group: {group}</div>
-      <button type="button" onClick={onPrevGroupHandler}>
-        Prev Group
-      </button>
-      <button type="button" onClick={onNextGroupHandler}>
-        Next Group
-      </button>
-      <hr />
-      <div>Page: {page}</div>
-      <button type="button" onClick={onPrevPageHandler}>
-        Prev Page
-      </button>
-      <button type="button" onClick={onNextPageHandler}>
-        Next Page
-      </button>
-      <hr />
+    <Container>
+      <Paper>
+        <div>Group: {group}</div>
+        <Button
+          type="button"
+          color="primary"
+          variant="contained"
+          onClick={onPrevGroupHandler}
+        >
+          Prev Group
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={onNextGroupHandler}
+        >
+          Next Group
+        </Button>
+        <hr />
+        <div>Page: {page}</div>
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={onPrevPageHandler}
+        >
+          Prev Page
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={onNextPageHandler}
+        >
+          Next Page
+        </Button>
+        <hr />
 
-      {words && <WordList words={words} />}
-    </div>
+        {words && (
+          <div style={{ paddingBottom: '8px' }}>
+            <WordList words={words} />
+            <Pagination pageCount={30} initialPage={0} group={group} />
+          </div>
+        )}
+      </Paper>
+    </Container>
   );
 };

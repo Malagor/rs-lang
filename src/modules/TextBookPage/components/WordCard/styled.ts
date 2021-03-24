@@ -10,7 +10,7 @@ type ImageUrl = {
 
 export const CardContainer = styled.div`
   display: flex;
-  width: 783px;
+  max-width: 783px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 `;
