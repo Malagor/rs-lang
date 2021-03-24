@@ -53,6 +53,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
 
   .page-item-active {
     color: ${({ highlightColor }) => highlightColor};
+    border: 2px solid ${({ highlightColor }) => highlightColor};
   }
 
   .page-item-disabled {
