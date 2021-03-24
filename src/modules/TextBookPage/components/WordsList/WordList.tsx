@@ -1,24 +1,82 @@
 import React, { FC } from 'react';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
-import { Paper } from '@material-ui/core';
-import { WordCard, WordListStyled } from './styled';
+import {
+  Button,
+  Card,
+  CardActionArea,
+  CardActions,
+  CardContent,
+  CardHeader,
+  CardMedia,
+  IconButton,
+  makeStyles,
+  Typography,
+} from '@material-ui/core';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { WordListStyled } from './styled';
 
 type WordListProps = {
   words: Word[];
 };
 
-export const WordList: FC<WordListProps> = ({ words }) => (
-  <WordListStyled>
-    {words.map((word, index) => (
-      <Paper key={word.id}>
-        <WordCard active={!!(index % 2)}>
-          <h2>
-            {word.word} - {word.wordTranslate}
-          </h2>
-          <img src={`${SERVER_URL}${word.image}`} alt={word.word} />
-        </WordCard>
-      </Paper>
-    ))}
-  </WordListStyled>
-);
+const useStyles = makeStyles({
+  root: {
+    // maxWidth: 345,
+  },
+  media: {
+    height: 200,
+  },
+});
+
+export const WordList: FC<WordListProps> = ({ words }) => {
+  const classes = useStyles();
+
+  return (
+    <WordListStyled>
+      {words.map((word) => (
+        <Card className={classes.root} key={word.id}>
+          <CardHeader
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={`${word.word} - ${word.transcription}`}
+            subheader="September 14, 2016"
+          />
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image={`${SERVER_URL}${word.image}`}
+              title={word.wordTranslate}
+            />
+            <CardContent>
+              <Typography variant="body2" color="textPrimary" component="p">
+                {word.textExample}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {word.textExampleTranslate}
+              </Typography>
+
+              <Typography variant="body2" color="textPrimary" component="p">
+                {word.textMeaning}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {word.textMeaningTranslate}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="small" color="primary">
+              Difficult
+            </Button>
+            <Button size="small" color="primary">
+              Delete
+            </Button>
+          </CardActions>
+        </Card>
+      ))}
+    </WordListStyled>
+  );
+};
