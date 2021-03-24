@@ -41,6 +41,6 @@ export const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
   },
   marginLeft: {
-    marginLeft: '10px',
+    marginLeft: 10,
   },
 }));
