@@ -8,6 +8,8 @@ import { selectPage } from '../../../../selectors';
 import { ButtonNavigation } from './components';
 import { NavigationPosition } from './styled';
 
+import { NUMBER_OF_PAGE } from 'appConstants/index';
+
 type NavigationSectionProps = {
   changeGroupPage: Function;
 };
@@ -15,7 +17,7 @@ type NavigationSectionProps = {
 export const NavigationSection: FC<NavigationSectionProps> = ({
   changeGroupPage,
 }) => {
-  const arrayNumberOfPage = Array.from({ length: 6 }, (v, k) => k);
+  const arrayNumberOfPage = Array.from({ length: NUMBER_OF_PAGE }, (v, k) => k);
 
   const page = useSelector(selectPage);
   const [pageNow, setPageNow] = React.useState(page);
