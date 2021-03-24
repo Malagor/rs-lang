@@ -10,8 +10,6 @@ type ButtonNavigationProps = {
   color: string;
 };
 
-interface MyComponentProps {}
-
 export const ButtonNavigation: FC<ButtonNavigationProps> = ({
   numberPage,
   pageNow,
