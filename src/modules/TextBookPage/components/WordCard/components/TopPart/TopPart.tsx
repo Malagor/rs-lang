@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import { Word } from 'types';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { SERVER_URL } from 'appConstants';
-
+import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import {
   EnglishWord,
   WordBlock,
@@ -17,16 +17,16 @@ import {
 export type WordCardProps = {
   word: Word;
   colorGroup: string;
-  countIntoRedBlock: number;
-  countIntoGreenBlock: number;
+  successCount: number;
+  errorCount: number;
   isTranslate: boolean;
 };
 
 export const TopPart: React.FC<WordCardProps> = ({
   word,
   colorGroup,
-  countIntoRedBlock,
-  countIntoGreenBlock,
+  successCount,
+  errorCount,
   isTranslate,
 }) => {
   const refAudioWord = useRef<HTMLAudioElement>(null);
@@ -47,7 +47,7 @@ export const TopPart: React.FC<WordCardProps> = ({
 
   return (
     <Container>
-      <WordBlock  colorGroup={colorGroup}>
+      <WordBlock colorGroup={colorGroup}>
         <EnglishWord>{word.word}</EnglishWord>
         <WordTranscription>{word.transcription}</WordTranscription>
         {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
@@ -67,8 +67,8 @@ export const TopPart: React.FC<WordCardProps> = ({
           <track kind="captions" />{' '}
         </audio>
         <WordStatistic>
-          <InfoBlock color="#fc515b">{countIntoRedBlock}</InfoBlock>
-          <InfoBlock color="#57c770">{countIntoGreenBlock}</InfoBlock>
+          <InfoBlock color={colorGroup}>{successCount}</InfoBlock>
+          <InfoBlock color={COLOR_LAYOUT_GRAY}>{errorCount}</InfoBlock>
         </WordStatistic>
       </WrapperIconWithStatistic>
     </Container>

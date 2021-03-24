@@ -2,15 +2,15 @@ import React from 'react';
 import { SERVER_URL } from 'appConstants';
 import { Word } from 'types';
 import { CardContainer, ContentBlock, WordImage } from './styled';
-import { TopPart } from './TopPart';
-import { SentencesBlock } from './SentencesBlock';
-import { ButtonsBlock } from './ButtonsBlock';
+import { TopPart } from './components/TopPart';
+import { SentencesBlock } from './components/SentencesBlock';
+import { ButtonsBlock } from './components/ButtonsBlock';
 
 type WordCardProps = {
   word: Word;
   colorGroup: string;
-  countIntoRedBlock: number;
-  countIntoGreenBlock: number;
+  successCount: number;
+  errorCount: number;
   isTranslate: boolean;
   isButtons: boolean;
 };
@@ -18,8 +18,8 @@ type WordCardProps = {
 export const WordCard: React.FC<WordCardProps> = ({
   word,
   colorGroup,
-  countIntoRedBlock,
-  countIntoGreenBlock,
+  successCount,
+  errorCount,
   isTranslate,
   isButtons,
 }) => (
@@ -30,8 +30,8 @@ export const WordCard: React.FC<WordCardProps> = ({
       <TopPart
         word={word}
         colorGroup={colorGroup}
-        countIntoRedBlock={countIntoRedBlock}
-        countIntoGreenBlock={countIntoGreenBlock}
+        successCount={successCount}
+        errorCount={errorCount}
         isTranslate={isTranslate}
       />
       <SentencesBlock word={word} isTranslate={isTranslate} />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, withStyles } from '@material-ui/core';
+import { COLOR_LAYOUT_GRAY, COLOR_LAYOUT_WHITE } from 'appConstants/colors';
 import { Container } from './styled';
 
 type Props = {
@@ -13,7 +14,7 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup }) => {
       height: '37px',
       background: colorGroup,
       borderRadius: 0,
-      color: 'white',
+      color: COLOR_LAYOUT_WHITE,
       textTransform: 'lowercase',
 
       '&:hover': {
@@ -26,11 +27,11 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup }) => {
     root: {
       width: '104px',
       height: '37px',
-      background: '#C4C4C4',
+      background: COLOR_LAYOUT_GRAY,
       borderRadius: 0,
       textTransform: 'lowercase',
       '&:hover': {
-        background: '#C4C4C4',
+        background: COLOR_LAYOUT_GRAY,
       },
     },
   })(Button);
