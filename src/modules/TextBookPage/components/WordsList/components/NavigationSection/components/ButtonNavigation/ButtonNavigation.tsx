@@ -5,7 +5,7 @@ import { useStyles } from './styled';
 type ButtonNavigationProps = {
   numberPage: number;
   pageNow: number;
-  onChangePage: Function;
+  onChangePageHandler: Function;
   children: number;
   color: string;
 };
@@ -15,16 +15,14 @@ interface MyComponentProps {}
 export const ButtonNavigation: FC<ButtonNavigationProps> = ({
   numberPage,
   pageNow,
-  onChangePage,
+  onChangePageHandler,
   children,
   color,
 }) => {
   const clickNumPage = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    console.log('event', event.target);
     const goToNumberPage = Number((event.target as Element).innerHTML);
-    console.log('clickNumPage ', goToNumberPage);
-    onChangePage(goToNumberPage - 1);
+    onChangePageHandler(goToNumberPage - 1);
   };
 
   const activePage: boolean = pageNow === numberPage;

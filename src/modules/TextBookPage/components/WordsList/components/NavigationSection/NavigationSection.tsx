@@ -20,7 +20,7 @@ export const NavigationSection: FC<NavigationSectionProps> = ({
   const page = useSelector(selectPage);
   const [pageNow, setPageNow] = React.useState(page);
 
-  const onChangePage = (numberPage: number) => {
+  const onChangePageHandler = (numberPage: number) => {
     setPageNow(numberPage);
     changeGroupPage(numberPage);
   };
@@ -34,7 +34,7 @@ export const NavigationSection: FC<NavigationSectionProps> = ({
         {arrayNumberOfPage.map((numberPage: number, index: number) => (
           <Grid key={numberPage} container justify="center">
             <ButtonNavigation
-              onChangePage={onChangePage}
+              onChangePageHandler={onChangePageHandler}
               numberPage={numberPage}
               pageNow={pageNow}
               color={LEVEL_COLORS[index]}
