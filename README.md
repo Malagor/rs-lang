@@ -1,6 +1,9 @@
 # RS-Lang
 Study English React Applacation. Team 53
 
+task:
+https://github.com/rolling-scopes-school/tasks/blob/master/tasks/react/react-rslang.md
+
 ##Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

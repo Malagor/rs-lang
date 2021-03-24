@@ -27,7 +27,7 @@ export const StyledPaginationContainer = styled.div`
     width: 40px;
     height: 40px;
     margin: 0 8px;
-    background: COLOR_WHITE;
+    background: ${COLOR_WHITE};
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     user-select: none;
