@@ -14,6 +14,8 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup }) => {
       background: colorGroup,
       borderRadius: 0,
       color: 'white',
+      textTransform: 'lowercase',
+
       '&:hover': {
         background: colorGroup,
       },
@@ -26,6 +28,7 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup }) => {
       height: '37px',
       background: '#C4C4C4',
       borderRadius: 0,
+      textTransform: 'lowercase',
       '&:hover': {
         background: '#C4C4C4',
       },
