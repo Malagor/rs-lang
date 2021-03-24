@@ -1,85 +1,41 @@
 import React from 'react';
 import { SERVER_URL } from 'appConstants';
 import { Word } from 'types';
-import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import { Button, withStyles } from '@material-ui/core';
+import { CardContainer, ContentBlock, WordImage } from './styled';
+import { TopPart } from './TopPart';
+import { SentencesBlock } from './SentencesBlock';
+import { ButtonsBlock } from './ButtonsBlock';
 
-import {
-  CardContainer,
-  ContentBlock,
-  EnglishWord,
-  WordBlock,
-  TopPart,
-  WordImage,
-  WordTranscription,
-  WordTranslate,
-  SentencesBlock,
-  Sentence,
-  SentenceTranslate,
-  ButtonsBlock,
-} from './styled';
-
-export type WordCardProps = {
+type WordCardProps = {
   word: Word;
-  color: string;
-  hoverColor: string;
+  colorGroup: string;
+  countIntoRedBlock: number;
+  countIntoGreenBlock: number;
+  isTranslate: boolean;
+  isButtons: boolean;
 };
 
 export const WordCard: React.FC<WordCardProps> = ({
   word,
-  color,
-  hoverColor,
-}) => {
-  const DifficultBtn = withStyles({
-    root: {
-      width: '104px',
-      height: '37px',
-      background: color,
-      borderRadius: 0,
-      color: 'white',
-      '&:hover': {
-        background: hoverColor,
-      },
-    },
-  })(Button);
+  colorGroup,
+  countIntoRedBlock,
+  countIntoGreenBlock,
+  isTranslate,
+  isButtons,
+}) => (
+  <CardContainer>
+    <WordImage url={`${SERVER_URL}${word.image}`} />
 
-  const DeleteBtn = withStyles({
-    root: {
-      width: '104px',
-      height: '37px',
-      background: '#C4C4C4',
-      borderRadius: 0,
-    },
-  })(Button);
-  return (
-    <CardContainer>
-      <WordImage url={`${SERVER_URL}${word.image}`} />
-
-      <ContentBlock>
-        <TopPart>
-          <WordBlock>
-            <EnglishWord>{word.word}</EnglishWord>
-            <WordTranscription>{word.transcription}</WordTranscription>
-            <WordTranslate>{word.wordTranslate}</WordTranslate>
-          </WordBlock>
-          <VolumeUpIcon style={{ fontSize: '2rem' }} />
-        </TopPart>
-        <SentencesBlock>
-          <div>
-            <Sentence dangerouslySetInnerHTML={{ __html: word.textMeaning }} />
-            <SentenceTranslate>{word.textMeaningTranslate}</SentenceTranslate>
-          </div>
-          <div>
-            <Sentence dangerouslySetInnerHTML={{ __html: word.textExample }} />
-            <SentenceTranslate>{word.textExampleTranslate}</SentenceTranslate>
-          </div>
-        </SentencesBlock>
-
-        <ButtonsBlock>
-          <DifficultBtn variant="contained">difficult</DifficultBtn>
-          <DeleteBtn variant="contained">delete</DeleteBtn>
-        </ButtonsBlock>
-      </ContentBlock>
-    </CardContainer>
-  );
-};
+    <ContentBlock>
+      <TopPart
+        word={word}
+        colorGroup={colorGroup}
+        countIntoRedBlock={countIntoRedBlock}
+        countIntoGreenBlock={countIntoGreenBlock}
+        isTranslate={isTranslate}
+      />
+      <SentencesBlock word={word} isTranslate={isTranslate} />
+      {isButtons && <ButtonsBlock colorGroup={colorGroup} />}
+    </ContentBlock>
+  </CardContainer>
+);

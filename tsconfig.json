@@ -23,5 +23,5 @@
   },
   "include": [
     "src"
-  ]
+, "src/modules/TextBookPage/components/WordCard/SentencesBlock/.tsx"  ]
 }
