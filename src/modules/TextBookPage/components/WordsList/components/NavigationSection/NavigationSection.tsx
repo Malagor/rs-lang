@@ -27,14 +27,19 @@ export const NavigationSection: FC<NavigationSectionProps> = ({
 
   return (
     <NavigationPosition>
-      <Paper elevation={3} style={{ width: '72px', height: '400px' }}>
+      <Paper
+        elevation={3}
+        style={{ width: '72px', height: '392px', padding: '12px 0' }}
+      >
         {arrayNumberOfPage.map((numberPage: number) => (
-          <Grid key={numberPage}>
+          <Grid key={numberPage} container justify="center">
             <ButtonNavigation
               onChangePage={onChangePage}
               numberPage={numberPage}
               pageNow={pageNow}
-            />
+            >
+              {numberPage + 1}
+            </ButtonNavigation>
           </Grid>
         ))}
       </Paper>

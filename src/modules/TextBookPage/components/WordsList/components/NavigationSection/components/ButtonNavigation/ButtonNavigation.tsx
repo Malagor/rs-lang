@@ -2,32 +2,43 @@ import React, { FC } from 'react';
 
 import Fab from '@material-ui/core/Fab';
 
-import { StyleLink } from './styled';
+import { useStyles } from './styled';
 
 type ButtonNavigationProps = {
   numberPage: number;
   pageNow: number;
   onChangePage: Function;
+  children: number;
 };
+
+interface MyComponentProps {}
 
 export const ButtonNavigation: FC<ButtonNavigationProps> = ({
   numberPage,
   pageNow,
   onChangePage,
+  children,
 }) => {
   const clickNumPage = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
-    const goToNumberPage = Number((event.target as Element).id);
+    console.log('event', event.target);
+    const goToNumberPage = Number((event.target as Element).innerHTML);
     console.log('clickNumPage ', goToNumberPage);
-    onChangePage(goToNumberPage);
+    onChangePage(goToNumberPage - 1);
   };
 
   const activePage: boolean = pageNow === numberPage;
-  console.log('activePage', activePage);
+
+  const styleProps = { backgroundColor: 'blue', activePage };
+  const classes = useStyles(styleProps);
 
   return (
-    <Fab color="primary" aria-label="add">
-      {numberPage + 1}
+    <Fab
+      onClick={clickNumPage}
+      id={String(numberPage)}
+      classes={{ root: classes.root, label: classes.label }}
+    >
+      {children}
     </Fab>
 
     /*     <StyleLink
