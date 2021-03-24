@@ -3,14 +3,8 @@ import { useDispatch } from 'react-redux';
 import ReactPaginate from 'react-paginate';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
-import {
-  COLOR_LEVEL_1,
-  COLOR_LEVEL_2,
-  COLOR_LEVEL_3,
-  COLOR_LEVEL_4,
-  COLOR_LEVEL_5,
-  COLOR_LEVEL_6,
-} from 'appConstants/colors';
+import { LEVEL_COLORS } from 'appConstants/colors';
+import { useTheme } from '@material-ui/core/styles';
 import { StyledPaginationContainer } from './styled';
 import { setPage } from '../../actions';
 
@@ -26,23 +20,18 @@ export const Pagination: FC<PaginationProps> = ({
   group,
 }) => {
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   const handlePageClick = (data: { selected: number }) => {
     const { selected } = data;
     dispatch(setPage(selected));
   };
 
-  const LEVEL_COLORS = [
-    COLOR_LEVEL_1,
-    COLOR_LEVEL_2,
-    COLOR_LEVEL_3,
-    COLOR_LEVEL_4,
-    COLOR_LEVEL_5,
-    COLOR_LEVEL_6,
-  ];
-
   return (
-    <StyledPaginationContainer highlightColor={LEVEL_COLORS[group]}>
+    <StyledPaginationContainer
+      highlightColor={LEVEL_COLORS[group]}
+      theme={theme}
+    >
       <ReactPaginate
         previousLabel={<ArrowLeftIcon fontSize="large" />}
         nextLabel={<ArrowRightIcon fontSize="large" />}

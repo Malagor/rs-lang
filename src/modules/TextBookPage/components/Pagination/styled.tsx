@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro';
-import { MOBILE_WIDTH } from 'appConstants';
 import { COLOR_LAYOUT_GRAY, COLOR_LAYOUT_WHITE } from 'appConstants/colors';
 
 type StyledPaginationContainerProps = {
@@ -71,7 +70,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     cursor: default;
   }
 
-  @media (max-width: ${MOBILE_WIDTH}px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.values.sm}px) {
     .root {
       font-size: 1.2rem;
     }
