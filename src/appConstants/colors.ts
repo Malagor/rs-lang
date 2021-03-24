@@ -12,3 +12,13 @@ export const COLOR_LAYOUT_ORANGE = '#FA5833';
 export const COLOR_LAYOUT_BACKGROUND = '#FAFCFE';
 export const COLOR_LAYOUT_TEXT = '#000000';
 export const COLOR_LAYOUT_GRAY = '#C4C4C4';
+export const COLOR_LAYOUT_WHITE = '#FFFFFF';
+
+export const LEVEL_COLORS = [
+  COLOR_LEVEL_1,
+  COLOR_LEVEL_2,
+  COLOR_LEVEL_3,
+  COLOR_LEVEL_4,
+  COLOR_LEVEL_5,
+  COLOR_LEVEL_6,
+];
