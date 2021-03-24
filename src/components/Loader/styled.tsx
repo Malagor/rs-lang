@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components/macro';
 import {
   COLOR_LEVEL_1,
@@ -13,13 +12,13 @@ export const StyledLoaderContainer = styled.div`
   .cssload-load {
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
-    left: calc(50% - 68px);
+    transform: translate(-50%, -50%);
+    left: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 158px;
-    height: 158px;
+    width: 75px;
+    height: 75px;
   }
 
   .cssload-blockcont {
@@ -31,8 +30,8 @@ export const StyledLoaderContainer = styled.div`
 
   .cssload-block {
     position: relative;
-    height: 45px;
-    width: 45px;
+    height: 25px;
+    width: 25px;
     display: inline-block;
     background: ${COLOR_LEVEL_1};
     transition: all 0.68s;
