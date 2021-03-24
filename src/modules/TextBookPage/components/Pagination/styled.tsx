@@ -70,7 +70,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     cursor: default;
   }
 
-  @media (max-width: ${(props) => props.theme.breakpoints.values.sm}px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     .root {
       font-size: 1.2rem;
     }
@@ -82,6 +82,20 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
       width: 32px;
       height: 32px;
       margin: 0 4px;
+    }
+  }
+
+  @media (max-width: ${(props) => props.theme.breakpoints.values.sm}px) {
+    .root {
+      font-size: 1rem;
+    }
+
+    .page-item,
+    .previous-page-item,
+    .next-page-item,
+    .break-item {
+      width: 25px;
+      height: 25px;
     }
   }
 `;
