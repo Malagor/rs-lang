@@ -12,5 +12,4 @@ export const COLOR_LAYOUT_ORANGE = '#FA5833';
 export const COLOR_LAYOUT_BACKGROUND = '#FAFCFE';
 export const COLOR_LAYOUT_TEXT = '#000000';
 export const COLOR_LAYOUT_GRAY = '#C4C4C4';
-
-export const COLOR_WHITE = '#FFFFFF';
+export const COLOR_LAYOUT_WHITE = '#FFFFFF';

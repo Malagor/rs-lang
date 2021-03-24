@@ -1,12 +1,12 @@
 import styled from 'styled-components/macro';
 import { MOBILE_WIDTH } from 'appConstants';
-import {
-  COLOR_LAYOUT_YELLOW,
-  COLOR_LAYOUT_GRAY,
-  COLOR_WHITE,
-} from 'appConstants/colors';
+import { COLOR_LAYOUT_GRAY, COLOR_LAYOUT_WHITE } from 'appConstants/colors';
 
-export const StyledPaginationContainer = styled.div`
+type StyledPaginationContainerProps = {
+  highlightColor: string;
+};
+
+export const StyledPaginationContainer = styled.div<StyledPaginationContainerProps>`
   .root {
     display: flex;
     justify-content: center;
@@ -27,15 +27,15 @@ export const StyledPaginationContainer = styled.div`
     width: 40px;
     height: 40px;
     margin: 0 8px;
-    background: ${COLOR_WHITE};
+    background: ${COLOR_LAYOUT_WHITE};
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     user-select: none;
     transition: color 0.3s;
 
     &:hover {
-      border: 2px solid ${COLOR_LAYOUT_YELLOW};
-      color: ${COLOR_LAYOUT_YELLOW};
+      border: 2px solid ${({ highlightColor }) => highlightColor};
+      color: ${({ highlightColor }) => highlightColor};
     }
   }
 
@@ -53,7 +53,7 @@ export const StyledPaginationContainer = styled.div`
   }
 
   .page-item-active {
-    color: ${COLOR_LAYOUT_YELLOW};
+    color: ${({ highlightColor }) => highlightColor};
   }
 
   .page-item-disabled {
