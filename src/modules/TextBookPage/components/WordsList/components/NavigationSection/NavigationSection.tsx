@@ -1,14 +1,14 @@
 import { Grid } from '@material-ui/core';
 import React, { FC } from 'react';
 
+import { NUMBER_OF_PAGE } from 'appConstants/index';
+
 import Paper from '@material-ui/core/Paper';
 import { useSelector } from 'react-redux';
 import { selectPage } from '../../../../selectors';
 
 import { ButtonNavigation } from './components';
 import { NavigationPosition } from './styled';
-
-import { NUMBER_OF_PAGE } from 'appConstants/index';
 
 type NavigationSectionProps = {
   changeGroupPage: Function;
@@ -31,7 +31,7 @@ export const NavigationSection: FC<NavigationSectionProps> = ({
     <NavigationPosition>
       <Paper
         elevation={3}
-        style={{ width: '72px', height: '392px', padding: '12px 0' }}
+        style={{ width: '72px', height: '400px', padding: '4px 0' }}
       >
         {arrayNumberOfPage.map((numberPage: number) => (
           <Grid key={numberPage} container justify="center">

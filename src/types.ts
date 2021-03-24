@@ -33,7 +33,12 @@ export type StateTextBook = {
   words: Word[];
 };
 
+export type StateCommon = {
+  title: string;
+};
+
 export type State = {
   mainPageReducer: StateMainPage;
   textBookReducer: StateTextBook;
+  commonReducer: StateCommon;
 };

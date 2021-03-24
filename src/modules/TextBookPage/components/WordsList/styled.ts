@@ -9,10 +9,8 @@ export const WordListWrapper = styled.div`
 export const WordListStyled = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  grid-gap: 10px;
+  grid-gap: 20px;
 `;
-
-export const WordCardTitle = styled.h3``;
 
 type PropsCard = {
   active: boolean;
@@ -32,6 +30,10 @@ export const WordCard = styled.div<PropsCard>`
     &:hover {
       font-size: 2rem;
     }
+  }
+
+  img {
+    max-width: 100%;
   }
 `;
 
