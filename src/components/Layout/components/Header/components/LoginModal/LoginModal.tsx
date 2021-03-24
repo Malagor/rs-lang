@@ -1,31 +1,72 @@
-import React, { FC, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Dialog from '@material-ui/core/Dialog';
-import Typography from '@material-ui/core/Typography';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import React, { FC, SyntheticEvent, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Auth } from 'types';
 
 import {
   Avatar,
+  Button,
+  Dialog,
+  Typography,
   Container,
   CssBaseline,
   Grid,
   Link,
   TextField,
 } from '@material-ui/core';
+
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+
+import { database, LocStore } from 'services';
+import { setUser, setAuth } from 'modules/Login/actions';
 import { useStyles } from './styled';
 
 export const LoginModal: FC = () => {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
+
+  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleSubmit = async (e: SyntheticEvent) => {
+    e.preventDefault();
+
+    if (!isLogin) {
+      // need registration
+      await database.createUser({
+        id: '',
+        name,
+        email,
+        password,
+        avatar: 'https://www.1zoom.ru/prev2/290/289595.jpg',
+      });
+    }
+
+    const userAuth: Auth = await database.loginUser({
+      email,
+      password,
+    });
+
+    if (userAuth.userId) {
+      dispatch(setAuth(userAuth));
+      database.setToken(userAuth.token);
+      LocStore.setUser(JSON.stringify(userAuth));
+
+      const userById = await database.getUserById(userAuth.userId);
+      dispatch(setUser(userById));
+    }
   };
 
   return (
@@ -60,6 +101,8 @@ export const LoginModal: FC = () => {
                   name="name"
                   autoComplete="name"
                   autoFocus
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
                 />
               )}
               <TextField
@@ -70,8 +113,11 @@ export const LoginModal: FC = () => {
                 id="email"
                 label="Email Address"
                 name="email"
+                type="email"
                 autoComplete="email"
                 autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
                 variant="outlined"
@@ -83,6 +129,8 @@ export const LoginModal: FC = () => {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
               <Button
                 type="submit"
@@ -90,6 +138,7 @@ export const LoginModal: FC = () => {
                 variant="contained"
                 color="primary"
                 className={classes.submit}
+                onClick={handleSubmit}
               >
                 {isLogin ? 'Sign In' : 'Sign Up'}
               </Button>
