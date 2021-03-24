@@ -9,4 +9,12 @@ export const Container = styled.div`
   button {
     align-self: flex-end;
   }
+
+  @media (max-width: 860px) {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 500px) {
+    margin: 0 auto;
+  }
 `;

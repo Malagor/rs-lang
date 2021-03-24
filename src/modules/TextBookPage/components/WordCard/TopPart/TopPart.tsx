@@ -11,6 +11,7 @@ import {
   WordStatistic,
   InfoBlock,
   Container,
+  WrapperIconWithStatistic,
 } from './styled';
 
 export type WordCardProps = {
@@ -45,13 +46,13 @@ export const TopPart: React.FC<WordCardProps> = ({
   };
 
   return (
-    <Container colorGroup={colorGroup}>
-      <WordBlock>
+    <Container>
+      <WordBlock  colorGroup={colorGroup}>
         <EnglishWord>{word.word}</EnglishWord>
         <WordTranscription>{word.transcription}</WordTranscription>
         {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
       </WordBlock>
-      <div style={{ display: 'flex' }}>
+      <WrapperIconWithStatistic>
         <VolumeUpIcon
           onClick={onPlay}
           style={{ fontSize: '2rem', cursor: 'pointer' }}
@@ -69,7 +70,7 @@ export const TopPart: React.FC<WordCardProps> = ({
           <InfoBlock color="#fc515b">{countIntoRedBlock}</InfoBlock>
           <InfoBlock color="#57c770">{countIntoGreenBlock}</InfoBlock>
         </WordStatistic>
-      </div>
+      </WrapperIconWithStatistic>
     </Container>
   );
 };

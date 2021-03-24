@@ -1,13 +1,20 @@
 import styled from 'styled-components/macro';
 
-export const Container = styled.div<{ colorGroup: string }>`
+export const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  border-left: 3px solid ${({ colorGroup }) => colorGroup};
-  padding-left: 23px;
+
+  @media (max-width: 860px) {
+    flex-direction: column-reverse;
+    margin-bottom: 8px;
+  }
 `;
 
-export const WordBlock = styled.div``;
+export const WordBlock = styled.div<{ colorGroup: string }>`
+  border-left: 3px solid ${({ colorGroup }) => colorGroup};
+  padding-left: 23px;
+  margin-top: 16px;
+`;
 
 export const EnglishWord = styled.span`
   text-transform: capitalize;
@@ -42,4 +49,8 @@ export const InfoBlock = styled.div<{ color: string }>`
   border-radius: 5px;
   background-color: ${({ color }) => color};
   color: white;
+`;
+
+export const WrapperIconWithStatistic = styled.div`
+  display: flex;
 `;
