@@ -1,10 +1,15 @@
 import styled from 'styled-components/macro';
+import { MOBILE_WIDTH } from 'appConstants';
+import {
+  COLOR_LAYOUT_YELLOW,
+  COLOR_LAYOUT_GRAY,
+  COLOR_WHITE,
+} from 'appConstants/colors';
 
 export const StyledPaginationContainer = styled.div`
   .root {
     display: flex;
-    justify-content: space-between;
-    width: 432px;
+    justify-content: center;
     padding: 0;
     margin: 32px auto;
     list-style: none;
@@ -13,28 +18,31 @@ export const StyledPaginationContainer = styled.div`
 
   .page-item,
   .previous-page-item,
-  .next-page-item {
+  .next-page-item,
+  .break-item {
     box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 48px;
-    height: 48px;
-    background: #fff;
+    width: 40px;
+    height: 40px;
+    margin: 0 8px;
+    background: COLOR_WHITE;
     border-radius: 10px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
     user-select: none;
     transition: color 0.3s;
 
     &:hover {
-      border: 2px solid #f79928;
-      color: #f79928;
+      border: 2px solid ${COLOR_LAYOUT_YELLOW};
+      color: ${COLOR_LAYOUT_YELLOW};
     }
   }
 
   .page-link,
   .previous-page-link,
-  .next-page-link {
+  .next-page-link,
+  .break-link {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -45,14 +53,14 @@ export const StyledPaginationContainer = styled.div`
   }
 
   .page-item-active {
-    color: #f79928;
+    color: ${COLOR_LAYOUT_YELLOW};
   }
 
   .page-item-disabled {
-    color: #c4c4c4;
+    color: ${COLOR_LAYOUT_GRAY};
 
     &:hover {
-      color: #c4c4c4;
+      color: ${COLOR_LAYOUT_GRAY};
       border: none;
     }
   }
@@ -61,5 +69,20 @@ export const StyledPaginationContainer = styled.div`
   .page-item-disabled .previous-page-link,
   .page-item-disabled .next-page-link {
     cursor: default;
+  }
+
+  @media (max-width: ${MOBILE_WIDTH}px) {
+    .root {
+      font-size: 1.2rem;
+    }
+
+    .page-item,
+    .previous-page-item,
+    .next-page-item,
+    .break-item {
+      width: 32px;
+      height: 32px;
+      margin: 0 4px;
+    }
   }
 `;

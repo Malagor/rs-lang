@@ -24,10 +24,10 @@ export const Pagination: FC<PaginationProps> = ({ pageCount, initialPage }) => {
       <ReactPaginate
         previousLabel={<ArrowLeftIcon fontSize="large" />}
         nextLabel={<ArrowRightIcon fontSize="large" />}
-        breakLabel=""
+        breakLabel="..."
         pageCount={pageCount}
         initialPage={initialPage}
-        marginPagesDisplayed={0}
+        marginPagesDisplayed={1}
         onPageChange={handlePageClick}
         pageRangeDisplayed={4}
         containerClassName="root"
@@ -39,6 +39,8 @@ export const Pagination: FC<PaginationProps> = ({ pageCount, initialPage }) => {
         nextLinkClassName="next-page-link"
         activeClassName="page-item-active"
         disabledClassName="page-item-disabled"
+        breakClassName="break-item"
+        breakLinkClassName="break-link"
       />
     </StyledPaginationContainer>
   );
