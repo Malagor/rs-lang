@@ -3,7 +3,7 @@ export const SERVER_URL = 'https://rs-lang-react.herokuapp.com/';
 export const MOBILE_WIDTH = 768;
 export const DRAWER_WIDTH = 240;
 
-export const AUTORS = [
+export const AUTHORS = [
   {
     name: 'Malagor',
     gitHub: 'https://github.com/Malagor',
