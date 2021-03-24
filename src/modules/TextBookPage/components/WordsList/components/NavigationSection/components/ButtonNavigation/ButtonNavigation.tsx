@@ -9,6 +9,7 @@ type ButtonNavigationProps = {
   pageNow: number;
   onChangePage: Function;
   children: number;
+  color: string;
 };
 
 interface MyComponentProps {}
@@ -18,6 +19,7 @@ export const ButtonNavigation: FC<ButtonNavigationProps> = ({
   pageNow,
   onChangePage,
   children,
+  color,
 }) => {
   const clickNumPage = (event: React.MouseEvent<HTMLElement>): void => {
     event.preventDefault();
@@ -29,7 +31,7 @@ export const ButtonNavigation: FC<ButtonNavigationProps> = ({
 
   const activePage: boolean = pageNow === numberPage;
 
-  const styleProps = { backgroundColor: 'blue', activePage };
+  const styleProps = { backgroundColor: color, activePage };
   const classes = useStyles(styleProps);
 
   return (

@@ -21,7 +21,7 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
         margin: '8px',
         border: `3px solid ${props.backgroundColor}`,
 
-        backgroundColor: '#f3dbdf',
+        backgroundColor: '#fafafa',
       };
     }
     return {
