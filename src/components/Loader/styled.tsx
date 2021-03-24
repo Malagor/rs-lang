@@ -6,6 +6,7 @@ import {
   COLOR_LEVEL_4,
   COLOR_LEVEL_5,
 } from 'appConstants/colors';
+import { LOADER_BLOCK_SIZE } from 'appConstants';
 
 export const StyledLoaderContainer = styled.div`
   /* by james (http://codepen.io/jbutler483) */
@@ -17,8 +18,8 @@ export const StyledLoaderContainer = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 75px;
-    height: 75px;
+    width: ${LOADER_BLOCK_SIZE * 3}px;
+    height: ${LOADER_BLOCK_SIZE * 3}px;
   }
 
   .cssload-blockcont {
@@ -30,8 +31,8 @@ export const StyledLoaderContainer = styled.div`
 
   .cssload-block {
     position: relative;
-    height: 25px;
-    width: 25px;
+    height: ${LOADER_BLOCK_SIZE}px;
+    width: ${LOADER_BLOCK_SIZE}px;
     display: inline-block;
     background: ${COLOR_LEVEL_1};
     transition: all 0.68s;
