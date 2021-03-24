@@ -4,7 +4,7 @@ import { LEVEL_COLORS } from 'appConstants/colors';
 
 import { Grid, Paper } from '@material-ui/core';
 import { useSelector } from 'react-redux';
-import { selectPage } from './selectors';
+import { selectPage } from 'store/commonState/selectors';
 import { ButtonNavigation } from './components';
 import { NavigationPosition } from './styled';
 

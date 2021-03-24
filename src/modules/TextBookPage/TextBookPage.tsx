@@ -1,12 +1,13 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Button, Container, Paper } from '@material-ui/core';
+import { Button, Container, Grid, Paper } from '@material-ui/core';
 import { setPageTitle } from 'store/commonState/actions';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
 import { WordList } from './components';
 import { Pagination } from './components/Pagination';
+import { NavigationSection } from './components/WordsList/components/NavigationSection';
 
 type TextBookPageProps = {};
 
@@ -52,51 +53,58 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   };
 
   return (
-    <Container>
-      <Paper>
-        <div>Group: {group}</div>
-        <Button
-          type="button"
-          color="primary"
-          variant="contained"
-          onClick={onPrevGroupHandler}
-        >
-          Prev Group
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onNextGroupHandler}
-        >
-          Next Group
-        </Button>
-        <hr />
-        <div>Page: {page}</div>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onPrevPageHandler}
-        >
-          Prev Page
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onNextPageHandler}
-        >
-          Next Page
-        </Button>
-        <hr />
-        {words && (
-          <div style={{ paddingBottom: '8px' }}>
-            <WordList words={words} changeGroupPage={onChangeGroupPage}/>
-            <Pagination pageCount={30} initialPage={0} group={group} />
-          </div>
-        )}
-      </Paper>
-    </Container>
+    <Grid container>
+      <Grid item xs={11}>
+        <Container>
+          <Paper>
+            <div>Group: {group}</div>
+            <Button
+              type="button"
+              color="primary"
+              variant="contained"
+              onClick={onPrevGroupHandler}
+            >
+              Prev Group
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={onNextGroupHandler}
+            >
+              Next Group
+            </Button>
+            <hr />
+            <div>Page: {page}</div>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={onPrevPageHandler}
+            >
+              Prev Page
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={onNextPageHandler}
+            >
+              Next Page
+            </Button>
+            <hr />
+            {words && (
+              <div style={{ paddingBottom: '8px' }}>
+                <WordList words={words} />
+                <Pagination pageCount={30} initialPage={0} group={group} />
+              </div>
+            )}
+          </Paper>
+        </Container>
+      </Grid>
+      <Grid item xs={1}>
+        <NavigationSection changeGroupPage={onChangeGroupPage} />
+      </Grid>
+    </Grid>
   );
 };

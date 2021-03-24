@@ -14,12 +14,10 @@ import {
   Typography,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { WordListStyled, WordCard, WordListWrapper } from './styled';
-import { NavigationSection } from './components';
+import { WordListStyled, WordListWrapper } from './styled';
 
 type WordListProps = {
   words: Word[];
-  changeGroupPage: Function;
 };
 
 const useStyles = makeStyles({
@@ -31,7 +29,7 @@ const useStyles = makeStyles({
   },
 });
 
-export const WordList: FC<WordListProps> = ({ words, changeGroupPage }) => {
+export const WordList: FC<WordListProps> = ({ words }) => {
   const classes = useStyles();
 
   return (
@@ -81,7 +79,6 @@ export const WordList: FC<WordListProps> = ({ words, changeGroupPage }) => {
           </Card>
         ))}
       </WordListStyled>
-      <NavigationSection changeGroupPage={changeGroupPage} />
     </WordListWrapper>
   );
 };
