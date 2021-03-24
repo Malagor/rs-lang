@@ -25,9 +25,7 @@ export const logInUser = (
     .then((user) => {
       dispatch(setAuth(user));
     })
-    .catch((err) => {
-      throw new Error(`Can not read UserInfo. ${err}`);
-    });
+    .catch((err) => err);
 };
 
 export const logOutUser = (): ThunkAction<

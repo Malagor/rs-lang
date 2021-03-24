@@ -30,7 +30,5 @@ export const loadWords = (
     .then((words) => {
       dispatch(setWords(words));
     })
-    .catch((err) => {
-      throw new Error(`Can not read Words. ${err}`);
-    });
+    .catch((err) => err);
 };
