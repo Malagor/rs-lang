@@ -1,7 +1,5 @@
 import React, { FC } from 'react';
-
 import Fab from '@material-ui/core/Fab';
-
 import { useStyles } from './styled';
 
 type ButtonNavigationProps = {
@@ -42,14 +40,5 @@ export const ButtonNavigation: FC<ButtonNavigationProps> = ({
     >
       {children}
     </Fab>
-
-    /*     <StyleLink
-      activePage={activePage}
-      id={String(numberPage)}
-      href="#"
-      onClick={clickNumPage}
-    >
-      {numberPage + 1}
-    </StyleLink> */
   );
 };

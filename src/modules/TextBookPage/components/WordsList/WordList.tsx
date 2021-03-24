@@ -12,7 +12,6 @@ import {
   IconButton,
   makeStyles,
   Typography,
-  Paper,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { WordListStyled, WordCard, WordListWrapper } from './styled';

@@ -1,11 +1,9 @@
-import styled from 'styled-components/macro';
-// import makeStyles from '@material-ui/core/styles/makeStyles';
 import { Theme } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-
-type PropsStyleLink = {
-  activePage: boolean;
-};
+import {
+  COLOR_LAYOUT_WHITE,
+  COLOR_LAYOUT_BACKGROUND,
+} from 'appConstants/colors';
 
 interface StyleProps {
   backgroundColor: string;
@@ -20,14 +18,18 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
         height: '56px',
         margin: '8px',
         border: `3px solid ${props.backgroundColor}`,
+        fontSize: '18px',
+        color: COLOR_LAYOUT_BACKGROUND,
 
-        backgroundColor: '#fafafa',
+        backgroundColor: COLOR_LAYOUT_WHITE,
       };
     }
     return {
       width: '40px',
       height: '40px',
       margin: '12px',
+      fontSize: '18px',
+      color: COLOR_LAYOUT_BACKGROUND,
 
       backgroundColor: props.backgroundColor,
     };
@@ -47,12 +49,3 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     };
   },
 }));
-
-/* export const StyleLink = styled.a<PropsStyleLink>`
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: 15px;
-
-  color: ${({ activePage }) => (activePage ? 'red' : 'black')};
-`; */
