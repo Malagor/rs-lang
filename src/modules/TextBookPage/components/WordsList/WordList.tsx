@@ -1,24 +1,32 @@
 import React, { FC } from 'react';
 import { Word } from 'types';
-import { SERVER_URL } from 'appConstants';
 import { Paper } from '@material-ui/core';
-import { WordCard, WordListStyled } from './styled';
+import { useSelector } from 'react-redux';
+import { selectGroup } from 'modules/TextBookPage/selectors';
+import { LEVEL_COLORS } from 'appConstants/colors';
+import { WordCard } from '../WordCard';
+import { WordListStyled } from './styled';
 
 type WordListProps = {
   words: Word[];
 };
 
-export const WordList: FC<WordListProps> = ({ words }) => (
-  <WordListStyled>
-    {words.map((word, index) => (
-      <Paper key={word.id}>
-        <WordCard active={!!(index % 2)}>
-          <h2>
-            {word.word} - {word.wordTranslate}
-          </h2>
-          <img src={`${SERVER_URL}${word.image}`} alt={word.word} />
-        </WordCard>
-      </Paper>
-    ))}
-  </WordListStyled>
-);
+export const WordList: FC<WordListProps> = ({ words }) => {
+  const group = useSelector(selectGroup);
+  return (
+    <WordListStyled>
+      {words.map((word) => (
+        <Paper key={word.id}>
+          <WordCard
+            word={word}
+            colorGroup={LEVEL_COLORS[group]}
+            successCount={5}
+            errorCount={10}
+            isTranslate={true}
+            isButtons={true}
+          />
+        </Paper>
+      ))}
+    </WordListStyled>
+  );
+};
