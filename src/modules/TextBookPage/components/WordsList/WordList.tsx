@@ -1,81 +1,31 @@
 import React, { FC } from 'react';
 import { Word } from 'types';
-import { SERVER_URL } from 'appConstants';
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardActions,
-  CardContent,
-  CardHeader,
-  CardMedia,
-  IconButton,
-  makeStyles,
-  Typography,
-} from '@material-ui/core';
-import MoreVertIcon from '@material-ui/icons/MoreVert';
+import { Paper } from '@material-ui/core';
+import { useSelector } from 'react-redux';
+import { selectGroup } from 'modules/TextBookPage/selectors';
+import { LEVEL_COLORS } from 'appConstants/colors';
+import { WordCard } from '../WordCard';
 import { WordListStyled } from './styled';
 
 type WordListProps = {
   words: Word[];
 };
 
-const useStyles = makeStyles({
-  root: {
-    // maxWidth: 345,
-  },
-  media: {
-    height: 200,
-  },
-});
-
 export const WordList: FC<WordListProps> = ({ words }) => {
-  const classes = useStyles();
-
+  const group = useSelector(selectGroup);
   return (
     <WordListStyled>
       {words.map((word) => (
-        <Card className={classes.root} key={word.id}>
-          <CardHeader
-            action={
-              <IconButton aria-label="settings">
-                <MoreVertIcon />
-              </IconButton>
-            }
-            title={`${word.word} - ${word.transcription}`}
-            subheader="September 14, 2016"
+        <Paper key={word.id}>
+          <WordCard
+            word={word}
+            colorGroup={LEVEL_COLORS[group]}
+            successCount={5}
+            errorCount={10}
+            isTranslate={true}
+            isButtons={true}
           />
-          <CardActionArea>
-            <CardMedia
-              className={classes.media}
-              image={`${SERVER_URL}${word.image}`}
-              title={word.wordTranslate}
-            />
-            <CardContent>
-              <Typography variant="body2" color="textPrimary" component="p">
-                {word.textExample}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {word.textExampleTranslate}
-              </Typography>
-
-              <Typography variant="body2" color="textPrimary" component="p">
-                {word.textMeaning}
-              </Typography>
-              <Typography variant="body2" color="textSecondary" component="p">
-                {word.textMeaningTranslate}
-              </Typography>
-            </CardContent>
-          </CardActionArea>
-          <CardActions>
-            <Button size="small" color="primary">
-              Difficult
-            </Button>
-            <Button size="small" color="primary">
-              Delete
-            </Button>
-          </CardActions>
-        </Card>
+        </Paper>
       ))}
     </WordListStyled>
   );
