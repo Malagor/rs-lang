@@ -10,3 +10,10 @@ export const NavigationPosition = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
+export const TitleNavigation = styled.span`
+  display: flex;
+  justify-content: center;
+  text-shadow: 0 0 black;
+  font-size: 18px;
+`;
