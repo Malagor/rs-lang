@@ -25,14 +25,9 @@ export const loadWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  database
-    .getWords(group, page)
-    .then((words) => {
-      dispatch(setWords(words));
-    })
-    .catch((err) => {
-      throw new Error(`Can not read Words. ${err}`);
-    });
+  database.getWords(group, page).then((words) => {
+    dispatch(setWords(words));
+  });
 };
 
 export const setSound = (payload: HTMLAudioElement[]) => ({

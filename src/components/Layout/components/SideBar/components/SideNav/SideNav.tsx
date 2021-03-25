@@ -5,6 +5,8 @@ import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import { useDispatch } from 'react-redux';
+import { logOutUser } from 'modules/Login/actions';
 import { LogoutItem, MenuItem } from './components';
 
 type SideNavProps = {};
@@ -15,15 +17,16 @@ const listStyles: React.CSSProperties = {
   height: '100%',
 };
 
-const logout = () => {
-  console.log('LogOut');
-};
-
 export const SideNav: FC<SideNavProps> = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const dispatch = useDispatch();
 
   const handleListItemClick = (event: SyntheticEvent, index: number) => {
     setSelectedIndex(index);
+  };
+
+  const logout = () => {
+    dispatch(logOutUser());
   };
 
   return (
