@@ -1,4 +1,4 @@
-export type User = {
+export type Auth = {
   message: string;
   token: string;
   refreshToken: string;
@@ -6,8 +6,12 @@ export type User = {
   name: string;
 };
 
-export type StateMainPage = {
-  user: User;
+export type User = {
+  id: string;
+  name: string;
+  email: string;
+  password?: string;
+  avatar?: string;
 };
 
 export type Word = {
@@ -31,14 +35,22 @@ export type StateTextBook = {
   group: number;
   page: number;
   words: Word[];
+  sounds: HTMLAudioElement[];
 };
 
 export type StateCommon = {
   title: string;
 };
 
+export type StateLogin = {
+  user: User;
+  auth: Auth;
+};
+
+export type StateMainPage = {};
+
 export type State = {
-  mainPageReducer: StateMainPage;
   textBookReducer: StateTextBook;
   commonReducer: StateCommon;
+  loginReducer: StateLogin;
 };
