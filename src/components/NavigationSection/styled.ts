@@ -14,6 +14,6 @@ export const NavigationPosition = styled.div`
 export const TitleNavigation = styled.span`
   display: flex;
   justify-content: center;
-  text-shadow: 0 0 black;
   font-size: 18px;
+  font-weight: 600;
 `;
