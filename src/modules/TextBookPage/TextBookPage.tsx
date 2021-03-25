@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { Button, Container, Grid, Paper } from '@material-ui/core';
 import { setPageTitle } from 'store/commonState/actions';
+import { NavigationSection } from 'components/NavigationSection';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
 import { WordList } from './components';
 import { Pagination } from './components/Pagination';
-import { NavigationSection } from './components/WordsList/components/NavigationSection';
 
 type TextBookPageProps = {};
 
