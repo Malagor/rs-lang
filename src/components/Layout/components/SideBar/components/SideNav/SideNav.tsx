@@ -4,7 +4,8 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
+import BookIcon from '@material-ui/icons/Book';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { LogoutItem, MenuItem } from './components';
 
 type SideNavProps = {};
@@ -30,7 +31,7 @@ export const SideNav: FC<SideNavProps> = () => {
     <List style={listStyles}>
       <MenuItem
         to="/"
-        title="Главная"
+        title="Main"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 1}
         index={1}
@@ -40,7 +41,7 @@ export const SideNav: FC<SideNavProps> = () => {
 
       <MenuItem
         to="/textbook"
-        title="Учебник"
+        title="Textbook"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 2}
         index={2}
@@ -48,25 +49,34 @@ export const SideNav: FC<SideNavProps> = () => {
         <LocalLibraryIcon />
       </MenuItem>
       <MenuItem
-        to="/games"
-        title="Игры"
+        to="/dictionary"
+        title="DictionaryPage"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 3}
         index={3}
+      >
+        <BookIcon />
+      </MenuItem>
+      <MenuItem
+        to="/games"
+        title="Minigames"
+        handleListItemClick={handleListItemClick}
+        isSelected={selectedIndex === 4}
+        index={4}
       >
         <SportsEsportsIcon />
       </MenuItem>
       <MenuItem
         to="/statistics"
-        title="Статистика"
+        title="Statistics"
         handleListItemClick={handleListItemClick}
-        isSelected={selectedIndex === 4}
-        index={4}
+        isSelected={selectedIndex === 5}
+        index={5}
       >
         <EqualizerIcon />
       </MenuItem>
-      <LogoutItem handlerLogout={logout} title="Log Out">
-        <MeetingRoomIcon />
+      <LogoutItem handlerLogout={logout} title="Log out">
+        <ExitToAppIcon />
       </LogoutItem>
     </List>
   );
