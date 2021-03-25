@@ -18,7 +18,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { database, LocStore } from 'services';
-import { setUser, setAuth } from 'modules/Login/actions';
+import { setAuth, loadUserInfoById } from 'modules/Login/actions';
 import { useStyles } from './styled';
 
 export const LoginModal: FC = () => {
@@ -32,6 +32,7 @@ export const LoginModal: FC = () => {
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,29 +44,32 @@ export const LoginModal: FC = () => {
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
 
-    if (!isLogin) {
-      // need registration
-      await database.createUser({
-        id: '',
-        name,
+    try {
+      if (!isLogin) {
+        // need registration
+        await database.createUser({
+          id: '',
+          name,
+          email,
+          password,
+          avatar: 'https://www.1zoom.ru/prev2/290/289595.jpg',
+        });
+      }
+
+      const userAuth: Auth = await database.loginUser({
         email,
         password,
-        avatar: 'https://www.1zoom.ru/prev2/290/289595.jpg',
       });
-    }
 
-    const userAuth: Auth = await database.loginUser({
-      email,
-      password,
-    });
+      if (userAuth && userAuth.userId) {
+        dispatch(setAuth(userAuth));
+        database.setToken(userAuth.token);
+        LocStore.setUser(JSON.stringify(userAuth));
 
-    if (userAuth.userId) {
-      dispatch(setAuth(userAuth));
-      database.setToken(userAuth.token);
-      LocStore.setUser(JSON.stringify(userAuth));
-
-      const userById = await database.getUserById(userAuth.userId);
-      dispatch(setUser(userById));
+        dispatch(loadUserInfoById(userAuth.userId));
+      }
+    } catch (err) {
+      setErrorMessage('Failed to connect');
     }
   };
 
@@ -137,6 +141,9 @@ export const LoginModal: FC = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              <Typography color="error" variant="subtitle2">
+                {errorMessage}
+              </Typography>
               <Button
                 type="submit"
                 fullWidth

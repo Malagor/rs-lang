@@ -17,16 +17,10 @@ export const setAuth = (payload: Auth) => ({
 export const logInUser = (
   email: string,
   password: string
-): ThunkAction<void, StateMainPage, unknown, Action<string>> => async (
-  dispatch
-) => {
-  database
-    .loginUser({ email, password })
-    .then((user) => {
-      dispatch(setAuth(user));
-    })
-    .catch((err) => err);
-};
+): ThunkAction<void, Auth, unknown, Action<string>> => async (dispatch) =>
+  database.loginUser({ email, password }).then((user) => {
+    dispatch(setAuth(user));
+  });
 
 export const logOutUser = (): ThunkAction<
   void,
@@ -56,9 +50,7 @@ export const logOutUser = (): ThunkAction<
 
 export const loadUserInfoById = (
   id: string
-): ThunkAction<void, StateMainPage, unknown, Action<string>> => async (
-  dispatch
-) => {
+): ThunkAction<void, StateMainPage, unknown, Action<string>> => (dispatch) => {
   database.getUserById(id).then((user: User) => {
     dispatch(setUser(user));
   });

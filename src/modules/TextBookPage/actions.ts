@@ -25,10 +25,7 @@ export const loadWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  database
-    .getWords(group, page)
-    .then((words) => {
-      dispatch(setWords(words));
-    })
-    .catch((err) => err);
+  database.getWords(group, page).then((words) => {
+    dispatch(setWords(words));
+  });
 };
