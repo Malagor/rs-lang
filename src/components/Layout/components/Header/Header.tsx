@@ -3,12 +3,13 @@ import clsx from 'clsx';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Avatar, Typography } from '@material-ui/core';
 import AppBar from '@material-ui/core/AppBar';
 import { MOBILE_WIDTH } from 'appConstants';
 import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'modules/Login/selectors';
+import { PageTitle, UserInfoBlock, LoginModal } from './components';
 import { useStyles } from './styled';
-import { PageTitle } from './components';
 
 type HeaderProps = {
   open: boolean;
@@ -17,6 +18,7 @@ type HeaderProps = {
 
 export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
   const isMobile = window.document.body.offsetWidth < MOBILE_WIDTH;
+  const user = useSelector(selectUser);
 
   const classes = useStyles();
 
@@ -39,9 +41,7 @@ export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
         </IconButton>
         <PageTitle />
         <div className={classes.grow} />
-
-        <Typography className={classes.marginLeft}>Вася пупкин</Typography>
-        <Avatar alt="" src="" className={classes.marginLeft} />
+        {user.name ? <UserInfoBlock /> : <LoginModal />}
       </Toolbar>
     </AppBar>
   );
