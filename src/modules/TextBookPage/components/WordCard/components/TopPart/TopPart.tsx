@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import StopIcon from '@material-ui/icons/Stop';
 import { useTheme } from '@material-ui/core';
-import { setSound } from '../../../../actions';
-import { getSounds } from '../../../../selectors';
+import { setSound } from 'modules/TextBookPage/actions';
+import { selectSounds } from 'modules/TextBookPage/selectors';
 import {
   EnglishWord,
   WordBlock,
@@ -39,7 +39,7 @@ export const TopPart: React.FC<WordCardProps> = ({
   const refAudioExample = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
   const theme = useTheme();
-  const sounds: HTMLAudioElement[] = useSelector(getSounds);
+  const sounds: HTMLAudioElement[] = useSelector(selectSounds);
 
   const onPlay = () => {
     sounds.forEach((sound) => {

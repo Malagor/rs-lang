@@ -6,4 +6,4 @@ export const selectPage = (state: State) => state.textBookReducer.page;
 
 export const selectGroup = (state: State) => state.textBookReducer.group;
 
-export const getSounds = (state: State) => state.textBookReducer.sounds;
+export const selectSounds = (state: State) => state.textBookReducer.sounds;
