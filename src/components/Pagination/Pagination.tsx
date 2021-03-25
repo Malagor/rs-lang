@@ -5,8 +5,8 @@ import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import ArrowLeftIcon from '@material-ui/icons/ArrowLeft';
 import { LEVEL_COLORS } from 'appConstants/colors';
 import { useTheme } from '@material-ui/core/styles';
+import { setPage } from 'modules/TextBookPage/actions';
 import { StyledPaginationContainer } from './styled';
-import { setPage } from '../../actions';
 
 type PaginationProps = {
   pageCount: number;
