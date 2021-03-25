@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
-import { WordListStyled, WordListWrapper } from './styled';
+import { WordListStyled } from './styled';
 
 type WordListProps = {
   words: Word[];
@@ -33,52 +33,50 @@ export const WordList: FC<WordListProps> = ({ words }) => {
   const classes = useStyles();
 
   return (
-    <WordListWrapper>
-      <WordListStyled>
-        {words.map((word) => (
-          <Card className={classes.root} key={word.id}>
-            <CardHeader
-              action={
-                <IconButton aria-label="settings">
-                  <MoreVertIcon />
-                </IconButton>
-              }
-              title={`${word.word} - ${word.transcription}`}
-              subheader="September 14, 2016"
+    <WordListStyled>
+      {words.map((word) => (
+        <Card className={classes.root} key={word.id}>
+          <CardHeader
+            action={
+              <IconButton aria-label="settings">
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={`${word.word} - ${word.transcription}`}
+            subheader="September 14, 2016"
+          />
+          <CardActionArea>
+            <CardMedia
+              className={classes.media}
+              image={`${SERVER_URL}${word.image}`}
+              title={word.wordTranslate}
             />
-            <CardActionArea>
-              <CardMedia
-                className={classes.media}
-                image={`${SERVER_URL}${word.image}`}
-                title={word.wordTranslate}
-              />
-              <CardContent>
-                <Typography variant="body2" color="textPrimary" component="p">
-                  {word.textExample}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {word.textExampleTranslate}
-                </Typography>
+            <CardContent>
+              <Typography variant="body2" color="textPrimary" component="p">
+                {word.textExample}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {word.textExampleTranslate}
+              </Typography>
 
-                <Typography variant="body2" color="textPrimary" component="p">
-                  {word.textMeaning}
-                </Typography>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {word.textMeaningTranslate}
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-            <CardActions>
-              <Button size="small" color="primary">
-                Difficult
-              </Button>
-              <Button size="small" color="primary">
-                Delete
-              </Button>
-            </CardActions>
-          </Card>
-        ))}
-      </WordListStyled>
-    </WordListWrapper>
+              <Typography variant="body2" color="textPrimary" component="p">
+                {word.textMeaning}
+              </Typography>
+              <Typography variant="body2" color="textSecondary" component="p">
+                {word.textMeaningTranslate}
+              </Typography>
+            </CardContent>
+          </CardActionArea>
+          <CardActions>
+            <Button size="small" color="primary">
+              Difficult
+            </Button>
+            <Button size="small" color="primary">
+              Delete
+            </Button>
+          </CardActions>
+        </Card>
+      ))}
+    </WordListStyled>
   );
 };

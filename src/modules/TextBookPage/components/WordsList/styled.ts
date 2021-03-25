@@ -1,11 +1,5 @@
 import styled from 'styled-components/macro';
 
-export const WordListWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-`;
-
 export const WordListStyled = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
