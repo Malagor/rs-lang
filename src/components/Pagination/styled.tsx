@@ -1,8 +1,10 @@
 import styled from 'styled-components/macro';
 import { COLOR_LAYOUT_GRAY, COLOR_LAYOUT_WHITE } from 'appConstants/colors';
+import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
 
 type StyledPaginationContainerProps = {
   highlightColor: string;
+  breakpoints: Breakpoints;
 };
 
 export const StyledPaginationContainer = styled.div<StyledPaginationContainerProps>`
@@ -53,6 +55,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
 
   .page-item-active {
     color: ${({ highlightColor }) => highlightColor};
+    border: 2px solid ${({ highlightColor }) => highlightColor};
   }
 
   .page-item-disabled {
@@ -70,7 +73,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     cursor: default;
   }
 
-  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
+  ${(props) => props.breakpoints.down('md')} {
     .root {
       font-size: 1.2rem;
     }
@@ -85,7 +88,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     }
   }
 
-  @media (max-width: ${(props) => props.theme.breakpoints.values.sm}px) {
+  ${(props) => props.breakpoints.down('sm')} {
     .root {
       font-size: 1rem;
     }

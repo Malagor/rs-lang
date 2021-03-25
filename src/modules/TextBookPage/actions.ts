@@ -2,7 +2,7 @@ import { StateTextBook, Word } from 'types';
 import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { SET_PAGE, SET_WORDS, SET_GROUP } from './actionConst';
+import { SET_PAGE, SET_WORDS, SET_GROUP, SET_SOUND } from './actionConst';
 
 export const setPage = (payload: number) => ({
   type: SET_PAGE,
@@ -25,12 +25,12 @@ export const loadWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  database
-    .getWords(group, page)
-    .then((words) => {
-      dispatch(setWords(words));
-    })
-    .catch((err) => {
-      throw new Error(`Can not read Words. ${err}`);
-    });
+  database.getWords(group, page).then((words) => {
+    dispatch(setWords(words));
+  });
 };
+
+export const setSound = (payload: HTMLAudioElement[]) => ({
+  type: SET_SOUND,
+  payload,
+});
