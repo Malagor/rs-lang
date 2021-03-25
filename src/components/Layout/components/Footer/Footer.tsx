@@ -1,7 +1,7 @@
 import React from 'react';
 import { ButtonBase, Grid, Typography } from '@material-ui/core';
 import githubLogo from 'assets/svg/github.svg';
-import { AUTORS } from 'appConstants';
+import { AUTHORS } from 'appConstants';
 import { useStyles } from './styled';
 
 export const Footer = () => {
@@ -11,13 +11,13 @@ export const Footer = () => {
     <footer className={classes.footer}>
       <Grid container alignItems="center">
         <Grid item xs={6} sm={6} md={3} className={classes.nameApp}>
-          <ButtonBase focusRipple href="https://github.com/Malagor/travel-app">
+          <ButtonBase focusRipple href="https://github.com/Malagor/rs-lang">
             <Typography variant="h6">RSLang. Team 53</Typography>
           </ButtonBase>
         </Grid>
         <Grid item xs={12} md={6} className={classes.authorsContent}>
           <Grid container className={classes.authorsWrapper}>
-            {AUTORS.map((author) => (
+            {AUTHORS.map((author) => (
               <Grid item xs={4} sm={2} md={4} key={author.name}>
                 <ButtonBase focusRipple href={author.gitHub}>
                   <Typography
