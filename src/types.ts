@@ -31,6 +31,7 @@ export type StateTextBook = {
   group: number;
   page: number;
   words: Word[];
+  sounds: HTMLAudioElement[];
 };
 
 export type StateCommon = {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { SERVER_URL } from 'appConstants';
 import { Word } from 'types';
+import { useTheme } from '@material-ui/core';
 import { CardContainer, ContentBlock, WordImage } from './styled';
 import { TopPart } from './components/TopPart';
 import { SentencesBlock } from './components/SentencesBlock';
@@ -22,20 +23,28 @@ export const WordCard: React.FC<WordCardProps> = ({
   errorCount,
   isTranslate,
   isButtons,
-}) => (
-  <CardContainer>
-    <WordImage url={`${SERVER_URL}${word.image}`} />
+}) => {
+  const theme = useTheme();
 
-    <ContentBlock>
-      <TopPart
-        word={word}
-        colorGroup={colorGroup}
-        successCount={successCount}
-        errorCount={errorCount}
-        isTranslate={isTranslate}
+  return (
+    <CardContainer theme={theme}>
+      <WordImage
+        theme={theme}
+        src={`${SERVER_URL}${word.image}`}
+        alt={word.word}
       />
-      <SentencesBlock word={word} isTranslate={isTranslate} />
-      {isButtons && <ButtonsBlock colorGroup={colorGroup} />}
-    </ContentBlock>
-  </CardContainer>
-);
+
+      <ContentBlock theme={theme}>
+        <TopPart
+          word={word}
+          colorGroup={colorGroup}
+          successCount={successCount}
+          errorCount={errorCount}
+          isTranslate={isTranslate}
+        />
+        <SentencesBlock word={word} isTranslate={isTranslate} />
+        {isButtons && <ButtonsBlock colorGroup={colorGroup} />}
+      </ContentBlock>
+    </CardContainer>
+  );
+};

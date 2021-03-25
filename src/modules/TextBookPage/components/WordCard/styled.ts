@@ -4,10 +4,6 @@ export const WordCard = styled.div`
   display: flex;
 `;
 
-type ImageUrl = {
-  url: string;
-};
-
 export const CardContainer = styled.div`
   display: flex;
   max-width: 832px;
@@ -15,21 +11,20 @@ export const CardContainer = styled.div`
   border-radius: 10px;
   padding: 24px;
 
-  @media (max-width: 860px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     flex-direction: column;
   }
 `;
 
-export const WordImage = styled.div<ImageUrl>`
-  min-width: 240px;
-  min-height: 281px;
-  background-image: url(${(props) => props.url});
-  background-size: cover;
-  background-position: center;
-
-  @media (max-width: 860px) {
+export const WordImage = styled.img`
+  width: 240px;
+  height: 281px;
+  object-fit: cover;
+  object-position: center;
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
+    width: 100%;
     margin-bottom: 24px;
-    min-height: 307px;
+    height: 307px;
   }
 `;
 
@@ -39,7 +34,7 @@ export const ContentBlock = styled.div`
   flex-direction: column;
   padding-left: 40px;
 
-  @media (max-width: 860px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     padding-left: 0;
     padding-bottom: 16px;
   }

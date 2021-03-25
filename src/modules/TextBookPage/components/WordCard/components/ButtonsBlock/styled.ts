@@ -10,11 +10,11 @@ export const Container = styled.div`
     align-self: flex-end;
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     margin-top: 24px;
   }
 
-  @media (max-width: 500px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     margin: 0 auto;
   }
 `;

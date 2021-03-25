@@ -1,3 +1,4 @@
+import { COLOR_LAYOUT_LIGHT_GRAY } from 'appConstants/colors';
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
@@ -11,5 +12,5 @@ export const Container = styled.div`
 export const Sentence = styled.div``;
 
 export const SentenceTranslate = styled.div`
-  color: #888888;
+  color: ${COLOR_LAYOUT_LIGHT_GRAY};
 `;

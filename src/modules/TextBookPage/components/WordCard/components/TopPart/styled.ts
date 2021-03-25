@@ -1,10 +1,11 @@
+import { COLOR_LAYOUT_LIGHT_GRAY } from 'appConstants/colors';
 import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   display: flex;
   justify-content: space-between;
 
-  @media (max-width: 860px) {
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     flex-direction: column-reverse;
     margin-bottom: 8px;
   }
@@ -13,7 +14,10 @@ export const Container = styled.div`
 export const WordBlock = styled.div<{ colorGroup: string }>`
   border-left: 3px solid ${({ colorGroup }) => colorGroup};
   padding-left: 23px;
-  margin-top: 16px;
+
+  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
+    margin-top: 16px;
+  }
 `;
 
 export const EnglishWord = styled.span`
@@ -29,7 +33,7 @@ export const WordTranscription = styled.span`
 `;
 
 export const WordTranslate = styled.div`
-  color: #888888;
+  color: ${COLOR_LAYOUT_LIGHT_GRAY};
 `;
 
 export const WordStatistic = styled.div`
