@@ -50,7 +50,7 @@ export const SideNav: FC<SideNavProps> = () => {
       </MenuItem>
       <MenuItem
         to="/dictionary"
-        title="DictionaryPage"
+        title="Dictionary"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 3}
         index={3}
