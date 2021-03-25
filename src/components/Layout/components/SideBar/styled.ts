@@ -37,6 +37,6 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   divided: {
-    marginBottom: '20px',
+    marginBottom: 20,
   },
 }));

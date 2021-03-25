@@ -1,13 +1,13 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Button, Container, Grid, Paper } from '@material-ui/core';
+import { Button, Container, Paper, Grid } from '@material-ui/core';
+import { Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { NavigationSection } from 'components/NavigationSection';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
 import { WordList } from './components';
-import { Pagination } from './components/Pagination';
 
 type TextBookPageProps = {};
 

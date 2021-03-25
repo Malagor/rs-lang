@@ -51,13 +51,13 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
   imageSchool: {
-    width: '55px',
-    height: '20px ',
+    width: 55,
+    height: 20,
     backgroundRepeat: 'no-repeat',
   },
   gtiLogoImg: {
-    width: '12px',
-    margin: '3px',
+    width: 12,
+    margin: 3,
   },
   wrapperButton: {
     display: 'flex',
