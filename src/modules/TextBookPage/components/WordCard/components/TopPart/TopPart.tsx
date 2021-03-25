@@ -42,11 +42,9 @@ export const TopPart: React.FC<WordCardProps> = ({
   const sounds: HTMLAudioElement[] = useSelector(getSounds);
 
   const onPlay = () => {
-    sounds.length &&
-      sounds.forEach((sound) => {
-        sound.pause();
-        console.log(sound.currentTime);
-      });
+    sounds.forEach((sound) => {
+      sound.pause();
+    });
 
     const isSetSounds =
       refAudioWord.current &&
@@ -63,18 +61,20 @@ export const TopPart: React.FC<WordCardProps> = ({
       );
 
     if (refAudioWord.current) {
+      refAudioWord.current.currentTime = 0;
       refAudioWord.current.play();
       refAudioWord.current.onended = () => {
-        if (refAudioWord.current) refAudioWord.current.currentTime = 0;
+        if (refAudioMeaning.current) refAudioMeaning.current.currentTime = 0;
         refAudioMeaning.current && refAudioMeaning.current.play();
       };
     }
 
-    if (refAudioMeaning.current)
+    if (refAudioMeaning.current) {
       refAudioMeaning.current.onended = () => {
-        if (refAudioMeaning.current) refAudioMeaning.current.currentTime = 0;
+        if (refAudioExample.current) refAudioExample.current.currentTime = 0;
         refAudioExample.current && refAudioExample.current.play();
       };
+    }
   };
 
   const onStop = () => {

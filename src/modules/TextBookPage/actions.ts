@@ -37,5 +37,5 @@ export const loadWords = (
 
 export const setSound = (payload: HTMLAudioElement[]) => ({
   type: SET_SOUND,
-  payload
-})
+  payload,
+});

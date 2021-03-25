@@ -8,10 +8,7 @@ type Props = {
   isTranslate: boolean;
 };
 
-export const SentencesBlock: React.FC<Props> = ({
-  word,
-  isTranslate,
-}) => (
+export const SentencesBlock: React.FC<Props> = ({ word, isTranslate }) => (
   <Container>
     <div>
       <Sentence dangerouslySetInnerHTML={{ __html: word.textMeaning }} />
