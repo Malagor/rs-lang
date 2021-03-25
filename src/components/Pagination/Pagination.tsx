@@ -30,7 +30,7 @@ export const Pagination: FC<PaginationProps> = ({
   return (
     <StyledPaginationContainer
       highlightColor={LEVEL_COLORS[group]}
-      theme={theme}
+      breakpoints={theme.breakpoints}
     >
       <ReactPaginate
         previousLabel={<ArrowLeftIcon fontSize="large" />}
