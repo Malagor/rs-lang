@@ -65,15 +65,15 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
         type="button"
         onClick={onNextGroupHandler}
       >
-        Next Group
+        ` Next Group
       </Button>
       <hr />
 
       {words && (
         <div style={{ paddingBottom: '8px' }}>
-          <Pagination pageCount={30} initialPage={0} group={group} />
+          <Pagination pageCount={30} initialPage={page} group={group} />
           <WordList words={words} />
-          <Pagination pageCount={30} initialPage={0} group={group} />
+          <Pagination pageCount={30} initialPage={page} group={group} />
         </div>
       )}
     </Container>
