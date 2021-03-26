@@ -91,8 +91,19 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
         {words && (
           <div style={{ paddingBottom: '8px' }}>
+            <Pagination
+              pageCount={30}
+              initialPage={page}
+              forcePage={page}
+              group={group}
+            />
             <WordList words={words} />
-            <Pagination pageCount={30} initialPage={0} group={group} />
+            <Pagination
+              pageCount={30}
+              initialPage={page}
+              forcePage={page}
+              group={group}
+            />
           </div>
         )}
       </Paper>

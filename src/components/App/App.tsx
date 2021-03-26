@@ -1,6 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { GamesPage, MainPage, StatisticsPage, TextBookPage } from 'modules';
+import {
+  DictionaryPage,
+  GamesPage,
+  MainPage,
+  StatisticsPage,
+  TextBookPage,
+} from 'modules';
 import { Layout } from 'components';
 import { Savannah } from 'modules/Savannah';
 import { Sprint } from 'modules/Sprint';
@@ -34,6 +40,7 @@ export const App: FC = () => {
         <Route path="/games/ownGame" component={OwnGame} />
         <Route path="/games/savannah" component={Savannah} />
         <Route path="/games/sprint" component={Sprint} />
+        <Route path="/dictionary" component={DictionaryPage} />
         <Route path="/games" component={GamesPage} />
         <Route path="/statistics" component={StatisticsPage} />
         <Route exact path="/" component={MainPage} />
