@@ -41,7 +41,6 @@ export const TopPart: React.FC<WordCardProps> = ({
   const dispatch = useDispatch();
   const theme = useTheme();
   const sounds: HTMLAudioElement[] = useSelector(selectSounds);
-  const isHard = word.userWord && word.userWord.difficulty === 'hard';
 
   const user = useSelector(selectUser);
   const isLogin = !!user.id;
@@ -90,10 +89,7 @@ export const TopPart: React.FC<WordCardProps> = ({
 
   return (
     <Container theme={theme}>
-      <WordBlock
-        colorGroup={isHard ? colorGroup : COLOR_LAYOUT_GRAY}
-        theme={theme}
-      >
+      <WordBlock colorGroup={colorGroup} theme={theme}>
         <EnglishWord>{word.word}</EnglishWord>
         <WordTranscription>{word.transcription}</WordTranscription>
         {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
