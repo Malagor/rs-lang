@@ -17,7 +17,10 @@ export const App: FC = () => {
       dispatch(setAuth(auth));
 
       const { token, userId: id } = auth;
+      console.log('token', token);
+      console.log('id', id);
       database.setToken(token);
+
       dispatch(loadUserInfoById(id));
     }
   }, [dispatch]);

@@ -2,10 +2,12 @@ import React from 'react';
 import { SERVER_URL } from 'appConstants';
 import { Word } from 'types';
 import { useTheme } from '@material-ui/core';
-import { CardContainer, ContentBlock, WordImage } from './styled';
+import { useSelector } from 'react-redux';
+import { selectUser } from 'modules/Login/selectors';
 import { TopPart } from './components/TopPart';
 import { SentencesBlock } from './components/SentencesBlock';
 import { ButtonsBlock } from './components/ButtonsBlock';
+import { CardContainer, ContentBlock, WordImage } from './styled';
 
 type WordCardProps = {
   word: Word;
@@ -25,6 +27,8 @@ export const WordCard: React.FC<WordCardProps> = ({
   isButtons,
 }) => {
   const theme = useTheme();
+  const user = useSelector(selectUser);
+  const isLogin = !!user.id;
 
   return (
     <CardContainer theme={theme}>
@@ -43,7 +47,7 @@ export const WordCard: React.FC<WordCardProps> = ({
           isTranslate={isTranslate}
         />
         <SentencesBlock word={word} isTranslate={isTranslate} />
-        {isButtons && <ButtonsBlock colorGroup={colorGroup} />}
+        {isButtons && isLogin && <ButtonsBlock colorGroup={colorGroup} />}
       </ContentBlock>
     </CardContainer>
   );

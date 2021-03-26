@@ -41,7 +41,7 @@ export const WordStatistic = styled.div`
   height: 30px;
   display: flex;
   justify-content: space-between;
-  margin-left: 40px;
+  margin-right: 40px;
 `;
 
 export const InfoBlock = styled.div<{ color: string }>`

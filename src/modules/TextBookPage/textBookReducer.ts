@@ -14,7 +14,7 @@ export const textBookPageState: StateTextBook = {
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
   state = textBookPageState,
-  action
+  action: Action
 ) => {
   switch (action.type) {
     case SET_WORDS:

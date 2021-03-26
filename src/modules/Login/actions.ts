@@ -50,8 +50,9 @@ export const logOutUser = (): ThunkAction<
 
 export const loadUserInfoById = (
   id: string
-): ThunkAction<void, StateMainPage, unknown, Action<string>> => (dispatch) => {
+): ThunkAction<void, StateMainPage, unknown, Action<string>> => (dispatch) =>
   database.getUserById(id).then((user: User) => {
-    dispatch(setUser(user));
+    if (user) {
+      dispatch(setUser(user));
+    }
   });
-};

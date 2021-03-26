@@ -4,8 +4,14 @@ import { Word } from 'types';
 import { Button, Container, Paper } from '@material-ui/core';
 import { Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
+import { selectUser } from 'modules/Login/selectors';
 import { selectGroup, selectPage, selectWords } from './selectors';
-import { loadWords, setGroup, setPage } from './actions';
+import {
+  loadUserAggregateWords,
+  loadWords,
+  setGroup,
+  setPage,
+} from './actions';
 import { WordList } from './components';
 
 type TextBookPageProps = {};
@@ -14,12 +20,17 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const words: Word[] = useSelector(selectWords);
   const page = useSelector(selectPage);
   const group = useSelector(selectGroup);
+  const user = useSelector(selectUser);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadWords(group, page));
-  }, [dispatch, page, group]);
+    if (user.id) {
+      dispatch(loadUserAggregateWords(user.id, group, page));
+    } else {
+      dispatch(loadWords(group, page));
+    }
+  }, [dispatch, page, group, user]);
 
   useEffect(() => {
     dispatch(setPageTitle('TextBook'));
