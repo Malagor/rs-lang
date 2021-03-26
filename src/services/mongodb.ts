@@ -144,6 +144,34 @@ class MongoDatabase {
     });
     return rawResponse.json();
   };
+
+  getUserDifficultWord = async (
+    userId: string,
+    group: number = 0,
+    page: number = 0,
+    wordPerPage: number = 20
+  ) =>
+    this.getUserAggregatedWord(
+      userId,
+      group,
+      page,
+      wordPerPage,
+      '{"userWord.difficulty":"hard"}'
+    );
+
+  getUserDeletedWord = async (
+    userId: string,
+    group: number = 0,
+    page: number = 0,
+    wordPerPage: number = 20
+  ) =>
+    this.getUserAggregatedWord(
+      userId,
+      group,
+      page,
+      wordPerPage,
+      '{"userWord.difficulty":"easy"}'
+    );
 }
 
 export const database = MongoDatabase.create();

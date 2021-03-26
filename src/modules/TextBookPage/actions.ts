@@ -53,6 +53,30 @@ export const loadUserAggregateWords = (
   });
 };
 
+export const loadUserDifficultWords = (
+  userId: string,
+  group: number = 0,
+  page: number = 0
+): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
+  dispatch
+) => {
+  database.getUserDifficultWord(userId, group, page).then((words) => {
+    dispatch(setWords(words[0].paginatedResults));
+  });
+};
+
+export const loadUserDeletedWords = (
+  userId: string,
+  group: number = 0,
+  page: number = 0
+): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
+  dispatch
+) => {
+  database.getUserDeletedWord(userId, group, page).then((words) => {
+    dispatch(setWords(words[0].paginatedResults));
+  });
+};
+
 export const setSound = (payload: HTMLAudioElement[]) => ({
   type: SET_SOUND,
   payload,
