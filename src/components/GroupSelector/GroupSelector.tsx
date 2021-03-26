@@ -6,6 +6,7 @@ import { Grid, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGroup } from 'modules/TextBookPage/actions';
 import { selectGroup } from 'store/commonState/selectors';
+import { LocStore } from 'services';
 import { ButtonGroupSelector } from './components';
 import { GroupSelectorPosition, TitleGroupSelector } from './styled';
 
@@ -16,6 +17,7 @@ export const GroupSelector: FC = () => {
   const groupPageNow = useSelector(selectGroup);
 
   const onChangeGroupPageHandler = (numberGroupPage: number) => {
+    LocStore.setNumberGroupPage(numberGroupPage);
     dispatch(setGroup(numberGroupPage));
   };
 

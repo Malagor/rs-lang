@@ -26,73 +26,11 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setPageTitle('TextBook'));
   }, [dispatch]);
 
-  /*   const onNextPageHandler = () => {
-    const nextPage = page === 29 ? 29 : page + 1;
-    dispatch(setPage(nextPage));
-  };
-
-  const onPrevPageHandler = () => {
-    const prevPage = page === 0 ? 0 : page - 1;
-    dispatch(setPage(prevPage));
-  };
-
-  const onPrevGroupHandler = () => {
-    const prevGroup = group === 0 ? 0 : group - 1;
-    dispatch(setPage(0));
-    dispatch(setGroup(prevGroup));
-  };
-
-  const onNextGroupHandler = () => {
-    dispatch(setPage(0));
-    const nextGroup = group === 5 ? 5 : group + 1;
-    dispatch(setGroup(nextGroup));
-  };
-
-  const onChangeGroupPage = (numberPage: number) => {
-    dispatch(setGroup(numberPage));
-  }; */
-
   return (
     <Grid container>
-      <Grid item xs={11}>
+      <Grid item xs={12} sm={11}>
         <Container>
           <Paper>
-            {/* <div>Group: {group}</div>
-            <Button
-              type="button"
-              color="primary"
-              variant="contained"
-              onClick={onPrevGroupHandler}
-            >
-              Prev Group
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              onClick={onNextGroupHandler}
-            >
-              Next Group
-            </Button>
-            <hr />
-            <div>Page: {page}</div>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              onClick={onPrevPageHandler}
-            >
-              Prev Page
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              onClick={onNextPageHandler}
-            >
-              Next Page
-            </Button>
-            <hr /> */}
             {words && (
               <div style={{ paddingBottom: '8px' }}>
                 <WordList words={words} />
@@ -102,7 +40,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           </Paper>
         </Container>
       </Grid>
-      <Grid item xs={1}>
+      <Grid item xs={12} sm={1}>
         <GroupSelector />
       </Grid>
     </Grid>
