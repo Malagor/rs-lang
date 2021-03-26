@@ -4,6 +4,7 @@ import { Paper } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
+import { NavGame } from 'components/NavGame';
 import { WordCard } from '../WordCard';
 import { WordListStyled } from './styled';
 
@@ -17,6 +18,7 @@ export const WordList: FC<WordListProps> = ({ words }) => {
     <WordListStyled>
       {words.map((word) => (
         <Paper key={word.id}>
+          <NavGame />
           <WordCard
             word={word}
             colorGroup={LEVEL_COLORS[group]}
