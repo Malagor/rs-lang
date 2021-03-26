@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const NavigationPosition = styled.div`
+export const GroupSelectorPosition = styled.div`
   position: sticky;
   top: 50%;
   transform: translateY(-50%);
@@ -11,7 +11,7 @@ export const NavigationPosition = styled.div`
   align-items: center;
 `;
 
-export const TitleNavigation = styled.span`
+export const TitleGroupSelector = styled.span`
   display: flex;
   justify-content: center;
   font-size: 18px;

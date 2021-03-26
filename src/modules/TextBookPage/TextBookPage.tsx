@@ -4,7 +4,7 @@ import { Word } from 'types';
 import { Button, Container, Paper, Grid } from '@material-ui/core';
 import { Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
-import { NavigationSection } from 'components/NavigationSection';
+import { GroupSelector } from 'components/GroupSelector';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
 import { WordList } from './components';
@@ -26,7 +26,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setPageTitle('TextBook'));
   }, [dispatch]);
 
-  const onNextPageHandler = () => {
+  /*   const onNextPageHandler = () => {
     const nextPage = page === 29 ? 29 : page + 1;
     dispatch(setPage(nextPage));
   };
@@ -50,14 +50,14 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   const onChangeGroupPage = (numberPage: number) => {
     dispatch(setGroup(numberPage));
-  };
+  }; */
 
   return (
     <Grid container>
       <Grid item xs={11}>
         <Container>
           <Paper>
-            <div>Group: {group}</div>
+            {/* <div>Group: {group}</div>
             <Button
               type="button"
               color="primary"
@@ -92,7 +92,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
             >
               Next Page
             </Button>
-            <hr />
+            <hr /> */}
             {words && (
               <div style={{ paddingBottom: '8px' }}>
                 <WordList words={words} />
@@ -103,7 +103,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
         </Container>
       </Grid>
       <Grid item xs={1}>
-        <NavigationSection changeGroupPage={onChangeGroupPage} />
+        <GroupSelector />
       </Grid>
     </Grid>
   );
