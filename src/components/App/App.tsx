@@ -1,6 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
-import { GamesPage, MainPage, StatisticsPage, TextBookPage } from 'modules';
+import {
+  DictionaryPage,
+  GamesPage,
+  MainPage,
+  StatisticsPage,
+  TextBookPage,
+} from 'modules';
 import { Layout } from 'components';
 import { useDispatch } from 'react-redux';
 import { database, LocStore } from 'services';
@@ -26,6 +32,7 @@ export const App: FC = () => {
     <Layout>
       <Switch>
         <Route path="/textbook" component={TextBookPage} />
+        <Route path="/dictionary" component={DictionaryPage} />
         <Route path="/games" component={GamesPage} />
         <Route path="/statistics" component={StatisticsPage} />
         <Route exact path="/" component={MainPage} />
