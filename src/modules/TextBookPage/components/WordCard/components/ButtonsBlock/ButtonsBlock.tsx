@@ -49,12 +49,12 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
     },
   })(Button);
 
-  const onDifficultHandler = async (id: string) => {
+  const onMarkWord = async (id: string, type: 'hard' | 'easy') => {
     const options: CreateUserWordType = {
       userId,
       wordId: id,
       wordOptions: {
-        difficulty: 'hard',
+        difficulty: type,
       },
     };
     await database.createUserWord(options);
@@ -65,11 +65,13 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
     <Container theme={theme}>
       <DifficultBtn
         variant="contained"
-        onClick={() => onDifficultHandler(wordId)}
+        onClick={() => onMarkWord(wordId, 'hard')}
       >
         difficult
       </DifficultBtn>
-      <DeleteBtn variant="contained">delete</DeleteBtn>
+      <DeleteBtn variant="contained" onClick={() => onMarkWord(wordId, 'easy')}>
+        delete
+      </DeleteBtn>
     </Container>
   );
 };

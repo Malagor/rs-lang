@@ -6,6 +6,7 @@ import { selectGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
 import { WordCard } from '../WordCard';
 import { WordListStyled } from './styled';
+import { NoWordsMessage } from './components/NoWordsMessage/NoWordsMessage';
 
 type WordListProps = {
   words: Word[];
@@ -13,12 +14,14 @@ type WordListProps = {
 
 export const WordList: FC<WordListProps> = ({ words }) => {
   const group = useSelector(selectGroup);
+  const hasWords = words.filter((word) => word.userWord?.difficulty !== 'easy')
+    .length;
 
   const difficultStyles = {
     backgroundColor: lighten(LEVEL_COLORS[group], 0.85),
   };
 
-  return (
+  return hasWords ? (
     <WordListStyled>
       {words.map((word) => {
         const isDeleted = word.userWord?.difficulty === 'easy';
@@ -40,5 +43,7 @@ export const WordList: FC<WordListProps> = ({ words }) => {
         );
       })}
     </WordListStyled>
+  ) : (
+    <NoWordsMessage />
   );
 };
