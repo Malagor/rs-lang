@@ -4,6 +4,7 @@ import { Word } from 'types';
 import { Button, Container, Paper } from '@material-ui/core';
 import { Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
+import { NavGame } from 'components/NavGame';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
 import { WordList } from './components';
@@ -49,6 +50,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   return (
     <Container>
+        <NavGame />
       <Paper>
         <div>Group: {group}</div>
         <Button
