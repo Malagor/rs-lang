@@ -8,6 +8,8 @@ import { selectUser } from 'modules/Login/selectors';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import {
   loadUserAggregateWords,
+  loadUserDeletedWords,
+  loadUserDifficultWords,
   loadWords,
   setGroup,
   setPage,
@@ -48,8 +50,51 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setGroup(nextGroup));
   };
 
+  const onUsualWords = () => {
+    dispatch(setPage(0));
+    dispatch(setGroup(0));
+    dispatch(loadUserAggregateWords(user.id, group, page));
+  };
+
+  const onDifficultWords = () => {
+    dispatch(setPage(0));
+    dispatch(setGroup(0));
+    dispatch(loadUserDifficultWords(user.id, group, page));
+  };
+  const onDeletedWords = () => {
+    dispatch(setPage(0));
+    dispatch(setGroup(0));
+    dispatch(loadUserDeletedWords(user.id, group, page));
+  };
+
   return (
     <Container>
+      <div>Type of Words: </div>
+      <Button
+        type="button"
+        color="primary"
+        variant="contained"
+        onClick={onUsualWords}
+      >
+        Usual Words
+      </Button>
+      <Button
+        variant="contained"
+        color="default"
+        type="button"
+        onClick={onDifficultWords}
+      >
+        Difficult words
+      </Button>
+      <Button
+        variant="contained"
+        color="secondary"
+        type="button"
+        onClick={onDeletedWords}
+      >
+        Deleted words
+      </Button>
+      <hr />
       <div>Group: {group}</div>
       <Button
         type="button"

@@ -6,7 +6,7 @@ import { selectGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
 import { WordCard } from '../WordCard';
 import { WordListStyled } from './styled';
-import { NoWordsMessage } from './components/NoWordsMessage/NoWordsMessage';
+import { NoWordsMessage } from './components';
 
 type WordListProps = {
   words: Word[];
