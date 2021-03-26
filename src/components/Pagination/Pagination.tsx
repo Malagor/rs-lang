@@ -11,6 +11,7 @@ import { StyledPaginationContainer } from './styled';
 type PaginationProps = {
   pageCount: number;
   initialPage: number;
+  forcePage: number;
   group: number;
 };
 
@@ -18,6 +19,7 @@ export const Pagination: FC<PaginationProps> = ({
   pageCount,
   initialPage,
   group,
+  forcePage,
 }) => {
   const dispatch = useDispatch();
   const theme = useTheme();
@@ -38,6 +40,7 @@ export const Pagination: FC<PaginationProps> = ({
         breakLabel="..."
         pageCount={pageCount}
         initialPage={initialPage}
+        forcePage={forcePage}
         marginPagesDisplayed={1}
         onPageChange={handlePageClick}
         pageRangeDisplayed={4}
