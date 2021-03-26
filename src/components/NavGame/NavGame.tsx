@@ -12,14 +12,14 @@ import { NavContainer, Flex } from './styled';
 type GamesProps = {};
 
 export const NavGame: FC<GamesProps> = () => {
-  const [ savannah, audioChallenge, sprint, ownGame ] = gameNames;
-  
+  const [savannah, audioChallenge, sprint, ownGame] = gameNames;
+
   const theme = useTheme();
 
   return (
     <NavContainer theme={theme}>
       <Flex theme={theme}>
-        <NavLink className='link' to="/games/savannah">
+        <NavLink className="link" to="/games/savannah">
           <GameItem img={SAVANNAH_ICON} name={savannah} />
         </NavLink>
         <NavLink to="/games/audioChallenge">
@@ -31,7 +31,7 @@ export const NavGame: FC<GamesProps> = () => {
           <GameItem img={SPRINT_ICON} name={sprint} />
         </NavLink>
         <NavLink to="/games/ownGame">
-          <GameItem img={OWN_GAME_ICON} name={ownGame} />
+          <GameItem lastItem={true} img={OWN_GAME_ICON} name={ownGame} />
         </NavLink>
       </Flex>
     </NavContainer>

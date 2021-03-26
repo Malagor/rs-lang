@@ -1,8 +1,9 @@
 import styled from 'styled-components/macro';
 
-export const ItemContainer = styled.div`
+export const ItemContainer = styled.div<{ lastItem?: boolean }>`
   display: flex;
-  margin-right: 16px;
+  margin-right: ${({ lastItem }) => (lastItem ? '0px' : '16px')};
+  margin-bottom: 16px;
   padding: 8px 24px 8px 16px;
   align-items: center;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
@@ -15,7 +16,4 @@ export const Image = styled.img`
   margin-right: 8px;
 `;
 
-export const GameName = styled.div`
-  /* text-decoration: none;
-  color: black; */
-`;
+export const GameName = styled.div``;
