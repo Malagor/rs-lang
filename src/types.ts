@@ -15,12 +15,19 @@ export type User = {
 };
 
 export type UserWord = {
-  difficulty: string;
-  optional: {};
+  difficulty: 'hard' | 'easy';
+  optional?: {};
+};
+
+export type CreateUserWordType = {
+  userId: string;
+  wordId: string;
+  wordOptions: UserWord;
 };
 
 export type Word = {
   id: string;
+  _id?: string;
   group: number;
   page: number;
   word: string;

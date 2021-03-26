@@ -2,7 +2,13 @@ import { StateTextBook, Word } from 'types';
 import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { SET_PAGE, SET_WORDS, SET_GROUP, SET_SOUND } from './actionConst';
+import {
+  SET_PAGE,
+  SET_WORDS,
+  SET_GROUP,
+  SET_SOUND,
+  UPDATE_WORDS,
+} from './actionConst';
 
 export const setPage = (payload: number) => ({
   type: SET_PAGE,
@@ -16,6 +22,11 @@ export const setGroup = (payload: number) => ({
 
 export const setWords = (payload: Word[]) => ({
   type: SET_WORDS,
+  payload,
+});
+
+export const updateWords = (payload: Word) => ({
+  type: UPDATE_WORDS,
   payload,
 });
 

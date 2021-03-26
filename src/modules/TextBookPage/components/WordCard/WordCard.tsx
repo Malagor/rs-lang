@@ -29,6 +29,8 @@ export const WordCard: React.FC<WordCardProps> = ({
   const theme = useTheme();
   const user = useSelector(selectUser);
   const isLogin = !!user.id;
+  // eslint-disable-next-line no-underscore-dangle
+  const wordId = word._id || word.id;
 
   return (
     <CardContainer theme={theme}>
@@ -47,7 +49,9 @@ export const WordCard: React.FC<WordCardProps> = ({
           isTranslate={isTranslate}
         />
         <SentencesBlock word={word} isTranslate={isTranslate} />
-        {isButtons && isLogin && <ButtonsBlock colorGroup={colorGroup} />}
+        {isButtons && isLogin && (
+          <ButtonsBlock colorGroup={colorGroup} wordId={wordId} />
+        )}
       </ContentBlock>
     </CardContainer>
   );
