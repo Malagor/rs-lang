@@ -14,9 +14,16 @@ export type User = {
   avatar?: string;
 };
 
+export type DifficultyType = 'hard' | 'easy';
+
 export type UserWord = {
-  difficulty: 'hard' | 'easy';
-  optional?: {};
+  difficulty: DifficultyType;
+  optional?: {
+    statistics?: {
+      correct: number;
+      incorrect: number;
+    };
+  };
 };
 
 export type CreateUserWordType = {

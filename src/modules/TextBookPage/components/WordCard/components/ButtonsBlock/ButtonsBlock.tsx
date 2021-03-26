@@ -4,7 +4,7 @@ import { COLOR_LAYOUT_GRAY, COLOR_LAYOUT_WHITE } from 'appConstants/colors';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectUserId } from 'modules/Login/selectors';
 import { database } from 'services';
-import { CreateUserWordType } from 'types';
+import { CreateUserWordType, DifficultyType } from 'types';
 import { loadUserAggregateWords } from 'modules/TextBookPage/actions';
 import { selectGroup, selectPage } from 'modules/TextBookPage/selectors';
 import { Container } from './styled';
@@ -49,7 +49,7 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
     },
   })(Button);
 
-  const onMarkWord = async (id: string, type: 'hard' | 'easy') => {
+  const onMarkWord = async (id: string, type: DifficultyType) => {
     const options: CreateUserWordType = {
       userId,
       wordId: id,
