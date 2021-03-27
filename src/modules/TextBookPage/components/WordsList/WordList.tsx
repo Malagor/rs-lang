@@ -16,18 +16,17 @@ export const WordList: FC<WordListProps> = ({ words }) => {
   const group = useSelector(selectGroup);
   return (
     <WordListStyled>
+      <NavGame />
       {words.map((word) => (
-        <Paper key={word.id}>
-          <NavGame />
-          <WordCard
-            word={word}
-            colorGroup={LEVEL_COLORS[group]}
-            successCount={5}
-            errorCount={10}
-            isTranslate={true}
-            isButtons={true}
-          />
-        </Paper>
+        <WordCard
+          key={word.word}
+          word={word}
+          colorGroup={LEVEL_COLORS[group]}
+          successCount={5}
+          errorCount={10}
+          isTranslate={true}
+          isButtons={true}
+        />
       ))}
     </WordListStyled>
   );

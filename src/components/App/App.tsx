@@ -36,8 +36,8 @@ export const App: FC = () => {
     <Layout>
       <Switch>
         <Route path="/textbook" component={TextBookPage} />
-        <Route path="/games/audioChallenge" component={AudioChallenge} />
-        <Route path="/games/ownGame" component={OwnGame} />
+        <Route path="/games/audio-challenge" component={AudioChallenge} />
+        <Route path="/games/own-game" component={OwnGame} />
         <Route path="/games/savannah" component={Savannah} />
         <Route path="/games/sprint" component={Sprint} />
         <Route path="/dictionary" component={DictionaryPage} />
