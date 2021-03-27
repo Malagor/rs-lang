@@ -7,6 +7,7 @@ import { selectWords } from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { useHistory } from 'react-router-dom';
+import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
 
 type GamesProps = {};
 
@@ -35,7 +36,7 @@ export const GamesPage: FC<GamesProps> = () => {
       style={{
         position: 'relative',
         height: '100%',
-        background: 'linear-gradient(180deg, #7F53AC 0%, #647DEE 100%)',
+        background: SAVANNAH_BACKGROUND,
       }}
     >
       <Button
