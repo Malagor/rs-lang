@@ -3,6 +3,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
   COLOR_LAYOUT_WHITE,
   COLOR_LAYOUT_BACKGROUND,
+  COLOR_LAYOUT_GRAY,
 } from 'appConstants/colors';
 
 interface StyleProps {
@@ -22,6 +23,11 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
         color: COLOR_LAYOUT_BACKGROUND,
 
         backgroundColor: COLOR_LAYOUT_WHITE,
+        boxShadow: 'none',
+        '&:hover': {
+          backgroundColor: COLOR_LAYOUT_WHITE,
+          borderRadius: '50%',
+        },
       };
     }
     return {
@@ -32,6 +38,11 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       color: COLOR_LAYOUT_BACKGROUND,
 
       backgroundColor: props.backgroundColor,
+      boxShadow: 'none',
+      '&:hover': {
+        background: COLOR_LAYOUT_GRAY,
+        borderRadius: '50%',
+      },
     };
   },
   label: (props) => {
@@ -42,10 +53,20 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
         borderRadius: '50%',
 
         backgroundColor: props.backgroundColor,
+        boxShadow: 'none',
+        '&:hover': {
+          background: COLOR_LAYOUT_GRAY,
+          borderRadius: '50%',
+        },
       };
     }
     return {
       height: '100%',
+      boxShadow: 'none',
+      '&:hover': {
+        background: COLOR_LAYOUT_GRAY,
+        borderRadius: '50%',
+      },
     };
   },
 }));

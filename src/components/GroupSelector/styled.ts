@@ -14,7 +14,7 @@ export const useStyles = makeStyles((theme) => ({
       position: 'none',
       top: '0',
       transform: 'none',
-      margin: '8px',
+      margin: theme.spacing(1),
     },
   },
   groupSelectorPosition: {
