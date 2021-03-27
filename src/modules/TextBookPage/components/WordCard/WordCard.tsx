@@ -1,12 +1,10 @@
 import React from 'react';
 import { SERVER_URL } from 'appConstants';
 import { Word } from 'types';
-import { useTheme } from '@material-ui/core';
+import { lighten, useTheme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'modules/Login/selectors';
-import { TopPart } from './components/TopPart';
-import { SentencesBlock } from './components/SentencesBlock';
-import { ButtonsBlock } from './components/ButtonsBlock';
+import { TopPart, SentencesBlock, ButtonsBlock } from './components';
 import { CardContainer, ContentBlock, WordImage } from './styled';
 
 type WordCardProps = {
@@ -31,9 +29,12 @@ export const WordCard: React.FC<WordCardProps> = ({
   const isLogin = !!user.id;
   // eslint-disable-next-line no-underscore-dangle
   const wordId = word._id || word.id;
+  const isHard = word.userWord && word.userWord.difficulty === 'hard';
+
+  const difficultColor = lighten(colorGroup, 0.85);
 
   return (
-    <CardContainer theme={theme}>
+    <CardContainer theme={theme} difficultColor={isHard ? difficultColor : ''}>
       <WordImage
         theme={theme}
         src={`${SERVER_URL}${word.image}`}
