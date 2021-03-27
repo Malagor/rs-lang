@@ -92,6 +92,7 @@ export const WordItem = styled.li`
 
 export const SoundIcon = styled(VolumeUpIcon)`
   margin-right: 8px;
+  cursor: pointer;
 `;
 
 export const WordItself = styled.span`

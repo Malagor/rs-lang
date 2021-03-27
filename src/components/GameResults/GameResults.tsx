@@ -1,4 +1,5 @@
-import React, { FC } from 'react';
+import { SERVER_URL } from 'appConstants';
+import React, { FC, useRef } from 'react';
 import { Word } from 'types';
 import {
   CategoryContainer,
@@ -28,14 +29,24 @@ export const GameResults: FC<GameResultsProps> = ({
   rightlyAnswered,
   wronglyAnswered,
 }) => {
+  const audioRef = useRef<HTMLAudioElement>(null);
+
   function getWordItems(wordArray: Word[]) {
     return wordArray.map((word) => (
       <WordItem key={word.id}>
-        <SoundIcon />
+        <SoundIcon onClick={() => handleSoundClick(word.audio)} />
         <WordItself>{word.word}</WordItself>
         <span>&nbsp;– {word.wordTranslate}</span>
       </WordItem>
     ));
+  }
+
+  function handleSoundClick(audioLink: string) {
+    const fullAudioUrl = `${SERVER_URL}${audioLink}`;
+    if (audioRef && audioRef.current) {
+      audioRef.current.src = fullAudioUrl;
+      audioRef.current.play().catch((err) => err);
+    }
   }
 
   const wrongItems = getWordItems(wronglyAnswered);
@@ -61,6 +72,9 @@ export const GameResults: FC<GameResultsProps> = ({
         </CategoryContainer>
       </Content>
       <CloseButton />
+      <audio ref={audioRef}>
+        <track kind="captions" />
+      </audio>
     </Container>
   );
 };
