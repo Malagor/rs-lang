@@ -6,6 +6,7 @@ import { GameResults } from 'components';
 import { selectWords } from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
+import { useHistory } from 'react-router-dom';
 
 type GamesProps = {};
 
@@ -14,7 +15,8 @@ export const GamesPage: FC<GamesProps> = () => {
   const words: Word[] = useSelector(selectWords);
   const rightlyAnswered = words.slice(0, 15);
   const wronglyAnswered = words.slice(15, 18);
-  const [isResultModalOpened, setResultModalOpened] = useState(true);
+  const [isResultModalOpened, setResultModalOpened] = useState(false);
+  const history = useHistory();
 
   useEffect(() => {
     dispatch(setPageTitle('Games'));
@@ -23,6 +25,10 @@ export const GamesPage: FC<GamesProps> = () => {
   useEffect(() => {
     dispatch(loadWords(0, 0));
   }, [dispatch]);
+
+  const redirectAfterModalClose = () => {
+    history.push('/');
+  };
 
   return (
     <Container
@@ -47,6 +53,7 @@ export const GamesPage: FC<GamesProps> = () => {
           wronglyAnswered={wronglyAnswered}
           isOpened={isResultModalOpened}
           setOpened={setResultModalOpened}
+          doAfterClose={redirectAfterModalClose}
         />
       )}
     </Container>

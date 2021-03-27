@@ -23,6 +23,7 @@ type GameResultsProps = {
   wronglyAnswered: Word[];
   isOpened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  doAfterClose?(): void;
 };
 
 export const GameResults: FC<GameResultsProps> = ({
@@ -32,6 +33,7 @@ export const GameResults: FC<GameResultsProps> = ({
   wronglyAnswered,
   isOpened,
   setOpened,
+  doAfterClose,
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -45,6 +47,9 @@ export const GameResults: FC<GameResultsProps> = ({
           closeButtonRef.current.contains(evt.target as Node)
         ) {
           setOpened(false);
+          if (doAfterClose) {
+            doAfterClose();
+          }
         }
       }
     };
@@ -52,7 +57,7 @@ export const GameResults: FC<GameResultsProps> = ({
     return () => {
       document.removeEventListener('click', handleClose);
     };
-  }, [setOpened]);
+  }, [setOpened, doAfterClose]);
 
   function getWordItems(wordArray: Word[]) {
     return wordArray.map((word) => (
