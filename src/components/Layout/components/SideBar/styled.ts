@@ -14,7 +14,8 @@ export const useStyles = makeStyles((theme) => ({
   },
 
   drawerPaper: {
-    position: 'relative',
+    position: 'sticky',
+    maxHeight: '100vh',
     whiteSpace: 'nowrap',
     width: DRAWER_WIDTH,
     transition: theme.transitions.create('width', {
