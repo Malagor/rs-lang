@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { Button, Container } from '@material-ui/core';
-import { Pagination } from 'components';
+import { Loader, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { selectUser } from 'modules/Login/selectors';
 import { selectGroup, selectPage, selectWords } from './selectors';
@@ -114,23 +114,33 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       </Button>
       <hr />
 
-      {words && (
-        <div style={{ paddingBottom: '8px' }}>
-          <Pagination
-            pageCount={30}
-            initialPage={page}
-            forcePage={page}
-            group={group}
-          />
-          <WordList words={words} />
-          <Pagination
-            pageCount={30}
-            initialPage={page}
-            forcePage={page}
-            group={group}
-          />
-        </div>
-      )}
+      <div
+        style={{
+          paddingBottom: '8px',
+          minHeight: '200px',
+          position: 'relative',
+        }}
+      >
+        {words && words.length ? (
+          <>
+            <Pagination
+              pageCount={30}
+              initialPage={page}
+              forcePage={page}
+              group={group}
+            />
+            <WordList words={words} />
+            <Pagination
+              pageCount={30}
+              initialPage={page}
+              forcePage={page}
+              group={group}
+            />
+          </>
+        ) : (
+          <Loader />
+        )}
+      </div>
     </Container>
   );
 };
