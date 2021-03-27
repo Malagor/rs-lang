@@ -24,7 +24,13 @@ export const GamesPage: FC<GamesProps> = () => {
   }, [dispatch]);
 
   return (
-    <Container style={{ position: 'relative', height: '100%' }}>
+    <Container
+      style={{
+        position: 'relative',
+        height: '100%',
+        background: 'linear-gradient(180deg, #7F53AC 0%, #647DEE 100%)',
+      }}
+    >
       <GameResults
         rightAnswers={20}
         wrongAnswers={3}

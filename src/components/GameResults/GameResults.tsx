@@ -10,6 +10,7 @@ import React, { FC } from 'react';
 import styled from 'styled-components';
 import { Word } from 'types';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import CloseIcon from '@material-ui/icons/Close';
 
 type GameResultsProps = {
   rightAnswers: number;
@@ -39,21 +40,24 @@ export const GameResults: FC<GameResultsProps> = ({
 
   return (
     <Container>
-      <CategoryContainer>
-        <HeaderContainer>
-          <Header>Mistakes</Header>
-          <MistakesNumber>{wrongAnswers}</MistakesNumber>
-        </HeaderContainer>
-        <WordList>{wrongItems}</WordList>
-      </CategoryContainer>
+      <Content>
+        <CategoryContainer>
+          <HeaderContainer>
+            <Header>Mistakes</Header>
+            <MistakesNumber>{wrongAnswers}</MistakesNumber>
+          </HeaderContainer>
+          <WordList>{wrongItems}</WordList>
+        </CategoryContainer>
 
-      <CategoryContainer>
-        <HeaderContainer>
-          <Header>Correct Answers</Header>
-          <CorrectNumber>{rightAnswers}</CorrectNumber>
-        </HeaderContainer>
-        <WordList>{correctItems}</WordList>
-      </CategoryContainer>
+        <CategoryContainer>
+          <HeaderContainer>
+            <Header>Correct Answers</Header>
+            <CorrectNumber>{rightAnswers}</CorrectNumber>
+          </HeaderContainer>
+          <WordList>{correctItems}</WordList>
+        </CategoryContainer>
+      </Content>
+      <CloseButton />
     </Container>
   );
 };
@@ -63,16 +67,20 @@ const Container = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 368px;
   height: 272px;
   background: ${COLOR_LAYOUT_WHITE};
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
-  border-top: 24px solid ${COLOR_LAYOUT_WHITE};
-  border-right: 32px solid ${COLOR_LAYOUT_WHITE};
-  border-bottom: 24px solid ${COLOR_LAYOUT_WHITE};
-  border-left: 35px solid ${COLOR_LAYOUT_WHITE};
   color: ${COLOR_LAYOUT_DARK_GRAY};
+`;
+
+const Content = styled.div`
+  width: 300px;
+  height: 225px;
   overflow: auto;
   scrollbar-width: thin;
   scrollbar-color: ${COLOR_LAYOUT_GRAY} ${COLOR_LAYOUT_WHITE};
@@ -141,4 +149,17 @@ const SoundIcon = styled(VolumeUpIcon)`
 const WordItself = styled.span`
   color: ${COLOR_FONT_BLACK};
   text-transform: capitalize;
+`;
+
+const CloseButton = styled(CloseIcon)`
+  position: absolute;
+  top: -24px;
+  right: -24px;
+  color: ${COLOR_LAYOUT_BACKGROUND};
+  cursor: pointer;
+  transition: color 0.3s;
+
+  &:hover {
+    color: ${COLOR_LAYOUT_DARK_GRAY};
+  }
 `;
