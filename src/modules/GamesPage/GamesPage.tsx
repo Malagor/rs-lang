@@ -1,5 +1,5 @@
-import React, { FC, useEffect } from 'react';
-import { Container, Paper } from '@material-ui/core';
+import React, { FC, useEffect, useState } from 'react';
+import { Container, Paper, Button } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
 import { GameResults } from 'components';
@@ -14,6 +14,7 @@ export const GamesPage: FC<GamesProps> = () => {
   const words: Word[] = useSelector(selectWords);
   const rightlyAnswered = words.slice(0, 15);
   const wronglyAnswered = words.slice(15, 18);
+  const [isResultModalOpened, setResultModalOpened] = useState(true);
 
   useEffect(() => {
     dispatch(setPageTitle('Games'));
@@ -31,12 +32,23 @@ export const GamesPage: FC<GamesProps> = () => {
         background: 'linear-gradient(180deg, #7F53AC 0%, #647DEE 100%)',
       }}
     >
-      <GameResults
-        rightAnswers={20}
-        wrongAnswers={3}
-        rightlyAnswered={rightlyAnswered}
-        wronglyAnswered={wronglyAnswered}
-      />
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => setResultModalOpened(true)}
+      >
+        Open Game Results
+      </Button>
+      {isResultModalOpened && (
+        <GameResults
+          rightAnswers={20}
+          wrongAnswers={3}
+          rightlyAnswered={rightlyAnswered}
+          wronglyAnswered={wronglyAnswered}
+          isOpened={isResultModalOpened}
+          setOpened={setResultModalOpened}
+        />
+      )}
     </Container>
   );
 };

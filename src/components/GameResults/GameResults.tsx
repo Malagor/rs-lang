@@ -1,5 +1,5 @@
 import { SERVER_URL } from 'appConstants';
-import React, { FC, useRef } from 'react';
+import React, { FC, useRef, useEffect } from 'react';
 import { Word } from 'types';
 import {
   CategoryContainer,
@@ -21,6 +21,8 @@ type GameResultsProps = {
   wrongAnswers: number;
   rightlyAnswered: Word[];
   wronglyAnswered: Word[];
+  isOpened: boolean;
+  setOpened: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const GameResults: FC<GameResultsProps> = ({
@@ -28,8 +30,29 @@ export const GameResults: FC<GameResultsProps> = ({
   wrongAnswers,
   rightlyAnswered,
   wronglyAnswered,
+  isOpened,
+  setOpened,
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
+  const closeButtonRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    const handleClose = (evt: MouseEvent) => {
+      if (modalRef.current && closeButtonRef.current) {
+        if (
+          !modalRef.current.contains(evt.target as Node) ||
+          closeButtonRef.current.contains(evt.target as Node)
+        ) {
+          setOpened(false);
+        }
+      }
+    };
+    document.addEventListener('click', handleClose);
+    return () => {
+      document.removeEventListener('click', handleClose);
+    };
+  }, [setOpened]);
 
   function getWordItems(wordArray: Word[]) {
     return wordArray.map((word) => (
@@ -52,8 +75,8 @@ export const GameResults: FC<GameResultsProps> = ({
   const wrongItems = getWordItems(wronglyAnswered);
   const correctItems = getWordItems(rightlyAnswered);
 
-  return (
-    <Container>
+  return isOpened ? (
+    <Container ref={modalRef}>
       <Content>
         <CategoryContainer>
           <HeaderContainer>
@@ -71,10 +94,10 @@ export const GameResults: FC<GameResultsProps> = ({
           <WordList>{correctItems}</WordList>
         </CategoryContainer>
       </Content>
-      <CloseButton />
+      <CloseButton ref={closeButtonRef} />
       <audio ref={audioRef}>
         <track kind="captions" />
       </audio>
     </Container>
-  );
+  ) : null;
 };
