@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { Word } from 'types';
-import { Paper } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
