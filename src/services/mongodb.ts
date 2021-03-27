@@ -12,7 +12,7 @@ class MongoDatabase {
 
   constructor() {
     // this.URL = 'http://localhost:3001';
-    this.URL = 'https://rs-lang-react.herokuapp.com';
+    this.URL = 'https://rs-lang-react.herokuapp.com1';
     this.token = '';
   }
 
