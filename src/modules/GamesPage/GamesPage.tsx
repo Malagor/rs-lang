@@ -51,7 +51,6 @@ export const GamesPage: FC<GamesProps> = () => {
           wrongAnswers={3}
           rightlyAnswered={rightlyAnswered}
           wronglyAnswered={wronglyAnswered}
-          isOpened={isResultModalOpened}
           setOpened={setResultModalOpened}
           doAfterClose={redirectAfterModalClose}
         />

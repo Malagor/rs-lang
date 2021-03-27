@@ -21,7 +21,6 @@ type GameResultsProps = {
   wrongAnswers: number;
   rightlyAnswered: Word[];
   wronglyAnswered: Word[];
-  isOpened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
   doAfterClose?(): void;
 };
@@ -31,7 +30,6 @@ export const GameResults: FC<GameResultsProps> = ({
   wrongAnswers,
   rightlyAnswered,
   wronglyAnswered,
-  isOpened,
   setOpened,
   doAfterClose,
 }) => {
@@ -80,7 +78,7 @@ export const GameResults: FC<GameResultsProps> = ({
   const wrongItems = getWordItems(wronglyAnswered);
   const correctItems = getWordItems(rightlyAnswered);
 
-  return isOpened ? (
+  return (
     <Container ref={modalRef}>
       <Content>
         <CategoryContainer>
@@ -104,5 +102,5 @@ export const GameResults: FC<GameResultsProps> = ({
         <track kind="captions" />
       </audio>
     </Container>
-  ) : null;
+  );
 };
