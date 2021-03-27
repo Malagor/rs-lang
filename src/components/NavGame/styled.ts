@@ -2,11 +2,13 @@ import styled from 'styled-components/macro';
 
 export const NavContainer = styled.div`
   display: flex;
+  margin: 0px -8px;
 
   a {
     text-decoration: none;
     color: inherit;
     max-width: 25%;
+    padding: 0px 8px;
     /* flex: 0 0 25%; */
   }
 

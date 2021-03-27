@@ -6,12 +6,12 @@ import {
   MainPage,
   StatisticsPage,
   TextBookPage,
+  AudioChallenge,
+  Savannah,
+  Sprint,
+  OwnGame,
 } from 'modules';
 import { Layout } from 'components';
-import { Savannah } from 'modules/Savannah';
-import { Sprint } from 'modules/Sprint';
-import { AudioChallenge } from 'modules/AudioChallenge';
-import { OwnGame } from 'modules/OwnGame';
 import { useDispatch } from 'react-redux';
 import { database, LocStore } from 'services';
 import { loadUserInfoById, setAuth } from 'modules/Login/actions';

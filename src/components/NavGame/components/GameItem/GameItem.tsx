@@ -5,16 +5,15 @@ import { GameName, Image, ItemContainer } from './styled';
 type GamesProps = {
   img: string;
   name: string;
-  lastItem?: boolean;
 };
 
-export const GameItem: FC<GamesProps> = ({ img, name, lastItem }) => {
+export const GameItem: FC<GamesProps> = ({ img, name }) => {
   const theme = useTheme();
 
   return (
-  <ItemContainer theme={theme} lastItem={lastItem}>
+  <ItemContainer theme={theme} >
     <Image src={img} alt="game icon" />
-    <GameName>{name}</GameName>
+    <div>{name}</div>
   </ItemContainer>
 );
 }

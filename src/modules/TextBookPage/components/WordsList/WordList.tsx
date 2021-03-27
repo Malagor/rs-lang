@@ -4,7 +4,7 @@ import { Paper } from '@material-ui/core';
 import { useSelector } from 'react-redux';
 import { selectGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
-import { NavGame } from 'components/NavGame';
+import { NavGame } from 'components';
 import { WordCard } from '../WordCard';
 import { WordListStyled } from './styled';
 
