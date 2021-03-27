@@ -1,19 +1,45 @@
-import styled from 'styled-components/macro';
+import { makeStyles } from '@material-ui/core/styles';
 
-export const GroupSelectorPosition = styled.div`
-  position: sticky;
-  top: 50%;
-  transform: translateY(-50%);
-  margin: 0 10px;
+export const useStyles = makeStyles((theme) => ({
+  wrapper: {
+    position: 'sticky',
+    top: '50%',
+    transform: 'translateY(-50%)',
 
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
 
-export const TitleGroupSelector = styled.span`
-  display: flex;
-  justify-content: center;
-  font-size: 18px;
-  font-weight: 600;
-`;
+    [theme.breakpoints.down('xs')]: {
+      position: 'none',
+      top: '0',
+      transform: 'none',
+      margin: '8px',
+    },
+  },
+  groupSelectorPosition: {
+    position: 'sticky',
+    top: '50%',
+    transform: 'translateY(-50%)',
+    margin: '0 10px',
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  textPosition: {
+    textAlign: 'center',
+    fontWeight: 600,
+  },
+  paperWrapper: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+  },
+  buttonWrapper: {
+    [theme.breakpoints.down('xs')]: {
+      display: 'flex',
+    },
+  },
+}));

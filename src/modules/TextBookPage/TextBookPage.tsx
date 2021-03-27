@@ -8,6 +8,7 @@ import { GroupSelector } from 'components/GroupSelector';
 import { selectGroup, selectPage, selectWords } from './selectors';
 import { loadWords, setGroup, setPage } from './actions';
 import { WordList } from './components';
+import { useStyles } from './styled';
 
 type TextBookPageProps = {};
 
@@ -26,8 +27,10 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setPageTitle('TextBook'));
   }, [dispatch]);
 
+  const classes = useStyles();
+
   return (
-    <Grid container>
+    <Grid container className={classes.buttonGroup}>
       <Grid item xs={12} sm={11}>
         <Container>
           <Paper>
