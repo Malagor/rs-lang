@@ -49,12 +49,12 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
   },
   cardWrapper: {
     width: '363px',
-    MinHeight: '308px',
+    minHeight: '308px',
     flexDirection: 'column',
     margin: '39px 30px',
 
-    borderRadius: '3%',
-    boxShadow: '0 0 10px rgb(0 0 0 / 15%)',
+    borderRadius: '10px',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
 
     [theme.breakpoints.down('sm')]: { margin: '22px 20gpx' },
   },
