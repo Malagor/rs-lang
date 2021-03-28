@@ -15,7 +15,7 @@ export const gamesData = [
     img: SAVANNAH_ICON,
     link: '/games/savannah',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae porro voluptatum illum corrupti. Cumque repellat architecto corrupti quis aliquam obcaecati dicta doloribus non eum. Dignissimos dolores maiores quidem. Non, aliquid.',
+      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_YELLOW,
   },
   {
@@ -23,7 +23,7 @@ export const gamesData = [
     img: AUDIO_CHALLENGE_ICON,
     link: '/games/audio-challenge',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae porro voluptatum illum corrupti. Cumque repellat architecto corrupti quis aliquam obcaecati dicta doloribus non eum. Dignissimos dolores maiores quidem. Non, aliquid.',
+      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_ORANGE,
   },
   {
@@ -31,7 +31,7 @@ export const gamesData = [
     img: SPRINT_ICON,
     link: '/games/sprint',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae porro voluptatum illum corrupti. Cumque repellat architecto corrupti quis aliquam obcaecati dicta doloribus non eum. Dignissimos dolores maiores quidem. Non, aliquid.',
+      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_BLUE,
   },
   {
@@ -39,7 +39,7 @@ export const gamesData = [
     img: OWN_GAME_ICON,
     link: '/games/own-game',
     description:
-      'Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae porro voluptatum illum corrupti. Cumque repellat architecto corrupti quis aliquam obcaecati dicta doloribus non eum. Dignissimos dolores maiores quidem. Non, aliquid.',
+      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_DARKBLUE,
   },
 ];

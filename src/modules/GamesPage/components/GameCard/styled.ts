@@ -1,5 +1,5 @@
 import { Theme } from '@material-ui/core';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { makeStyles, withStyles, lighten } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
 
@@ -9,6 +9,8 @@ interface PlayButtonProps {
 
 export const PlayButton = withStyles((theme) => ({
   root: (props) => ({
+    width: '110px',
+    height: '40px',
     boxShadow: 'none',
     textTransform: 'none',
     fontSize: 16,
@@ -16,10 +18,8 @@ export const PlayButton = withStyles((theme) => ({
     border: '1px solid',
     lineHeight: 1.5,
     borderColor: 'none',
+    borderRadius: 'unset',
     fontFamily: ['Roboto'].join(','),
-    '&:focus': {
-      boxShadow: '0 0 0 0.2rem rgba(0,123,255,.5)',
-    },
   }),
 }))(Button);
 
@@ -29,14 +29,14 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
     backgroundColor: `${props.colorButton}`,
     borderColor: `${props.colorButton}`,
     '&:hover': {
-      backgroundColor: `${props.colorButton} 0.1`,
-      borderColor: `${props.colorButton} 0.1`,
+      backgroundColor: lighten(`${props.colorButton}`, 0.5),
+      borderColor: lighten(`${props.colorButton}`, 0.5),
       boxShadow: 'none',
     },
     '&:active': {
       boxShadow: 'none',
-      backgroundColor: `${props.colorButton} 0.5`,
-      borderColor: `${props.colorButton} 0.5`,
+      backgroundColor: lighten(`${props.colorButton}`, 0.1),
+      borderColor: lighten(`${props.colorButton}`, 0.1),
     },
   }),
   wrapper: {
@@ -51,20 +51,39 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
     width: '363px',
     MinHeight: '308px',
     flexDirection: 'column',
-    margin: theme.spacing(2),
+    margin: '30px 39px',
+    [theme.breakpoints.down('sm')]: { margin: '20px 22px' },
   },
   avatarWrapper: {
     marginTop: theme.spacing(4),
     marginBottom: theme.spacing(2),
   },
+  avatarSize: {
+    width: theme.spacing(7),
+    height: theme.spacing(7),
+    borderRadius: 'unset',
+  },
   titleWrapper: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
+  },
+  title: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontSize: '24px',
+    fontWeight: 500,
   },
   descriptionWrapper: {
     marginLeft: theme.spacing(4),
     marginRight: theme.spacing(4),
     textAlign: 'center',
+  },
+  description: {
+    fontFamily: 'Roboto',
+    fontStyle: 'normal',
+    fontWeight: 'normal',
+    fontSize: '16px',
+    lineHeight: '150%',
   },
   buttonWrapper: {
     top: theme.spacing(4),

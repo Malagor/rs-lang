@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
 import { gamesData } from 'appConstants/games';
 import { GameCard } from './components';
+import { useStyles } from './styled';
 
 type GamesProps = {};
 
@@ -14,17 +15,19 @@ export const GamesPage: FC<GamesProps> = () => {
     dispatch(setPageTitle('Games'));
   }, [dispatch]);
 
+  const classes = useStyles();
+
   return (
     <Container>
-      <Grid container item xs={12}>
-        {gamesData.map((gameData) => (
+      <Grid container item xs={12} className={classes.wrapper}>
+        {gamesData.map(({ name, img, description, link, colorButton }) => (
           <GameCard
-            key={gameData.name}
-            img={gameData.img}
-            name={gameData.name}
-            description={gameData.description}
-            link={gameData.link}
-            colorButton={gameData.colorButton}
+            key={name}
+            img={img}
+            name={name}
+            description={description}
+            link={link}
+            colorButton={colorButton}
           />
         ))}
       </Grid>

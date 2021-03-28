@@ -31,13 +31,13 @@ export const GameCard: FC<GameCardProps> = ({
     <Grid key={name} container item xs={12} sm={6} className={classes.wrapper}>
       <Card className={`${classes.cardWrapper} ${classes.wrapper}`}>
         <Grid item xs={12} className={classes.avatarWrapper}>
-          <Avatar alt={name} src={img} />
+          <Avatar alt={name} src={img} className={classes.avatarSize} />
         </Grid>
         <Grid item xs={12} className={classes.titleWrapper}>
-          <Typography variant="h5">{name}</Typography>
+          <Typography className={classes.title}>{name}</Typography>
         </Grid>
         <Grid item xs={12} className={classes.descriptionWrapper}>
-          <Typography>{description}</Typography>
+          <Typography className={classes.description}>{description}</Typography>
         </Grid>
         <Grid item xs={12} className={classes.buttonWrapper}>
           <PlayButton
