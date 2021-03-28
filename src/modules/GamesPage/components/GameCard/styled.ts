@@ -29,14 +29,14 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
     backgroundColor: `${props.colorButton}`,
     borderColor: `${props.colorButton}`,
     '&:hover': {
-      backgroundColor: lighten(`${props.colorButton}`, 0.5),
-      borderColor: lighten(`${props.colorButton}`, 0.5),
+      backgroundColor: lighten(`${props.colorButton}`, 0.2),
+      borderColor: lighten(`${props.colorButton}`, 0.2),
       boxShadow: 'none',
     },
     '&:active': {
       boxShadow: 'none',
-      backgroundColor: lighten(`${props.colorButton}`, 0.1),
-      borderColor: lighten(`${props.colorButton}`, 0.1),
+      backgroundColor: lighten(`${props.colorButton}`, 0.2),
+      borderColor: lighten(`${props.colorButton}`, 0.2п),
     },
   }),
   wrapper: {
