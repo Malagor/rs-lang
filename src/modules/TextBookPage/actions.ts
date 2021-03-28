@@ -1,4 +1,4 @@
-import { StateTextBook, Word } from 'types';
+import { CreateUserWordType, DifficultyType, StateTextBook, Word } from 'types';
 import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
@@ -20,6 +20,11 @@ export const setGroup = (payload: number) => ({
   payload,
 });
 
+export const setSound = (payload: HTMLAudioElement[]) => ({
+  type: SET_SOUND,
+  payload,
+});
+
 export const setWords = (payload: Word[]) => ({
   type: SET_WORDS,
   payload,
@@ -29,6 +34,43 @@ export const updateWords = (payload: Word) => ({
   type: UPDATE_WORDS,
   payload,
 });
+
+export const addWordToUserList = async (
+  userId: string,
+  wordId: string,
+  type: DifficultyType
+) => {
+  const options: CreateUserWordType = {
+    userId,
+    wordId,
+    wordOptions: {
+      difficulty: type,
+    },
+  };
+  return database.createUserWord(options);
+};
+
+export const updateWordInUserList = async (
+  userId: string,
+  wordId: string,
+  type: DifficultyType
+) => {
+  const options: CreateUserWordType = {
+    userId,
+    wordId,
+    wordOptions: {
+      difficulty: type,
+    },
+  };
+  return database.updateUserWord(options);
+};
+
+export const removeWordFromUserList = async (
+  userId: string,
+  wordId: string
+) => {
+  await database.deleteUserWord({ userId, wordId });
+};
 
 export const loadWords = (
   group: number = 0,
@@ -41,6 +83,7 @@ export const loadWords = (
   });
 };
 
+// THUNKS
 export const loadUserAggregateWords = (
   userId: string,
   group: number = 0,
@@ -97,8 +140,3 @@ export const loadUserDeletedWords = (
       dispatch(setWords(words[0].paginatedResults));
     });
 };
-
-export const setSound = (payload: HTMLAudioElement[]) => ({
-  type: SET_SOUND,
-  payload,
-});

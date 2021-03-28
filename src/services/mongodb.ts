@@ -105,9 +105,23 @@ class MongoDatabase {
     return rawResponse.json();
   };
 
+  deleteUserWord = async (option: { userId: string; wordId: string }) => {
+    const { userId, wordId } = option;
+
+    const url = `${this.URL}/users/${userId}/words/${wordId}`;
+    await fetch(url, {
+      method: 'DELETE',
+      // withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
   getUserWord = async (userId: string, wordId: string) => {
     const url = `${this.URL}/users/${userId}/words/${wordId}`;
-
     const rawResponse = await fetch(url, {
       method: 'GET',
       // withCredentials: true,
