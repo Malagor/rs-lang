@@ -1,0 +1,1 @@
+export { GameItem } from './GameItem';

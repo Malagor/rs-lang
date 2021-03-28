@@ -1,4 +1,6 @@
-export const SET_WORDS = 'SET_WORDS';
-export const SET_GROUP = 'SET_GROUP';
-export const SET_PAGE = 'SET_PAGE';
-export const SET_SOUND = 'SET_SOUND';
+export const SET_WORDS = 'SET_TEXTBOOK_WORDS';
+export const SET_GROUP = 'SET_TEXTBOOK_GROUP';
+export const SET_PAGE = 'SET_TEXTBOOK_PAGE';
+export const SET_SOUND = 'SET_TEXTBOOK_SOUND';
+export const SET_ERROR = 'SET_TEXTBOOK_ERROR';
+export const UPDATE_WORDS = 'UPDATE_WORDS';
