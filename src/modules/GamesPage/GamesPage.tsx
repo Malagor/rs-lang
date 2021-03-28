@@ -50,6 +50,7 @@ export const GamesPage: FC<GamesProps> = () => {
         <GameResults
           rightAnswers={20}
           wrongAnswers={3}
+          inARow={8}
           rightlyAnswered={rightlyAnswered}
           wronglyAnswered={wronglyAnswered}
           setOpened={setResultModalOpened}

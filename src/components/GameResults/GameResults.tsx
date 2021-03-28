@@ -2,23 +2,40 @@ import { SERVER_URL } from 'appConstants';
 import React, { FC, useRef, useEffect } from 'react';
 import { Word } from 'types';
 import {
+  AccuracyChart,
+  AccuracyContainer,
+  AccuracyWord,
   CategoryContainer,
   CloseButton,
   Container,
   Content,
   CorrectNumber,
+  CategoryHeader,
+  CategoryHeaderContainer,
   Header,
-  HeaderContainer,
   MistakesNumber,
+  ModalName,
+  PlayAgainButtonWithHover,
   SoundIcon,
   WordItem,
   WordItself,
   WordList,
+  StripesContainer,
+  StripesBlock,
+  Stripe,
+  Legend,
+  AnswerStats,
+  LegendItem,
+  LegendItemMarker,
+  LegendItemText,
+  LearnedWordsTotal,
+  LearnedWordsTotalNumber,
 } from './styled';
 
 type GameResultsProps = {
   rightAnswers: number;
   wrongAnswers: number;
+  inARow: number;
   rightlyAnswered: Word[];
   wronglyAnswered: Word[];
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,6 +45,7 @@ type GameResultsProps = {
 export const GameResults: FC<GameResultsProps> = ({
   rightAnswers,
   wrongAnswers,
+  inARow,
   rightlyAnswered,
   wronglyAnswered,
   setOpened,
@@ -77,23 +95,64 @@ export const GameResults: FC<GameResultsProps> = ({
 
   const wrongItems = getWordItems(wronglyAnswered);
   const correctItems = getWordItems(rightlyAnswered);
+  const totalAnswers = rightAnswers + wrongAnswers;
+  const inARowShare = inARow / totalAnswers;
+  const rightShare = rightAnswers / totalAnswers;
+  const wrongShare = wrongAnswers / totalAnswers;
 
   return (
     <Container ref={modalRef}>
+      <Header>
+        <ModalName>Results</ModalName>
+        <PlayAgainButtonWithHover>play again</PlayAgainButtonWithHover>
+      </Header>
       <Content>
+        <AnswerStats>
+          <AccuracyContainer>
+            <AccuracyChart />
+            <AccuracyWord>Accuracy</AccuracyWord>
+          </AccuracyContainer>
+          <StripesContainer>
+            <StripesBlock>
+              <Stripe type="inARow" share={inARowShare} />
+              <Stripe type="right" share={rightShare} />
+              <Stripe type="wrong" share={wrongShare} />
+            </StripesBlock>
+            <Legend>
+              <LegendItem>
+                <LegendItemMarker type="inARow" />
+                <LegendItemText>In a row&nbsp;</LegendItemText>
+                <LegendItemText>{inARow}</LegendItemText>
+              </LegendItem>
+              <LegendItem>
+                <LegendItemMarker type="right" />
+                <LegendItemText>Right answers&nbsp;</LegendItemText>
+                <LegendItemText>{rightAnswers}</LegendItemText>
+              </LegendItem>
+              <LegendItem>
+                <LegendItemMarker type="wrong" />
+                <LegendItemText>Mistakes&nbsp;</LegendItemText>
+                <LegendItemText>{wrongAnswers}</LegendItemText>
+              </LegendItem>
+            </Legend>
+          </StripesContainer>
+        </AnswerStats>
+        <LearnedWordsTotal>
+          <LearnedWordsTotalNumber>{rightAnswers}</LearnedWordsTotalNumber>
+          words were repeated
+        </LearnedWordsTotal>
         <CategoryContainer>
-          <HeaderContainer>
-            <Header>Mistakes</Header>
+          <CategoryHeaderContainer>
+            <CategoryHeader>Mistakes</CategoryHeader>
             <MistakesNumber>{wrongAnswers}</MistakesNumber>
-          </HeaderContainer>
+          </CategoryHeaderContainer>
           <WordList>{wrongItems}</WordList>
         </CategoryContainer>
-
         <CategoryContainer>
-          <HeaderContainer>
-            <Header>Correct Answers</Header>
+          <CategoryHeaderContainer>
+            <CategoryHeader>Correct Answers</CategoryHeader>
             <CorrectNumber>{rightAnswers}</CorrectNumber>
-          </HeaderContainer>
+          </CategoryHeaderContainer>
           <WordList>{correctItems}</WordList>
         </CategoryContainer>
       </Content>
