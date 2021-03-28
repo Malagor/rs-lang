@@ -25,7 +25,7 @@ export const GroupSelector: FC = () => {
 
   const classes = useStyles();
   return (
-    <Grid container xs={12} className={classes.wrapper}>
+    <Grid container item xs={12} className={classes.wrapper}>
       <Paper
         elevation={3}
         style={{ color: `${colorText}` }}

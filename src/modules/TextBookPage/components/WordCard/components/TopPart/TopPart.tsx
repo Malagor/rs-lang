@@ -7,7 +7,8 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import StopIcon from '@material-ui/icons/Stop';
 import { useTheme } from '@material-ui/core';
 import { setSound } from 'modules/TextBookPage/actions';
-import { selectSounds } from 'modules/TextBookPage/selectors';
+import { selectUser } from 'modules/Login/selectors';
+import { selectTextBookSounds } from 'modules/TextBookPage/selectors';
 import {
   EnglishWord,
   WordBlock,
@@ -39,7 +40,10 @@ export const TopPart: React.FC<WordCardProps> = ({
   const refAudioExample = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
   const theme = useTheme();
-  const sounds: HTMLAudioElement[] = useSelector(selectSounds);
+  const sounds: HTMLAudioElement[] = useSelector(selectTextBookSounds);
+
+  const user = useSelector(selectUser);
+  const isLogin = !!user.id;
 
   const onPlay = () => {
     sounds.forEach((sound) => {
@@ -90,7 +94,18 @@ export const TopPart: React.FC<WordCardProps> = ({
         <WordTranscription>{word.transcription}</WordTranscription>
         {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
       </WordBlock>
+
       <WrapperIconWithStatistic>
+        {isLogin && (
+          <WordStatistic>
+            <InfoBlock color={colorGroup} title="Correct attempts">
+              {successCount}
+            </InfoBlock>
+            <InfoBlock color={COLOR_LAYOUT_GRAY} title="Incorrect attempts">
+              {errorCount}
+            </InfoBlock>
+          </WordStatistic>
+        )}
         <VolumeUpIcon
           onClick={onPlay}
           style={{ fontSize: '2rem', cursor: 'pointer' }}
@@ -108,14 +123,6 @@ export const TopPart: React.FC<WordCardProps> = ({
         <audio ref={refAudioExample} src={`${SERVER_URL}${word.audioExample}`}>
           <track kind="captions" />{' '}
         </audio>
-        <WordStatistic>
-          <InfoBlock color={colorGroup} title="Correct attempts">
-            {successCount}
-          </InfoBlock>
-          <InfoBlock color={COLOR_LAYOUT_GRAY} title="Incorrect attempts">
-            {errorCount}
-          </InfoBlock>
-        </WordStatistic>
       </WrapperIconWithStatistic>
     </Container>
   );

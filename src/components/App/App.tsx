@@ -6,6 +6,10 @@ import {
   MainPage,
   StatisticsPage,
   TextBookPage,
+  AudioChallenge,
+  Savannah,
+  Sprint,
+  OwnGame,
 } from 'modules';
 import { Layout } from 'components';
 import { useDispatch } from 'react-redux';
@@ -24,7 +28,10 @@ export const App: FC = () => {
       dispatch(setAuth(auth));
 
       const { token, userId: id } = auth;
+      console.log('token', token);
+      console.log('id', id);
       database.setToken(token);
+
       dispatch(loadUserInfoById(id));
     }
     const numberGroupPageStr = LocStore.getNumberGroupPage();
@@ -38,6 +45,10 @@ export const App: FC = () => {
     <Layout>
       <Switch>
         <Route path="/textbook" component={TextBookPage} />
+        <Route path="/games/audio-challenge" component={AudioChallenge} />
+        <Route path="/games/own-game" component={OwnGame} />
+        <Route path="/games/savannah" component={Savannah} />
+        <Route path="/games/sprint" component={Sprint} />
         <Route path="/dictionary" component={DictionaryPage} />
         <Route path="/games" component={GamesPage} />
         <Route path="/statistics" component={StatisticsPage} />

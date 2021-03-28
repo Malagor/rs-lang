@@ -4,7 +4,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import MeetingRoomIcon from '@material-ui/icons/MeetingRoom';
 import { useDispatch } from 'react-redux';
 import { logOutUser } from 'modules/Login/actions';
 import BookIcon from '@material-ui/icons/Book';
