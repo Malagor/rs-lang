@@ -31,11 +31,17 @@ export type Word = {
   textExampleTranslate: string;
 };
 
+export type ErrorType = {
+  stack?: string;
+  message?: string;
+};
+
 export type StateTextBook = {
   group: number;
   page: number;
   words: Word[];
   sounds: HTMLAudioElement[];
+  error?: ErrorType | null;
 };
 
 export type StateCommon = {

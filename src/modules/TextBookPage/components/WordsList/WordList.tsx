@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Word } from 'types';
 import { useSelector } from 'react-redux';
-import { selectGroup } from 'modules/TextBookPage/selectors';
+import { selectTextBookGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
 import { NavGame } from 'components';
 import { WordCard } from '../WordCard';
@@ -12,7 +12,7 @@ type WordListProps = {
 };
 
 export const WordList: FC<WordListProps> = ({ words }) => {
-  const group = useSelector(selectGroup);
+  const group = useSelector(selectTextBookGroup);
   return (
     <WordListStyled>
       <NavGame />
