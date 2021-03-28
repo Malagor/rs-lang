@@ -70,6 +70,15 @@ export const SideNav: FC<SideNavProps> = () => {
         <SportsEsportsIcon />
       </MenuItem>
       <MenuItem
+        to="/games/audio-challenge"
+        title="Audio Challenge"
+        handleListItemClick={handleListItemClick}
+        isSelected={selectedIndex === 4}
+        index={4}
+      >
+        <SportsEsportsIcon />
+      </MenuItem>
+      <MenuItem
         to="/statistics"
         title="Statistics"
         handleListItemClick={handleListItemClick}

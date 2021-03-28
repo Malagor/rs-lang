@@ -75,8 +75,13 @@ export type StateLogin = {
 
 export type StateMainPage = {};
 
+export type StateAudioGame = {
+  words: Word[];
+};
+
 export type State = {
   textBookReducer: StateTextBook;
   commonReducer: StateCommon;
   loginReducer: StateLogin;
+  audioGameReducer: StateAudioGame;
 };

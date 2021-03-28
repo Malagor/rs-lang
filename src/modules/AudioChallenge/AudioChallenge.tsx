@@ -3,9 +3,9 @@ import { Container, Paper } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
 
-type GamesProps = {};
+type AudioChallengeProps = {};
 
-export const AudioChallenge: FC<GamesProps> = () => {
+export const AudioChallenge: FC<AudioChallengeProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
