@@ -15,12 +15,27 @@ import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import CloseIcon from '@material-ui/icons/Close';
 
+type AnswerStatType = 'inARow' | 'right' | 'wrong';
+
 const textMixin = (size: 'bigger' | 'smaller') => `
   font-size: ${size === 'bigger' ? '16px ' : '14px'};
   line-height: ${size === 'bigger' ? '24px ' : '16px'};
   font-weight: 400;
   color: ${COLOR_FONT_BLACK};
 `;
+
+const pickBackground = (type: AnswerStatType) => {
+  switch (type) {
+    case 'inARow':
+      return COLOR_LAYOUT_YELLOW;
+    case 'right':
+      return COLOR_LAYOUT_BLUE;
+    case 'wrong':
+      return COLOR_LAYOUT_ORANGE;
+    default:
+      return COLOR_LAYOUT_BLUE;
+  }
+};
 
 export const Container = styled.div`
   position: absolute;
@@ -129,21 +144,13 @@ export const StripesBlock = styled.ul`
   list-style: none;
 `;
 
-export const Stripe = styled.li<{ type: string; share: number }>`
+export const Stripe = styled.li<{
+  type: AnswerStatType;
+  share: number;
+}>`
   width: ${({ share }) => `${share * 100}%`};
   height: 8px;
-  background: ${({ type }) => {
-    switch (type) {
-      case 'inARow':
-        return COLOR_LAYOUT_YELLOW;
-      case 'right':
-        return COLOR_LAYOUT_BLUE;
-      case 'wrong':
-        return COLOR_LAYOUT_ORANGE;
-      default:
-        return COLOR_LAYOUT_BLUE;
-    }
-  }};
+  background: ${({ type }) => pickBackground(type)};
   border-radius: 10px;
 `;
 
@@ -159,22 +166,11 @@ export const LegendItem = styled.li`
   padding: 5px 0;
 `;
 
-export const LegendItemMarker = styled.div<{ type: string }>`
+export const LegendItemMarker = styled.div<{ type: AnswerStatType }>`
   width: 8px;
   height: 8px;
   margin-right: 8px;
-  background: ${({ type }) => {
-    switch (type) {
-      case 'inARow':
-        return COLOR_LAYOUT_YELLOW;
-      case 'right':
-        return COLOR_LAYOUT_BLUE;
-      case 'wrong':
-        return COLOR_LAYOUT_ORANGE;
-      default:
-        return COLOR_LAYOUT_BLUE;
-    }
-  }};
+  background: ${({ type }) => pickBackground(type)};
   border-radius: 50%;
 `;
 
