@@ -51,8 +51,8 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
     width: '363px',
     MinHeight: '308px',
     flexDirection: 'column',
-    margin: '30px 39px',
-    [theme.breakpoints.down('sm')]: { margin: '20px 22px' },
+    margin: '39px 30px',
+    [theme.breakpoints.down('sm')]: { margin: '22px 20gpx' },
   },
   avatarWrapper: {
     marginTop: theme.spacing(4),
