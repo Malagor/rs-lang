@@ -37,12 +37,12 @@ export const setWords = (payload: Word[]) => ({
   payload,
 });
 
-export const setError = (payload: ErrorType) => ({
+export const setWordsError = (payload: ErrorType) => ({
   type: SET_ERROR,
   payload,
 });
 
-export const clearError = () => ({
+export const clearWordsError = () => ({
   type: SET_ERROR,
   payload: null,
 });
@@ -89,6 +89,7 @@ export const removeWordFromUserList = async (
   await database.deleteUserWord({ userId, wordId });
 };
 
+// THUNKS
 export const loadWords = (
   group: number = 0,
   page: number = 0
@@ -98,14 +99,13 @@ export const loadWords = (
   database.getWords(group, page).then(
     (words) => {
       dispatch(setWords(words));
-      dispatch(clearError());
+      dispatch(clearWordsError());
     },
     (err) => {
-      dispatch(setError(err));
+      dispatch(setWordsError(err));
     }
   );
 
-// THUNKS
 export const loadUserAggregateWords = (
   userId: string,
   group: number = 0,
@@ -114,11 +114,15 @@ export const loadUserAggregateWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  database
-    .getUserAggregatedWord(userId, group, page, wordPerPage)
-    .then((words) => {
+  database.getUserAggregatedWord(userId, group, page, wordPerPage).then(
+    (words) => {
       dispatch(setWords(words[0].paginatedResults));
-    });
+      dispatch(clearWordsError());
+    },
+    (err) => {
+      dispatch(setWordsError(err));
+    }
+  );
 };
 
 export const loadUserDifficultWords = (
@@ -137,9 +141,15 @@ export const loadUserDifficultWords = (
       wordPerPage,
       '{"userWord.difficulty":"hard"}'
     )
-    .then((words) => {
-      dispatch(setWords(words[0].paginatedResults));
-    });
+    .then(
+      (words) => {
+        dispatch(setWords(words[0].paginatedResults));
+        dispatch(clearWordsError());
+      },
+      (err) => {
+        dispatch(setWordsError(err));
+      }
+    );
 };
 
 export const loadUserDeletedWords = (
@@ -158,7 +168,13 @@ export const loadUserDeletedWords = (
       wordPerPage,
       '{"userWord.difficulty":"easy"}'
     )
-    .then((words) => {
-      dispatch(setWords(words[0].paginatedResults));
-    });
+    .then(
+      (words) => {
+        dispatch(setWords(words[0].paginatedResults));
+        dispatch(clearWordsError());
+      },
+      (err) => {
+        dispatch(setWordsError(err));
+      }
+    );
 };
