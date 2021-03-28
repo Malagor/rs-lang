@@ -3,6 +3,7 @@ import { database, LocStore } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { SET_USER, SET_AUTH } from './actionConsts';
+import { setGroup, setPage } from '../TextBookPage/actions';
 
 export const setUser = (payload: User) => ({
   type: SET_USER,
@@ -43,6 +44,9 @@ export const logOutUser = (): ThunkAction<
     message: '',
   };
 
+  dispatch(setPage(0));
+  dispatch(setGroup(0));
+
   dispatch(setUser(user));
   dispatch(setAuth(auth));
   LocStore.deleteUser();
@@ -50,8 +54,9 @@ export const logOutUser = (): ThunkAction<
 
 export const loadUserInfoById = (
   id: string
-): ThunkAction<void, StateMainPage, unknown, Action<string>> => (dispatch) => {
+): ThunkAction<void, StateMainPage, unknown, Action<string>> => (dispatch) =>
   database.getUserById(id).then((user: User) => {
-    dispatch(setUser(user));
+    if (user) {
+      dispatch(setUser(user));
+    }
   });
-};
