@@ -92,7 +92,6 @@ export const ButtonsBlock: React.FC<Props> = ({
 
   return (
     <Container theme={theme}>
-      {/* {isBtnDelete && <DeleteBtn variant="contained">delete</DeleteBtn>} */}
       <DifficultBtn
         variant="contained"
         onClick={() =>

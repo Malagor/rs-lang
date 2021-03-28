@@ -6,6 +6,7 @@ import {
   SET_PAGE,
   SET_SOUND,
   SET_WORDS,
+  SET_PLAYED_SOUND,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -17,6 +18,7 @@ export const textBookPageState: StateTextBook = {
   words: [],
   sounds: [],
   error: null,
+  playedSound: '',
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
@@ -53,6 +55,12 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
         error: action.payload,
       };
     }
+
+    case SET_PLAYED_SOUND:
+      return {
+        ...state,
+        playedSound: action.payload,
+      };
 
     default:
       return state;

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { SERVER_URL } from 'appConstants';
 import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import { Word } from 'types';
@@ -6,9 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import StopIcon from '@material-ui/icons/Stop';
 import { useTheme } from '@material-ui/core';
-import { setSound } from 'modules/TextBookPage/actions';
+import { setPlayedSound, setSound } from 'modules/TextBookPage/actions';
 import { selectUser } from 'modules/Login/selectors';
-import { selectTextBookSounds } from 'modules/TextBookPage/selectors';
+import {
+  selectPlayedSound,
+  selectTextBookSounds,
+} from 'modules/TextBookPage/selectors';
 import {
   EnglishWord,
   WordBlock,
@@ -42,7 +45,7 @@ export const TopPart: React.FC<WordCardProps> = ({
   const theme = useTheme();
 
   const sounds: HTMLAudioElement[] = useSelector(selectTextBookSounds);
-  const [isPlay, setIsPlay] = useState(false);
+  const playedSound = useSelector(selectPlayedSound);
 
   const user = useSelector(selectUser);
   const isLogin = !!user.id;
@@ -51,6 +54,8 @@ export const TopPart: React.FC<WordCardProps> = ({
     sounds.forEach((sound) => {
       sound.pause();
     });
+
+    dispatch(setPlayedSound(word.word));
 
     const isSetSounds =
       refAudioWord.current &&
@@ -82,14 +87,16 @@ export const TopPart: React.FC<WordCardProps> = ({
       };
     }
 
-    setIsPlay(true);
+    if (refAudioExample.current) {
+      refAudioExample.current.onended = () => dispatch(setPlayedSound(''));
+    }
   };
 
   const onStop = () => {
     if (refAudioWord.current) refAudioWord.current.pause();
     if (refAudioMeaning.current) refAudioMeaning.current.pause();
     if (refAudioExample.current) refAudioExample.current.pause();
-    setIsPlay(false);
+    dispatch(setPlayedSound(''));
   };
 
   return (
@@ -111,14 +118,14 @@ export const TopPart: React.FC<WordCardProps> = ({
             </InfoBlock>
           </WordStatistic>
         )}
-        {!isPlay ? (
-          <VolumeUpIcon
-            onClick={onPlay}
+        {playedSound === word.word ? (
+          <StopIcon
+            onClick={onStop}
             style={{ fontSize: '2rem', cursor: 'pointer' }}
           />
         ) : (
-          <StopIcon
-            onClick={onStop}
+          <VolumeUpIcon
+            onClick={onPlay}
             style={{ fontSize: '2rem', cursor: 'pointer' }}
           />
         )}
