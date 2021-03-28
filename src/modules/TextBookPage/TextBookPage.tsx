@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Button, Container, Paper } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
 import { Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { selectGroup, selectPage, selectWords } from './selectors';
