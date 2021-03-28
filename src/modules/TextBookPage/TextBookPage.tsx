@@ -53,7 +53,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setGroup(nextGroup));
   };
 
-  const hasContend = words && words.length;
+  const hasContent = words && words.length;
 
   return (
     <Container>
@@ -98,7 +98,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
         <>
           {error && <ErrorMessage />}
 
-          {hasContend ? (
+          {hasContent ? (
             <>
               <Pagination
                 pageCount={30}

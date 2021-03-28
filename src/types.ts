@@ -41,7 +41,7 @@ export type StateTextBook = {
   page: number;
   words: Word[];
   sounds: HTMLAudioElement[];
-  error?: ErrorType;
+  error?: ErrorType | null;
 };
 
 export type StateCommon = {

@@ -32,7 +32,7 @@ export const setError = (payload: ErrorType) => ({
 
 export const clearError = () => ({
   type: SET_ERROR,
-  payload: {},
+  payload: null,
 });
 
 export const loadWords = (
