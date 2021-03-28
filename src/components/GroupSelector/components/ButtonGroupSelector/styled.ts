@@ -1,4 +1,4 @@
-import { Theme } from '@material-ui/core';
+import { lighten, Theme } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
   COLOR_LAYOUT_WHITE,
@@ -12,61 +12,35 @@ interface StyleProps {
 }
 
 export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
-  root: (props) => {
-    if (props.activePage) {
-      return {
-        width: '56px',
-        height: '56px',
-        margin: '8px',
-        border: `3px solid ${props.backgroundColor}`,
-        fontSize: '18px',
-        color: COLOR_LAYOUT_BACKGROUND,
+  root: (props) => ({
+    width: '40px',
+    height: '40px',
+    margin: '12px',
+    fontSize: '18px',
+    color: COLOR_LAYOUT_BACKGROUND,
 
-        backgroundColor: COLOR_LAYOUT_WHITE,
-        boxShadow: 'none',
-        '&:hover': {
-          backgroundColor: COLOR_LAYOUT_WHITE,
-          borderRadius: '50%',
-        },
-      };
-    }
-    return {
-      width: '40px',
-      height: '40px',
-      margin: '12px',
-      fontSize: '18px',
-      color: COLOR_LAYOUT_BACKGROUND,
-
-      backgroundColor: props.backgroundColor,
+    backgroundColor: props.backgroundColor,
+    boxShadow: 'none',
+    '&:hover': {
       boxShadow: 'none',
-      '&:hover': {
-        background: COLOR_LAYOUT_GRAY,
-        borderRadius: '50%',
-      },
-    };
-  },
-  label: (props) => {
-    if (props.activePage) {
-      return {
-        width: '40px',
-        height: '40px',
-        borderRadius: '50%',
-
-        backgroundColor: props.backgroundColor,
-        boxShadow: 'none',
-        '&:hover': {
-          background: COLOR_LAYOUT_GRAY,
-          borderRadius: '50%',
-        },
-      };
-    }
-    return {
-      height: '100%',
+      background: props.activePage
+        ? props.backgroundColor
+        : lighten(props.backgroundColor, 0.2),
+      borderRadius: '50%',
+    },
+  }),
+  label: (props) => ({
+    position: 'absolute',
+    width: '56px',
+    height: '56px',
+    borderRadius: '50%',
+    border: props.activePage ? `3px solid ${props.backgroundColor}` : 'none',
+    backgroundColor: 'transparent',
+    boxShadow: 'none',
+    transition: '0.1s border',
+    '&:hover': {
       boxShadow: 'none',
-      '&:hover': {
-        background: COLOR_LAYOUT_GRAY,
-        borderRadius: '50%',
-      },
-    };
-  },
+      colors: props.activePage ? 'default' : 'pointer',
+    },
+  }),
 }));

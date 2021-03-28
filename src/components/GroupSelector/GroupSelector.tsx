@@ -16,7 +16,7 @@ export const GroupSelector: FC = () => {
 
   const groupPageNow = useSelector(selectGroup);
 
-  const onChangeGroupPageHandler = (numberGroupPage: number) => {
+  const changeGroupPage = (numberGroupPage: number) => {
     LocStore.setNumberGroupPage(numberGroupPage);
     dispatch(setGroup(numberGroupPage));
   };
@@ -42,7 +42,7 @@ export const GroupSelector: FC = () => {
             <Grid key={numberGroupPage} container justify="center">
               <ButtonGroupSelector
                 onChangeGroupPageHandler={() =>
-                  onChangeGroupPageHandler(numberGroupPage)
+                  changeGroupPage(numberGroupPage)
                 }
                 activePage={numberGroupPage === groupPageNow}
                 color={LEVEL_COLORS[numberGroupPage]}
