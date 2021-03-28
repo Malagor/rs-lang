@@ -3,3 +3,7 @@ export { TextBookPage } from './TextBookPage';
 export { GamesPage } from './GamesPage';
 export { StatisticsPage } from './StatisticsPage';
 export { DictionaryPage } from './DictionaryPage';
+export { AudioChallenge } from './AudioChallenge';
+export { Savannah } from './Savannah';
+export { Sprint } from './Sprint';
+export { OwnGame } from './OwnGame';
