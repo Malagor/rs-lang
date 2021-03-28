@@ -1,10 +1,11 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { DRAWER_WIDTH } from 'appConstants';
-import { COLOR_LAYOUT_TEXT } from 'appConstants/colors';
+import { COLOR_LAYOUT_HEADER, COLOR_LAYOUT_TEXT } from 'appConstants/colors';
 
 export const useStyles = makeStyles((theme) => ({
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
+    backgroundColor: COLOR_LAYOUT_HEADER,
   },
   toolbarIcon: {
     display: 'flex',

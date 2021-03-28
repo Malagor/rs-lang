@@ -77,6 +77,7 @@ export type StateMainPage = {};
 
 export type StateAudioGame = {
   words: Word[];
+  error?: ErrorType | null;
 };
 
 export type State = {
