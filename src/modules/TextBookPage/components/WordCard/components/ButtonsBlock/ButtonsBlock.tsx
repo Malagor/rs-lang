@@ -10,8 +10,11 @@ import {
   removeWordFromUserList,
   updateWordInUserList,
 } from 'modules/TextBookPage/actions';
-import { selectGroup, selectPage } from 'modules/TextBookPage/selectors';
-import { useIsWordIncluded } from 'hooks/useIsWordInList';
+import {
+  selectTextBookGroup,
+  selectTextBookPage,
+} from 'modules/TextBookPage/selectors';
+import { useIsWordIncluded } from 'hooks/useIsWordIncluded';
 import { Container } from './styled';
 
 type Props = {
@@ -23,8 +26,8 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
-  const page = useSelector(selectPage);
-  const group = useSelector(selectGroup);
+  const page = useSelector(selectTextBookPage);
+  const group = useSelector(selectTextBookGroup);
   const hasWordInList = useIsWordIncluded(wordId);
 
   const DifficultBtn = withStyles({

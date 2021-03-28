@@ -4,14 +4,13 @@ import { Word } from 'types';
 import { Button, Container } from '@material-ui/core';
 import { ErrorMessage, Loader, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
+import { selectUser } from 'modules/Login/selectors';
 import {
   selectTextBookGroup,
   selectTextBookPage,
   selectTextBookError,
   selectTextBookWords,
 } from './selectors';
-import { loadWords, setGroup, setPage } from './actions';
-import { selectUser } from 'modules/Login/selectors';
 import {
   loadUserAggregateWords,
   loadUserDeletedWords,
@@ -131,26 +130,26 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
         }}
       >
         <>
-        {error && <ErrorMessage />}
-        {hasContent ? (
-          <>
-            <Pagination
-              pageCount={30}
-              initialPage={page}
-              forcePage={page}
-              group={group}
-            />
-            <WordList words={words} />
-            <Pagination
-              pageCount={30}
-              initialPage={page}
-              forcePage={page}
-              group={group}
-            />
-          </>
-        ) : (
-          <Loader />
-        )}
+          {error && <ErrorMessage />}
+          {hasContent ? (
+            <>
+              <Pagination
+                pageCount={30}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+              <WordList words={words} />
+              <Pagination
+                pageCount={30}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+            </>
+          ) : (
+            <Loader />
+          )}
         </>
       </div>
     </Container>

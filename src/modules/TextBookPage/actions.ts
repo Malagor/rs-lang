@@ -1,4 +1,10 @@
-import { CreateUserWordType, DifficultyType, StateTextBook, Word, ErrorType } from 'types';
+import {
+  CreateUserWordType,
+  DifficultyType,
+  StateTextBook,
+  Word,
+  ErrorType,
+} from 'types';
 import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
@@ -8,7 +14,7 @@ import {
   SET_GROUP,
   SET_SOUND,
   UPDATE_WORDS,
-  SET_ERROR
+  SET_ERROR,
 } from './actionConst';
 
 export const setPage = (payload: number) => ({

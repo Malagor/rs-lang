@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
-import { selectWords } from 'modules/TextBookPage/selectors';
+import { selectTextBookWords } from 'modules/TextBookPage/selectors';
 import { Word } from 'types';
 
 export function useIsWordIncluded(wordId: string) {
-  const words = useSelector(selectWords);
+  const words = useSelector(selectTextBookWords);
   const indexWord = words.findIndex(
     (word: Word) =>
       // eslint-disable-next-line no-underscore-dangle
