@@ -36,7 +36,7 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
     '&:active': {
       boxShadow: 'none',
       backgroundColor: lighten(`${props.colorButton}`, 0.2),
-      borderColor: lighten(`${props.colorButton}`, 0.2п),
+      borderColor: lighten(`${props.colorButton}`, 0.2),
     },
   }),
   wrapper: {
