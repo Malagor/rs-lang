@@ -28,7 +28,7 @@ export const GameCard: FC<GameCardProps> = ({
   };
 
   return (
-    <Grid key={name} container item xs={12} sm={6} className={classes.wrapper}>
+    <Grid key={name} container item xs={12} md={6} className={classes.wrapper}>
       <Card className={`${classes.cardWrapper} ${classes.wrapper}`}>
         <Grid item xs={12} className={classes.avatarWrapper}>
           <Avatar alt={name} src={img} className={classes.avatarSize} />
