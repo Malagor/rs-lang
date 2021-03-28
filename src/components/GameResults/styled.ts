@@ -9,7 +9,6 @@ import {
   COLOR_LAYOUT_ORANGE,
 } from 'appConstants/colors';
 import styled from 'styled-components/macro';
-import { styled as materialStyled } from '@material-ui/core/styles';
 import { lighten } from '@material-ui/core';
 import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
@@ -70,7 +69,7 @@ export const ModalName = styled.h3`
   color: ${COLOR_FONT_BLACK};
 `;
 
-const PlayAgainButton = styled.button`
+export const PlayAgainButton = styled.button`
   padding: 8px 32px;
   border: none;
   background: ${COLOR_LAYOUT_BLUE};
@@ -80,13 +79,11 @@ const PlayAgainButton = styled.button`
   outline: none;
   cursor: pointer;
   transition: background-color 0.3s;
-`;
 
-export const PlayAgainButtonWithHover = materialStyled(PlayAgainButton)({
-  '&:hover': {
-    background: `${lighten(COLOR_LAYOUT_BLUE, 0.1)} !important`,
-  },
-});
+  &:hover {
+    background: ${lighten(COLOR_LAYOUT_BLUE, 0.2)};
+  }
+`;
 
 export const Content = styled.div`
   width: 352px;
@@ -208,7 +205,7 @@ export const MistakesNumber = styled.div`
   justify-content: center;
   align-items: center;
   width: 48px;
-  background: ${COLOR_LAYOUT_DARK_GRAY};
+  background: ${COLOR_LAYOUT_ORANGE};
   border-radius: 5px;
   color: ${COLOR_LAYOUT_BACKGROUND};
 `;

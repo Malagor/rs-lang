@@ -15,7 +15,7 @@ import {
   Header,
   MistakesNumber,
   ModalName,
-  PlayAgainButtonWithHover,
+  PlayAgainButton,
   SoundIcon,
   WordItem,
   WordItself,
@@ -104,7 +104,7 @@ export const GameResults: FC<GameResultsProps> = ({
     <Container ref={modalRef}>
       <Header>
         <ModalName>Results</ModalName>
-        <PlayAgainButtonWithHover>play again</PlayAgainButtonWithHover>
+        <PlayAgainButton>play again</PlayAgainButton>
       </Header>
       <Content>
         <AnswerStats>
