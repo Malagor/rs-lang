@@ -2,10 +2,16 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { Button, Container } from '@material-ui/core';
-import { Loader, Pagination } from 'components';
+import { ErrorMessage, Loader, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
+import {
+  selectTextBookGroup,
+  selectTextBookPage,
+  selectTextBookError,
+  selectTextBookWords,
+} from './selectors';
+import { loadWords, setGroup, setPage } from './actions';
 import { selectUser } from 'modules/Login/selectors';
-import { selectGroup, selectPage, selectWords } from './selectors';
 import {
   loadUserAggregateWords,
   loadUserDeletedWords,
@@ -19,9 +25,10 @@ import { WordList } from './components';
 type TextBookPageProps = {};
 
 export const TextBookPage: FC<TextBookPageProps> = () => {
-  const words: Word[] = useSelector(selectWords);
-  const page = useSelector(selectPage);
-  const group = useSelector(selectGroup);
+  const words: Word[] = useSelector(selectTextBookWords);
+  const page = useSelector(selectTextBookPage);
+  const group = useSelector(selectTextBookGroup);
+  const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
 
   const dispatch = useDispatch();
@@ -67,6 +74,8 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(loadUserDeletedWords(user.id, group, page));
   };
 
+  const hasContent = words && words.length;
+
   return (
     <Container>
       <div>Type of Words: </div>
@@ -110,7 +119,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
         type="button"
         onClick={onNextGroupHandler}
       >
-        ` Next Group
+        Next Group
       </Button>
       <hr />
 
@@ -121,7 +130,9 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           position: 'relative',
         }}
       >
-        {words && words.length ? (
+        <>
+        {error && <ErrorMessage />}
+        {hasContent ? (
           <>
             <Pagination
               pageCount={30}
@@ -140,6 +151,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
         ) : (
           <Loader />
         )}
+        </>
       </div>
     </Container>
   );

@@ -7,8 +7,8 @@ import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import StopIcon from '@material-ui/icons/Stop';
 import { useTheme } from '@material-ui/core';
 import { setSound } from 'modules/TextBookPage/actions';
-import { selectSounds } from 'modules/TextBookPage/selectors';
 import { selectUser } from 'modules/Login/selectors';
+import { selectTextBookSounds } from 'modules/TextBookPage/selectors';
 import {
   EnglishWord,
   WordBlock,
@@ -40,7 +40,7 @@ export const TopPart: React.FC<WordCardProps> = ({
   const refAudioExample = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
   const theme = useTheme();
-  const sounds: HTMLAudioElement[] = useSelector(selectSounds);
+  const sounds: HTMLAudioElement[] = useSelector(selectTextBookSounds);
 
   const user = useSelector(selectUser);
   const isLogin = !!user.id;

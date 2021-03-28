@@ -1,6 +1,12 @@
 import { Reducer } from 'redux';
 import { StateTextBook } from 'types';
-import { SET_GROUP, SET_PAGE, SET_SOUND, SET_WORDS } from './actionConst';
+import {
+  SET_ERROR,
+  SET_GROUP,
+  SET_PAGE,
+  SET_SOUND,
+  SET_WORDS,
+} from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Action = { type: string; payload: any };
@@ -10,6 +16,7 @@ export const textBookPageState: StateTextBook = {
   page: 0,
   words: [],
   sounds: [],
+  error: null,
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
@@ -37,6 +44,13 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         sounds: action.payload,
+      };
+    }
+
+    case SET_ERROR: {
+      return {
+        ...state,
+        error: action.payload,
       };
     }
 
