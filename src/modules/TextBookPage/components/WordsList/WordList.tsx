@@ -25,6 +25,8 @@ export const WordList: FC<WordListProps> = ({ words }) => {
           errorCount={10}
           isTranslate={true}
           isButtons={true}
+          isBtnDelete={true}
+          btnName="difficult"
         />
       ))}
     </WordListStyled>

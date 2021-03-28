@@ -5,9 +5,15 @@ import { Container } from './styled';
 
 type Props = {
   colorGroup: string;
+  isBtnDelete: boolean;
+  btnName: string;
 };
 
-export const ButtonsBlock: React.FC<Props> = ({ colorGroup }) => {
+export const ButtonsBlock: React.FC<Props> = ({
+  colorGroup,
+  isBtnDelete,
+  btnName,
+}) => {
   const theme = useTheme();
 
   const DifficultBtn = withStyles({
@@ -40,8 +46,8 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup }) => {
 
   return (
     <Container theme={theme}>
-      <DifficultBtn variant="contained">difficult</DifficultBtn>
-      <DeleteBtn variant="contained">delete</DeleteBtn>
+      <DifficultBtn variant="contained">{btnName}</DifficultBtn>
+      {isBtnDelete && <DeleteBtn variant="contained">delete</DeleteBtn>}
     </Container>
   );
 };

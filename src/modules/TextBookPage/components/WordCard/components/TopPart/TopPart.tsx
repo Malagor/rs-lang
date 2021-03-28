@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { SERVER_URL } from 'appConstants';
 import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import { Word } from 'types';
@@ -40,6 +40,7 @@ export const TopPart: React.FC<WordCardProps> = ({
   const dispatch = useDispatch();
   const theme = useTheme();
   const sounds: HTMLAudioElement[] = useSelector(selectSounds);
+  const [isPlay, setIsPlay] = useState(false);
 
   const onPlay = () => {
     sounds.forEach((sound) => {
@@ -75,12 +76,15 @@ export const TopPart: React.FC<WordCardProps> = ({
         refAudioExample.current && refAudioExample.current.play();
       };
     }
+
+    setIsPlay(true);
   };
 
   const onStop = () => {
     if (refAudioWord.current) refAudioWord.current.pause();
     if (refAudioMeaning.current) refAudioMeaning.current.pause();
     if (refAudioExample.current) refAudioExample.current.pause();
+    setIsPlay(false);
   };
 
   return (
@@ -91,14 +95,17 @@ export const TopPart: React.FC<WordCardProps> = ({
         {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
       </WordBlock>
       <WrapperIconWithStatistic>
-        <VolumeUpIcon
-          onClick={onPlay}
-          style={{ fontSize: '2rem', cursor: 'pointer' }}
-        />
-        <StopIcon
-          onClick={onStop}
-          style={{ fontSize: '2rem', cursor: 'pointer' }}
-        />
+        {!isPlay ? (
+          <VolumeUpIcon
+            onClick={onPlay}
+            style={{ fontSize: '2rem', cursor: 'pointer' }}
+          />
+        ) : (
+          <StopIcon
+            onClick={onStop}
+            style={{ fontSize: '2rem', cursor: 'pointer' }}
+          />
+        )}
         <audio ref={refAudioWord} src={`${SERVER_URL}${word.audio}`}>
           <track kind="captions" />{' '}
         </audio>

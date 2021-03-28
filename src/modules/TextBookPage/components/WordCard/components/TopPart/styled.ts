@@ -13,7 +13,7 @@ export const Container = styled.div`
 
 export const WordBlock = styled.div<{ colorGroup: string }>`
   border-left: 3px solid ${({ colorGroup }) => colorGroup};
-  padding-left: 23px;
+  padding-left: 20px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     margin-top: 16px;
@@ -37,18 +37,18 @@ export const WordTranslate = styled.div`
 `;
 
 export const WordStatistic = styled.div`
-  width: 115px;
+  width: 95px;
   height: 30px;
   display: flex;
   justify-content: space-between;
-  margin-left: 40px;
+  margin-left: 8px;
 `;
 
 export const InfoBlock = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 55px;
+  width: 45px;
   height: 100%;
   border-radius: 5px;
   background-color: ${({ color }) => color};

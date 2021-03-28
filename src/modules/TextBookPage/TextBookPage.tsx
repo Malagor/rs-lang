@@ -49,62 +49,60 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   return (
     <Container>
-      <Paper>
-        <div>Group: {group}</div>
-        <Button
-          type="button"
-          color="primary"
-          variant="contained"
-          onClick={onPrevGroupHandler}
-        >
-          Prev Group
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onNextGroupHandler}
-        >
-          Next Group
-        </Button>
-        <hr />
-        <div>Page: {page}</div>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onPrevPageHandler}
-        >
-          Prev Page
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onNextPageHandler}
-        >
-          Next Page
-        </Button>
-        <hr />
+      <div>Group: {group}</div>
+      <Button
+        type="button"
+        color="primary"
+        variant="contained"
+        onClick={onPrevGroupHandler}
+      >
+        Prev Group
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        type="button"
+        onClick={onNextGroupHandler}
+      >
+        Next Group
+      </Button>
+      <hr />
+      <div>Page: {page}</div>
+      <Button
+        variant="contained"
+        color="primary"
+        type="button"
+        onClick={onPrevPageHandler}
+      >
+        Prev Page
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        type="button"
+        onClick={onNextPageHandler}
+      >
+        Next Page
+      </Button>
+      <hr />
 
-        {words && (
-          <div style={{ paddingBottom: '8px' }}>
-            <Pagination
-              pageCount={30}
-              initialPage={page}
-              forcePage={page}
-              group={group}
-            />
-            <WordList words={words} />
-            <Pagination
-              pageCount={30}
-              initialPage={page}
-              forcePage={page}
-              group={group}
-            />
-          </div>
-        )}
-      </Paper>
+      {words && (
+        <div style={{ paddingBottom: '8px' }}>
+          <Pagination
+            pageCount={30}
+            initialPage={page}
+            forcePage={page}
+            group={group}
+          />
+          <WordList words={words} />
+          <Pagination
+            pageCount={30}
+            initialPage={page}
+            forcePage={page}
+            group={group}
+          />
+        </div>
+      )}
     </Container>
   );
 };
