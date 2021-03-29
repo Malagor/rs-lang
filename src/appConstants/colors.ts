@@ -10,6 +10,8 @@ export const COLOR_LAYOUT_BLUE = '#0252CC';
 export const COLOR_LAYOUT_YELLOW = '#F79928';
 export const COLOR_LAYOUT_ORANGE = '#FA5833';
 export const COLOR_LAYOUT_BACKGROUND = '#FAFCFE';
+export const COLOR_LAYOUT_BACKGROUND_RGB = '250, 252, 254';
+
 export const COLOR_LAYOUT_TEXT = '#000000';
 export const COLOR_LAYOUT_GRAY = '#C4C4C4';
 export const COLOR_LAYOUT_WHITE = '#FFFFFF';

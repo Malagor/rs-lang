@@ -78,6 +78,14 @@ export type StateMainPage = {};
 export type StateAudioGame = {
   words: Word[];
   error?: ErrorType | null;
+  current: number;
+  isAnswer: boolean;
+  isFinish: boolean;
+  userAnswer: string;
+  correctWord: Word[];
+  incorrectWord: Word[];
+  chain: number;
+  longerChain: number;
 };
 
 export type State = {

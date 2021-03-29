@@ -1,5 +1,8 @@
 import styled from 'styled-components/macro';
-import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
+import {
+  COLOR_LAYOUT_BACKGROUND_RGB,
+  COLOR_LAYOUT_BACKGROUND,
+} from 'appConstants/colors';
 
 export const AnswersWrapper = styled.div`
   display: flex;
@@ -15,6 +18,6 @@ export const AnswerItem = styled.div`
   transition: 0.3s;
 
   &:hover {
-    background-color: rgba(250, 252, 254, 0.3);
+    background-color: rgba(${COLOR_LAYOUT_BACKGROUND_RGB}, 0.3);
   }
 `;

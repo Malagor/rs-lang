@@ -1,16 +1,17 @@
 import React, { FC } from 'react';
 import { Word } from 'types';
+
+import { Answers, Question } from './components';
 import { AudioCartStyled } from './styled';
-import { Answers } from './components';
 
 type AudioCardProps = {
   word: Word;
-  answers: string[];
+  variants: string[];
 };
 
-export const AudioCard: FC<AudioCardProps> = ({ word, answers }) =>
-  word && (
-    <AudioCartStyled>
-      <Answers words={answers}>Ответ 1</Answers>
-    </AudioCartStyled>
-  );
+export const AudioCard: FC<AudioCardProps> = ({ word, variants }) => (
+  <AudioCartStyled>
+    <Question word={word} />
+    <Answers answers={variants} correctAnswer={word.wordTranslate} />
+  </AudioCartStyled>
+);

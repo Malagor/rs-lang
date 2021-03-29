@@ -3,16 +3,16 @@ import { Button } from '@material-ui/core';
 import { useStyles } from './styled';
 
 type NextButtonProps = {
-  isAnswer: boolean;
-  onAnswer: () => void;
+  clickHandler: () => void;
+  label: string;
 };
 
-export const NextButton: FC<NextButtonProps> = ({ isAnswer, onAnswer }) => {
+export const NextButton: FC<NextButtonProps> = ({ clickHandler, label }) => {
   const classes = useStyles();
 
   return (
-    <Button variant="contained" className={classes.root} onClick={onAnswer}>
-      {isAnswer ? 'next word' : 'I don’t know'}
+    <Button variant="contained" className={classes.root} onClick={clickHandler}>
+      {label}
     </Button>
   );
 };
