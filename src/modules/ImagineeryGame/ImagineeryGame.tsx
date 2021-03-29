@@ -6,6 +6,12 @@ import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
 import { Countdown, Loader } from 'components';
+import {
+  COLOR_LAYOUT_BACKGROUND,
+  COLOR_LAYOUT_BLUE,
+  COLOR_LAYOUT_ORANGE,
+  COLOR_LAYOUT_YELLOW,
+} from 'appConstants/colors';
 
 const shuffle = (words: Word[]) => {
   const arr = words;
@@ -114,6 +120,10 @@ export const ImagineeryGame = () => {
                 onComplete={() => setStarted(true)}
               />
             </InitialCountdownContainer>
+            <AnswerStats>
+              <WrongWord>Wrong:&nbsp;</WrongWord>
+              {wrongAnswers}
+            </AnswerStats>
             <CountdownContainer gameIsStarted={hasStarted}>
               <Countdown
                 key={hasFinished ? -1 : round}
@@ -122,7 +132,10 @@ export const ImagineeryGame = () => {
                 isPlaying={hasStarted && !hasFinished}
               />
             </CountdownContainer>
-            Right: {rightAnswers} Wrong: {wrongAnswers}
+            <AnswerStats>
+              <RightWord>Right:&nbsp;</RightWord>
+              {rightAnswers}
+            </AnswerStats>
           </Dashboard>
           <GameField>
             {wordImages}
@@ -146,9 +159,26 @@ const GameContainer = styled.div`
 
 const Dashboard = styled.div`
   display: grid;
-  grid-template-columns: 300px 1fr;
+  grid-template-columns: auto 100px auto;
+  grid-gap: 20px;
   justify-content: center;
-  color: white;
+  align-items: center;
+  color: ${COLOR_LAYOUT_BACKGROUND};
+`;
+
+const AnswerStats = styled.p`
+  margin: 0;
+  padding: 0;
+  font-size: 24px;
+  line-height: 24px;
+`;
+
+const WrongWord = styled.span`
+  color: ${COLOR_LAYOUT_ORANGE};
+`;
+
+const RightWord = styled.span`
+  color: ${COLOR_LAYOUT_YELLOW};
 `;
 
 const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
@@ -164,6 +194,7 @@ const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
 `;
 
 const CountdownContainer = styled.div<{ gameIsStarted: boolean }>`
+  grid-column: 2;
   display: ${({ gameIsStarted }) => (gameIsStarted ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
@@ -190,6 +221,6 @@ const QuizWordContainer = styled.div`
   grid-column: 2;
   /* justify-self: stretch;
   align-self: stretch; */
-  color: white;
+  color: ${COLOR_LAYOUT_BACKGROUND};
   font-size: 2rem;
 `;
