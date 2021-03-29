@@ -19,16 +19,16 @@ import { Container } from './styled';
 
 type Props = {
   colorGroup: string;
-  isBtnDelete: boolean;
-  isBtnRestore: boolean;
+  showBtnDelete: boolean;
+  showBtnRestore: boolean;
   wordId: string;
 };
 
 export const ButtonsBlock: React.FC<Props> = ({
   colorGroup,
   wordId,
-  isBtnDelete,
-  isBtnRestore,
+  showBtnDelete,
+  showBtnRestore,
 }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
@@ -100,7 +100,7 @@ export const ButtonsBlock: React.FC<Props> = ({
       >
         difficult
       </DifficultBtn>
-      {isBtnDelete && (
+      {showBtnDelete && (
         <DeleteBtn
           variant="contained"
           onClick={() =>
@@ -110,7 +110,7 @@ export const ButtonsBlock: React.FC<Props> = ({
           delete
         </DeleteBtn>
       )}
-      {isBtnRestore && (
+      {showBtnRestore && (
         <DeleteBtn
           variant="contained"
           color="secondary"

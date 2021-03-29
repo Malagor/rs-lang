@@ -35,8 +35,8 @@ export const WordList: FC<WordListProps> = ({ words }) => {
               errorCount={wordStatistics?.incorrect || 0}
               isTranslate={true}
               isButtons={true}
-              isBtnDelete={true}
-              isBtnRestore={false}
+              showBtnDelete={true}
+              showBtnRestore={false}
             />
           )
         );

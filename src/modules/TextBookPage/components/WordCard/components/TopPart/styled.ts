@@ -14,6 +14,7 @@ export const Container = styled.div`
 export const WordBlock = styled.div<{ colorGroup: string }>`
   border-left: 3px solid ${({ colorGroup }) => colorGroup};
   padding-left: 20px;
+  padding-right: 8px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     margin-top: 16px;
@@ -56,5 +57,8 @@ export const InfoBlock = styled.div<{ color: string }>`
 `;
 
 export const WrapperIconWithStatistic = styled.div`
+  flex: 1 1 auto;
   display: flex;
+  max-width: 145px;
+  justify-content: space-between;
 `;
