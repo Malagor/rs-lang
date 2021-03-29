@@ -10,15 +10,15 @@ type GamesProps = {};
 export const StatisticsPage: FC<GamesProps> = () => {
   const dispatch = useDispatch();
 
-  const user = useEffect(() => {
+  useEffect(() => {
     dispatch(setPageTitle('Statistics'));
   }, [dispatch]);
 
-  const authUser = useSelector(selectAuth);
+  const authUserData = useSelector(selectAuth);
 
   return (
     <Container>
-      {authUser.userId ? <Paper>Statistic</Paper> : <RedirectionModal />}
+      {authUserData.userId ? <Paper>Statistic</Paper> : <RedirectionModal />}
     </Container>
   );
 };
