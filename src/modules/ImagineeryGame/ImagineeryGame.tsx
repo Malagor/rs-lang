@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import styled from 'styled-components/macro';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectWords } from 'modules/TextBookPage/selectors';
@@ -8,10 +8,12 @@ import { SERVER_URL } from 'appConstants';
 import { Countdown, Loader } from 'components';
 import {
   COLOR_LAYOUT_BACKGROUND,
-  COLOR_LAYOUT_BLUE,
   COLOR_LAYOUT_ORANGE,
+  COLOR_LAYOUT_WHITE,
   COLOR_LAYOUT_YELLOW,
 } from 'appConstants/colors';
+import FullscreenIcon from '@material-ui/icons/Fullscreen';
+import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 
 const shuffle = (words: Word[]) => {
   const arr = words;
@@ -27,6 +29,7 @@ const COUNTDOWN_TIME = 10;
 const QUIZ_COUNT = 10;
 
 export const ImagineeryGame = () => {
+  const [isFullScreen, setFullScreen] = useState(false);
   const [hasStarted, setStarted] = useState(false);
   const [hasFinished, setFinished] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -44,6 +47,7 @@ export const ImagineeryGame = () => {
     [words]
   );
   const dispatch = useDispatch();
+  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     dispatch(loadWords(1, 3));
@@ -98,6 +102,27 @@ export const ImagineeryGame = () => {
     return undefined;
   };
 
+  const handleFullScreenButtonClick = () => {
+    const handleFullScreenOut = () => {
+      if (document.fullscreenElement === null) {
+        setFullScreen(false);
+      }
+    };
+    if (containerRef && containerRef.current) {
+      if (!isFullScreen) {
+        containerRef.current.requestFullscreen().catch((err) => err);
+        setFullScreen(true);
+        document.addEventListener('fullscreenchange', handleFullScreenOut);
+      } else {
+        document.exitFullscreen();
+        setFullScreen(false);
+      }
+    }
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullScreenOut);
+    };
+  };
+
   const wordImages = currentWords.map((word) => (
     <WordImage
       key={word.id}
@@ -108,12 +133,15 @@ export const ImagineeryGame = () => {
   ));
 
   return (
-    <GameContainer>
+    <GameContainer ref={containerRef}>
       {loading ? (
         <Loader />
       ) : (
         <>
           <Dashboard>
+            <FullScreenButtonContainer onClick={handleFullScreenButtonClick}>
+              {isFullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
+            </FullScreenButtonContainer>
             <InitialCountdownContainer gameIsStarted={hasStarted}>
               <Countdown
                 duration={INITIAL_COUNTDOWN_TIME}
@@ -164,6 +192,20 @@ const Dashboard = styled.div`
   justify-content: center;
   align-items: center;
   color: ${COLOR_LAYOUT_BACKGROUND};
+`;
+
+const FullScreenButtonContainer = styled.div`
+  z-index: 10;
+  position: absolute;
+  top: 30px;
+  right: 46px;
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.2);
+    color: ${COLOR_LAYOUT_WHITE};
+  }
 `;
 
 const AnswerStats = styled.p`
