@@ -48,6 +48,20 @@ export const ImagineeryGame = () => {
   );
   const dispatch = useDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
+  const gameFieldRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKeydown = (evt: KeyboardEvent) => {
+      if (!gameFieldRef || !gameFieldRef.current) return;
+      if (![1, 2, 3, 4, 5, 6, 7, 8].includes(parseInt(evt.key, 10))) return;
+      const index = parseInt(evt.key, 10) - 1;
+      handleImageClick(currentWords[index]);
+    };
+    document.addEventListener('keydown', handleKeydown);
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, [currentWords]);
 
   useEffect(() => {
     dispatch(loadWords(1, 3));
@@ -80,7 +94,8 @@ export const ImagineeryGame = () => {
     }
   }, [setFinished, round]);
 
-  const handleImageClick = (word: Word) => {
+  function handleImageClick(word: Word) {
+    if (!hasStarted && hasFinished) return;
     if (!quizWord) return;
     if (word.id === quizWord.id) {
       setRightAnswers(rightAnswers + 1);
@@ -90,12 +105,12 @@ export const ImagineeryGame = () => {
       setWronglyAnswered([...wronglyAnswered, quizWord]);
     }
     setRound(round + 1);
-  };
+  }
 
   const handleCountdownEnd = (): [boolean, number] | void => {
-    setRound(round + 1);
     setWrongAnswers(wrongAnswers + 1);
     setWronglyAnswered([...wronglyAnswered, quizWord!]);
+    setRound(round + 1);
     if (round < QUIZ_COUNT) {
       return [true, 0];
     }
@@ -165,7 +180,7 @@ export const ImagineeryGame = () => {
               {rightAnswers}
             </AnswerStats>
           </Dashboard>
-          <GameField>
+          <GameField ref={gameFieldRef}>
             {wordImages}
             <QuizWordContainer>{quizWord && quizWord.word}</QuizWordContainer>
           </GameField>
