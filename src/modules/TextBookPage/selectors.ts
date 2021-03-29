@@ -13,3 +13,6 @@ export const selectTextBookSounds = (state: State) =>
 
 export const selectTextBookError = (state: State) =>
   state.textBookReducer.error;
+
+export const selectPlayedSound = (state: State) =>
+  state.textBookReducer.playedSound;

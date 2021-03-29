@@ -19,10 +19,17 @@ import { Container } from './styled';
 
 type Props = {
   colorGroup: string;
+  showBtnDelete: boolean;
+  showBtnRestore: boolean;
   wordId: string;
 };
 
-export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
+export const ButtonsBlock: React.FC<Props> = ({
+  colorGroup,
+  wordId,
+  showBtnDelete,
+  showBtnRestore,
+}) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
@@ -93,21 +100,25 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
       >
         difficult
       </DifficultBtn>
-      <DeleteBtn
-        variant="contained"
-        onClick={() =>
-          handlerAddWordToList(userId, wordId, 'easy', group, page)
-        }
-      >
-        delete
-      </DeleteBtn>
-      <DeleteBtn
-        variant="contained"
-        color="secondary"
-        onClick={() => handlerRemoveWordFromList(userId, wordId, group, page)}
-      >
-        restore
-      </DeleteBtn>
+      {showBtnDelete && (
+        <DeleteBtn
+          variant="contained"
+          onClick={() =>
+            handlerAddWordToList(userId, wordId, 'easy', group, page)
+          }
+        >
+          delete
+        </DeleteBtn>
+      )}
+      {showBtnRestore && (
+        <DeleteBtn
+          variant="contained"
+          color="secondary"
+          onClick={() => handlerRemoveWordFromList(userId, wordId, group, page)}
+        >
+          restore
+        </DeleteBtn>
+      )}
     </Container>
   );
 };
