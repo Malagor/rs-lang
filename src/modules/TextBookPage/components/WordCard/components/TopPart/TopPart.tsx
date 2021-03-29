@@ -99,6 +99,8 @@ export const TopPart: React.FC<WordCardProps> = ({
     dispatch(setPlayedSound(''));
   };
 
+  const iconStyles = { fontSize: '2rem', cursor: 'pointer' };
+
   return (
     <Container theme={theme}>
       <WordBlock colorGroup={colorGroup} theme={theme}>
@@ -119,15 +121,9 @@ export const TopPart: React.FC<WordCardProps> = ({
           </WordStatistic>
         )}
         {playedSound === word.word ? (
-          <StopIcon
-            onClick={onStop}
-            style={{ fontSize: '2rem', cursor: 'pointer' }}
-          />
+          <StopIcon onClick={onStop} style={iconStyles} />
         ) : (
-          <VolumeUpIcon
-            onClick={onPlay}
-            style={{ fontSize: '2rem', cursor: 'pointer' }}
-          />
+          <VolumeUpIcon onClick={onPlay} style={iconStyles} />
         )}
         <audio ref={refAudioWord} src={`${SERVER_URL}${word.audio}`}>
           <track kind="captions" />{' '}
