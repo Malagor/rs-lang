@@ -21,6 +21,7 @@ import {
   InfoBlock,
   Container,
   WrapperIconWithStatistic,
+  EnglishBlock,
 } from './styled';
 
 export type WordCardProps = {
@@ -104,8 +105,10 @@ export const TopPart: React.FC<WordCardProps> = ({
   return (
     <Container theme={theme}>
       <WordBlock colorGroup={colorGroup} theme={theme}>
-        <EnglishWord>{word.word}</EnglishWord>
-        <WordTranscription>{word.transcription}</WordTranscription>
+        <EnglishBlock>
+          <EnglishWord>{word.word}</EnglishWord>
+          <WordTranscription>{word.transcription}</WordTranscription>
+        </EnglishBlock>
         {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
       </WordBlock>
 

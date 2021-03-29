@@ -7,18 +7,25 @@ export const Container = styled.div`
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     flex-direction: column-reverse;
-    margin-bottom: 8px;
+    margin-bottom: 16px;
   }
 `;
 
 export const WordBlock = styled.div<{ colorGroup: string }>`
   border-left: 3px solid ${({ colorGroup }) => colorGroup};
   padding-left: 20px;
-  padding-right: 8px;
+  padding-right: 32px;
+  display: flex;
+  flex-direction: column;
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     margin-top: 16px;
   }
+`;
+
+export const EnglishBlock = styled.div`
+  display: flex;
+  flex-wrap: wrap;
 `;
 
 export const EnglishWord = styled.span`
@@ -59,6 +66,7 @@ export const InfoBlock = styled.div<{ color: string }>`
 export const WrapperIconWithStatistic = styled.div`
   flex: 1 1 auto;
   display: flex;
-  max-width: 145px;
+  width: 100%;
+  max-width: 165px;
   justify-content: space-between;
 `;
