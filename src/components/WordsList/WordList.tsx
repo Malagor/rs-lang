@@ -3,8 +3,7 @@ import { Word } from 'types';
 import { useSelector } from 'react-redux';
 import { selectTextBookGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
-import { NavGame } from 'components';
-import { WordCard } from '../WordCard';
+import { NavGame, WordCard } from 'components';
 import { WordListStyled } from './styled';
 import { NoWordsMessage } from './components';
 
@@ -35,8 +34,8 @@ export const WordList: FC<WordListProps> = ({ words }) => {
               errorCount={wordStatistics?.incorrect || 0}
               isTranslate={true}
               isButtons={true}
-              showBtnDelete={true}
-              showBtnRestore={false}
+              isBtnDelete={true}
+              isBtnRestore={false}
             />
           )
         );

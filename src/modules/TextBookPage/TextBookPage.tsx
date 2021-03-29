@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { Button, Container } from '@material-ui/core';
-import { ErrorMessage, Loader, Pagination } from 'components';
+import { ErrorMessage, Loader, Pagination, WordList } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { selectUser } from 'modules/Login/selectors';
 import {
@@ -19,7 +19,6 @@ import {
   setGroup,
   setPage,
 } from './actions';
-import { WordList } from './components';
 
 type TextBookPageProps = {};
 
