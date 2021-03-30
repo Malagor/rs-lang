@@ -32,6 +32,7 @@ export const useStyles = makeStyles((theme) => ({
     fontWeight: 600,
   },
   paperWrapper: {
+    padding: '5px',
     [theme.breakpoints.down('xs')]: {
       display: 'flex',
       flexDirection: 'column',
