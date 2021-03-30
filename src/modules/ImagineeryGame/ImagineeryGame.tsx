@@ -61,6 +61,9 @@ export const ImagineeryGame = () => {
   const [rightId, setRightId] = useState('');
   const [wrongId, setWrongId] = useState('');
   const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
+  const [windowSize, setWindowSize] = useState<
+    'small' | 'medium' | 'large' | null
+  >(null);
 
   const words: Word[] = useSelector(selectWords);
   const wordUrls = useMemo(
@@ -71,7 +74,9 @@ export const ImagineeryGame = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameFieldRef = useRef<HTMLDivElement>(null);
   const quizWordRef = useRef(quizWord);
+  const windowWidth = useRef(document.body.clientWidth);
   const theme = useTheme();
+  const { md: mdWidth, sm: smWidth } = theme.breakpoints.values;
 
   const handleImageClick = useCallback(
     (word: Word) => {
@@ -174,7 +179,7 @@ export const ImagineeryGame = () => {
   }, [currentWords, handleImageClick]);
 
   useEffect(() => {
-    dispatch(loadWords(1, 3));
+    dispatch(loadWords(1, 11));
   }, [dispatch]);
 
   useEffect(() => {
@@ -203,6 +208,27 @@ export const ImagineeryGame = () => {
       console.log('Game is finished.');
     }
   }, [setFinished, round]);
+
+  const changeWindowSize = useCallback(() => {
+    if (windowWidth.current < smWidth) {
+      setWindowSize('small');
+    } else if (windowWidth.current < mdWidth) {
+      setWindowSize('medium');
+    } else {
+      setWindowSize('large');
+    }
+  }, [mdWidth, smWidth]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      windowWidth.current = document.body.clientWidth;
+      changeWindowSize();
+    };
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [changeWindowSize]);
 
   const wordImages = currentWords.map((word, index) => (
     <WordImageContainer key={word.id} number={index + 1} id={word.id}>
@@ -234,19 +260,24 @@ export const ImagineeryGame = () => {
                 onComplete={() => setStarted(true)}
               />
             </InitialCountdownContainer>
-            <AnswerStats>
+            <AnswerStats breakpoints={theme.breakpoints}>
               <WrongWord>Wrong:&nbsp;</WrongWord>
               {wrongAnswers}
             </AnswerStats>
-            <CountdownContainer gameIsStarted={hasStarted}>
+            <CountdownContainer
+              gameIsStarted={hasStarted}
+              breakpoints={theme.breakpoints}
+            >
               <Countdown
                 key={hasFinished ? -1 : round}
                 duration={COUNTDOWN_TIME}
                 onComplete={handleCountdownEnd}
+                size={pickTimerSize(windowSize)}
+                strokeWidth={pickTimerSize(windowSize) / 10}
                 isPlaying={hasStarted && !hasFinished && !animationIsPlaying}
               />
             </CountdownContainer>
-            <AnswerStats>
+            <AnswerStats breakpoints={theme.breakpoints}>
               <RightWord>Right:&nbsp;</RightWord>
               {rightAnswers}
             </AnswerStats>
@@ -262,3 +293,14 @@ export const ImagineeryGame = () => {
     </GameContainer>
   );
 };
+
+function pickTimerSize(windowWidth: string | null) {
+  switch (windowWidth) {
+    case 'small':
+      return 60;
+    case 'medium':
+      return 80;
+    default:
+      return 100;
+  }
+}

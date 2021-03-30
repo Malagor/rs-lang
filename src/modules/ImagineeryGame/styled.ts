@@ -93,11 +93,21 @@ export const FullScreenButtonContainer = styled.div`
   }
 `;
 
-export const AnswerStats = styled.p`
+export const AnswerStats = styled.p<{ breakpoints: Breakpoints }>`
   margin: 0;
   padding: 0;
   font-size: 24px;
   line-height: 24px;
+
+  ${(props) => props.breakpoints.down('sm')} {
+    font-size: 22px;
+    line-height: 22px;
+  }
+
+  ${(props) => props.breakpoints.down('xs')} {
+    font-size: 20px;
+    line-height: 20px;
+  }
 `;
 
 export const WrongWord = styled.span`
@@ -121,11 +131,26 @@ export const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
   background: linear-gradient(180deg, #7f53ac 0%, #647dee 100%);
 `;
 
-export const CountdownContainer = styled.div<{ gameIsStarted: boolean }>`
+export const CountdownContainer = styled.div<{
+  gameIsStarted: boolean;
+  breakpoints: Breakpoints;
+}>`
   grid-column: 2;
   display: ${({ gameIsStarted }) => (gameIsStarted ? 'flex' : 'none')};
   justify-content: center;
   align-items: center;
+
+  ${(props) => props.breakpoints.down('sm')} {
+    div {
+      font-size: 28px;
+    }
+  }
+
+  ${(props) => props.breakpoints.down('xs')} {
+    div {
+      font-size: 22px;
+    }
+  }
 `;
 
 export const GameField = styled.div<{ breakpoints: Breakpoints }>`
@@ -191,6 +216,10 @@ export const QuizWordContainer = styled.div<{ breakpoints: Breakpoints }>`
   grid-column: 2;
   color: ${COLOR_LAYOUT_BACKGROUND};
   font-size: 2rem;
+
+  ${(props) => props.breakpoints.down('sm')} {
+    font-size: 1.6rem;
+  }
 
   ${(props) => props.breakpoints.down('xs')} {
     grid-row: 3;

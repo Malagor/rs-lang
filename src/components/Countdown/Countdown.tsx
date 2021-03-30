@@ -14,6 +14,8 @@ type CountdownProps = {
   onComplete?: CountdownCircleTimerProps['onComplete'];
   isPlaying?: boolean;
   key?: number;
+  size?: number;
+  strokeWidth?: number;
 };
 
 export const Countdown: FC<CountdownProps> = ({
@@ -21,12 +23,14 @@ export const Countdown: FC<CountdownProps> = ({
   onComplete,
   isPlaying = true,
   key,
+  size = 100,
+  strokeWidth = 10,
 }) => (
   <CountdownContainer>
     <CountdownCircleTimer
       key={key}
-      size={100}
-      strokeWidth={10}
+      size={size}
+      strokeWidth={strokeWidth}
       isPlaying={isPlaying}
       duration={duration}
       colors={[[COLOR_LAYOUT_BACKGROUND, 1]]}
