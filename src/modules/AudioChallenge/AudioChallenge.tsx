@@ -13,6 +13,7 @@ import {
   selectTextBookPage,
 } from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
+import { FullScreenWrapperFlexCenter } from 'styles';
 import {
   selectAudioCurrentWord,
   selectAudioFinish,
@@ -56,29 +57,9 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
   const [open, setOpen] = useState(false);
 
-  const keyDownHandler = useCallback(
-    (e: KeyboardEvent) => {
-      const variants = ['1', '2', '3', '4', '5'];
-      const { key } = e;
-      if (variants.includes(key)) {
-        dispatch(setUserAnswer(key));
-        dispatch(setIsAnswer(true));
-      }
-    },
-    [dispatch]
-  );
-
   useEffect(() => {
     dispatch(setPageTitle('Audio challenge'));
   }, [dispatch]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', keyDownHandler);
-
-    return () => {
-      window.removeEventListener('keydown', keyDownHandler);
-    };
-  }, [keyDownHandler]);
 
   useEffect(() => {
     console.log('Finish');
@@ -97,6 +78,26 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   }, [dispatch, group, page, userId]);
 
   const fullScreenOpenHandler = () => setOpen(!open);
+
+  const keyDownHandler = useCallback(
+    (e: KeyboardEvent) => {
+      const variants = ['1', '2', '3', '4', '5'];
+      const { key } = e;
+      if (variants.includes(key)) {
+        dispatch(setUserAnswer(key));
+        dispatch(setIsAnswer(true));
+      }
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    window.addEventListener('keydown', keyDownHandler);
+
+    return () => {
+      window.removeEventListener('keydown', keyDownHandler);
+    };
+  }, [keyDownHandler]);
 
   const answerHandler = () => {
     dispatch(setIsAnswer(false));
@@ -137,28 +138,30 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
   return (
     <Container style={contStyle}>
-      <AudioWrapper>
-        <ProgressBar group={group} totalCount={words.length} />
-        <FullScreenButton open={open} onOpen={fullScreenOpenHandler} />
-        {hasContent ? (
-          <>
-            <AudioCard
-              word={words[current]}
-              variants={[
-                `${words[current].wordTranslate}`,
-                'Ответ 2',
-                'Ответ 3',
-                'Ответ 4',
-              ]}
-            />
-            <NextButton
-              clickHandler={answerHandler}
-              label={isAnswer ? 'next word' : 'i don`t know'}
-            />
-          </>
-        ) : null}
-        {isFinish && <FinishGame onFinishGameHandler={newGameHandler} />}
-      </AudioWrapper>
+      <FullScreenWrapperFlexCenter>
+        <AudioWrapper>
+          <ProgressBar group={group} totalCount={words.length} />
+          <FullScreenButton open={open} onOpen={fullScreenOpenHandler} />
+          {hasContent ? (
+            <>
+              <AudioCard
+                word={words[current]}
+                variants={[
+                  `${words[current].wordTranslate}`,
+                  'Ответ 2',
+                  'Ответ 3',
+                  'Ответ 4',
+                ]}
+              />
+              <NextButton
+                clickHandler={answerHandler}
+                label={isAnswer ? 'next word' : 'i don`t know'}
+              />
+            </>
+          ) : null}
+          {isFinish && <FinishGame onFinishGameHandler={newGameHandler} />}
+        </AudioWrapper>
+      </FullScreenWrapperFlexCenter>
     </Container>
   );
 };

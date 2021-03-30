@@ -6,7 +6,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { useStyles } from './styled';
 
 type AnswerRadioProps = {
-  isCorrect: boolean;
+  iscorrect: string;
 };
 
 export const AnswerRadio: FC<AnswerRadioProps> = (props) => {
@@ -18,7 +18,7 @@ export const AnswerRadio: FC<AnswerRadioProps> = (props) => {
       color="default"
       // checkedIcon={<span className={clsx(classes.icon, classes.checkedIcon)} />}
       checkedIcon={
-        props.isCorrect ? (
+        props.iscorrect === 'true' ? (
           <CheckIcon className={classes.icon} />
         ) : (
           <CloseIcon className={classes.icon} />

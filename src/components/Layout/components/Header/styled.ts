@@ -44,4 +44,8 @@ export const useStyles = makeStyles((theme) => ({
   marginLeft: {
     marginLeft: 10,
   },
+  contentWrapper: {
+    display: 'flex',
+    maxWidth: '832px',
+  },
 }));

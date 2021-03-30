@@ -4,6 +4,7 @@ import { Word } from 'types';
 import { Button, Container } from '@material-ui/core';
 import { ErrorMessage, Loader, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
+import { ContentWrapper } from 'styles';
 import { selectUser } from 'modules/Login/selectors';
 import {
   selectTextBookGroup,
@@ -77,50 +78,52 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   return (
     <Container>
-      <div>Type of Words: </div>
-      <Button
-        type="button"
-        color="primary"
-        variant="contained"
-        onClick={onUsualWords}
-      >
-        Usual Words
-      </Button>
-      <Button
-        variant="contained"
-        color="default"
-        type="button"
-        onClick={onDifficultWords}
-      >
-        Difficult words
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        type="button"
-        onClick={onDeletedWords}
-      >
-        Deleted words
-      </Button>
-      <hr />
-      <div>Group: {group}</div>
-      <Button
-        type="button"
-        color="primary"
-        variant="contained"
-        onClick={onPrevGroupHandler}
-      >
-        Prev Group
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        type="button"
-        onClick={onNextGroupHandler}
-      >
-        Next Group
-      </Button>
-      <hr />
+      <ContentWrapper>
+        <div>Type of Words: </div>
+        <Button
+          type="button"
+          color="primary"
+          variant="contained"
+          onClick={onUsualWords}
+        >
+          Usual Words
+        </Button>
+        <Button
+          variant="contained"
+          color="default"
+          type="button"
+          onClick={onDifficultWords}
+        >
+          Difficult words
+        </Button>
+        <Button
+          variant="contained"
+          color="secondary"
+          type="button"
+          onClick={onDeletedWords}
+        >
+          Deleted words
+        </Button>
+        <hr />
+        <div>Group: {group}</div>
+        <Button
+          type="button"
+          color="primary"
+          variant="contained"
+          onClick={onPrevGroupHandler}
+        >
+          Prev Group
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={onNextGroupHandler}
+        >
+          Next Group
+        </Button>
+        <hr />
+      </ContentWrapper>
 
       <div
         style={{

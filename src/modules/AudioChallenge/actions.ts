@@ -65,6 +65,11 @@ export const setCorrectWords = (payload: Word) => ({
   payload,
 });
 
+export const setIncorrectWords = (payload: Word) => ({
+  type: SET_AUDIO_INCORRECT_WORDS,
+  payload,
+});
+
 export const clearCorrectWords = () => ({
   type: SET_AUDIO_CORRECT_WORDS,
   payload: [],
