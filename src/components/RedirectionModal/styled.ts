@@ -1,5 +1,4 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { COLOR_LEVEL_1 } from 'appConstants/colors';
 
 export const useStyles = makeStyles((theme) => ({
   wrapper: {

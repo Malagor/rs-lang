@@ -9,7 +9,6 @@ import {
 } from '@material-ui/core';
 import { useHistory } from 'react-router-dom';
 import { URL_MAIN_PAGE } from 'appConstants/url';
-import BlockIcon from '@material-ui/icons/Block';
 import STOP_IMG from 'assets/images/stop.png';
 import { useStyles } from './styled';
 
