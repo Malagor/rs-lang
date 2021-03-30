@@ -55,6 +55,9 @@ export const ImagineeryGame = () => {
   const [quizWord, setQuizWord] = useState<Word | null>(null);
   const [rightAnswers, setRightAnswers] = useState(0);
   const [wrongAnswers, setWrongAnswers] = useState(0);
+  const [maxInARow, setMaxInARow] = useState(0);
+  const [currentInARow, setCurrentInARow] = useState(0);
+
   const words: Word[] = useSelector(selectWords);
   const wordUrls = useMemo(
     () => words.map((word) => `${SERVER_URL}${word.image}`),
@@ -72,9 +75,14 @@ export const ImagineeryGame = () => {
       if (word.id === quizWord.id) {
         setRightAnswers(rightAnswers + 1);
         setRightlyAnswered([...rightlyAnswered, quizWord]);
+        setCurrentInARow(currentInARow + 1);
+        if (currentInARow + 1 > maxInARow) {
+          setMaxInARow(currentInARow + 1);
+        }
       } else {
         setWrongAnswers(wrongAnswers + 1);
         setWronglyAnswered([...wronglyAnswered, quizWord]);
+        setCurrentInARow(0);
       }
       setRound(round + 1);
     },
@@ -87,6 +95,8 @@ export const ImagineeryGame = () => {
       round,
       wrongAnswers,
       wronglyAnswered,
+      currentInARow,
+      maxInARow,
     ]
   );
 
@@ -161,7 +171,7 @@ export const ImagineeryGame = () => {
   useEffect(() => {
     if (round === QUIZ_COUNT) {
       setFinished(true);
-      console.log('game is finished');
+      console.log('Game is finished.');
     }
   }, [setFinished, round]);
 
