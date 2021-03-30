@@ -25,6 +25,7 @@ import {
   GameField,
   WordImage,
   QuizWordContainer,
+  WordImageContainer,
 } from './styled';
 
 const shuffle = (words: Word[]) => {
@@ -162,13 +163,14 @@ export const ImagineeryGame = () => {
     }
   }, [setFinished, round]);
 
-  const wordImages = currentWords.map((word) => (
-    <WordImage
-      key={word.id}
-      src={`${SERVER_URL}${word.image}`}
-      alt={word.word}
-      onClick={() => handleImageClick(word)}
-    />
+  const wordImages = currentWords.map((word, index) => (
+    <WordImageContainer key={word.id} number={index + 1}>
+      <WordImage
+        src={`${SERVER_URL}${word.image}`}
+        alt={word.word}
+        onClick={() => handleImageClick(word)}
+      />
+    </WordImageContainer>
   ));
 
   return (

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {
   COLOR_LAYOUT_BACKGROUND,
+  COLOR_LAYOUT_BLUE,
   COLOR_LAYOUT_ORANGE,
   COLOR_LAYOUT_WHITE,
   COLOR_LAYOUT_YELLOW,
@@ -55,6 +56,7 @@ export const RightWord = styled.span`
 `;
 
 export const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
+  z-index: 10;
   position: absolute;
   top: 0;
   right: 0;
@@ -83,6 +85,26 @@ export const GameField = styled.div`
   justify-items: center;
 `;
 
+export const WordImageContainer = styled.div<{ number: number }>`
+  position: relative;
+
+  &::before {
+    content: '${({ number }) => number.toString()}';
+    position: absolute;
+    bottom: 12px;
+    left: 8px;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    background-color: ${COLOR_LAYOUT_BLUE};
+    color: ${COLOR_LAYOUT_WHITE};
+    border-radius: 50%;
+  }
+`;
+
 export const WordImage = styled.img`
   max-width: 100%;
   max-height: 20vh;
@@ -92,8 +114,6 @@ export const WordImage = styled.img`
 export const QuizWordContainer = styled.div`
   grid-row: 2;
   grid-column: 2;
-  /* justify-self: stretch;
-  align-self: stretch; */
   color: ${COLOR_LAYOUT_BACKGROUND};
   font-size: 2rem;
 `;
