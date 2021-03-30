@@ -10,14 +10,11 @@ import { selectWords } from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
-import { Countdown, Loader } from 'components';
-import FullscreenIcon from '@material-ui/icons/Fullscreen';
-import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
+import { Countdown, Loader, FullscreenButton } from 'components';
 import { useTheme } from '@material-ui/core/styles';
 import {
   GameContainer,
   Dashboard,
-  FullScreenButtonContainer,
   AnswerStats,
   WrongWord,
   RightWord,
@@ -144,27 +141,6 @@ export const ImagineeryGame = () => {
     }, ANIMATION_TIME + 300);
   };
 
-  const handleFullScreenButtonClick = () => {
-    const handleFullScreenOut = () => {
-      if (document.fullscreenElement === null) {
-        setFullScreen(false);
-      }
-    };
-    if (containerRef && containerRef.current) {
-      if (!isFullScreen) {
-        containerRef.current.requestFullscreen().catch((err) => err);
-        setFullScreen(true);
-        document.addEventListener('fullscreenchange', handleFullScreenOut);
-      } else {
-        document.exitFullscreen();
-        setFullScreen(false);
-      }
-    }
-    return () => {
-      document.removeEventListener('fullscreenchange', handleFullScreenOut);
-    };
-  };
-
   useEffect(() => {
     const handleKeydown = (evt: KeyboardEvent) => {
       if (!gameFieldRef || !gameFieldRef.current) return;
@@ -251,9 +227,11 @@ export const ImagineeryGame = () => {
       ) : (
         <>
           <Dashboard>
-            <FullScreenButtonContainer onClick={handleFullScreenButtonClick}>
-              {isFullScreen ? <FullscreenExitIcon /> : <FullscreenIcon />}
-            </FullScreenButtonContainer>
+            <FullscreenButton
+              isFullscreen={isFullScreen}
+              setFullscreen={setFullScreen}
+              containerRef={containerRef}
+            />
             <InitialCountdownContainer gameIsStarted={hasStarted}>
               <Countdown
                 duration={INITIAL_COUNTDOWN_TIME}

@@ -3,3 +3,4 @@ export { Layout } from './Layout';
 export { Loader } from './Loader';
 export { Pagination } from './Pagination';
 export { Countdown } from './Countdown';
+export { FullscreenButton } from './FullscreenButton';

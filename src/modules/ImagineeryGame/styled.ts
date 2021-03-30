@@ -79,20 +79,6 @@ export const Dashboard = styled.div`
   color: ${COLOR_LAYOUT_BACKGROUND};
 `;
 
-export const FullScreenButtonContainer = styled.div`
-  z-index: 10;
-  position: absolute;
-  top: 30px;
-  right: 46px;
-  cursor: pointer;
-  transition: transform 0.2s;
-
-  &:hover {
-    transform: scale(1.2);
-    color: ${COLOR_LAYOUT_WHITE};
-  }
-`;
-
 export const AnswerStats = styled.p<{ breakpoints: Breakpoints }>`
   margin: 0;
   padding: 0;
