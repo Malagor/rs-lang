@@ -21,6 +21,7 @@ import {
   SET_CHECKED_DIFFICULTY,
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
+  SET_IS_LOADING,
 } from './actionConst';
 
 export const setPage = (payload: number) => ({
@@ -78,6 +79,11 @@ export const setWordSection = (payload: WordSectionType) => ({
   payload,
 });
 
+export const setIsLoading = (payload: boolean) => ({
+  type: SET_IS_LOADING,
+  payload,
+});
+
 export const addWordToUserList = async (
   userId: string,
   wordId: string,
@@ -121,16 +127,20 @@ export const loadWords = (
   page: number = 0
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
-) =>
+) => {
+  dispatch(setIsLoading(true));
   database.getWords(group, page).then(
     (words) => {
       dispatch(setWords(words));
       dispatch(clearWordsError());
+      dispatch(setIsLoading(false));
     },
     (err) => {
       dispatch(setWordsError(err));
+      dispatch(setIsLoading(false));
     }
   );
+};
 
 export const loadUserAggregateWords = (
   userId: string,
@@ -140,14 +150,17 @@ export const loadUserAggregateWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
+  dispatch(setIsLoading(true));
   database.getUserAggregatedWord(userId, group, page, wordPerPage).then(
     (words) => {
       dispatch(setWords(words[0].paginatedResults));
       dispatch(setPagesCount(getCountWords(words[0].totalCount)));
       dispatch(clearWordsError());
+      dispatch(setIsLoading(false));
     },
     (err) => {
       dispatch(setWordsError(err));
+      dispatch(setIsLoading(false));
     }
   );
 };
@@ -160,6 +173,7 @@ export const loadUserDifficultWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
+  dispatch(setIsLoading(true));
   database
     .getUserAggregatedWord(
       userId,
@@ -173,9 +187,11 @@ export const loadUserDifficultWords = (
         dispatch(setWords(words[0].paginatedResults));
         dispatch(setPagesCount(getCountWords(words[0].totalCount)));
         dispatch(clearWordsError());
+        dispatch(setIsLoading(false));
       },
       (err) => {
         dispatch(setWordsError(err));
+        dispatch(setIsLoading(false));
       }
     );
 };
@@ -188,6 +204,7 @@ export const loadUserDeletedWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
+  dispatch(setIsLoading(true));
   database
     .getUserAggregatedWord(
       userId,
@@ -201,9 +218,11 @@ export const loadUserDeletedWords = (
         dispatch(setWords(words[0].paginatedResults));
         dispatch(setPagesCount(getCountWords(words[0].totalCount)));
         dispatch(clearWordsError());
+        dispatch(setIsLoading(false));
       },
       (err) => {
         dispatch(setWordsError(err));
+        dispatch(setIsLoading(false));
       }
     );
 };

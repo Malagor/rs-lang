@@ -10,6 +10,7 @@ import {
   SET_CHECKED_DIFFICULTY,
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
+  SET_IS_LOADING,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,6 +26,7 @@ export const textBookPageState: StateTextBook = {
   checkedDifficulty: 'easy',
   pagesCount: 0,
   wordSection: 'usual',
+  isLoading: false,
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
@@ -84,6 +86,12 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         wordSection: action.payload,
+      };
+
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
       };
 
     default:

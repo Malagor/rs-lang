@@ -68,6 +68,7 @@ export type StateTextBook = {
   checkedDifficulty: DifficultyType;
   pagesCount: number;
   wordSection: WordSectionType;
+  isLoading: boolean;
 };
 
 export type StateCommon = {

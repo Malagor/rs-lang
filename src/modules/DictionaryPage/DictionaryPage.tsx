@@ -13,6 +13,7 @@ import {
   selectCheckedDifficulty,
   selectPagesCount,
   selectWordSection,
+  selectIsLoading,
 } from 'modules/TextBookPage/selectors';
 import {
   loadUserAggregateWords,
@@ -41,6 +42,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const checkedDifficulty = useSelector(selectCheckedDifficulty);
   const pagesCount = useSelector(selectPagesCount);
   const wordSection = useSelector(selectWordSection);
+  const isLoading = useSelector(selectIsLoading);
 
   useEffect(() => {
     if (user.id) {
@@ -52,7 +54,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
       if (wordSection === 'deleted')
         dispatch(loadUserDeletedWords(user.id, group, page));
-      // dispatch(loadUserAggregateWords(user.id, group, page));
     } else {
       dispatch(loadWords(group, page));
     }
@@ -93,7 +94,8 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     dispatch(setCheckedDifficulty('hard'));
   };
 
-  const hasContent = words && words.length;
+  // const hasContent = words && words.length;
+  // const hasContent = true;
 
   return (
     <Container>
@@ -151,14 +153,16 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
       >
         <>
           {error && <ErrorMessage />}
-          {hasContent ? (
+          {isLoading ? (
+            <Loader />
+          ) : (
             <>
               <WordList
                 words={words}
                 checkedDifficulty={checkedDifficulty}
                 isButtons={true}
-                showBtnDeleteDifficult={false}
-                showBtnRestore={true}
+                showBtnDeleteDifficult={wordSection === 'usual'}
+                showBtnRestore={wordSection !== 'usual'}
               />
               <Pagination
                 pageCount={pagesCount}
@@ -167,8 +171,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
                 group={group}
               />
             </>
-          ) : (
-            <Loader />
           )}
         </>
       </div>

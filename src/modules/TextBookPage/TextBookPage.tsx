@@ -11,6 +11,7 @@ import {
   selectTextBookError,
   selectTextBookWords,
   selectPagesCount,
+  selectIsLoading,
 } from './selectors';
 import {
   loadUserAggregateWords,
@@ -30,6 +31,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
   const pagesCount = useSelector(selectPagesCount);
+  const isLoading = useSelector(selectIsLoading);
 
   const dispatch = useDispatch();
 
@@ -74,7 +76,8 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   //   dispatch(loadUserDeletedWords(user.id, group, page));
   // };
 
-  const hasContent = words && words.length;
+  // const hasContent = words && words.length;
+  // const hasContent = true;
 
   return (
     <Container>
@@ -132,7 +135,9 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       >
         <>
           {error && <ErrorMessage />}
-          {hasContent ? (
+          {isLoading ? (
+            <Loader />
+          ) : (
             <>
               <WordList
                 words={words}
@@ -148,8 +153,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 group={group}
               />
             </>
-          ) : (
-            <Loader />
           )}
         </>
       </div>

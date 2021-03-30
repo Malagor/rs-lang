@@ -60,6 +60,7 @@ export const ButtonsBlock: React.FC<Props> = ({
     root: {
       width: '104px',
       height: '37px',
+      marginRight: '14px',
       background: COLOR_LAYOUT_GRAY,
       borderRadius: 0,
       textTransform: 'lowercase',

@@ -25,3 +25,6 @@ export const selectPagesCount = (state: State) =>
 
 export const selectWordSection = (state: State) =>
   state.textBookReducer.wordSection;
+
+export const selectIsLoading = (state: State) =>
+  state.textBookReducer.isLoading;
