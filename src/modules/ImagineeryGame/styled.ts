@@ -6,15 +6,21 @@ import {
   COLOR_LAYOUT_WHITE,
   COLOR_LAYOUT_YELLOW,
 } from 'appConstants/colors';
+import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
 
-export const GameContainer = styled.div`
+export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
   position: relative;
   display: grid;
   grid-gap: 20px;
   align-content: center;
   justify-content: stretch;
-  min-height: 88vh;
+  min-height: calc(100vh - 84px);
+  padding: 20px;
   background: linear-gradient(180deg, #7f53ac 0%, #647dee 100%);
+
+  ${(props) => props.breakpoints.down('xs')} {
+    min-height: calc(100vh - 76px);
+  }
 `;
 
 export const Dashboard = styled.div`
@@ -75,7 +81,7 @@ export const CountdownContainer = styled.div<{ gameIsStarted: boolean }>`
   align-items: center;
 `;
 
-export const GameField = styled.div`
+export const GameField = styled.div<{ breakpoints: Breakpoints }>`
   display: grid;
   grid-gap: 20px;
   grid-template-columns: repeat(3, auto);
@@ -83,6 +89,19 @@ export const GameField = styled.div`
   justify-content: center;
   align-items: center;
   justify-items: center;
+
+  ${(props) => props.breakpoints.down('md')} {
+    grid-template-columns: repeat(3, 200px);
+  }
+
+  ${(props) => props.breakpoints.down('sm')} {
+    grid-template-columns: repeat(3, 160px);
+  }
+
+  ${(props) => props.breakpoints.down('xs')} {
+    grid-gap: 10px;
+    grid-template-columns: repeat(2, 140px);
+  }
 `;
 
 export const WordImageContainer = styled.div<{ number: number }>`
@@ -107,13 +126,18 @@ export const WordImageContainer = styled.div<{ number: number }>`
 
 export const WordImage = styled.img`
   max-width: 100%;
-  max-height: 20vh;
+  max-height: 19vh;
   overflow: hidden;
 `;
 
-export const QuizWordContainer = styled.div`
+export const QuizWordContainer = styled.div<{ breakpoints: Breakpoints }>`
   grid-row: 2;
   grid-column: 2;
   color: ${COLOR_LAYOUT_BACKGROUND};
   font-size: 2rem;
+
+  ${(props) => props.breakpoints.down('xs')} {
+    grid-row: 3;
+    grid-column: 1 / span 2;
+  }
 `;

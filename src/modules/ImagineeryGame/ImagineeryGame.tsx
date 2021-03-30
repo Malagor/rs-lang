@@ -13,6 +13,7 @@ import { SERVER_URL } from 'appConstants';
 import { Countdown, Loader } from 'components';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
+import { useTheme } from '@material-ui/core/styles';
 import {
   GameContainer,
   Dashboard,
@@ -62,6 +63,7 @@ export const ImagineeryGame = () => {
   const dispatch = useDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
   const gameFieldRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
 
   const handleImageClick = useCallback(
     (word: Word) => {
@@ -174,7 +176,7 @@ export const ImagineeryGame = () => {
   ));
 
   return (
-    <GameContainer ref={containerRef}>
+    <GameContainer ref={containerRef} breakpoints={theme.breakpoints}>
       {loading ? (
         <Loader />
       ) : (
@@ -206,9 +208,11 @@ export const ImagineeryGame = () => {
               {rightAnswers}
             </AnswerStats>
           </Dashboard>
-          <GameField ref={gameFieldRef}>
+          <GameField ref={gameFieldRef} breakpoints={theme.breakpoints}>
             {wordImages}
-            <QuizWordContainer>{quizWord && quizWord.word}</QuizWordContainer>
+            <QuizWordContainer breakpoints={theme.breakpoints}>
+              {quizWord && quizWord.word}
+            </QuizWordContainer>
           </GameField>
         </>
       )}
