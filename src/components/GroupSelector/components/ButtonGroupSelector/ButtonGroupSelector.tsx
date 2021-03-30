@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { Button } from '@material-ui/core';
+import { Fab } from '@material-ui/core';
 import { useStyles } from './styled';
 
 type ButtonGroupSelectorProps = {
@@ -19,11 +19,11 @@ export const ButtonGroupSelector: FC<ButtonGroupSelectorProps> = ({
   const classes = useStyles(styleProps);
 
   return (
-    <Button
+    <Fab
       onClick={() => onChangeGroupPageHandler()}
       classes={{ root: classes.root, label: classes.label }}
     >
       {children}
-    </Button>
+    </Fab>
   );
 };
