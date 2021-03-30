@@ -7,6 +7,9 @@ import {
   SET_SOUND,
   SET_WORDS,
   SET_PLAYED_SOUND,
+  SET_CHECKED_DIFFICULTY,
+  SET_PAGES_COUNT,
+  SET_WORD_SECTION,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,6 +22,9 @@ export const textBookPageState: StateTextBook = {
   sounds: [],
   error: null,
   playedSound: '',
+  checkedDifficulty: 'easy',
+  pagesCount: 0,
+  wordSection: 'usual',
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
@@ -60,6 +66,24 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         playedSound: action.payload,
+      };
+
+    case SET_CHECKED_DIFFICULTY:
+      return {
+        ...state,
+        checkedDifficulty: action.payload,
+      };
+
+    case SET_PAGES_COUNT:
+      return {
+        ...state,
+        pagesCount: Math.ceil(action.payload / 20) || 1,
+      };
+
+    case SET_WORD_SECTION:
+      return {
+        ...state,
+        wordSection: action.payload,
       };
 
     default:

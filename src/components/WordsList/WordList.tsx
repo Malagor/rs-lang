@@ -9,23 +9,34 @@ import { NoWordsMessage } from './components';
 
 type WordListProps = {
   words: Word[];
+  checkedDifficulty: string;
+  isButtons: boolean;
+  showBtnDeleteDifficult: boolean;
+  showBtnRestore: boolean;
 };
 
-export const WordList: FC<WordListProps> = ({ words }) => {
+export const WordList: FC<WordListProps> = ({
+  words,
+  checkedDifficulty,
+  isButtons,
+  showBtnDeleteDifficult,
+  showBtnRestore,
+}) => {
   const group = useSelector(selectTextBookGroup);
-  const hasWords = words.filter((word) => word.userWord?.difficulty !== 'easy')
-    .length;
+  const hasWords = words.filter(
+    (word) => word.userWord?.difficulty !== checkedDifficulty
+  ).length;
 
   return hasWords ? (
     <WordListStyled>
       <NavGame />
 
       {words.map((word) => {
-        const isDeleted = word.userWord?.difficulty === 'easy';
+        const unsuitableWord = word.userWord?.difficulty === checkedDifficulty;
         const wordStatistics = word.userWord?.optional?.statistics;
 
         return (
-          !isDeleted && (
+          !unsuitableWord && (
             <WordCard
               key={word.word}
               word={word}
@@ -33,9 +44,9 @@ export const WordList: FC<WordListProps> = ({ words }) => {
               successCount={wordStatistics?.correct || 0}
               errorCount={wordStatistics?.incorrect || 0}
               isTranslate={true}
-              isButtons={true}
-              isBtnDelete={true}
-              isBtnRestore={false}
+              isButtons={isButtons}
+              showBtnDeleteDifficult={showBtnDeleteDifficult}
+              showBtnRestore={showBtnRestore}
             />
           )
         );

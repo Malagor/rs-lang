@@ -10,11 +10,12 @@ import {
   selectTextBookPage,
   selectTextBookError,
   selectTextBookWords,
+  selectPagesCount,
 } from './selectors';
 import {
   loadUserAggregateWords,
-  loadUserDeletedWords,
-  loadUserDifficultWords,
+  // loadUserDeletedWords,
+  // loadUserDifficultWords,
   loadWords,
   setGroup,
   setPage,
@@ -28,6 +29,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const group = useSelector(selectTextBookGroup);
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
+  const pagesCount = useSelector(selectPagesCount);
 
   const dispatch = useDispatch();
 
@@ -55,28 +57,28 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setGroup(nextGroup));
   };
 
-  const onUsualWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(0));
-    dispatch(loadUserAggregateWords(user.id, group, page));
-  };
+  // const onUsualWords = () => {
+  //   dispatch(setPage(0));
+  //   dispatch(setGroup(0));
+  //   dispatch(loadUserAggregateWords(user.id, group, page));
+  // };
 
-  const onDifficultWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(0));
-    dispatch(loadUserDifficultWords(user.id, group, page));
-  };
-  const onDeletedWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(0));
-    dispatch(loadUserDeletedWords(user.id, group, page));
-  };
+  // const onDifficultWords = () => {
+  //   dispatch(setPage(0));
+  //   dispatch(setGroup(0));
+  //   dispatch(loadUserDifficultWords(user.id, group, page));
+  // };
+  // const onDeletedWords = () => {
+  //   dispatch(setPage(0));
+  //   dispatch(setGroup(0));
+  //   dispatch(loadUserDeletedWords(user.id, group, page));
+  // };
 
   const hasContent = words && words.length;
 
   return (
     <Container>
-      <div>Type of Words: </div>
+      {/* <div>Type of Words: </div>
       <Button
         type="button"
         color="primary"
@@ -101,7 +103,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       >
         Deleted words
       </Button>
-      <hr />
+      <hr /> */}
       <div>Group: {group}</div>
       <Button
         type="button"
@@ -132,15 +134,15 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           {error && <ErrorMessage />}
           {hasContent ? (
             <>
-              <Pagination
-                pageCount={30}
-                initialPage={page}
-                forcePage={page}
-                group={group}
+              <WordList
+                words={words}
+                checkedDifficulty="easy"
+                isButtons={true}
+                showBtnDeleteDifficult={true}
+                showBtnRestore={false}
               />
-              <WordList words={words} />
               <Pagination
-                pageCount={30}
+                pageCount={pagesCount}
                 initialPage={page}
                 forcePage={page}
                 group={group}

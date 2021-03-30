@@ -10,14 +10,19 @@ import {
   selectTextBookPage,
   selectTextBookError,
   selectTextBookWords,
+  selectCheckedDifficulty,
+  selectPagesCount,
+  selectWordSection,
 } from 'modules/TextBookPage/selectors';
 import {
   loadUserAggregateWords,
   loadUserDeletedWords,
   loadUserDifficultWords,
   loadWords,
+  setCheckedDifficulty,
   setGroup,
   setPage,
+  setWordSection,
 } from 'modules/TextBookPage/actions';
 
 type DictionaryProps = {};
@@ -33,10 +38,21 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const group = useSelector(selectTextBookGroup);
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
+  const checkedDifficulty = useSelector(selectCheckedDifficulty);
+  const pagesCount = useSelector(selectPagesCount);
+  const wordSection = useSelector(selectWordSection);
 
   useEffect(() => {
     if (user.id) {
-      dispatch(loadUserAggregateWords(user.id, group, page));
+      if (wordSection === 'usual')
+        dispatch(loadUserAggregateWords(user.id, group, page));
+
+      if (wordSection === 'difficult')
+        dispatch(loadUserDifficultWords(user.id, group, page));
+
+      if (wordSection === 'deleted')
+        dispatch(loadUserDeletedWords(user.id, group, page));
+      // dispatch(loadUserAggregateWords(user.id, group, page));
     } else {
       dispatch(loadWords(group, page));
     }
@@ -56,19 +72,25 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
   const onUsualWords = () => {
     dispatch(setPage(0));
-    dispatch(setGroup(0));
+    dispatch(setGroup(group));
+    dispatch(setWordSection('usual'));
     dispatch(loadUserAggregateWords(user.id, group, page));
+    dispatch(setCheckedDifficulty('easy'));
   };
 
   const onDifficultWords = () => {
     dispatch(setPage(0));
-    dispatch(setGroup(0));
+    dispatch(setGroup(group));
+    dispatch(setWordSection('difficult'));
     dispatch(loadUserDifficultWords(user.id, group, page));
+    dispatch(setCheckedDifficulty('easy'));
   };
   const onDeletedWords = () => {
     dispatch(setPage(0));
-    dispatch(setGroup(0));
+    dispatch(setGroup(group));
+    dispatch(setWordSection('deleted'));
     dispatch(loadUserDeletedWords(user.id, group, page));
+    dispatch(setCheckedDifficulty('hard'));
   };
 
   const hasContent = words && words.length;
@@ -131,9 +153,15 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           {error && <ErrorMessage />}
           {hasContent ? (
             <>
-              <WordList words={words} />
+              <WordList
+                words={words}
+                checkedDifficulty={checkedDifficulty}
+                isButtons={true}
+                showBtnDeleteDifficult={false}
+                showBtnRestore={true}
+              />
               <Pagination
-                pageCount={30}
+                pageCount={pagesCount}
                 initialPage={page}
                 forcePage={page}
                 group={group}
