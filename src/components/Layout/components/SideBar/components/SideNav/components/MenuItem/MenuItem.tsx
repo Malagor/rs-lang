@@ -6,8 +6,8 @@ import LockIcon from '@material-ui/icons/Lock';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectUserId } from 'modules/Login/selectors';
+import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import { useStyles } from './styled';
-import { COLOR_LAYOUT_GRAY } from '../../../../../../../../appConstants/colors';
 
 type MenuItemProps = {
   to: string;
