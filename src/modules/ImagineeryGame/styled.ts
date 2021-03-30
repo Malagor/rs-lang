@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css, keyframes } from 'styled-components/macro';
 import {
   COLOR_LAYOUT_BACKGROUND,
   COLOR_LAYOUT_BLUE,
@@ -7,6 +7,53 @@ import {
   COLOR_LAYOUT_YELLOW,
 } from 'appConstants/colors';
 import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
+
+const rightKeyframes = keyframes`
+  0% {
+    outline: none;
+  }
+  50% {
+    outline: 10px solid ${COLOR_LAYOUT_BACKGROUND};
+  }
+  100% {
+    outline: none;
+  }
+`;
+
+const wrongKeyframes = keyframes`
+  0% {
+    outline: none;
+  }
+  50% {
+    outline: 10px solid ${COLOR_LAYOUT_ORANGE};
+  }
+  100% {
+    outline: none;
+  }
+`;
+
+const rightAnimation = (animationTime: number) => css`
+  ${rightKeyframes} ${animationTime / 3000}s linear 3 alternate;
+`;
+
+const wrongAnimation = (animationTime: number) => css`
+  ${wrongKeyframes} ${animationTime / 3000}s linear 3 alternate;
+`;
+
+const chooseAnimation = (
+  id: string,
+  rightId: string,
+  wrongId: string,
+  animationTime: number
+) => {
+  if (id === rightId) {
+    return rightAnimation(animationTime);
+  }
+  if (id === wrongId) {
+    return wrongAnimation(animationTime);
+  }
+  return 'none';
+};
 
 export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
   position: relative;
@@ -104,7 +151,9 @@ export const GameField = styled.div<{ breakpoints: Breakpoints }>`
   }
 `;
 
-export const WordImageContainer = styled.div<{ number: number }>`
+export const WordImageContainer = styled.div<{
+  number: number;
+}>`
   position: relative;
 
   &::before {
@@ -124,10 +173,17 @@ export const WordImageContainer = styled.div<{ number: number }>`
   }
 `;
 
-export const WordImage = styled.img`
+export const WordImage = styled.img<{
+  id: string;
+  rightId: string;
+  wrongId: string;
+  animationTime: number;
+}>`
   max-width: 100%;
   max-height: 19vh;
   overflow: hidden;
+  animation: ${({ id, rightId, wrongId, animationTime }) =>
+    chooseAnimation(id, rightId, wrongId, animationTime)};
 `;
 
 export const QuizWordContainer = styled.div<{ breakpoints: Breakpoints }>`

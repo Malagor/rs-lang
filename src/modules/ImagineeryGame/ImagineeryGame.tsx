@@ -41,6 +41,7 @@ const shuffle = (words: Word[]) => {
 const INITIAL_COUNTDOWN_TIME = 3;
 const COUNTDOWN_TIME = 10;
 const QUIZ_COUNT = 10;
+const ANIMATION_TIME = 1200;
 
 export const ImagineeryGame = () => {
   const [isFullScreen, setFullScreen] = useState(false);
@@ -57,6 +58,9 @@ export const ImagineeryGame = () => {
   const [wrongAnswers, setWrongAnswers] = useState(0);
   const [maxInARow, setMaxInARow] = useState(0);
   const [currentInARow, setCurrentInARow] = useState(0);
+  const [rightId, setRightId] = useState('');
+  const [wrongId, setWrongId] = useState('');
+  const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
 
   const words: Word[] = useSelector(selectWords);
   const wordUrls = useMemo(
@@ -66,6 +70,7 @@ export const ImagineeryGame = () => {
   const dispatch = useDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
   const gameFieldRef = useRef<HTMLDivElement>(null);
+  const quizWordRef = useRef(quizWord);
   const theme = useTheme();
 
   const handleImageClick = useCallback(
@@ -74,17 +79,31 @@ export const ImagineeryGame = () => {
       if (!quizWord) return;
       if (word.id === quizWord.id) {
         setRightAnswers(rightAnswers + 1);
-        setRightlyAnswered([...rightlyAnswered, quizWord]);
+        if (!rightlyAnswered.includes(quizWord)) {
+          setRightlyAnswered([...rightlyAnswered, quizWord]);
+        }
         setCurrentInARow(currentInARow + 1);
         if (currentInARow + 1 > maxInARow) {
           setMaxInARow(currentInARow + 1);
         }
+        setRightId(word.id);
+        setAnimationIsPlaying(true);
       } else {
         setWrongAnswers(wrongAnswers + 1);
-        setWronglyAnswered([...wronglyAnswered, quizWord]);
+        if (!wronglyAnswered.includes(quizWord)) {
+          setWronglyAnswered([...wronglyAnswered, quizWord]);
+        }
         setCurrentInARow(0);
+        setWrongId(word.id);
+        setRightId(quizWord.id);
+        setAnimationIsPlaying(true);
       }
-      setRound(round + 1);
+      setTimeout(() => {
+        setRound(round + 1);
+        setAnimationIsPlaying(false);
+        setRightId('');
+        setWrongId('');
+      }, ANIMATION_TIME + 300);
     },
     [
       hasFinished,
@@ -100,14 +119,24 @@ export const ImagineeryGame = () => {
     ]
   );
 
+  useEffect(() => {
+    quizWordRef.current = quizWord;
+  }, [quizWord]);
+
   const handleCountdownEnd = (): [boolean, number] | void => {
     setWrongAnswers(wrongAnswers + 1);
-    setWronglyAnswered([...wronglyAnswered, quizWord!]);
-    setRound(round + 1);
-    if (round < QUIZ_COUNT) {
-      return [true, 0];
-    }
-    return undefined;
+    setWronglyAnswered([...wronglyAnswered, quizWordRef.current!]);
+    setWrongId(quizWordRef.current!.id);
+    setAnimationIsPlaying(true);
+    setTimeout(() => {
+      setWrongId('');
+      setAnimationIsPlaying(false);
+      setRound(round + 1);
+      if (round < QUIZ_COUNT) {
+        return [true, 0];
+      }
+      return undefined;
+    }, ANIMATION_TIME + 300);
   };
 
   const handleFullScreenButtonClick = () => {
@@ -176,11 +205,15 @@ export const ImagineeryGame = () => {
   }, [setFinished, round]);
 
   const wordImages = currentWords.map((word, index) => (
-    <WordImageContainer key={word.id} number={index + 1}>
+    <WordImageContainer key={word.id} number={index + 1} id={word.id}>
       <WordImage
         src={`${SERVER_URL}${word.image}`}
         alt={word.word}
         onClick={() => handleImageClick(word)}
+        id={word.id}
+        rightId={rightId}
+        wrongId={wrongId}
+        animationTime={ANIMATION_TIME}
       />
     </WordImageContainer>
   ));
@@ -210,7 +243,7 @@ export const ImagineeryGame = () => {
                 key={hasFinished ? -1 : round}
                 duration={COUNTDOWN_TIME}
                 onComplete={handleCountdownEnd}
-                isPlaying={hasStarted && !hasFinished}
+                isPlaying={hasStarted && !hasFinished && !animationIsPlaying}
               />
             </CountdownContainer>
             <AnswerStats>
