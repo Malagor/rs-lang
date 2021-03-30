@@ -15,8 +15,6 @@ import {
 } from './selectors';
 import {
   loadUserAggregateWords,
-  // loadUserDeletedWords,
-  // loadUserDifficultWords,
   loadWords,
   setGroup,
   setPage,
@@ -32,8 +30,13 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const user = useSelector(selectUser);
   const pagesCount = useSelector(selectPagesCount);
   const isLoading = useSelector(selectIsLoading);
-
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPageTitle('TextBook'));
+    dispatch(setGroup(0));
+    dispatch(setPage(0));
+  }, [dispatch]);
 
   useEffect(() => {
     if (user.id) {
@@ -42,10 +45,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       dispatch(loadWords(group, page));
     }
   }, [dispatch, page, group, user]);
-
-  useEffect(() => {
-    dispatch(setPageTitle('TextBook'));
-  }, [dispatch]);
 
   const onPrevGroupHandler = () => {
     const prevGroup = group === 0 ? 0 : group - 1;
@@ -59,54 +58,8 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     dispatch(setGroup(nextGroup));
   };
 
-  // const onUsualWords = () => {
-  //   dispatch(setPage(0));
-  //   dispatch(setGroup(0));
-  //   dispatch(loadUserAggregateWords(user.id, group, page));
-  // };
-
-  // const onDifficultWords = () => {
-  //   dispatch(setPage(0));
-  //   dispatch(setGroup(0));
-  //   dispatch(loadUserDifficultWords(user.id, group, page));
-  // };
-  // const onDeletedWords = () => {
-  //   dispatch(setPage(0));
-  //   dispatch(setGroup(0));
-  //   dispatch(loadUserDeletedWords(user.id, group, page));
-  // };
-
-  // const hasContent = words && words.length;
-  // const hasContent = true;
-
   return (
     <Container>
-      {/* <div>Type of Words: </div>
-      <Button
-        type="button"
-        color="primary"
-        variant="contained"
-        onClick={onUsualWords}
-      >
-        Usual Words
-      </Button>
-      <Button
-        variant="contained"
-        color="default"
-        type="button"
-        onClick={onDifficultWords}
-      >
-        Difficult words
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        type="button"
-        onClick={onDeletedWords}
-      >
-        Deleted words
-      </Button>
-      <hr /> */}
       <div>Group: {group}</div>
       <Button
         type="button"

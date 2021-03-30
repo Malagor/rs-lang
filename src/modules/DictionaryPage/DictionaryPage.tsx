@@ -29,11 +29,6 @@ import {
 type DictionaryProps = {};
 
 export const DictionaryPage: FC<DictionaryProps> = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(setPageTitle('DictionaryPage'));
-  }, [dispatch]);
-
   const words: Word[] = useSelector(selectTextBookWords);
   const page = useSelector(selectTextBookPage);
   const group = useSelector(selectTextBookGroup);
@@ -43,6 +38,13 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const pagesCount = useSelector(selectPagesCount);
   const wordSection = useSelector(selectWordSection);
   const isLoading = useSelector(selectIsLoading);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(setPageTitle('DictionaryPage'));
+    dispatch(setGroup(0));
+    dispatch(setPage(0));
+  }, [dispatch]);
 
   useEffect(() => {
     if (user.id) {
@@ -93,9 +95,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     dispatch(loadUserDeletedWords(user.id, group, page));
     dispatch(setCheckedDifficulty('hard'));
   };
-
-  // const hasContent = words && words.length;
-  // const hasContent = true;
 
   return (
     <Container>
