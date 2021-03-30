@@ -63,7 +63,7 @@ export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
   justify-content: stretch;
   min-height: calc(100vh - 84px);
   padding: 20px;
-  background: linear-gradient(180deg, #7f53ac 0%, #647dee 100%);
+  background: linear-gradient(180deg, #5b3085 0%, #b7498a 100%);
 
   ${(props) => props.breakpoints.down('xs')} {
     min-height: calc(100vh - 76px);
@@ -128,7 +128,7 @@ export const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
   display: ${({ gameIsStarted }) => (gameIsStarted ? 'none' : 'flex')};
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, #7f53ac 0%, #647dee 100%);
+  background: linear-gradient(180deg, #5b3085 0%, #b7498a 100%);
 `;
 
 export const CountdownContainer = styled.div<{
