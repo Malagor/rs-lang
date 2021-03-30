@@ -15,7 +15,7 @@ type MenuItemProps = {
   handleListItemClick: (event: SyntheticEvent, index: number) => void;
   isSelected: boolean;
   index: number;
-  unauthorizedAccess?: boolean;
+  showNotAuthorized?: boolean;
 };
 
 export const MenuItem: FC<MenuItemProps> = ({
@@ -25,7 +25,7 @@ export const MenuItem: FC<MenuItemProps> = ({
   isSelected,
   index,
   children,
-  unauthorizedAccess = false,
+  showNotAuthorized = true,
 }) => {
   const classes = useStyles();
   const userId = useSelector(selectUserId);
@@ -48,7 +48,7 @@ export const MenuItem: FC<MenuItemProps> = ({
       >
         <ListItemIcon className={classes.listIcon}>{children}</ListItemIcon>
         <ListItemText primary={title} className={classes.colorGray} />
-        {unauthorizedAccess && !userId && (
+        {!showNotAuthorized && !userId && (
           <LockIcon style={{ color: COLOR_LAYOUT_GRAY }} />
         )}
       </ListItem>
