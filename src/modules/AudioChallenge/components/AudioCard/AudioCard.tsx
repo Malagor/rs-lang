@@ -18,17 +18,14 @@ export const AudioCard: FC<AudioCardProps> = ({
   correctIndex,
   onUserAnswer,
   userChoice,
-}) => {
-  console.log({ correctIndex, userChoice });
-  return (
-    <AudioCartStyled>
-      <Question word={word} />
-      <Answers
-        answers={variants}
-        correctAnswerIndex={correctIndex}
-        onUserAnswer={onUserAnswer}
-        userChoice={userChoice}
-      />
-    </AudioCartStyled>
-  );
-};
+}) => (
+  <AudioCartStyled>
+    <Question word={word} hasAnswer={userChoice !== '-1'} />
+    <Answers
+      answers={variants}
+      correctAnswerIndex={correctIndex}
+      onUserAnswer={onUserAnswer}
+      userChoice={userChoice}
+    />
+  </AudioCartStyled>
+);

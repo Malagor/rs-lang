@@ -2,13 +2,20 @@ import React, { FC, useEffect, useRef } from 'react';
 import { Word } from 'types';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import { SERVER_URL } from 'appConstants';
-import { QuestionWrapper, IconWrapper } from './styled';
+import {
+  QuestionWrapper,
+  IconWrapper,
+  ImageWrapper,
+  CurrentWord,
+  InfoBlock,
+} from './styled';
 
 type QuestionProps = {
   word: Word;
+  hasAnswer: boolean;
 };
 
-export const Question: FC<QuestionProps> = ({ word }) => {
+export const Question: FC<QuestionProps> = ({ word, hasAnswer }) => {
   const refAudioWord = useRef<HTMLAudioElement>(null);
 
   const onPlay = () => {
@@ -25,19 +32,24 @@ export const Question: FC<QuestionProps> = ({ word }) => {
 
   return (
     <QuestionWrapper>
-      {refAudioWord && (
-        <IconWrapper onClick={onPlay}>
-          <VolumeUpIcon />
-        </IconWrapper>
-      )}
-      <audio
-        ref={refAudioWord}
-        src={`${SERVER_URL}${word.audio}`}
-        autoPlay={true}
-      >
-        <track kind="captions" />{' '}
-      </audio>
-      {word.wordTranslate}
+      <ImageWrapper hasAnsver={hasAnswer}>
+        <img src={`${SERVER_URL}${word.image}`} alt={word.word} />
+      </ImageWrapper>
+      <InfoBlock>
+        {refAudioWord && (
+          <IconWrapper onClick={onPlay} hasAnsver={hasAnswer}>
+            <VolumeUpIcon />
+          </IconWrapper>
+        )}
+        <audio
+          ref={refAudioWord}
+          src={`${SERVER_URL}${word.audio}`}
+          autoPlay={true}
+        >
+          <track kind="captions" />{' '}
+        </audio>
+        {hasAnswer && <CurrentWord>{word.word}</CurrentWord>}
+      </InfoBlock>
     </QuestionWrapper>
   );
 };

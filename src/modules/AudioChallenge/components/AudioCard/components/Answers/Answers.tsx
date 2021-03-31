@@ -1,6 +1,15 @@
 import React, { FC } from 'react';
 
-import { FormControl, FormControlLabel, RadioGroup } from '@material-ui/core';
+import {
+  FormControl,
+  FormControlLabel,
+  makeStyles,
+  RadioGroup,
+} from '@material-ui/core';
+import {
+  COLOR_LAYOUT_BACKGROUND,
+  COLOR_LAYOUT_BACKGROUND_RGB,
+} from 'appConstants/colors';
 import { AnswersWrapper } from './styled';
 import { AnswerRadio } from './components/AnswerRadio';
 
@@ -11,6 +20,34 @@ type AnswersProps = {
   userChoice: string;
 };
 
+const answerItemStyle = {
+  color: `${COLOR_LAYOUT_BACKGROUND}`,
+  padding: '8px 16px',
+  cursor: 'pointer',
+  transition: '0.3s',
+
+  '&:hover': {
+    backgroundColor: `rgba(${COLOR_LAYOUT_BACKGROUND_RGB}, 0.3)`,
+  },
+};
+
+export const useStyles = makeStyles({
+  root: {
+    color: `${COLOR_LAYOUT_BACKGROUND}`,
+    padding: '8px 16px 8px 12px',
+    cursor: 'pointer',
+    transition: '0.3s',
+
+    '&:last-child': {
+      marginRight: 0,
+    },
+
+    '&:hover': {
+      backgroundColor: `rgba(${COLOR_LAYOUT_BACKGROUND_RGB}, 0.3)`,
+    },
+  },
+});
+
 export const Answers: FC<AnswersProps> = ({
   answers,
   correctAnswerIndex,
@@ -20,6 +57,7 @@ export const Answers: FC<AnswersProps> = ({
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     onUserAnswer(event.target.value);
   };
+  const classes = useStyles();
 
   return (
     <AnswersWrapper>
@@ -34,6 +72,8 @@ export const Answers: FC<AnswersProps> = ({
           {answers.map((answer, index) => (
             <FormControlLabel
               key={answer}
+              classes={{ root: classes.root }}
+              style={answerItemStyle}
               value={index.toString()}
               control={
                 <AnswerRadio
