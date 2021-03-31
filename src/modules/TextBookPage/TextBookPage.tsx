@@ -69,7 +69,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   return (
     <Grid container item className={classes.buttonGroup}>
-      <Grid item xs={12} sm={11}>
+      <Grid item xs={12} md={11} sm={10}>
         <Container>
           <div>Type of Words: </div>
           <Button
@@ -130,7 +130,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           </div>
         </Container>
       </Grid>
-      <Grid item xs={12} sm={1}>
+      <Grid item xs={12} md={1} sm={2}>
         <GroupSelector />
       </Grid>
     </Grid>

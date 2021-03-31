@@ -10,9 +10,13 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'center',
 
+    width: '72px',
+    margin: '0 auto',
+
     [theme.breakpoints.down('xs')]: {
       position: 'none',
       top: '0',
+      width: '98%',
       transform: 'none',
       margin: theme.spacing(1),
     },
