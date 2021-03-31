@@ -13,6 +13,9 @@ import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
 import { Loader } from 'components';
 import { useTheme } from '@material-ui/core/styles';
+import CorrectSound from 'assets/sounds/correct.mp3';
+import WrongSound from 'assets/sounds/error.mp3';
+import FinishSound from 'assets/sounds/finish.mp3';
 import { GameContainer, GameField, QuizWordContainer } from './styled';
 import { Dashboard, WordImage } from './components';
 
@@ -32,9 +35,10 @@ const ANIMATION_TIME = 1200;
 
 export const Imaginarium = () => {
   const [isFullScreen, setFullScreen] = useState(false);
+  const [isSoundOn, setSoundOn] = useState(true);
   const [hasStarted, setStarted] = useState(false);
   const [hasFinished, setFinished] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setLoading] = useState(true);
   const [round, setRound] = useState(0);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   const [currentWords, setCurrentWords] = useState<Word[]>([]);
@@ -57,6 +61,7 @@ export const Imaginarium = () => {
   const dispatch = useDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
   const gameFieldRef = useRef<HTMLDivElement>(null);
+  const soundRef = useRef<HTMLAudioElement>(null);
   const quizWordRef = useRef(quizWord);
   const theme = useTheme();
 
@@ -75,6 +80,10 @@ export const Imaginarium = () => {
         }
         setRightId(word.id);
         setAnimationIsPlaying(true);
+        if (isSoundOn && soundRef && soundRef.current) {
+          soundRef.current.src = CorrectSound;
+          soundRef.current.play().catch((err) => err);
+        }
       } else {
         setWrongAnswers(wrongAnswers + 1);
         if (!wronglyAnswered.includes(quizWord)) {
@@ -84,6 +93,10 @@ export const Imaginarium = () => {
         setWrongId(word.id);
         setRightId(quizWord.id);
         setAnimationIsPlaying(true);
+        if (isSoundOn && soundRef && soundRef.current) {
+          soundRef.current.src = WrongSound;
+          soundRef.current.play().catch((err) => err);
+        }
       }
       setTimeout(() => {
         setRound(round + 1);
@@ -103,6 +116,7 @@ export const Imaginarium = () => {
       wronglyAnswered,
       currentInARow,
       maxInARow,
+      isSoundOn,
     ]
   );
 
@@ -121,6 +135,10 @@ export const Imaginarium = () => {
       return undefined;
     }, ANIMATION_TIME + 300);
   };
+
+  useEffect(() => {
+    dispatch(loadWords(2, 23));
+  }, [dispatch]);
 
   useEffect(() => {
     dispatch(setPageTitle('Imaginarium'));
@@ -142,10 +160,6 @@ export const Imaginarium = () => {
       document.removeEventListener('keydown', handleKeydown);
     };
   }, [currentWords, handleImageClick]);
-
-  useEffect(() => {
-    dispatch(loadWords(2, 23));
-  }, [dispatch]);
 
   useEffect(() => {
     if (!words) return;
@@ -171,8 +185,12 @@ export const Imaginarium = () => {
     if (round === QUIZ_COUNT) {
       setFinished(true);
       console.log('Game is finished.');
+      if (isSoundOn && soundRef && soundRef.current) {
+        soundRef.current.src = FinishSound;
+        soundRef.current.play().catch((err) => err);
+      }
     }
-  }, [setFinished, round]);
+  }, [setFinished, round, isSoundOn]);
 
   const wordImages = currentWords.map((word, index) => (
     <WordImage
@@ -188,13 +206,15 @@ export const Imaginarium = () => {
 
   return (
     <GameContainer ref={containerRef} breakpoints={theme.breakpoints}>
-      {loading ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <>
           <Dashboard
             isFullscreen={isFullScreen}
             setFullscreen={setFullScreen}
+            isSoundOn={isSoundOn}
+            setSoundOn={setSoundOn}
             containerRef={containerRef}
             hasStarted={hasStarted}
             setStarted={setStarted}
@@ -213,6 +233,9 @@ export const Imaginarium = () => {
               {quizWord && quizWord.word}
             </QuizWordContainer>
           </GameField>
+          <audio ref={soundRef}>
+            <track kind="captions" />
+          </audio>
         </>
       )}
     </GameContainer>

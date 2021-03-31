@@ -41,7 +41,7 @@ export const RightWord = styled.span`
 `;
 
 export const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
-  z-index: 10;
+  z-index: 9;
   position: absolute;
   top: 0;
   right: 0;

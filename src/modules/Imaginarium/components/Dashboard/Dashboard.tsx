@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { useTheme } from '@material-ui/core/styles';
-import { Countdown, FullscreenButton } from 'components';
+import { Countdown, FullscreenButton, SoundButton } from 'components';
 import { GameplayCountdown } from './components';
 import {
   DashboardContainer,
@@ -13,6 +13,8 @@ import {
 type DashboardProps = {
   isFullscreen: boolean;
   setFullscreen: React.Dispatch<React.SetStateAction<boolean>>;
+  isSoundOn: boolean;
+  setSoundOn: React.Dispatch<React.SetStateAction<boolean>>;
   containerRef: React.RefObject<HTMLDivElement>;
   hasStarted: boolean;
   setStarted: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,6 +31,8 @@ type DashboardProps = {
 export const Dashboard: FC<DashboardProps> = ({
   isFullscreen,
   setFullscreen,
+  isSoundOn,
+  setSoundOn,
   containerRef,
   hasStarted,
   setStarted,
@@ -44,6 +48,8 @@ export const Dashboard: FC<DashboardProps> = ({
   const theme = useTheme();
   return (
     <DashboardContainer>
+      <SoundButton isSoundOn={isSoundOn} setSoundOn={setSoundOn} />
+
       <FullscreenButton
         isFullscreen={isFullscreen}
         setFullscreen={setFullscreen}
