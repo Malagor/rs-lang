@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import { selectTextBookGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
 import { NavGame, WordCard } from 'components';
+// import { StatisticModal } from 'modules/DictionaryPage/components/StatisticModal';
 import { WordListStyled } from './styled';
 import { NoWordsMessage } from './components';
 
@@ -30,6 +31,7 @@ export const WordList: FC<WordListProps> = ({
   return hasWords ? (
     <WordListStyled>
       <NavGame />
+      {/* <StatisticModal /> */}
 
       {words.map((word) => {
         const unsuitableWord = word.userWord?.difficulty === checkedDifficulty;
