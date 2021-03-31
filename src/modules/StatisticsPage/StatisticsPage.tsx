@@ -14,11 +14,11 @@ export const StatisticsPage: FC<GamesProps> = () => {
     dispatch(setPageTitle('Statistics'));
   }, [dispatch]);
 
-  const isAuthUser = useSelector(selectUserId) ? true : false;
+  const userId = useSelector(selectUserId);
 
   return (
     <Container>
-      {isAuthUser ? <Paper>Statistic</Paper> : <RedirectionModal />}
+      {userId ? <Paper>Statistic</Paper> : <RedirectionModal />}
     </Container>
   );
 };
