@@ -3,24 +3,24 @@ import Fab from '@material-ui/core/Fab';
 import { useStyles } from './styled';
 
 type ButtonGroupSelectorProps = {
-  activePage: boolean;
-  onChangeGroupPageHandler: Function;
+  isActivePage: boolean;
+  onChangeGroupHandler: Function;
   children: number;
   color: string;
 };
 
 export const ButtonGroupSelector: FC<ButtonGroupSelectorProps> = ({
-  activePage,
-  onChangeGroupPageHandler,
+  isActivePage,
+  onChangeGroupHandler,
   children,
   color,
 }) => {
-  const styleProps = { backgroundColor: color, activePage };
+  const styleProps = { backgroundColor: color, isActivePage };
   const classes = useStyles(styleProps);
 
   return (
     <Fab
-      onClick={() => onChangeGroupPageHandler()}
+      onClick={() => onChangeGroupHandler()}
       classes={{ root: classes.root, label: classes.label }}
     >
       {children}

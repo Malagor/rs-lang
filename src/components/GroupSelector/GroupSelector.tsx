@@ -14,14 +14,14 @@ export const GroupSelector: FC = () => {
   const dispatch = useDispatch();
   const arrayNumberOfPage = Array.from({ length: COUNT_GROUPS }, (v, k) => k);
 
-  const groupPageNow = useSelector(selectGroup);
+  const groupNow: number = useSelector(selectGroup);
 
-  const changeGroupPage = (numberGroupPage: number) => {
-    LocStore.setNumberGroupPage(numberGroupPage);
-    dispatch(setGroup(numberGroupPage));
+  const changeGroup = (numberGroup: number) => {
+    LocStore.setNumberGroupPage(numberGroup);
+    dispatch(setGroup(numberGroup));
   };
 
-  const colorText = LEVEL_COLORS[groupPageNow];
+  const colorText = LEVEL_COLORS[groupNow];
 
   const classes = useStyles();
   return (
@@ -38,16 +38,14 @@ export const GroupSelector: FC = () => {
         </Grid>
 
         <Grid item xs={12} className={classes.buttonWrapper}>
-          {arrayNumberOfPage.map((numberGroupPage: number) => (
-            <Grid key={numberGroupPage} container justify="center">
+          {arrayNumberOfPage.map((numberGroup: number) => (
+            <Grid key={numberGroup} container justify="center">
               <ButtonGroupSelector
-                onChangeGroupPageHandler={() =>
-                  changeGroupPage(numberGroupPage)
-                }
-                activePage={numberGroupPage === groupPageNow}
-                color={LEVEL_COLORS[numberGroupPage]}
+                onChangeGroupHandler={() => changeGroup(numberGroup)}
+                isActivePage={numberGroup === groupNow}
+                color={LEVEL_COLORS[numberGroup]}
               >
-                {numberGroupPage + 1}
+                {numberGroup + 1}
               </ButtonGroupSelector>
             </Grid>
           ))}
