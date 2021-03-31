@@ -80,6 +80,20 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
     }
   }, [chain, longerChain, incorrectWords, words, current]);
 
+  // Check Answer
+
+  const checkAnswer = useCallback(
+    (index: string) => {
+      setUserAnswer(index);
+      if (index === correctAnswerIndex) {
+        handlerCorrectAnswer();
+      } else {
+        handlerIncorrectAnswer();
+      }
+    },
+    [correctAnswerIndex, handlerCorrectAnswer, handlerIncorrectAnswer]
+  );
+
   // Next Question
 
   const answerHandler = useCallback(() => {
@@ -115,14 +129,13 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
       // select answer
       if (KEYS_ARRAY.includes(key)) {
+        if (isFinish) {
+          return;
+        }
         const index = `${parseInt(key, 10) - 1}`;
         setUserAnswer(index);
 
-        if (index === correctAnswerIndex) {
-          handlerCorrectAnswer();
-        } else {
-          handlerIncorrectAnswer();
-        }
+        checkAnswer(index);
       }
 
       // next word
@@ -143,6 +156,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
       window.removeEventListener('keydown', keyDownHandler);
     };
   }, [
+    checkAnswer,
     isFinish,
     handlerNewGame,
     incorrectWords,
@@ -206,7 +220,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
                 word={words[current]}
                 variants={answersArray}
                 correctIndex={correctAnswerIndex}
-                onUserAnswer={setUserAnswer}
+                onUserAnswer={checkAnswer}
                 userChoice={userAnswerIndex}
               />
               <NextButton
