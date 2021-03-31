@@ -10,7 +10,6 @@ import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
 import { database } from 'services';
-import { clearCorrectWords, clearIncorrectWords } from './actions';
 import {
   AudioCard,
   FullScreenButton,
@@ -94,14 +93,12 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   // New Game
 
   const handlerNewGame = useCallback(() => {
-    setCurrentWord(0);
     setFinish(false);
-    setUserAnswer('-1');
-    setCorrectAnswer('-1');
+    setCorrectWords([]);
+    setIncorrectWords([]);
+    setCurrentWord(0);
     setChain(0);
     setLongerChain(0);
-    clearCorrectWords();
-    clearIncorrectWords();
   }, []);
 
   // Finish Game
@@ -130,7 +127,10 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
       // next word
       if (key === ' ') {
-        if (userAnswerIndex !== '-1' && buttonRef && buttonRef.current) {
+        if (isFinish) {
+          handlerNewGame();
+        } else if (userAnswerIndex !== '-1' && buttonRef && buttonRef.current) {
+          setUserAnswer('-1');
           buttonRef.current.click();
         } else {
           setIncorrectWords([...incorrectWords, words[current]]);
@@ -143,6 +143,8 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
       window.removeEventListener('keydown', keyDownHandler);
     };
   }, [
+    isFinish,
+    handlerNewGame,
     incorrectWords,
     correctWords,
     current,
@@ -209,7 +211,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
               />
               <NextButton
                 clickHandler={answerHandler}
-                label={userAnswerIndex ? 'next word' : 'i don`t know'}
+                label={userAnswerIndex !== '-1' ? 'next word' : 'i don`t know'}
                 buttonRef={buttonRef}
               />
             </>
