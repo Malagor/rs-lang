@@ -28,8 +28,8 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       borderRadius: '50%',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '37px',
-      height: '37px',
+      width: '35px',
+      height: '35px',
       fontSize: '14px',
       lineHeight: '14px',
       margin: '6px',
