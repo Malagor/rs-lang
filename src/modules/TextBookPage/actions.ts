@@ -15,6 +15,7 @@ import {
   SET_SOUND,
   UPDATE_WORDS,
   SET_ERROR,
+  SET_PLAYED_SOUND,
 } from './actionConst';
 
 export const setPage = (payload: number) => ({
@@ -49,6 +50,11 @@ export const clearWordsError = () => ({
 
 export const updateWords = (payload: Word) => ({
   type: UPDATE_WORDS,
+  payload,
+});
+
+export const setPlayedSound = (payload: string) => ({
+  type: SET_PLAYED_SOUND,
   payload,
 });
 

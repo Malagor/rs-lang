@@ -1,5 +1,5 @@
-import { InitialStatistics } from 'modules/StatisticsPage/statisticsReducer';
 import { Auth, User, UserWord, Word } from 'types';
+import { InitialStatistics } from 'modules/StatisticsPage/statisticsReducer';
 
 class MongoDatabase {
   private readonly URL: string;
@@ -96,7 +96,6 @@ class MongoDatabase {
     wordOptions: UserWord;
   }) => {
     const { userId, wordId, wordOptions } = option;
-
     const url = `${this.URL}/users/${userId}/words/${wordId}`;
     const rawResponse = await fetch(url, {
       method: 'PUT',

@@ -14,6 +14,8 @@ type WordCardProps = {
   errorCount: number;
   isTranslate: boolean;
   isButtons: boolean;
+  showBtnDelete: boolean;
+  showBtnRestore: boolean;
 };
 
 export const WordCard: React.FC<WordCardProps> = ({
@@ -23,6 +25,8 @@ export const WordCard: React.FC<WordCardProps> = ({
   errorCount,
   isTranslate,
   isButtons,
+  showBtnDelete,
+  showBtnRestore,
 }) => {
   const theme = useTheme();
   const user = useSelector(selectUser);
@@ -56,6 +60,8 @@ export const WordCard: React.FC<WordCardProps> = ({
             colorGroup={colorGroup}
             wordId={wordId}
             isEasy={isEasy}
+            showBtnDelete={showBtnDelete}
+            showBtnRestore={showBtnRestore}
           />
         )}
       </ContentBlock>
