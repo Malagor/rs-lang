@@ -38,17 +38,18 @@ export const GroupSelector: FC = () => {
         </Grid>
 
         <Grid item xs={12} className={classes.buttonWrapper}>
-          {arrayNumberOfPage.map((numberGroup: number) => (
-            <Grid key={numberGroup} container justify="center">
+          <Grid container justify="center">
+            {arrayNumberOfPage.map((numberGroup: number) => (
               <ButtonGroupSelector
+                key={numberGroup}
                 onChangeGroupHandler={() => changeGroup(numberGroup)}
                 isActivePage={numberGroup === groupNow}
                 color={LEVEL_COLORS[numberGroup]}
               >
                 {numberGroup + 1}
               </ButtonGroupSelector>
-            </Grid>
-          ))}
+            ))}
+          </Grid>
         </Grid>
       </Paper>
     </Grid>

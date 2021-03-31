@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import Fab from '@material-ui/core/Fab';
+import { Fab } from '@material-ui/core';
 import { useStyles } from './styled';
 
 type ButtonGroupSelectorProps = {
