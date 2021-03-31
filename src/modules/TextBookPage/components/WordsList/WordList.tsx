@@ -20,6 +20,7 @@ export const WordList: FC<WordListProps> = ({ words }) => {
   return hasWords ? (
     <WordListStyled>
       <NavGame />
+
       {words.map((word) => {
         const isDeleted = word.userWord?.difficulty === 'easy';
         const wordStatistics = word.userWord?.optional?.statistics;
@@ -34,6 +35,8 @@ export const WordList: FC<WordListProps> = ({ words }) => {
               errorCount={wordStatistics?.incorrect || 0}
               isTranslate={true}
               isButtons={true}
+              showBtnDelete={true}
+              showBtnRestore={false}
             />
           )
         );

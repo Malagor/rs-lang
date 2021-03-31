@@ -4,3 +4,4 @@ export const SET_PAGE = 'SET_TEXTBOOK_PAGE';
 export const SET_SOUND = 'SET_TEXTBOOK_SOUND';
 export const SET_ERROR = 'SET_TEXTBOOK_ERROR';
 export const UPDATE_WORDS = 'UPDATE_WORDS';
+export const SET_PLAYED_SOUND = 'SET_PLAYED_SOUND';
