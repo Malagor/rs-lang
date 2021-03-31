@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Container, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectAuth } from 'modules/Login/selectors';
+import { selectUserId } from 'modules/Login/selectors';
 import { setPageTitle } from 'store/commonState/actions';
 import { RedirectionModal } from 'components';
 
@@ -14,11 +14,11 @@ export const StatisticsPage: FC<GamesProps> = () => {
     dispatch(setPageTitle('Statistics'));
   }, [dispatch]);
 
-  const authUserData = useSelector(selectAuth);
+  const isAuthUser = useSelector(selectUserId) ? true : false;
 
   return (
     <Container>
-      {authUserData.userId ? <Paper>Statistic</Paper> : <RedirectionModal />}
+      {isAuthUser ? <Paper>Statistic</Paper> : <RedirectionModal />}
     </Container>
   );
 };

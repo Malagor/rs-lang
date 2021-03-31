@@ -11,6 +11,7 @@ import {
   Sprint,
   OwnGame,
 } from 'modules';
+import * as URL from 'appConstants/url';
 import { Layout } from 'components';
 import { useDispatch } from 'react-redux';
 import { database, LocStore } from 'services';
@@ -38,15 +39,15 @@ export const App: FC = () => {
   return (
     <Layout>
       <Switch>
-        <Route path="/textbook" component={TextBookPage} />
-        <Route path="/games/audio-challenge" component={AudioChallenge} />
-        <Route path="/games/own-game" component={OwnGame} />
-        <Route path="/games/savannah" component={Savannah} />
-        <Route path="/games/sprint" component={Sprint} />
-        <Route path="/dictionary" component={DictionaryPage} />
-        <Route path="/games" component={GamesPage} />
-        <Route path="/statistics" component={StatisticsPage} />
-        <Route exact path="/" component={MainPage} />
+        <Route path={URL.URL_TEXT_BOOK} component={TextBookPage} />
+        <Route path={URL.URL_GAME_AUDIO_CHALLENGE} component={AudioChallenge} />
+        <Route path={URL.URL_GAME_OWN_GAME} component={OwnGame} />
+        <Route path={URL.URL_GAME_SAVANNA} component={Savannah} />
+        <Route path={URL.URL_GAME_SPRINT} component={Sprint} />
+        <Route path={URL.URL_DICTIONARY} component={DictionaryPage} />
+        <Route path={URL.URL_GAMES} component={GamesPage} />
+        <Route path={URL.URL_STATISTICS} component={StatisticsPage} />
+        <Route exact path={URL.URL_MAIN_PAGE} component={MainPage} />
       </Switch>
     </Layout>
   );
