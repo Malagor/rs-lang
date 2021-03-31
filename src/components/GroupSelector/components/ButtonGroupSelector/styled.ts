@@ -28,8 +28,8 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       borderRadius: '50%',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '32px',
-      height: '32px',
+      width: '37px',
+      height: '37px',
       fontSize: '14px',
       lineHeight: '14px',
       margin: '6px',
@@ -49,8 +49,8 @@ export const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       colors: props.isActivePage ? 'default' : 'pointer',
     },
     [theme.breakpoints.down('xs')]: {
-      width: '44px',
-      height: '44px',
+      width: '48px',
+      height: '48px',
     },
   }),
 }));

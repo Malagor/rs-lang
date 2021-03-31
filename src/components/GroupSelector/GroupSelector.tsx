@@ -25,33 +25,31 @@ export const GroupSelector: FC = () => {
 
   const classes = useStyles();
   return (
-    <Grid container item xs={12} className={classes.wrapper}>
-      <Paper
-        elevation={3}
-        style={{ color: `${colorText}` }}
-        className={classes.paperWrapper}
-      >
-        <Grid item xs={12}>
-          <Typography variant="subtitle1" className={classes.textPosition}>
-            Groups
-          </Typography>
-        </Grid>
+    <div className={classes.wrapper}>
+      <Paper elevation={3} style={{ color: `${colorText}` }}>
+        <Grid container className={classes.paperWrapper}>
+          <Grid item className={classes.titleWrapper}>
+            <Typography variant="subtitle1" className={classes.title}>
+              Groups
+            </Typography>
+          </Grid>
 
-        <Grid item xs={12} className={classes.buttonWrapper}>
-          <Grid container justify="center">
-            {arrayNumberOfPage.map((numberGroup: number) => (
-              <ButtonGroupSelector
-                key={numberGroup}
-                onChangeGroupHandler={() => changeGroup(numberGroup)}
-                isActivePage={numberGroup === groupNow}
-                color={LEVEL_COLORS[numberGroup]}
-              >
-                {numberGroup + 1}
-              </ButtonGroupSelector>
-            ))}
+          <Grid item className={classes.buttonWrapper}>
+            <Grid container justify="center" alignItems="center">
+              {arrayNumberOfPage.map((numberGroup: number) => (
+                <ButtonGroupSelector
+                  key={numberGroup}
+                  onChangeGroupHandler={() => changeGroup(numberGroup)}
+                  isActivePage={numberGroup === groupNow}
+                  color={LEVEL_COLORS[numberGroup]}
+                >
+                  {numberGroup + 1}
+                </ButtonGroupSelector>
+              ))}
+            </Grid>
           </Grid>
         </Grid>
       </Paper>
-    </Grid>
+    </div>
   );
 };

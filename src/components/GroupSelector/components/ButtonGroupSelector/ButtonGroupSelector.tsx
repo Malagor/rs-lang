@@ -4,7 +4,7 @@ import { useStyles } from './styled';
 
 type ButtonGroupSelectorProps = {
   isActivePage: boolean;
-  onChangeGroupHandler: Function;
+  onChangeGroupHandler: () => void;
   children: number;
   color: string;
 };

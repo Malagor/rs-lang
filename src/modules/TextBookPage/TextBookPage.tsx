@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Button, Container, Paper, Grid } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import { ErrorMessage, Loader, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
@@ -12,14 +12,7 @@ import {
   selectTextBookError,
   selectTextBookWords,
 } from './selectors';
-import {
-  loadUserAggregateWords,
-  loadUserDeletedWords,
-  loadUserDifficultWords,
-  loadWords,
-  setGroup,
-  setPage,
-} from './actions';
+import { loadUserAggregateWords, loadWords } from './actions';
 import { WordList } from './components';
 import { useStyles } from './styled';
 
@@ -48,91 +41,37 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   const classes = useStyles();
 
-  const onUsualWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(0));
-    dispatch(loadUserAggregateWords(user.id, group, page));
-  };
-
-  const onDifficultWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(0));
-    dispatch(loadUserDifficultWords(user.id, group, page));
-  };
-  const onDeletedWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(0));
-    dispatch(loadUserDeletedWords(user.id, group, page));
-  };
-
   const hasContent = words && words.length;
 
   return (
-    <Grid container item className={classes.buttonGroup}>
-      <Grid item xs={12} md={11} sm={10}>
-        <Container>
-          <div>Type of Words: </div>
-          <Button
-            type="button"
-            color="primary"
-            variant="contained"
-            onClick={onUsualWords}
-          >
-            Usual Words
-          </Button>
-          <Button
-            variant="contained"
-            color="default"
-            type="button"
-            onClick={onDifficultWords}
-          >
-            Difficult words
-          </Button>
-          <Button
-            variant="contained"
-            color="secondary"
-            type="button"
-            onClick={onDeletedWords}
-          >
-            Deleted words
-          </Button>
-          <hr />
-
-          <div
-            style={{
-              paddingBottom: '8px',
-              minHeight: '200px',
-              position: 'relative',
-            }}
-          >
-            <>
-              {error && <ErrorMessage />}
-              {hasContent ? (
-                <>
-                  <Pagination
-                    pageCount={30}
-                    initialPage={page}
-                    forcePage={page}
-                    group={group}
-                  />
-                  <WordList words={words} />
-                  <Pagination
-                    pageCount={30}
-                    initialPage={page}
-                    forcePage={page}
-                    group={group}
-                  />
-                </>
-              ) : (
-                <Loader />
-              )}
-            </>
-          </div>
-        </Container>
-      </Grid>
-      <Grid item xs={12} md={1} sm={2}>
-        <GroupSelector />
-      </Grid>
-    </Grid>
+    <Container>
+      {error && <ErrorMessage />}
+      {hasContent ? (
+        <div className={classes.contentWrapper}>
+          <Grid container>
+            <Grid item xs={12} sm={11} className={classes.mainGrid}>
+              <Pagination
+                pageCount={30}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+              <WordList words={words} />
+              <Pagination
+                pageCount={30}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+            </Grid>
+            <Grid item xs={12} sm={1} className={classes.sideGrid}>
+              <GroupSelector />
+            </Grid>
+          </Grid>
+        </div>
+      ) : (
+        <Loader />
+      )}
+    </Container>
   );
 };
