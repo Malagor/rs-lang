@@ -9,24 +9,11 @@ export const SectionsContainer = styled.div`
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     flex-wrap: wrap;
     justify-content: center;
-    /* max-width: 400px; */
     margin: 0 auto;
   }
-  /* flex-wrap: wrap; */
-  /* margin: 0px -8px; */
-
-  /* a {
-    text-decoration: none;
-    color: inherit;
-    padding: 0px 8px;
-  } */
-  /* @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
-    justify-content: center;
-  } */
 `;
 
 export const Section = styled.div<{ active: boolean }>`
-  /* padding: 0px 8px; */
   display: flex;
   align-items: center;
   padding: 12px 24px 12px 16px;
@@ -61,5 +48,3 @@ export const Marker = styled.div<{ colorGroup?: string }>`
     margin-right: 8px;
   }
 `;
-
-export const Title = styled.div``;

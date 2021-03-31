@@ -60,7 +60,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     } else {
       dispatch(loadWords(group, page));
     }
-  }, [dispatch, page, group, user]);
+  }, [dispatch, page, group, user, wordSection]);
 
   const onPrevGroupHandler = () => {
     const prevGroup = group === 0 ? 0 : group - 1;

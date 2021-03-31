@@ -28,3 +28,9 @@ export const AUTHORS = [
     gitHub: 'https://github.com/Vadim-Bykov',
   },
 ];
+
+export const sectionNames = [
+  'Learning words',
+  'Difficult words',
+  'Deleted words',
+];

@@ -1,11 +1,9 @@
 import { useTheme } from '@material-ui/core';
+import { sectionNames } from 'appConstants';
 import { LEVEL_COLORS } from 'appConstants/colors';
-import { selectTextBookGroup } from 'modules/TextBookPage/selectors';
 import React from 'react';
 import { WordSectionType } from 'types';
 import { Marker, Section, SectionsContainer } from './styled';
-
-const sectionNames = ['Learning words', 'Difficult words', 'Deleted words'];
 
 type SectionsProps = {
   handlers: Array<() => void>;
@@ -22,6 +20,7 @@ export const Sections: React.FC<SectionsProps> = ({
 
   const getActiveSection = (i: number) => {
     let activeItem;
+
     if (i === 0 && wordSection === 'usual') activeItem = 0;
 
     if (i === 1 && wordSection === 'difficult') activeItem = 1;
