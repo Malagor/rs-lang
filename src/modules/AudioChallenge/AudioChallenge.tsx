@@ -69,8 +69,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   const handlerCorrectAnswer = useCallback(() => {
     setCorrectWords([...correctWords, words[current]]);
     setChain((prev) => prev + 1);
-    setUserAnswer(correctAnswerIndex);
-  }, [correctWords, words, current, correctAnswerIndex]);
+  }, [correctWords, words, current]);
 
   // Incorrect Answer
 
@@ -80,8 +79,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
       setLongerChain(chain);
       setChain(0);
     }
-    setUserAnswer(correctAnswerIndex);
-  }, [chain, longerChain, correctAnswerIndex, incorrectWords, words, current]);
+  }, [chain, longerChain, incorrectWords, words, current]);
 
   // Next Question
 
@@ -108,9 +106,9 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
   // Finish Game
 
-  useEffect(() => {
-    console.log('Finish');
-  }, [isFinish]);
+  const handleFinishGame = useCallback(() => {
+    setLongerChain(chain);
+  }, [chain]);
 
   // Keyboard listener
 
@@ -120,9 +118,10 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
       // select answer
       if (KEYS_ARRAY.includes(key)) {
-        setUserAnswer(key);
+        const index = `${parseInt(key, 10) - 1}`;
+        setUserAnswer(index);
 
-        if (key === `${correctAnswerIndex}`) {
+        if (index === correctAnswerIndex) {
           handlerCorrectAnswer();
         } else {
           handlerIncorrectAnswer();
@@ -131,7 +130,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
       // next word
       if (key === ' ') {
-        if (userAnswerIndex && buttonRef && buttonRef.current) {
+        if (userAnswerIndex !== '-1' && buttonRef && buttonRef.current) {
           buttonRef.current.click();
         } else {
           setIncorrectWords([...incorrectWords, words[current]]);
@@ -182,6 +181,10 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
       setCorrectAnswer(corAnswerIndex.toString());
     }
   }, [words, current]);
+
+  useEffect(() => {
+    handleFinishGame();
+  }, [isFinish, handleFinishGame]);
 
   const hasContent = words.length && words[current];
 
