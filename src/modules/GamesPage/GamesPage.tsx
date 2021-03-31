@@ -19,7 +19,7 @@ export const GamesPage: FC<GamesProps> = () => {
 
   return (
     <Container>
-      <Grid container item xs={12} className={classes.wrapper}>
+      <Grid container item xs={12} justify="center" className={classes.wrapper}>
         {gamesData.map(({ name, img, description, link, colorButton }) => (
           <GameCard
             key={name}

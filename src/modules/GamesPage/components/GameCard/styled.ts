@@ -19,7 +19,7 @@ export const PlayButton = withStyles((theme) => ({
     lineHeight: 1.5,
     borderColor: 'none',
     borderRadius: 'unset',
-    fontFamily: ['Roboto'].join(','),
+    fontFamily: 'Roboto',
   }),
 }))(Button);
 
@@ -51,12 +51,10 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
     width: '363px',
     minHeight: '308px',
     flexDirection: 'column',
-    margin: '39px 30px',
+    margin: '20px 20px',
 
     borderRadius: '10px',
     boxShadow: '0px 0px 4px rgba(0, 0, 0, 0.15)',
-
-    [theme.breakpoints.down('sm')]: { margin: '22px 20px' },
   },
   avatarWrapper: {
     marginTop: theme.spacing(4),
@@ -91,7 +89,7 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
   },
   buttonWrapper: {
     top: theme.spacing(4),
-    marginTop: theme.spacing(2),
+    marginTop: 'auto',
     marginBottom: theme.spacing(4),
   },
 }));

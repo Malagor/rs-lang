@@ -28,18 +28,34 @@ export const GameCard: FC<GameCardProps> = ({
   };
 
   return (
-    <Grid key={name} container item xs={12} md={6} className={classes.wrapper}>
-      <Card className={`${classes.cardWrapper} ${classes.wrapper}`}>
-        <Grid item xs={12} className={classes.avatarWrapper}>
+    <Card key={name} className={`${classes.cardWrapper} ${classes.wrapper}`}>
+      <Grid container item xs={12} className={classes.wrapper}>
+        <Grid
+          item
+          xs={12}
+          className={`${classes.avatarWrapper} ${classes.wrapper}`}
+        >
           <Avatar alt={name} src={img} className={classes.avatarSize} />
         </Grid>
-        <Grid item xs={12} className={classes.titleWrapper}>
+        <Grid
+          item
+          xs={12}
+          className={`${classes.titleWrapper} ${classes.wrapper}`}
+        >
           <Typography className={classes.title}>{name}</Typography>
         </Grid>
-        <Grid item xs={12} className={classes.descriptionWrapper}>
+        <Grid
+          item
+          xs={12}
+          className={`${classes.descriptionWrapper} ${classes.wrapper}`}
+        >
           <Typography className={classes.description}>{description}</Typography>
         </Grid>
-        <Grid item xs={12} className={classes.buttonWrapper}>
+        <Grid
+          item
+          xs={12}
+          className={`${classes.buttonWrapper} ${classes.wrapper}`}
+        >
           <PlayButton
             onClick={onGoToGamePage}
             variant="contained"
@@ -49,7 +65,7 @@ export const GameCard: FC<GameCardProps> = ({
             play
           </PlayButton>
         </Grid>
-      </Card>
-    </Grid>
+      </Grid>
+    </Card>
   );
 };
