@@ -3,6 +3,7 @@ import React, {
   SyntheticEvent,
   useCallback,
   useEffect,
+  useRef,
   useState,
 } from 'react';
 import { Container } from '@material-ui/core';
@@ -14,23 +15,7 @@ import {
 } from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
-import {
-  selectAudioCurrentWord,
-  selectAudioFinish,
-  selectAudioIsAnswer,
-  selectAudioWords,
-} from './selectors';
-import {
-  clearCorrectWords,
-  clearIncorrectWords,
-  loadAudioGameWords,
-  setChain,
-  setCurrentWord,
-  setFinish,
-  setIsAnswer,
-  setLongerChain,
-  setUserAnswer,
-} from './actions';
+import { clearCorrectWords, clearIncorrectWords } from './actions';
 import {
   AudioCard,
   FullScreenButton,
@@ -40,22 +25,40 @@ import {
 } from './components';
 import 'react-circular-progressbar/dist/styles.css';
 import { AudioWrapper } from './styled';
+import { Word } from '../../types';
+import { database } from '../../services';
 
 type AudioChallengeProps = {};
 
 export const AudioChallenge: FC<AudioChallengeProps> = () => {
+  const mixingArray = useCallback(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    (arr: any[]) => arr.sort(() => Math.random() - 0.5),
+    []
+  );
+
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
   const group = useSelector(selectTextBookGroup);
   const page = useSelector(selectTextBookPage);
-  const words = useSelector(selectAudioWords);
 
-  const isAnswer = useSelector(selectAudioIsAnswer);
-  const isFinish = useSelector(selectAudioFinish);
-  const current = useSelector(selectAudioCurrentWord);
-  // const userAnswer = useSelector(selectAudioUserAnswer);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const [open, setOpen] = useState(false);
+  const [words, setWords] = useState<Word[]>([]);
+  const [correctWords, setCorrectWords] = useState<Word[]>([]);
+  const [incorrectWords, setIncorrectWords] = useState<Word[]>([]);
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [correctAnswer, setCorrectAnswer] = useState(-1);
+
+  const [isAnswer, setIsAnswer] = useState(false);
+  const [isFinish, setFinish] = useState(false);
+  const [current, setCurrentWord] = useState(0);
+  const [userAnswer, setUserAnswer] = useState(-1);
+
+  // statistics
+  const [chain, setChain] = useState(0);
+  const [longerChain, setLongerChain] = useState(0);
 
   useEffect(() => {
     dispatch(setPageTitle('Audio challenge'));
@@ -65,42 +68,49 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
     console.log('Finish');
   }, [isFinish]);
 
+  // Keyboard listener
   useEffect(() => {
-    dispatch(
-      loadAudioGameWords(
-        userId,
-        group,
-        page,
-        20,
-        `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`
-      )
-    );
-  }, [dispatch, group, page, userId]);
-
-  const fullScreenOpenHandler = () => setOpen(!open);
-
-  const keyDownHandler = useCallback(
-    (e: KeyboardEvent) => {
-      const variants = ['1', '2', '3', '4', '5'];
+    const keyDownHandler = (e: KeyboardEvent) => {
       const { key } = e;
-      if (variants.includes(key)) {
-        dispatch(setUserAnswer(key));
-        dispatch(setIsAnswer(true));
+
+      // select answer
+      if (['1', '2', '3', '4'].includes(key)) {
+        setUserAnswer(parseInt(key, 10) - 1);
+        setIsAnswer(true);
       }
-    },
-    [dispatch]
-  );
 
-  useEffect(() => {
+      // next word
+      if (key === ' ') {
+        if (isAnswer && buttonRef && buttonRef.current) {
+          buttonRef.current.click();
+        } else {
+          setIsAnswer(true);
+        }
+      }
+    };
     window.addEventListener('keydown', keyDownHandler);
-
     return () => {
       window.removeEventListener('keydown', keyDownHandler);
     };
-  }, [keyDownHandler]);
+  }, [isAnswer]);
+
+  useEffect(() => {
+    const locWords = database.getUserAggregatedWord(
+      userId,
+      group,
+      page,
+      20,
+      `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`
+    );
+
+    locWords.then((data) => {
+      const mixArr = mixingArray(data[0].paginatedResults);
+      setWords(mixArr);
+    });
+  }, [mixingArray, group, page, userId]);
 
   const answerHandler = () => {
-    dispatch(setIsAnswer(false));
+    setIsAnswer(false);
 
     // проверить на правильность
     // занести слово в нужный массив
@@ -110,56 +120,76 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
     // если НЕ финиш, то увеличить текущий индекс
     // сбросить флаг isAnswer
 
-    if (current === words.length - 1) dispatch(setFinish(true));
+    if (current === words.length - 1) setFinish(true);
 
     if (current < words.length) {
-      dispatch(setCurrentWord(current + 1));
+      setCurrentWord(current + 1);
     }
-    dispatch(setUserAnswer('1'));
+    // setUserAnswer('1');
   };
 
+  useEffect(() => {
+    if (words && words[current]) {
+      const curCord = words[current].wordTranslate;
+      const mixAnswers = mixingArray([
+        'Ответ 1',
+        'Ответ 2',
+        'Ответ 3',
+        curCord,
+      ]);
+      const corAnswerIndex = mixAnswers.indexOf(words[current].wordTranslate);
+
+      setAnswers(mixAnswers);
+      setCorrectAnswer(corAnswerIndex);
+    }
+  }, [words, mixingArray, current]);
+
   const newGameHandler = () => {
-    dispatch(setCurrentWord(0));
-    dispatch(setIsAnswer(false));
-    dispatch(setFinish(false));
-    dispatch(setUserAnswer(''));
-    dispatch(setChain(0));
-    dispatch(setLongerChain(0));
-    dispatch(clearCorrectWords());
-    dispatch(clearIncorrectWords());
+    setCurrentWord(0);
+    setIsAnswer(false);
+    setFinish(false);
+    setUserAnswer(-1);
+    setChain(0);
+    setLongerChain(0);
+    clearCorrectWords();
+    clearIncorrectWords();
   };
 
   const handleChange = (e: SyntheticEvent) => {};
 
-  const contStyle = {
-    height: '100%',
-  };
   const hasContent = words.length && words[current];
 
   return (
-    <Container style={contStyle}>
+    <Container style={{ height: '100%' }}>
       <FullScreenWrapperFlexCenter>
         <AudioWrapper>
-          <ProgressBar group={group} totalCount={words.length} />
-          <FullScreenButton open={open} onOpen={fullScreenOpenHandler} />
+          <ProgressBar
+            group={group}
+            totalCount={words.length}
+            current={current}
+          />
+          <FullScreenButton open={open} />
           {hasContent ? (
             <>
               <AudioCard
                 word={words[current]}
-                variants={[
-                  `${words[current].wordTranslate}`,
-                  'Ответ 2',
-                  'Ответ 3',
-                  'Ответ 4',
-                ]}
+                variants={answers}
+                correctIndex={correctAnswer}
+                onUserAnswer={setUserAnswer}
               />
               <NextButton
                 clickHandler={answerHandler}
                 label={isAnswer ? 'next word' : 'i don`t know'}
+                buttonRef={buttonRef}
               />
             </>
           ) : null}
-          {isFinish && <FinishGame onFinishGameHandler={newGameHandler} />}
+          {isFinish && (
+            <FinishGame
+              onFinishGameHandler={newGameHandler}
+              buttonRef={buttonRef}
+            />
+          )}
         </AudioWrapper>
       </FullScreenWrapperFlexCenter>
     </Container>

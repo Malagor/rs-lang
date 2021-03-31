@@ -123,38 +123,38 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           Next Group
         </Button>
         <hr />
-      </ContentWrapper>
 
-      <div
-        style={{
-          paddingBottom: '8px',
-          minHeight: '200px',
-          position: 'relative',
-        }}
-      >
-        <>
-          {error && <ErrorMessage />}
-          {hasContent ? (
-            <>
-              <Pagination
-                pageCount={30}
-                initialPage={page}
-                forcePage={page}
-                group={group}
-              />
-              <WordList words={words} />
-              <Pagination
-                pageCount={30}
-                initialPage={page}
-                forcePage={page}
-                group={group}
-              />
-            </>
-          ) : (
-            <Loader />
-          )}
-        </>
-      </div>
+        <div
+          style={{
+            paddingBottom: '8px',
+            minHeight: '200px',
+            position: 'relative',
+          }}
+        >
+          <>
+            {error && <ErrorMessage />}
+            {hasContent ? (
+              <>
+                <Pagination
+                  pageCount={30}
+                  initialPage={page}
+                  forcePage={page}
+                  group={group}
+                />
+                <WordList words={words} />
+                <Pagination
+                  pageCount={30}
+                  initialPage={page}
+                  forcePage={page}
+                  group={group}
+                />
+              </>
+            ) : (
+              <Loader />
+            )}
+          </>
+        </div>
+      </ContentWrapper>
     </Container>
   );
 };

@@ -6,7 +6,7 @@ import { FullScreenWrapper } from './styled';
 
 type FullScreenButtonProps = {
   open: boolean;
-  onOpen: () => void;
+  onOpen?: () => void;
 };
 
 export const FullScreenButton: FC<FullScreenButtonProps> = ({

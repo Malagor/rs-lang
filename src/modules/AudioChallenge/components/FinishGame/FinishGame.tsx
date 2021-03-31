@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, RefObject } from 'react';
 import { useSelector } from 'react-redux';
 import { NextButton } from '../NextButton';
 import {
@@ -9,9 +9,13 @@ import {
 
 type FinishGameProps = {
   onFinishGameHandler: () => void;
+  buttonRef: RefObject<HTMLButtonElement>;
 };
 
-export const FinishGame: FC<FinishGameProps> = ({ onFinishGameHandler }) => {
+export const FinishGame: FC<FinishGameProps> = ({
+  onFinishGameHandler,
+  buttonRef,
+}) => {
   const correctWords = useSelector(selectAudioCorrectWord);
   const incorrectWord = useSelector(selectAudioIncorrectWord);
   const longerChain = useSelector(selectAudioLongerChain);
@@ -34,7 +38,11 @@ export const FinishGame: FC<FinishGameProps> = ({ onFinishGameHandler }) => {
           <li key={word.word}>{word.word}</li>
         ))}
       </ul>
-      <NextButton label="again" clickHandler={onFinishGameHandler} />
+      <NextButton
+        label="again"
+        clickHandler={onFinishGameHandler}
+        buttonRef={buttonRef}
+      />
     </div>
   );
 };

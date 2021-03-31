@@ -6,8 +6,8 @@ import { AnswerRadio } from './components/AnswerRadio';
 
 type AnswersProps = {
   answers: string[];
-  correctAnswer: string;
-  onUserAnswer: (userAnswer: string) => void;
+  correctAnswer: number;
+  onUserAnswer: (userAnswer: number) => void;
 };
 
 export const Answers: FC<AnswersProps> = ({
@@ -19,7 +19,7 @@ export const Answers: FC<AnswersProps> = ({
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
-    onUserAnswer(value);
+    onUserAnswer(parseInt(value, 10) - 1);
   };
 
   return (
@@ -35,11 +35,9 @@ export const Answers: FC<AnswersProps> = ({
           {answers.map((answer, index) => (
             <FormControlLabel
               key={answer}
-              value={answer}
-              control={
-                <AnswerRadio iscorrect={`${correctAnswer === answer}`} />
-              }
-              label={`${index + 1} ${answer}`}
+              value={`${index}`}
+              control={<AnswerRadio iscorrect={`${index === correctAnswer}`} />}
+              label={`${index} ${answer}`}
             />
           ))}
         </RadioGroup>
