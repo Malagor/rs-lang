@@ -126,13 +126,12 @@ export const ButtonsBlock: React.FC<Props> = ({
         </>
       )}
       {showBtnRestore && (
-        <DeleteBtn
+        <DifficultBtn
           variant="contained"
-          color="secondary"
           onClick={() => handlerRemoveWordFromList(userId, wordId, group, page)}
         >
           restore
-        </DeleteBtn>
+        </DifficultBtn>
       )}
     </Container>
   );

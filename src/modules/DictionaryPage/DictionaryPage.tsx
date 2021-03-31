@@ -25,6 +25,7 @@ import {
   setPage,
   setWordSection,
 } from 'modules/TextBookPage/actions';
+import { Sections } from './components';
 
 type DictionaryProps = {};
 
@@ -98,32 +99,12 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
   return (
     <Container>
-      <div>Type of Words: </div>
-      <Button
-        type="button"
-        color="primary"
-        variant="contained"
-        onClick={onUsualWords}
-      >
-        Usual Words
-      </Button>
-      <Button
-        variant="contained"
-        color="default"
-        type="button"
-        onClick={onDifficultWords}
-      >
-        Difficult words
-      </Button>
-      <Button
-        variant="contained"
-        color="secondary"
-        type="button"
-        onClick={onDeletedWords}
-      >
-        Deleted words
-      </Button>
-      <hr />
+      <Sections
+        group={group}
+        wordSection={wordSection}
+        handlers={[onUsualWords, onDifficultWords, onDeletedWords]}
+      />
+
       <div>Group: {group}</div>
       <Button
         type="button"
@@ -143,36 +124,28 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
       </Button>
       <hr />
 
-      <div
-        style={{
-          paddingBottom: '8px',
-          minHeight: '200px',
-          position: 'relative',
-        }}
-      >
-        <>
-          {error && <ErrorMessage />}
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              <WordList
-                words={words}
-                checkedDifficulty={checkedDifficulty}
-                isButtons={true}
-                showBtnDeleteDifficult={wordSection === 'usual'}
-                showBtnRestore={wordSection !== 'usual'}
-              />
-              <Pagination
-                pageCount={pagesCount}
-                initialPage={page}
-                forcePage={page}
-                group={group}
-              />
-            </>
-          )}
-        </>
-      </div>
+      <>
+        {error && <ErrorMessage />}
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <WordList
+              words={words}
+              checkedDifficulty={checkedDifficulty}
+              isButtons={true}
+              showBtnDeleteDifficult={wordSection === 'usual'}
+              showBtnRestore={wordSection !== 'usual'}
+            />
+            <Pagination
+              pageCount={pagesCount}
+              initialPage={page}
+              forcePage={page}
+              group={group}
+            />
+          </>
+        )}
+      </>
     </Container>
   );
 };
