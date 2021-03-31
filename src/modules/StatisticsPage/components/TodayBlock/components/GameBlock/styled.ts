@@ -1,7 +1,12 @@
+import { Theme } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { COLOR_LAYOUT_WHITE, COLOR_LAYOUT_TEXT } from 'appConstants/colors';
 
-export const useStyles = makeStyles((theme) => ({
+type PropsType = {
+  color: string;
+};
+
+export const useStyles = makeStyles<Theme, PropsType>((theme) => ({
   container: {
     minHeight: '195px',
     gridRowEnd: 'span 2',
@@ -25,7 +30,7 @@ export const useStyles = makeStyles((theme) => ({
       height: '4px',
       width: '72px',
       borderRadius: '10px',
-      background: 'red',
+      backgroundColor: ({ color }) => color,
     },
   },
   icon: {
@@ -39,7 +44,7 @@ export const useStyles = makeStyles((theme) => ({
     fontSize: '24px',
     fontWeight: 500,
   },
-  info: {
+  body: {
     fontSize: '22px',
     lineHeight: 1,
   },

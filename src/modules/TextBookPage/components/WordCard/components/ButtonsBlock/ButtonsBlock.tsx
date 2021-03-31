@@ -10,6 +10,7 @@ import {
   removeWordFromUserList,
   updateWordInUserList,
 } from 'modules/TextBookPage/actions';
+import { updateStatisticsLearnedWords } from 'modules/StatisticsPage/actions';
 import {
   selectTextBookGroup,
   selectTextBookPage,
@@ -20,9 +21,14 @@ import { Container } from './styled';
 type Props = {
   colorGroup: string;
   wordId: string;
+  isEasy: boolean | undefined;
 };
 
-export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
+export const ButtonsBlock: React.FC<Props> = ({
+  colorGroup,
+  wordId,
+  isEasy,
+}) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
@@ -67,8 +73,12 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
   ) => {
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
+      dispatch(updateStatisticsLearnedWords(userId, type === 'easy' ? 1 : -1));
     } else {
       await addWordToUserList(userID, wordID, type);
+      if (type === 'easy') {
+        dispatch(updateStatisticsLearnedWords(userId, 1));
+      }
     }
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
   };
@@ -81,6 +91,9 @@ export const ButtonsBlock: React.FC<Props> = ({ colorGroup, wordId }) => {
   ) => {
     await removeWordFromUserList(userID, wordID);
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
+    if (isEasy) {
+      dispatch(updateStatisticsLearnedWords(userId, -1));
+    }
   };
 
   return (

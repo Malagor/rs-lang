@@ -1,3 +1,4 @@
+import { InitialStatistics } from 'modules/StatisticsPage/statisticsReducer';
 import { Auth, User, UserWord, Word } from 'types';
 
 class MongoDatabase {
@@ -45,7 +46,12 @@ class MongoDatabase {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
-    }).then((data) => data.json());
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        this.createUserStatistics(data.userId);
+        return data;
+      });
   };
 
   loginUser = async (user: {
@@ -155,6 +161,64 @@ class MongoDatabase {
         Authorization: `Bearer ${this.token}`,
         Accept: 'application/json',
       },
+    });
+    return rawResponse.json();
+  };
+
+  createUserStatistics = async (userId: string) => {
+    const url = `${this.URL}/users/${userId}/statistics`;
+
+    const rawResponse = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(InitialStatistics),
+    });
+    return rawResponse;
+  };
+
+  getUserStatistics = async (userId: string) => {
+    const url = `${this.URL}/users/${userId}/statistics`;
+
+    const rawResponse: Response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+      },
+    }).then((res) => {
+      if (res.status === 404) {
+        return this.createUserStatistics(userId);
+      }
+      return res;
+    });
+
+    const data = await rawResponse.json();
+    delete data.id;
+
+    return data;
+  };
+
+  updateUserStatistics = async (
+    userId: string,
+    data: typeof InitialStatistics
+  ) => {
+    const url = `${this.URL}/users/${userId}/statistics`;
+    const oldStatistics = await this.getUserStatistics(userId);
+    delete oldStatistics.id;
+    const newStatistics = oldStatistics ? { ...oldStatistics, ...data } : data;
+
+    const rawResponse = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newStatistics),
     });
     return rawResponse.json();
   };

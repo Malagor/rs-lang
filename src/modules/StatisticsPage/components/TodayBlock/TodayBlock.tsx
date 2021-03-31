@@ -5,15 +5,35 @@ import { Accuracy } from './components/Accuracy';
 import { GameBlock } from './components/GameBlock';
 import { useStyles } from './styled';
 
-export const TodayBlock: FC = () => {
+type TodayBlockProps = {
+  accuracy: number;
+  gamesStatistics: {
+    [name: string]: {
+      words: number;
+      accuracy: number;
+      inRow: number;
+    };
+  };
+};
+
+export const TodayBlock: FC<TodayBlockProps> = ({
+  accuracy,
+  gamesStatistics,
+}) => {
   const classes = useStyles();
 
   return (
     <div className={classes.container}>
       <LearnedWords />
-      <Accuracy />
+      <Accuracy percentage={accuracy} />
       {gamesData.map((game) => (
-        <GameBlock key={game.name} img={game.img} name={game.name} />
+        <GameBlock
+          key={game.name}
+          img={game.img}
+          name={game.name}
+          color={game.color}
+          statistics={gamesStatistics[game.name]}
+        />
       ))}
     </div>
   );

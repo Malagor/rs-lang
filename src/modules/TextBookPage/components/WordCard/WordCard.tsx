@@ -30,6 +30,7 @@ export const WordCard: React.FC<WordCardProps> = ({
   // eslint-disable-next-line no-underscore-dangle
   const wordId = word._id || word.id;
   const isHard = word.userWord && word.userWord.difficulty === 'hard';
+  const isEasy = word.userWord && word.userWord.difficulty === 'easy';
 
   const difficultColor = lighten(colorGroup, 0.85);
 
@@ -51,7 +52,11 @@ export const WordCard: React.FC<WordCardProps> = ({
         />
         <SentencesBlock word={word} isTranslate={isTranslate} />
         {isButtons && isLogin && (
-          <ButtonsBlock colorGroup={colorGroup} wordId={wordId} />
+          <ButtonsBlock
+            colorGroup={colorGroup}
+            wordId={wordId}
+            isEasy={isEasy}
+          />
         )}
       </ContentBlock>
     </CardContainer>

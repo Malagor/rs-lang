@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'column',
+    padding: `${theme.spacing(3)}px`,
     backgroundColor: COLOR_LAYOUT_WHITE,
     borderRadius: '10px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.15)',
@@ -22,7 +23,5 @@ export const useStyles = makeStyles((theme) => ({
   progressBar: {
     width: '143px',
     height: '143px',
-    backgroundColor: 'lightblue',
-    borderRadius: '50%',
   },
 }));
