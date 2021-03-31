@@ -7,8 +7,9 @@ import { AudioCartStyled } from './styled';
 type AudioCardProps = {
   word: Word;
   variants: string[];
-  correctIndex: number;
-  onUserAnswer: (answerIndex: number) => void;
+  correctIndex: string;
+  onUserAnswer: (answerIndex: string) => void;
+  userChoice: string;
 };
 
 export const AudioCard: FC<AudioCardProps> = ({
@@ -16,13 +17,18 @@ export const AudioCard: FC<AudioCardProps> = ({
   variants,
   correctIndex,
   onUserAnswer,
-}) => (
-  <AudioCartStyled>
-    <Question word={word} />
-    <Answers
-      answers={variants}
-      correctAnswer={correctIndex}
-      onUserAnswer={onUserAnswer}
-    />
-  </AudioCartStyled>
-);
+  userChoice,
+}) => {
+  console.log({ correctIndex, userChoice });
+  return (
+    <AudioCartStyled>
+      <Question word={word} />
+      <Answers
+        answers={variants}
+        correctAnswerIndex={correctIndex}
+        onUserAnswer={onUserAnswer}
+        userChoice={userChoice}
+      />
+    </AudioCartStyled>
+  );
+};

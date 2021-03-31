@@ -5,7 +5,7 @@ import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import { FullScreenWrapper } from './styled';
 
 type FullScreenButtonProps = {
-  open: boolean;
+  open?: boolean;
   onOpen?: () => void;
 };
 

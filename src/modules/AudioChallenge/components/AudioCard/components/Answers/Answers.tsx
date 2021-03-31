@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 
 import { FormControl, FormControlLabel, RadioGroup } from '@material-ui/core';
 import { AnswersWrapper } from './styled';
@@ -6,20 +6,19 @@ import { AnswerRadio } from './components/AnswerRadio';
 
 type AnswersProps = {
   answers: string[];
-  correctAnswer: number;
-  onUserAnswer: (userAnswer: number) => void;
+  correctAnswerIndex: string;
+  onUserAnswer: (userAnswer: string) => void;
+  userChoice: string;
 };
 
 export const Answers: FC<AnswersProps> = ({
   answers,
-  correctAnswer,
+  correctAnswerIndex,
   onUserAnswer,
+  userChoice,
 }) => {
-  const [value, setSelectedValue] = useState('');
-
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedValue(event.target.value);
-    onUserAnswer(parseInt(value, 10) - 1);
+    onUserAnswer(event.target.value);
   };
 
   return (
@@ -29,22 +28,23 @@ export const Answers: FC<AnswersProps> = ({
           row
           aria-label="answers"
           name="answers"
-          value={value}
+          value={userChoice}
           onChange={handleChange}
         >
           {answers.map((answer, index) => (
             <FormControlLabel
               key={answer}
-              value={`${index}`}
-              control={<AnswerRadio iscorrect={`${index === correctAnswer}`} />}
-              label={`${index} ${answer}`}
+              value={index.toString()}
+              control={
+                <AnswerRadio
+                  iscorrect={`${index === parseInt(correctAnswerIndex, 10)}`}
+                />
+              }
+              label={`${index + 1} ${answer}`}
             />
           ))}
         </RadioGroup>
       </FormControl>
-      {/* <AnswerItem key={answer}> */}
-      {/*  {index + 1} {answer} */}
-      {/* </AnswerItem> */}
     </AnswersWrapper>
   );
 };

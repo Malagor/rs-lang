@@ -1,11 +1,4 @@
-import React, {
-  FC,
-  SyntheticEvent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
@@ -15,6 +8,8 @@ import {
 } from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
+import { Word } from 'types';
+import { database } from 'services';
 import { clearCorrectWords, clearIncorrectWords } from './actions';
 import {
   AudioCard,
@@ -25,66 +20,122 @@ import {
 } from './components';
 import 'react-circular-progressbar/dist/styles.css';
 import { AudioWrapper } from './styled';
-import { Word } from '../../types';
-import { database } from '../../services';
+
+const COUNT_ANSWERS = 4;
+
+const KEYS_ARRAY = Array(COUNT_ANSWERS)
+  .fill(1)
+  .map((_, i) => `${i + 1}`);
 
 type AudioChallengeProps = {};
 
-export const AudioChallenge: FC<AudioChallengeProps> = () => {
-  const mixingArray = useCallback(
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    (arr: any[]) => arr.sort(() => Math.random() - 0.5),
-    []
-  );
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const mixingArray = (arr: any[]) => arr.sort(() => Math.random() - 0.5);
 
+export const AudioChallenge: FC<AudioChallengeProps> = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
   const group = useSelector(selectTextBookGroup);
   const page = useSelector(selectTextBookPage);
 
+  // helpers
+  // const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
-  const [open, setOpen] = useState(false);
+  // about quiz
   const [words, setWords] = useState<Word[]>([]);
-  const [correctWords, setCorrectWords] = useState<Word[]>([]);
-  const [incorrectWords, setIncorrectWords] = useState<Word[]>([]);
-  const [answers, setAnswers] = useState<string[]>([]);
-  const [correctAnswer, setCorrectAnswer] = useState(-1);
-
-  const [isAnswer, setIsAnswer] = useState(false);
-  const [isFinish, setFinish] = useState(false);
   const [current, setCurrentWord] = useState(0);
-  const [userAnswer, setUserAnswer] = useState(-1);
+  const [answersArray, setAnswers] = useState<string[]>([]);
+  const [correctAnswerIndex, setCorrectAnswer] = useState('-1');
+  const [userAnswerIndex, setUserAnswer] = useState('-1');
 
   // statistics
+  const [correctWords, setCorrectWords] = useState<Word[]>([]);
+  const [incorrectWords, setIncorrectWords] = useState<Word[]>([]);
   const [chain, setChain] = useState(0);
   const [longerChain, setLongerChain] = useState(0);
 
+  // finish
+  const [isFinish, setFinish] = useState(false);
+
+  // Set Title Page
   useEffect(() => {
     dispatch(setPageTitle('Audio challenge'));
   }, [dispatch]);
+
+  // Correct Answer
+
+  const handlerCorrectAnswer = useCallback(() => {
+    setCorrectWords([...correctWords, words[current]]);
+    setChain((prev) => prev + 1);
+    setUserAnswer(correctAnswerIndex);
+  }, [correctWords, words, current, correctAnswerIndex]);
+
+  // Incorrect Answer
+
+  const handlerIncorrectAnswer = useCallback(() => {
+    setIncorrectWords([...incorrectWords, words[current]]);
+    if (chain > longerChain) {
+      setLongerChain(chain);
+      setChain(0);
+    }
+    setUserAnswer(correctAnswerIndex);
+  }, [chain, longerChain, correctAnswerIndex, incorrectWords, words, current]);
+
+  // Next Question
+
+  const answerHandler = useCallback(() => {
+    setUserAnswer('-1');
+    if (current === words.length - 1) setFinish(true);
+    if (current < words.length) {
+      setCurrentWord(current + 1);
+    }
+  }, [words, current]);
+
+  // New Game
+
+  const handlerNewGame = useCallback(() => {
+    setCurrentWord(0);
+    setFinish(false);
+    setUserAnswer('-1');
+    setCorrectAnswer('-1');
+    setChain(0);
+    setLongerChain(0);
+    clearCorrectWords();
+    clearIncorrectWords();
+  }, []);
+
+  // Finish Game
 
   useEffect(() => {
     console.log('Finish');
   }, [isFinish]);
 
   // Keyboard listener
+
   useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent) => {
       const { key } = e;
 
       // select answer
-      if (['1', '2', '3', '4'].includes(key)) {
-        setUserAnswer(parseInt(key, 10) - 1);
-        setIsAnswer(true);
+      if (KEYS_ARRAY.includes(key)) {
+        setUserAnswer(key);
+
+        if (key === `${correctAnswerIndex}`) {
+          handlerCorrectAnswer();
+        } else {
+          handlerIncorrectAnswer();
+        }
       }
 
       // next word
       if (key === ' ') {
-        if (isAnswer && buttonRef && buttonRef.current) {
+        if (userAnswerIndex && buttonRef && buttonRef.current) {
           buttonRef.current.click();
         } else {
-          setIsAnswer(true);
+          setIncorrectWords([...incorrectWords, words[current]]);
+          setUserAnswer(correctAnswerIndex);
         }
       }
     };
@@ -92,7 +143,19 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
     return () => {
       window.removeEventListener('keydown', keyDownHandler);
     };
-  }, [isAnswer]);
+  }, [
+    incorrectWords,
+    correctWords,
+    current,
+    words,
+    setUserAnswer,
+    userAnswerIndex,
+    correctAnswerIndex,
+    handlerCorrectAnswer,
+    handlerIncorrectAnswer,
+  ]);
+
+  // Load Words
 
   useEffect(() => {
     const locWords = database.getUserAggregatedWord(
@@ -107,60 +170,23 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
       const mixArr = mixingArray(data[0].paginatedResults);
       setWords(mixArr);
     });
-  }, [mixingArray, group, page, userId]);
-
-  const answerHandler = () => {
-    setIsAnswer(false);
-
-    // проверить на правильность
-    // занести слово в нужный массив
-    // если верно, то увеличить chain,
-    // если НЕ верно то сравнить с longerChain и если она больше то заменить. и Сбросить chain в 0
-    // проерить на Финиш
-    // если НЕ финиш, то увеличить текущий индекс
-    // сбросить флаг isAnswer
-
-    if (current === words.length - 1) setFinish(true);
-
-    if (current < words.length) {
-      setCurrentWord(current + 1);
-    }
-    // setUserAnswer('1');
-  };
+  }, [group, page, userId]);
 
   useEffect(() => {
     if (words && words[current]) {
-      const curCord = words[current].wordTranslate;
-      const mixAnswers = mixingArray([
-        'Ответ 1',
-        'Ответ 2',
-        'Ответ 3',
-        curCord,
-      ]);
+      const curWord = words[current].wordTranslate;
+      const mixAnswers = mixingArray(['сдача', 'рассвет', 'стол', curWord]);
       const corAnswerIndex = mixAnswers.indexOf(words[current].wordTranslate);
 
       setAnswers(mixAnswers);
-      setCorrectAnswer(corAnswerIndex);
+      setCorrectAnswer(corAnswerIndex.toString());
     }
-  }, [words, mixingArray, current]);
-
-  const newGameHandler = () => {
-    setCurrentWord(0);
-    setIsAnswer(false);
-    setFinish(false);
-    setUserAnswer(-1);
-    setChain(0);
-    setLongerChain(0);
-    clearCorrectWords();
-    clearIncorrectWords();
-  };
-
-  const handleChange = (e: SyntheticEvent) => {};
+  }, [words, current]);
 
   const hasContent = words.length && words[current];
 
   return (
-    <Container style={{ height: '100%' }}>
+    <Container style={{ height: '100%' }} ref={containerRef}>
       <FullScreenWrapperFlexCenter>
         <AudioWrapper>
           <ProgressBar
@@ -168,26 +194,30 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
             totalCount={words.length}
             current={current}
           />
-          <FullScreenButton open={open} />
+          <FullScreenButton />
           {hasContent ? (
             <>
               <AudioCard
                 word={words[current]}
-                variants={answers}
-                correctIndex={correctAnswer}
+                variants={answersArray}
+                correctIndex={correctAnswerIndex}
                 onUserAnswer={setUserAnswer}
+                userChoice={userAnswerIndex}
               />
               <NextButton
                 clickHandler={answerHandler}
-                label={isAnswer ? 'next word' : 'i don`t know'}
+                label={userAnswerIndex ? 'next word' : 'i don`t know'}
                 buttonRef={buttonRef}
               />
             </>
           ) : null}
           {isFinish && (
             <FinishGame
-              onFinishGameHandler={newGameHandler}
+              onFinishGameHandler={handlerNewGame}
               buttonRef={buttonRef}
+              correctWords={correctWords}
+              incorrectWord={incorrectWords}
+              longerChain={longerChain}
             />
           )}
         </AudioWrapper>

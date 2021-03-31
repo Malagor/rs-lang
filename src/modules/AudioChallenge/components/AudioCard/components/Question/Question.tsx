@@ -37,6 +37,7 @@ export const Question: FC<QuestionProps> = ({ word }) => {
       >
         <track kind="captions" />{' '}
       </audio>
+      {word.wordTranslate}
     </QuestionWrapper>
   );
 };
