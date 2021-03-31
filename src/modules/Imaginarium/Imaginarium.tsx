@@ -6,7 +6,8 @@ import React, {
   useCallback,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectWords } from 'modules/TextBookPage/selectors';
+import { setPageTitle } from 'store/commonState/actions';
+import { selectTextBookWords } from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
@@ -29,7 +30,7 @@ const COUNTDOWN_TIME = 10;
 const QUIZ_COUNT = 10;
 const ANIMATION_TIME = 1200;
 
-export const GameImaginarium = () => {
+export const Imaginarium = () => {
   const [isFullScreen, setFullScreen] = useState(false);
   const [hasStarted, setStarted] = useState(false);
   const [hasFinished, setFinished] = useState(false);
@@ -48,7 +49,7 @@ export const GameImaginarium = () => {
   const [wrongId, setWrongId] = useState('');
   const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
 
-  const words: Word[] = useSelector(selectWords);
+  const words: Word[] = useSelector(selectTextBookWords);
   const wordUrls = useMemo(
     () => words.map((word) => `${SERVER_URL}${word.image}`),
     [words]
@@ -105,10 +106,6 @@ export const GameImaginarium = () => {
     ]
   );
 
-  useEffect(() => {
-    quizWordRef.current = quizWord;
-  }, [quizWord]);
-
   const handleCountdownEnd = (): [boolean, number] | void => {
     setWrongAnswers(wrongAnswers + 1);
     setWronglyAnswered([...wronglyAnswered, quizWordRef.current!]);
@@ -124,6 +121,14 @@ export const GameImaginarium = () => {
       return undefined;
     }, ANIMATION_TIME + 300);
   };
+
+  useEffect(() => {
+    dispatch(setPageTitle('Imaginarium'));
+  }, [dispatch]);
+
+  useEffect(() => {
+    quizWordRef.current = quizWord;
+  }, [quizWord]);
 
   useEffect(() => {
     const handleKeydown = (evt: KeyboardEvent) => {

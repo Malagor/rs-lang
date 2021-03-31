@@ -14,8 +14,27 @@ export type User = {
   avatar?: string;
 };
 
+export type DifficultyType = 'hard' | 'easy';
+
+export type UserWord = {
+  difficulty: DifficultyType;
+  optional?: {
+    statistics?: {
+      correct: number;
+      incorrect: number;
+    };
+  };
+};
+
+export type CreateUserWordType = {
+  userId: string;
+  wordId: string;
+  wordOptions: UserWord;
+};
+
 export type Word = {
   id: string;
+  _id?: string;
   group: number;
   page: number;
   word: string;
@@ -29,6 +48,12 @@ export type Word = {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  userWord?: UserWord;
+};
+
+export type ErrorType = {
+  stack?: string;
+  message?: string;
 };
 
 export type StateTextBook = {
@@ -36,6 +61,8 @@ export type StateTextBook = {
   page: number;
   words: Word[];
   sounds: HTMLAudioElement[];
+  error?: ErrorType | null;
+  playedSound: string;
 };
 
 export type StateCommon = {

@@ -6,8 +6,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import StopIcon from '@material-ui/icons/Stop';
 import { useTheme } from '@material-ui/core';
-import { setSound } from 'modules/TextBookPage/actions';
-import { selectSounds } from 'modules/TextBookPage/selectors';
+import { setPlayedSound, setSound } from 'modules/TextBookPage/actions';
+import { selectUser } from 'modules/Login/selectors';
+import {
+  selectPlayedSound,
+  selectTextBookSounds,
+} from 'modules/TextBookPage/selectors';
 import {
   EnglishWord,
   WordBlock,
@@ -17,6 +21,7 @@ import {
   InfoBlock,
   Container,
   WrapperIconWithStatistic,
+  EnglishBlock,
 } from './styled';
 
 export type WordCardProps = {
@@ -39,12 +44,19 @@ export const TopPart: React.FC<WordCardProps> = ({
   const refAudioExample = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
   const theme = useTheme();
-  const sounds: HTMLAudioElement[] = useSelector(selectSounds);
+
+  const sounds: HTMLAudioElement[] = useSelector(selectTextBookSounds);
+  const playedSound = useSelector(selectPlayedSound);
+
+  const user = useSelector(selectUser);
+  const isLogin = !!user.id;
 
   const onPlay = () => {
     sounds.forEach((sound) => {
       sound.pause();
     });
+
+    dispatch(setPlayedSound(word.word));
 
     const isSetSounds =
       refAudioWord.current &&
@@ -75,30 +87,47 @@ export const TopPart: React.FC<WordCardProps> = ({
         refAudioExample.current && refAudioExample.current.play();
       };
     }
+
+    if (refAudioExample.current) {
+      refAudioExample.current.onended = () => dispatch(setPlayedSound(''));
+    }
   };
 
   const onStop = () => {
     if (refAudioWord.current) refAudioWord.current.pause();
     if (refAudioMeaning.current) refAudioMeaning.current.pause();
     if (refAudioExample.current) refAudioExample.current.pause();
+    dispatch(setPlayedSound(''));
   };
+
+  const iconStyles = { fontSize: '2rem', cursor: 'pointer' };
 
   return (
     <Container theme={theme}>
       <WordBlock colorGroup={colorGroup} theme={theme}>
-        <EnglishWord>{word.word}</EnglishWord>
-        <WordTranscription>{word.transcription}</WordTranscription>
+        <EnglishBlock>
+          <EnglishWord>{word.word}</EnglishWord>
+          <WordTranscription>{word.transcription}</WordTranscription>
+        </EnglishBlock>
         {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
       </WordBlock>
+
       <WrapperIconWithStatistic>
-        <VolumeUpIcon
-          onClick={onPlay}
-          style={{ fontSize: '2rem', cursor: 'pointer' }}
-        />
-        <StopIcon
-          onClick={onStop}
-          style={{ fontSize: '2rem', cursor: 'pointer' }}
-        />
+        {isLogin && (
+          <WordStatistic>
+            <InfoBlock color={colorGroup} title="Correct attempts">
+              {successCount}
+            </InfoBlock>
+            <InfoBlock color={COLOR_LAYOUT_GRAY} title="Incorrect attempts">
+              {errorCount}
+            </InfoBlock>
+          </WordStatistic>
+        )}
+        {playedSound === word.word ? (
+          <StopIcon onClick={onStop} style={iconStyles} />
+        ) : (
+          <VolumeUpIcon onClick={onPlay} style={iconStyles} />
+        )}
         <audio ref={refAudioWord} src={`${SERVER_URL}${word.audio}`}>
           <track kind="captions" />{' '}
         </audio>
@@ -108,14 +137,6 @@ export const TopPart: React.FC<WordCardProps> = ({
         <audio ref={refAudioExample} src={`${SERVER_URL}${word.audioExample}`}>
           <track kind="captions" />{' '}
         </audio>
-        <WordStatistic>
-          <InfoBlock color={colorGroup} title="Correct attempts">
-            {successCount}
-          </InfoBlock>
-          <InfoBlock color={COLOR_LAYOUT_GRAY} title="Incorrect attempts">
-            {errorCount}
-          </InfoBlock>
-        </WordStatistic>
       </WrapperIconWithStatistic>
     </Container>
   );

@@ -1,0 +1,1 @@
+export { AudioChallenge } from './AudioChallenge';
