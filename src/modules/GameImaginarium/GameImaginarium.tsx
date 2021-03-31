@@ -10,21 +10,10 @@ import { selectWords } from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
-import { Countdown, Loader, FullscreenButton } from 'components';
+import { Loader } from 'components';
 import { useTheme } from '@material-ui/core/styles';
-import {
-  GameContainer,
-  Dashboard,
-  AnswerStats,
-  WrongWord,
-  RightWord,
-  InitialCountdownContainer,
-  CountdownContainer,
-  GameField,
-  WordImage,
-  QuizWordContainer,
-  WordImageContainer,
-} from './styled';
+import { GameContainer, GameField, QuizWordContainer } from './styled';
+import { Dashboard, WordImage } from './components';
 
 const shuffle = (words: Word[]) => {
   const arr = words;
@@ -58,9 +47,6 @@ export const GameImaginarium = () => {
   const [rightId, setRightId] = useState('');
   const [wrongId, setWrongId] = useState('');
   const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
-  const [windowSize, setWindowSize] = useState<
-    'small' | 'medium' | 'large' | null
-  >(null);
 
   const words: Word[] = useSelector(selectWords);
   const wordUrls = useMemo(
@@ -71,9 +57,7 @@ export const GameImaginarium = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameFieldRef = useRef<HTMLDivElement>(null);
   const quizWordRef = useRef(quizWord);
-  const windowWidth = useRef(document.body.clientWidth);
   const theme = useTheme();
-  const { md: mdWidth, sm: smWidth } = theme.breakpoints.values;
 
   const handleImageClick = useCallback(
     (word: Word) => {
@@ -185,39 +169,16 @@ export const GameImaginarium = () => {
     }
   }, [setFinished, round]);
 
-  const changeWindowSize = useCallback(() => {
-    if (windowWidth.current < smWidth) {
-      setWindowSize('small');
-    } else if (windowWidth.current < mdWidth) {
-      setWindowSize('medium');
-    } else {
-      setWindowSize('large');
-    }
-  }, [mdWidth, smWidth]);
-
-  useEffect(() => {
-    const handleResize = () => {
-      windowWidth.current = document.body.clientWidth;
-      changeWindowSize();
-    };
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [changeWindowSize]);
-
   const wordImages = currentWords.map((word, index) => (
-    <WordImageContainer key={word.id} number={index + 1} id={word.id}>
-      <WordImage
-        src={`${SERVER_URL}${word.image}`}
-        alt={word.word}
-        onClick={() => handleImageClick(word)}
-        id={word.id}
-        rightId={rightId}
-        wrongId={wrongId}
-        animationTime={ANIMATION_TIME}
-      />
-    </WordImageContainer>
+    <WordImage
+      key={word.id}
+      word={word}
+      index={index}
+      rightId={rightId}
+      wrongId={wrongId}
+      ANIMATION_TIME={ANIMATION_TIME}
+      handleImageClick={handleImageClick}
+    />
   ));
 
   return (
@@ -226,40 +187,21 @@ export const GameImaginarium = () => {
         <Loader />
       ) : (
         <>
-          <Dashboard>
-            <FullscreenButton
-              isFullscreen={isFullScreen}
-              setFullscreen={setFullScreen}
-              containerRef={containerRef}
-            />
-            <InitialCountdownContainer gameIsStarted={hasStarted}>
-              <Countdown
-                duration={INITIAL_COUNTDOWN_TIME}
-                onComplete={() => setStarted(true)}
-              />
-            </InitialCountdownContainer>
-            <AnswerStats breakpoints={theme.breakpoints}>
-              <WrongWord>Wrong:&nbsp;</WrongWord>
-              {wrongAnswers}
-            </AnswerStats>
-            <CountdownContainer
-              gameIsStarted={hasStarted}
-              breakpoints={theme.breakpoints}
-            >
-              <Countdown
-                key={hasFinished ? -1 : round}
-                duration={COUNTDOWN_TIME}
-                onComplete={handleCountdownEnd}
-                size={pickTimerSize(windowSize)}
-                strokeWidth={pickTimerSize(windowSize) / 10}
-                isPlaying={hasStarted && !hasFinished && !animationIsPlaying}
-              />
-            </CountdownContainer>
-            <AnswerStats breakpoints={theme.breakpoints}>
-              <RightWord>Right:&nbsp;</RightWord>
-              {rightAnswers}
-            </AnswerStats>
-          </Dashboard>
+          <Dashboard
+            isFullscreen={isFullScreen}
+            setFullscreen={setFullScreen}
+            containerRef={containerRef}
+            hasStarted={hasStarted}
+            setStarted={setStarted}
+            hasFinished={hasFinished}
+            initialCountdownTime={INITIAL_COUNTDOWN_TIME}
+            rightAnswers={rightAnswers}
+            wrongAnswers={wrongAnswers}
+            round={round}
+            countdownTime={COUNTDOWN_TIME}
+            animationIsPlaying={animationIsPlaying}
+            handleCountdownEnd={handleCountdownEnd}
+          />
           <GameField ref={gameFieldRef} breakpoints={theme.breakpoints}>
             {wordImages}
             <QuizWordContainer breakpoints={theme.breakpoints}>
@@ -271,14 +213,3 @@ export const GameImaginarium = () => {
     </GameContainer>
   );
 };
-
-function pickTimerSize(windowWidth: string | null) {
-  switch (windowWidth) {
-    case 'small':
-      return 60;
-    case 'medium':
-      return 80;
-    default:
-      return 100;
-  }
-}
