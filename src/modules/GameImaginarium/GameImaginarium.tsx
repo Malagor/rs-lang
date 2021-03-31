@@ -40,7 +40,7 @@ const COUNTDOWN_TIME = 10;
 const QUIZ_COUNT = 10;
 const ANIMATION_TIME = 1200;
 
-export const ImagineeryGame = () => {
+export const GameImaginarium = () => {
   const [isFullScreen, setFullScreen] = useState(false);
   const [hasStarted, setStarted] = useState(false);
   const [hasFinished, setFinished] = useState(false);
@@ -155,7 +155,7 @@ export const ImagineeryGame = () => {
   }, [currentWords, handleImageClick]);
 
   useEffect(() => {
-    dispatch(loadWords(1, 11));
+    dispatch(loadWords(2, 23));
   }, [dispatch]);
 
   useEffect(() => {

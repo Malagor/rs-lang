@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import {
-  ImagineeryGame,
+  GameImaginarium,
   MainPage,
   StatisticsPage,
   TextBookPage,
@@ -31,7 +31,7 @@ export const App: FC = () => {
     <Layout>
       <Switch>
         <Route path="/textbook" component={TextBookPage} />
-        <Route path="/games" component={ImagineeryGame} />
+        <Route path="/games" component={GameImaginarium} />
         <Route path="/statistics" component={StatisticsPage} />
         <Route exact path="/" component={MainPage} />
       </Switch>
