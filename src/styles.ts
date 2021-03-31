@@ -18,6 +18,7 @@ export const ContentWrapper = styled.div`
 
 export const ContentWrapperFlex = styled(ContentWrapper)`
   display: flex;
+  align-items: center;
 `;
 
 export const ContentWrapperCenter = styled(ContentWrapperFlex)`

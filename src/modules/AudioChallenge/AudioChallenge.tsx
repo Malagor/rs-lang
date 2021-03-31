@@ -208,11 +208,13 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
     <Container style={{ height: '100%' }} ref={containerRef}>
       <FullScreenWrapperFlexCenter>
         <AudioWrapper>
-          <ProgressBar
-            group={group}
-            totalCount={words.length}
-            current={current}
-          />
+          {!isFinish && (
+            <ProgressBar
+              group={group}
+              totalCount={words.length}
+              current={current}
+            />
+          )}
           <FullScreenButton />
           {hasContent ? (
             <>
