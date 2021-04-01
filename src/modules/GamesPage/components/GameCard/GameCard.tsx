@@ -30,19 +30,21 @@ export const GameCard: FC<GameCardProps> = ({
   return (
     <Card key={name} className={`${classes.cardWrapper} ${classes.wrapper}`}>
       <Grid container item xs={12} className={classes.wrapper}>
-        <Grid
-          item
-          xs={12}
-          className={`${classes.avatarWrapper} ${classes.wrapper}`}
-        >
-          <Avatar alt={name} src={img} className={classes.avatarSize} />
-        </Grid>
-        <Grid
-          item
-          xs={12}
-          className={`${classes.titleWrapper} ${classes.wrapper}`}
-        >
-          <Typography className={classes.title}>{name}</Typography>
+        <Grid container>
+          <Grid
+            item
+            xs={12}
+            className={`${classes.avatarWrapper} ${classes.wrapper}`}
+          >
+            <Avatar alt={name} src={img} className={classes.avatarSize} />
+          </Grid>
+          <Grid
+            item
+            xs={12}
+            className={`${classes.titleWrapper} ${classes.wrapper}`}
+          >
+            <Typography className={classes.title}>{name}</Typography>
+          </Grid>
         </Grid>
         <Grid
           item
