@@ -42,7 +42,7 @@ export const useStyles = makeStyles<Theme, PlayButtonProps>((theme) => ({
   wrapper: {
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   margin: {
     margin: theme.spacing(1),
