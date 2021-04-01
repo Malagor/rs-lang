@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme) => ({
   containerGrid: {
     display: 'grid',
     gridTemplateColumns: '1fr 72px',
-    gridTemplateRows: '50px minmax(50px, max-content) 1fr 50px',
+    gridTemplateRows: '50px minmax(50px, max-content) 1fr 110px',
     gridTemplateAreas: `"paginationTop paginationTop" "games games" "main groups" "paginationBottom paginationBottom"`,
     gridGap: '32px',
 
