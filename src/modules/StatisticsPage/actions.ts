@@ -50,7 +50,7 @@ export const updateStatisticsLearnedWords = (
         userId,
         filter: '{"userWord.difficulty":"hard"}',
       })
-      .then((data) => data[0].totalCount[0].count);
+      .then((data) => data[0].totalCount?.[0]?.count || 0);
 
     statistics = await database.getUserStatistics(userId);
   } catch (err) {
@@ -61,7 +61,7 @@ export const updateStatisticsLearnedWords = (
   const learnedWordsByDays = statistics?.optional?.learnedWordsByDays;
 
   const date = new Date().toDateString();
-  let todayLearnedWords = learnedWordsByDays[date] || 0;
+  let todayLearnedWords = learnedWordsByDays?.[date] || 0;
   if (addToToday) {
     todayLearnedWords += addToToday;
   }

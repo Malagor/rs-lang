@@ -60,6 +60,7 @@ export const Graph: FC<GraphProps> = ({ color, points, label, title }) => {
             beginAtZero: true,
             maxTicksLimit: 5,
             padding: 10,
+            precision: 0,
           },
         },
       ],
