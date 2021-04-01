@@ -8,6 +8,7 @@ import {
   Pagination,
   WordList,
   RedirectionModal,
+  NavGame,
 } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { selectUser, selectUserId } from 'modules/Login/selectors';
@@ -144,6 +145,8 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
         {error && <ErrorMessage />}
 
         {isLoading && <Loader />}
+
+        <NavGame />
 
         <WordList
           words={words}

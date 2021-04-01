@@ -1,9 +1,17 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Button, Container } from '@material-ui/core';
-import { ErrorMessage, Loader, Pagination, WordList } from 'components';
+import {
+  ErrorMessage,
+  Loader,
+  Pagination,
+  WordList,
+  NavGame,
+} from 'components';
+
+import { Container } from '@material-ui/core';
 import { setPageTitle } from 'store/commonState/actions';
+import { GroupSelector } from 'components/GroupSelector';
 import { selectUser } from 'modules/Login/selectors';
 import {
   selectTextBookGroup,
@@ -11,7 +19,7 @@ import {
   selectTextBookError,
   selectTextBookWords,
   selectPagesCount,
-  selectIsLoading,
+  // selectIsLoading,
 } from './selectors';
 import {
   loadUserAggregateWords,
@@ -19,6 +27,7 @@ import {
   setGroup,
   setPage,
 } from './actions';
+import { useStyles } from './styled';
 
 type TextBookPageProps = {};
 
@@ -29,7 +38,10 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
   const pagesCount = useSelector(selectPagesCount);
-  const isLoading = useSelector(selectIsLoading);
+  // const isLoading = useSelector(selectIsLoading);
+
+  const [scroll, setScroll] = useState(0);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -46,66 +58,73 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     }
   }, [dispatch, page, group, user]);
 
-  const onPrevGroupHandler = () => {
-    const prevGroup = group === 0 ? 0 : group - 1;
-    dispatch(setPage(0));
-    dispatch(setGroup(prevGroup));
-  };
+  useEffect(() => {
+    let lastKnownScrollPosition = scroll;
+    let ticking = false;
 
-  const onNextGroupHandler = () => {
-    dispatch(setPage(0));
-    const nextGroup = group === 5 ? 5 : group + 1;
-    dispatch(setGroup(nextGroup));
-  };
+    const handlerScroll = () => {
+      lastKnownScrollPosition = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScroll(lastKnownScrollPosition);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handlerScroll);
+    return () => {
+      window.removeEventListener('scroll', handlerScroll);
+    };
+  }, [scroll]);
+
+  const classes = useStyles();
+
+  const hasContent = words && words.length;
 
   return (
     <Container>
-      <div>Group: {group}</div>
-      <Button
-        type="button"
-        color="primary"
-        variant="contained"
-        onClick={onPrevGroupHandler}
-      >
-        Prev Group
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        type="button"
-        onClick={onNextGroupHandler}
-      >
-        Next Group
-      </Button>
-      <hr />
-
-      <div
-        style={{
-          paddingBottom: '8px',
-          minHeight: '200px',
-          position: 'relative',
-        }}
-      >
-        <>
-          {error && <ErrorMessage />}
-
-          {isLoading && <Loader />}
-
-          <WordList
-            words={words}
-            checkedDifficulty="easy"
-            isButtons={true}
-            showBtnDeleteDifficult={true}
-            showBtnRestore={false}
-          />
-          <Pagination
-            pageCount={pagesCount}
-            initialPage={page}
-            forcePage={page}
-            group={group}
-          />
-        </>
-      </div>
+      {error && <ErrorMessage />}
+      {hasContent ? (
+        <div className={classes.contentWrapper}>
+          <div className={classes.containerGrid}>
+            <div className={classes.paginationTop}>
+              <Pagination
+                pageCount={pagesCount}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+            </div>
+            <div className={classes.gamesWrapper}>
+              <NavGame />
+            </div>
+            <div className={classes.mainGrid}>
+              <WordList
+                words={words}
+                checkedDifficulty="easy"
+                isButtons={true}
+                showBtnDeleteDifficult={true}
+                showBtnRestore={false}
+              />
+            </div>
+            <div className={classes.sideGrid}>
+              <GroupSelector isOpacity={scroll > 200} />
+            </div>
+            <div className={classes.paginationBottom}>
+              <Pagination
+                pageCount={pagesCount}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <Loader />
+      )}
     </Container>
   );
 };
