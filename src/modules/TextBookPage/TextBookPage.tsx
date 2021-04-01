@@ -88,25 +88,22 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       >
         <>
           {error && <ErrorMessage />}
-          {isLoading ? (
-            <Loader />
-          ) : (
-            <>
-              <WordList
-                words={words}
-                checkedDifficulty="easy"
-                isButtons={true}
-                showBtnDeleteDifficult={true}
-                showBtnRestore={false}
-              />
-              <Pagination
-                pageCount={pagesCount}
-                initialPage={page}
-                forcePage={page}
-                group={group}
-              />
-            </>
-          )}
+
+          {isLoading && <Loader />}
+
+          <WordList
+            words={words}
+            checkedDifficulty="easy"
+            isButtons={true}
+            showBtnDeleteDifficult={true}
+            showBtnRestore={false}
+          />
+          <Pagination
+            pageCount={pagesCount}
+            initialPage={page}
+            forcePage={page}
+            group={group}
+          />
         </>
       </div>
     </Container>
