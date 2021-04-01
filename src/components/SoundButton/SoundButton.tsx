@@ -25,7 +25,7 @@ const SoundButtonContainer = styled.div`
   z-index: 10;
   position: absolute;
   top: 30px;
-  left: 46px;
+  right: 74px;
   cursor: pointer;
   transition: transform 0.2s;
   color: ${COLOR_LAYOUT_BACKGROUND};
