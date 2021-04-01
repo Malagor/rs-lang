@@ -1,10 +1,11 @@
 import React, { FC, useEffect } from 'react';
+
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { gamesData } from 'appConstants/games';
-import { selectUser } from 'modules/Login/selectors';
 import { setPageTitle } from 'store/commonState/actions';
-import { ErrorMessage } from 'components';
+import { ErrorMessage, RedirectionModal } from 'components';
+import { selectUserId } from 'modules/Login/selectors';
 import { loadUserStatistics } from './actions';
 import { selectLearnedWordsByDays, selectStatisticsError } from './selectors';
 import { AllTimeBlock, TodayBlock } from './components';
@@ -28,17 +29,19 @@ export const StatisticsPage: FC = () => {
 
   const learnedWordsByDays = useSelector(selectLearnedWordsByDays);
   const error = useSelector(selectStatisticsError);
-  const user = useSelector(selectUser);
+  const userId = useSelector(selectUserId);
 
   useEffect(() => {
     dispatch(setPageTitle('Statistics'));
   }, [dispatch]);
 
   useEffect(() => {
-    if (user.id) {
-      dispatch(loadUserStatistics(user.id));
+    if (userId) {
+      dispatch(loadUserStatistics(userId));
     }
-  }, [dispatch, user]);
+  }, [dispatch, userId]);
+
+  if (!userId) return <RedirectionModal />;
 
   return (
     <Container>
