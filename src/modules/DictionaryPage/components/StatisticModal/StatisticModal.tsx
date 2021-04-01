@@ -10,24 +10,15 @@ import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import Typography from '@material-ui/core/Typography';
 import { useDispatch } from 'react-redux';
 import { setRefStatistic } from 'modules/TextBookPage/actions';
-import {
-  Content,
-  Explanations,
-  LearningWords,
-  MarkedBlock,
-  MarkedItem,
-  Marker,
-  Title,
-} from './styled';
+
+import { ModalContent } from './components';
 
 const styles = (theme: Theme) =>
   createStyles({
     root: {
       margin: 0,
-      // padding: theme.spacing(1),
       padding: 10,
     },
     closeButton: {
@@ -48,7 +39,6 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      {/* <Typography variant="h6">{children}</Typography> */}
       {onClose ? (
         <IconButton
           aria-label="close"
@@ -69,21 +59,7 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-type StatisticModalProps = {
-  countWords: number;
-  correctPageStatistic: number;
-  incorrectPageStatistic: number;
-  correctSectionStatistic: number;
-  incorrectSectionStatistic: number;
-};
-
-export const StatisticModal: React.FC<StatisticModalProps> = ({
-  countWords,
-  correctPageStatistic,
-  incorrectPageStatistic,
-  correctSectionStatistic,
-  incorrectSectionStatistic,
-}) => {
+export const StatisticModal: React.FC = () => {
   const [open, setOpen] = React.useState(false);
   const refOpenStatistic = useRef<HTMLButtonElement>(null);
   const dispatch = useDispatch();
@@ -121,59 +97,7 @@ export const StatisticModal: React.FC<StatisticModalProps> = ({
         </DialogTitle>
 
         <DialogContent dividers>
-          <Content>
-            <>
-              <Title>Page</Title>
-              <MarkedBlock>
-                <MarkedItem length={33} color="#F79928" />
-                <MarkedItem length={33} color="#0252CC" />
-                <MarkedItem length={33} color="#FA5833" />
-              </MarkedBlock>
-              <Explanations>
-                <LearningWords>
-                  <Marker color="#F79928" />
-                  <span>Learning words</span>
-                  <span>{countWords}</span>
-                </LearningWords>
-                <LearningWords>
-                  <Marker color="#0252CC" />
-                  <span>Right answers</span>
-                  <span>{correctPageStatistic}</span>
-                </LearningWords>
-                <LearningWords>
-                  <Marker color="#FA5833" />
-                  <span>Mistakes</span>
-                  <span>{incorrectPageStatistic}</span>
-                </LearningWords>
-              </Explanations>
-            </>
-
-            <>
-              <Title>Section</Title>
-              <MarkedBlock>
-                <MarkedItem length={33} color="#F79928" />
-                <MarkedItem length={33} color="#0252CC" />
-                <MarkedItem length={33} color="#FA5833" />
-              </MarkedBlock>
-              <Explanations>
-                <LearningWords>
-                  <Marker color="#F79928" />
-                  <span>Learning words</span>
-                  <span>{countWords}</span>
-                </LearningWords>
-                <LearningWords>
-                  <Marker color="#0252CC" />
-                  <span>Right answers</span>
-                  <span>{correctSectionStatistic}</span>
-                </LearningWords>
-                <LearningWords>
-                  <Marker color="#FA5833" />
-                  <span>Mistakes</span>
-                  <span>{incorrectSectionStatistic}</span>
-                </LearningWords>
-              </Explanations>
-            </>
-          </Content>
+          <ModalContent />
         </DialogContent>
       </Dialog>
     </div>

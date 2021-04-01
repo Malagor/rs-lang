@@ -126,25 +126,23 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
       <>
         {error && <ErrorMessage />}
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <>
-            <WordList
-              words={words}
-              checkedDifficulty={checkedDifficulty}
-              isButtons={true}
-              showBtnDeleteDifficult={wordSection === 'usual'}
-              showBtnRestore={wordSection !== 'usual'}
-            />
-            <Pagination
-              pageCount={pagesCount}
-              initialPage={page}
-              forcePage={page}
-              group={group}
-            />
-          </>
-        )}
+
+        {isLoading && <Loader />}
+
+        <WordList
+          words={words}
+          checkedDifficulty={checkedDifficulty}
+          isButtons={true}
+          showBtnDeleteDifficult={wordSection === 'usual'}
+          showBtnRestore={wordSection !== 'usual'}
+        />
+
+        <Pagination
+          pageCount={pagesCount}
+          initialPage={page}
+          forcePage={page}
+          group={group}
+        />
       </>
     </Container>
   );

@@ -13,6 +13,10 @@ export const MarkedBlock = styled.div`
   display: flex;
   width: 100%;
   height: 8px;
+
+  & + div {
+    margin-right: 8px;
+  }
 `;
 
 type MarkedItemType = {
@@ -23,6 +27,7 @@ type MarkedItemType = {
 export const MarkedItem = styled.div<MarkedItemType>`
   height: 8px;
   width: ${({ length }) => length}%;
+  /* width: 33%; */
   background-color: ${({ color }) => color};
   margin: 4px;
 `;

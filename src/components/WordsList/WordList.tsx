@@ -28,40 +28,10 @@ export const WordList: FC<WordListProps> = ({
     (word) => word.userWord?.difficulty !== checkedDifficulty
   ).length;
 
-  const correctPageStatistic = words.reduce((acc, word, i) => {
-    if (i === 20) return acc;
-    return acc + (word.userWord?.optional?.statistics?.correct || 1);
-  }, 0);
-
-  const incorrectPageStatistic = words.reduce((acc, word, i) => {
-    if (i === 20) return acc;
-    return acc + (word.userWord?.optional?.statistics?.incorrect || 1);
-  }, 0);
-
-  const correctSectionStatistic = words.reduce(
-    (acc, word) => acc + (word.userWord?.optional?.statistics?.correct || 1),
-    0
-  );
-
-  const incorrectSectionStatistic = words.reduce(
-    (acc, word) => acc + (word.userWord?.optional?.statistics?.correct || 1),
-    0
-  );
-
-  console.log(words.length);
-  console.log(correctPageStatistic, incorrectPageStatistic);
-  console.log(correctSectionStatistic, incorrectSectionStatistic);
-
   return hasWords ? (
     <WordListStyled>
       <NavGame />
-      <StatisticModal
-        countWords={words.length}
-        correctPageStatistic={correctPageStatistic}
-        incorrectPageStatistic={incorrectPageStatistic}
-        correctSectionStatistic={correctSectionStatistic}
-        incorrectSectionStatistic={incorrectSectionStatistic}
-      />
+      <StatisticModal />
 
       {words.map((word) => {
         const unsuitableWord = word.userWord?.difficulty === checkedDifficulty;
