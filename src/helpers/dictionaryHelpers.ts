@@ -1,9 +1,8 @@
 export const getCountWords = (arrayWithCount: Array<{ count: number }>) => {
-  let countWords;
+  let countWords = 0;
   if (arrayWithCount.length) {
     countWords = arrayWithCount[0].count;
-  } else {
-    countWords = 0;
   }
+
   return countWords;
 };

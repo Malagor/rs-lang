@@ -34,3 +34,10 @@ export const sectionNames = [
   'Difficult words',
   'Deleted words',
 ];
+
+export const USUAL_SECTION = 'usual';
+export const DIFFICULT_SECTION = 'difficult';
+export const DELETED_SECTION = 'deleted';
+
+export const HARD_DIFFICULTY = 'hard';
+export const EASY_DIFFICULTY = 'easy';

@@ -18,6 +18,13 @@ import {
   selectWordSection,
 } from 'modules/TextBookPage/selectors';
 import { useIsWordIncluded } from 'hooks/useIsWordIncluded';
+import {
+  DELETED_SECTION,
+  DIFFICULT_SECTION,
+  EASY_DIFFICULTY,
+  HARD_DIFFICULTY,
+  USUAL_SECTION,
+} from 'appConstants';
 import { Container } from './styled';
 
 type Props = {
@@ -70,7 +77,7 @@ export const ButtonsBlock: React.FC<Props> = ({
     },
   })(Button);
 
-  const handlerAddWordToList = async (
+  const handleAddWordToList = async (
     userID: string,
     wordID: string,
     type: DifficultyType,
@@ -92,13 +99,13 @@ export const ButtonsBlock: React.FC<Props> = ({
     pageNumber: number
   ) => {
     await removeWordFromUserList(userID, wordID);
-    if (wordSection === 'usual')
+    if (wordSection === USUAL_SECTION)
       dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
 
-    if (wordSection === 'difficult')
+    if (wordSection === DIFFICULT_SECTION)
       dispatch(loadUserDifficultWords(userID, groupNumber, pageNumber));
 
-    if (wordSection === 'deleted')
+    if (wordSection === DELETED_SECTION)
       dispatch(loadUserDeletedWords(userID, groupNumber, pageNumber));
   };
 
@@ -109,7 +116,7 @@ export const ButtonsBlock: React.FC<Props> = ({
           <DifficultBtn
             variant="contained"
             onClick={() =>
-              handlerAddWordToList(userId, wordId, 'hard', group, page)
+              handleAddWordToList(userId, wordId, HARD_DIFFICULTY, group, page)
             }
           >
             difficult
@@ -118,7 +125,7 @@ export const ButtonsBlock: React.FC<Props> = ({
           <DeleteBtn
             variant="contained"
             onClick={() =>
-              handlerAddWordToList(userId, wordId, 'easy', group, page)
+              handleAddWordToList(userId, wordId, EASY_DIFFICULTY, group, page)
             }
           >
             delete

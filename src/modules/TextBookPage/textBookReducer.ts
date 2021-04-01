@@ -1,3 +1,4 @@
+import { EASY_DIFFICULTY, USUAL_SECTION } from 'appConstants';
 import { Reducer } from 'redux';
 import { StateTextBook } from 'types';
 import {
@@ -24,9 +25,9 @@ export const textBookPageState: StateTextBook = {
   sounds: [],
   error: null,
   playedSound: '',
-  checkedDifficulty: 'easy',
+  checkedDifficulty: EASY_DIFFICULTY,
   pagesCount: 0,
-  wordSection: 'usual',
+  wordSection: USUAL_SECTION,
   isLoading: false,
   refStatistic: null,
 };

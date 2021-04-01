@@ -1,4 +1,7 @@
-import { selectTextBookWords } from 'modules/TextBookPage/selectors';
+import {
+  selectCheckedDifficulty,
+  selectTextBookWords,
+} from 'modules/TextBookPage/selectors';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Word } from 'types';
@@ -14,6 +17,7 @@ import {
 
 export const ModalContent: React.FC = () => {
   const words: Word[] = useSelector(selectTextBookWords);
+  const checkedDifficulty = useSelector(selectCheckedDifficulty);
 
   const wordPerPage = 20;
 
@@ -37,9 +41,9 @@ export const ModalContent: React.FC = () => {
     0
   );
 
-  // console.log(words.length);
-  // console.log(correctPageStatistic, incorrectPageStatistic);
-  // console.log(correctSectionStatistic, incorrectSectionStatistic);
+  const countWords = words.filter(
+    (word) => word.userWord?.difficulty !== checkedDifficulty
+  ).length;
 
   return (
     <Content>
@@ -54,7 +58,7 @@ export const ModalContent: React.FC = () => {
           <ExplanationItem>
             <Marker color="#F79928" />
             <span>Learning words</span>
-            <span>{words.length}</span>
+            <span>{countWords}</span>
           </ExplanationItem>
           <ExplanationItem>
             <Marker color="#0252CC" />
@@ -80,7 +84,7 @@ export const ModalContent: React.FC = () => {
           <ExplanationItem>
             <Marker color="#F79928" />
             <span>Learning words</span>
-            <span>{words.length}</span>
+            <span>{countWords}</span>
           </ExplanationItem>
           <ExplanationItem>
             <Marker color="#0252CC" />

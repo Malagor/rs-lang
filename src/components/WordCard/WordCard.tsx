@@ -1,5 +1,5 @@
 import React from 'react';
-import { SERVER_URL } from 'appConstants';
+import { HARD_DIFFICULTY, SERVER_URL } from 'appConstants';
 import { Word } from 'types';
 import { lighten, useTheme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
@@ -33,7 +33,7 @@ export const WordCard: React.FC<WordCardProps> = ({
   const isLogin = !!user.id;
   // eslint-disable-next-line no-underscore-dangle
   const wordId = word._id || word.id;
-  const isHard = word.userWord && word.userWord.difficulty === 'hard';
+  const isHard = word.userWord && word.userWord.difficulty === HARD_DIFFICULTY;
 
   const difficultColor = lighten(colorGroup, 0.85);
 

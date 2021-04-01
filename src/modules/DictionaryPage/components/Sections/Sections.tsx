@@ -1,5 +1,10 @@
 import { useTheme } from '@material-ui/core';
-import { sectionNames } from 'appConstants';
+import {
+  DELETED_SECTION,
+  DIFFICULT_SECTION,
+  sectionNames,
+  USUAL_SECTION,
+} from 'appConstants';
 import { LEVEL_COLORS } from 'appConstants/colors';
 import React from 'react';
 import { WordSectionType } from 'types';
@@ -21,11 +26,11 @@ export const Sections: React.FC<SectionsProps> = ({
   const getActiveSection = (i: number) => {
     let activeItem;
 
-    if (i === 0 && wordSection === 'usual') activeItem = 0;
+    if (i === 0 && wordSection === USUAL_SECTION) activeItem = 0;
 
-    if (i === 1 && wordSection === 'difficult') activeItem = 1;
+    if (i === 1 && wordSection === DIFFICULT_SECTION) activeItem = 1;
 
-    if (i === 2 && wordSection === 'deleted') activeItem = 2;
+    if (i === 2 && wordSection === DELETED_SECTION) activeItem = 2;
 
     return activeItem;
   };

@@ -1,3 +1,4 @@
+import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import styled from 'styled-components/macro';
 
 export const SectionsContainer = styled.div`
@@ -41,7 +42,7 @@ export const Marker = styled.div<{ colorGroup?: string }>`
   height: 32px;
   margin-right: 24px;
   border-radius: 10px;
-  background-color: ${({ colorGroup }) => colorGroup || '#c4c4c4'};
+  background-color: ${({ colorGroup }) => colorGroup || COLOR_LAYOUT_GRAY};
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     height: 16px;

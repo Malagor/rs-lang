@@ -31,6 +31,13 @@ import {
   setPage,
   setWordSection,
 } from 'modules/TextBookPage/actions';
+import {
+  DELETED_SECTION,
+  DIFFICULT_SECTION,
+  EASY_DIFFICULTY,
+  HARD_DIFFICULTY,
+  USUAL_SECTION,
+} from 'appConstants';
 import { Sections } from './components';
 
 type DictionaryProps = {};
@@ -56,13 +63,13 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
   useEffect(() => {
     if (user.id) {
-      if (wordSection === 'usual')
+      if (wordSection === USUAL_SECTION)
         dispatch(loadUserAggregateWords(user.id, group, page));
 
-      if (wordSection === 'difficult')
+      if (wordSection === DIFFICULT_SECTION)
         dispatch(loadUserDifficultWords(user.id, group, page));
 
-      if (wordSection === 'deleted')
+      if (wordSection === DELETED_SECTION)
         dispatch(loadUserDeletedWords(user.id, group, page));
     } else {
       dispatch(loadWords(group, page));
@@ -84,24 +91,24 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const onUsualWords = () => {
     dispatch(setPage(0));
     dispatch(setGroup(group));
-    dispatch(setWordSection('usual'));
+    dispatch(setWordSection(USUAL_SECTION));
     dispatch(loadUserAggregateWords(user.id, group, page));
-    dispatch(setCheckedDifficulty('easy'));
+    dispatch(setCheckedDifficulty(EASY_DIFFICULTY));
   };
 
   const onDifficultWords = () => {
     dispatch(setPage(0));
     dispatch(setGroup(group));
-    dispatch(setWordSection('difficult'));
+    dispatch(setWordSection(DIFFICULT_SECTION));
     dispatch(loadUserDifficultWords(user.id, group, page));
-    dispatch(setCheckedDifficulty('easy'));
+    dispatch(setCheckedDifficulty(EASY_DIFFICULTY));
   };
   const onDeletedWords = () => {
     dispatch(setPage(0));
     dispatch(setGroup(group));
-    dispatch(setWordSection('deleted'));
+    dispatch(setWordSection(DELETED_SECTION));
     dispatch(loadUserDeletedWords(user.id, group, page));
-    dispatch(setCheckedDifficulty('hard'));
+    dispatch(setCheckedDifficulty(HARD_DIFFICULTY));
   };
 
   if (!userId) return <RedirectionModal />;
@@ -142,8 +149,8 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           words={words}
           checkedDifficulty={checkedDifficulty}
           isButtons={true}
-          showBtnDeleteDifficult={wordSection === 'usual'}
-          showBtnRestore={wordSection !== 'usual'}
+          showBtnDeleteDifficult={wordSection === USUAL_SECTION}
+          showBtnRestore={wordSection !== USUAL_SECTION}
         />
 
         <Pagination
