@@ -2,7 +2,7 @@ import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { database } from 'services';
 import { ErrorType, StateStatistics } from 'types';
-import { SET_USER_STATISTICS, SET_ERROR } from './actionConst';
+import { SET_USER_STATISTICS, SET_STATISTICS_ERROR } from './actionConst';
 
 export const setUserStatistics = (payload: StateStatistics) => ({
   type: SET_USER_STATISTICS,
@@ -10,12 +10,12 @@ export const setUserStatistics = (payload: StateStatistics) => ({
 });
 
 export const setStatisticsError = (payload: ErrorType) => ({
-  type: SET_ERROR,
+  type: SET_STATISTICS_ERROR,
   payload,
 });
 
 export const clearStatisticsError = () => ({
-  type: SET_ERROR,
+  type: SET_STATISTICS_ERROR,
   payload: null,
 });
 

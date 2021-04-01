@@ -1,6 +1,6 @@
 import { Reducer } from 'redux';
 import { StateStatistics } from 'types';
-import { SET_USER_STATISTICS, SET_ERROR } from './actionConst';
+import { SET_USER_STATISTICS, SET_STATISTICS_ERROR } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Action = { type: string; payload: any };
@@ -31,7 +31,7 @@ export const statisticsReducer: Reducer<StateStatistics, Action> = (
       };
     }
 
-    case SET_ERROR: {
+    case SET_STATISTICS_ERROR: {
       return {
         ...state,
         error: action.payload,

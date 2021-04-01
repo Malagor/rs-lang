@@ -19,17 +19,17 @@ export const AllTimeBlock: FC<AllTimeBlockProps> = ({ learnedWordsByDays }) => {
     })
   );
 
-  const wordsGrowthPoints: { x: string; y: number }[] = [];
+  const progressPoints: { x: string; y: number }[] = [];
 
   Object.entries(learnedWordsByDays).forEach(([date, value]) => {
     const point = {
       x: date,
-      y: wordsGrowthPoints.length
-        ? value + wordsGrowthPoints[wordsGrowthPoints.length - 1].y
+      y: progressPoints.length
+        ? value + progressPoints[progressPoints.length - 1].y
         : value,
     };
 
-    wordsGrowthPoints.push(point);
+    progressPoints.push(point);
   });
 
   return (
@@ -41,10 +41,10 @@ export const AllTimeBlock: FC<AllTimeBlockProps> = ({ learnedWordsByDays }) => {
         points={wordsByDaysPoints}
       />
       <Graph
-        title="Learned words growth"
+        title="Progress"
         label="Words"
         color={COLOR_LAYOUT_BLUE}
-        points={wordsGrowthPoints}
+        points={progressPoints}
       />
     </div>
   );
