@@ -14,11 +14,6 @@ export const useStyles = makeStyles((theme) => ({
     margin: '0 auto',
     transition: '0.2s',
 
-    // '&:hover': {
-    //   opacity: '1',
-    //   }
-    // },
-
     [theme.breakpoints.down('xs')]: {
       position: 'none',
       top: '0',
