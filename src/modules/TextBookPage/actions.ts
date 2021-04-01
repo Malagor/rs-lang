@@ -22,6 +22,7 @@ import {
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
   SET_IS_LOADING,
+  SET_REF_STATISTIC,
 } from './actionConst';
 
 export const setPage = (payload: number) => ({
@@ -81,6 +82,11 @@ export const setWordSection = (payload: WordSectionType) => ({
 
 export const setIsLoading = (payload: boolean) => ({
   type: SET_IS_LOADING,
+  payload,
+});
+
+export const setRefStatistic = (payload: HTMLButtonElement) => ({
+  type: SET_REF_STATISTIC,
   payload,
 });
 

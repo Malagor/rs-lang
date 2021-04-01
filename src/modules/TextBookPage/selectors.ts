@@ -28,3 +28,6 @@ export const selectWordSection = (state: State) =>
 
 export const selectIsLoading = (state: State) =>
   state.textBookReducer.isLoading;
+
+export const selectRefStatistic = (state: State) =>
+  state.textBookReducer.refStatistic;

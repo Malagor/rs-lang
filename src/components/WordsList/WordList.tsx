@@ -55,7 +55,13 @@ export const WordList: FC<WordListProps> = ({
   return hasWords ? (
     <WordListStyled>
       <NavGame />
-      {/* <StatisticModal /> */}
+      <StatisticModal
+        countWords={words.length}
+        correctPageStatistic={correctPageStatistic}
+        incorrectPageStatistic={incorrectPageStatistic}
+        correctSectionStatistic={correctSectionStatistic}
+        incorrectSectionStatistic={incorrectSectionStatistic}
+      />
 
       {words.map((word) => {
         const unsuitableWord = word.userWord?.difficulty === checkedDifficulty;

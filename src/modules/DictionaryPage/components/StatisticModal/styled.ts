@@ -1,50 +1,50 @@
 import styled from 'styled-components/macro';
 
-export const SectionsContainer = styled.div`
+export const Content = styled.div`
   display: flex;
-  justify-content: space-between;
-  max-width: 567px;
-  width: 100%;
+  flex-direction: column;
+`;
+export const Title = styled.div``;
 
-  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
-    flex-wrap: wrap;
-    justify-content: center;
-    margin: 0 auto;
+export const MarkedBlock = styled.div`
+  width: 100%;
+  height: 8px;
+
+  & + div {
+    margin-left: 8px;
   }
 `;
 
-// export const Section = styled.div<{ active: boolean }>`
-//   display: flex;
-//   align-items: center;
-//   padding: 12px 24px 12px 16px;
-//   margin-bottom: 16px;
-//   background-color: #ffffff;
-//   border-radius: 10px;
-//   box-shadow: ${({ active }) =>
-//     active ? '0px 0px 10px rgba(0, 0, 0, 0.15)' : ''};
+type MarkedItemType = {
+  length: number;
+  color: string;
+};
 
-//   &:hover {
-//     cursor: pointer;
-//     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
-//   }
+export const MarkedItem = styled.div<MarkedItemType>`
+  height: 8px;
+  width: ${({ length }) => length}%;
+  /* width: 33%; */
+  background-color: ${({ color }) => color};
+`;
 
-//   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
-//     padding: 12px 12px 12px 8px;
-//     & + div {
-//       margin-left: 16px;
-//     }
-//   }
-// `;
+export const Explanations = styled.div`
+  display: flex;
+  & + div {
+    margin-left: 16px;
+  }
+`;
 
-// export const Marker = styled.div<{ colorGroup?: string }>`
-//   width: 4px;
-//   height: 32px;
-//   margin-right: 24px;
-//   border-radius: 10px;
-//   background-color: ${({ colorGroup }) => colorGroup || '#c4c4c4'};
+export const LearningWords = styled.div`
+  display: flex;
 
-//   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
-//     height: 16px;
-//     margin-right: 8px;
-//   }
-// `;
+  & + span {
+    margin-left: 8px;
+  }
+`;
+
+export const Marker = styled.div<{ color: string }>`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: ${({ color }) => color};
+`;

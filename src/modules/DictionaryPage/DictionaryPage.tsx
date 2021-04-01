@@ -42,7 +42,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(setPageTitle('DictionaryPage'));
+    dispatch(setPageTitle('Dictionary'));
     dispatch(setGroup(0));
     dispatch(setPage(0));
   }, [dispatch]);

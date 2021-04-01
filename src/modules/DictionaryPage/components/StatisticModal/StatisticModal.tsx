@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   createStyles,
   Theme,
@@ -11,13 +11,24 @@ import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import TimelineIcon from '@material-ui/icons/Timeline';
+import { useDispatch } from 'react-redux';
+import { setRefStatistic } from 'modules/TextBookPage/actions';
+import {
+  Content,
+  Explanations,
+  LearningWords,
+  MarkedBlock,
+  MarkedItem,
+  Marker,
+  Title,
+} from './styled';
 
 const styles = (theme: Theme) =>
   createStyles({
     root: {
       margin: 0,
-      padding: theme.spacing(2),
+      // padding: theme.spacing(1),
+      padding: 10,
     },
     closeButton: {
       position: 'absolute',
@@ -34,10 +45,10 @@ export interface DialogTitleProps extends WithStyles<typeof styles> {
 }
 
 const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
-  const { children, classes, onClose, ...other } = props;
+  const { classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
+      {/* <Typography variant="h6">{children}</Typography> */}
       {onClose ? (
         <IconButton
           aria-label="close"
@@ -58,9 +69,29 @@ const DialogContent = withStyles((theme: Theme) => ({
   },
 }))(MuiDialogContent);
 
-export const StatisticModal = () => {
+type StatisticModalProps = {
+  countWords: number;
+  correctPageStatistic: number;
+  incorrectPageStatistic: number;
+  correctSectionStatistic: number;
+  incorrectSectionStatistic: number;
+};
+
+export const StatisticModal: React.FC<StatisticModalProps> = ({
+  countWords,
+  correctPageStatistic,
+  incorrectPageStatistic,
+  correctSectionStatistic,
+  incorrectSectionStatistic,
+}) => {
   const [open, setOpen] = React.useState(false);
   const refOpenStatistic = useRef<HTMLButtonElement>(null);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (refOpenStatistic.current)
+      dispatch(setRefStatistic(refOpenStatistic.current as HTMLButtonElement));
+  }, []);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -68,8 +99,6 @@ export const StatisticModal = () => {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const iconStyles = { fontSize: '2rem', cursor: 'pointer' };
 
   return (
     <div>
@@ -81,10 +110,6 @@ export const StatisticModal = () => {
       >
         Open dialog
       </button>
-      <TimelineIcon
-        onClick={() => refOpenStatistic.current?.click()}
-        style={iconStyles}
-      />
 
       <Dialog
         onClose={handleClose}
@@ -92,24 +117,63 @@ export const StatisticModal = () => {
         open={open}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Page
+          Statistic
         </DialogTitle>
 
         <DialogContent dividers>
-          <div>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum
-            quibusdam perferendis esse facere eos, accusamus similique
-            laudantium, aliquam laborum amet itaque repudiandae vitae fugit,
-            recusandae est commodi. Soluta accusantium ut ducimus illo
-            voluptates hic iste ad pariatur cupiditate, earum incidunt
-            reiciendis consectetur sint dolorem delectus fuga. Rem culpa tempora
-            architecto facere eligendi sed perspiciatis illo sequi minus laborum
-            pariatur atque, ad, consectetur excepturi sint nam enim voluptas
-            magni assumenda quae eius unde provident. Iste soluta autem
-            eligendi, maxime, at deleniti ducimus obcaecati asperiores quis sunt
-            quo. Nesciunt, aliquam voluptatibus! Sed doloremque cumque ex
-            dignissimos consectetur eligendi provident libero, veritatis cum!
-          </div>
+          <Content>
+            <>
+              <Title>Page</Title>
+              <MarkedBlock>
+                <MarkedItem length={33} color="#F79928" />
+                <MarkedItem length={33} color="#0252CC" />
+                <MarkedItem length={33} color="#FA5833" />
+              </MarkedBlock>
+              <Explanations>
+                <LearningWords>
+                  <Marker color="#F79928" />
+                  <span>Learning words</span>
+                  <span>{countWords}</span>
+                </LearningWords>
+                <LearningWords>
+                  <Marker color="#0252CC" />
+                  <span>Right answers</span>
+                  <span>{correctPageStatistic}</span>
+                </LearningWords>
+                <LearningWords>
+                  <Marker color="#FA5833" />
+                  <span>Mistakes</span>
+                  <span>{incorrectPageStatistic}</span>
+                </LearningWords>
+              </Explanations>
+            </>
+
+            <>
+              <Title>Section</Title>
+              <MarkedBlock>
+                <MarkedItem length={33} color="#F79928" />
+                <MarkedItem length={33} color="#0252CC" />
+                <MarkedItem length={33} color="#FA5833" />
+              </MarkedBlock>
+              <Explanations>
+                <LearningWords>
+                  <Marker color="#F79928" />
+                  <span>Learning words</span>
+                  <span>{countWords}</span>
+                </LearningWords>
+                <LearningWords>
+                  <Marker color="#0252CC" />
+                  <span>Right answers</span>
+                  <span>{correctSectionStatistic}</span>
+                </LearningWords>
+                <LearningWords>
+                  <Marker color="#FA5833" />
+                  <span>Mistakes</span>
+                  <span>{incorrectSectionStatistic}</span>
+                </LearningWords>
+              </Explanations>
+            </>
+          </Content>
         </DialogContent>
       </Dialog>
     </div>
