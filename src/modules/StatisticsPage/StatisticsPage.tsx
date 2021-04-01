@@ -16,9 +16,11 @@ export const StatisticsPage: FC<GamesProps> = () => {
 
   const userId = useSelector(selectUserId);
 
+  if (!userId) return <RedirectionModal />;
+
   return (
     <Container>
-      {userId ? <Paper>Statistic</Paper> : <RedirectionModal />}
+      <Paper>Statistic</Paper>
     </Container>
   );
 };
