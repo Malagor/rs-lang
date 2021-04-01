@@ -9,11 +9,18 @@ import {
   COLOR_LAYOUT_DARKBLUE,
 } from './colors';
 
+import {
+  URL_GAME_SAVANNA,
+  URL_GAME_AUDIO_CHALLENGE,
+  URL_GAME_SPRINT,
+  URL_GAME_OWN_GAME,
+} from 'appConstants/url';
+
 export const gamesData = [
   {
     name: 'Savannah',
     img: SAVANNAH_ICON,
-    link: '/games/savannah',
+    link: URL_GAME_SAVANNA,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_YELLOW,
@@ -21,7 +28,7 @@ export const gamesData = [
   {
     name: 'Audio challenge',
     img: AUDIO_CHALLENGE_ICON,
-    link: '/games/audio-challenge',
+    link: URL_GAME_AUDIO_CHALLENGE,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_ORANGE,
@@ -29,7 +36,7 @@ export const gamesData = [
   {
     name: 'Sprint',
     img: SPRINT_ICON,
-    link: '/games/sprint',
+    link: URL_GAME_SPRINT,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_BLUE,
@@ -37,7 +44,7 @@ export const gamesData = [
   {
     name: 'Own game',
     img: OWN_GAME_ICON,
-    link: '/games/own-game',
+    link: URL_GAME_OWN_GAME,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     colorButton: COLOR_LAYOUT_DARKBLUE,
