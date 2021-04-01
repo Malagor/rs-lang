@@ -3,18 +3,17 @@ import SAVANNAH_ICON from 'assets/icons/savannah.png';
 import SPRINT_ICON from 'assets/icons/sprint.png';
 import OWN_GAME_ICON from 'assets/icons/ownGame.png';
 import {
-  COLOR_LAYOUT_YELLOW,
-  COLOR_LAYOUT_ORANGE,
-  COLOR_LAYOUT_BLUE,
-  COLOR_LAYOUT_DARKBLUE,
-} from './colors';
-
-import {
   URL_GAME_SAVANNA,
   URL_GAME_AUDIO_CHALLENGE,
   URL_GAME_SPRINT,
   URL_GAME_OWN_GAME,
 } from 'appConstants/url';
+import {
+  COLOR_LAYOUT_YELLOW,
+  COLOR_LAYOUT_ORANGE,
+  COLOR_LAYOUT_BLUE,
+  COLOR_LAYOUT_DARKBLUE,
+} from './colors';
 
 export const gamesData = [
   {
