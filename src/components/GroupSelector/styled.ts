@@ -11,7 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
 
     width: '72px',
-    margin: '95px auto 0',
+    margin: '0 auto',
     transition: '0.2s',
 
     // '&:hover': {
@@ -80,7 +80,7 @@ export const GroupSelectorStyled = styled.div<GroupSelectorWrapper>`
   align-items: center;
 
   width: 72px;
-  margin: 200px auto 0;
+  margin: 0 auto;
   transition: 0.2s;
   opacity: ${({ isOpacity }) => (isOpacity ? '0.3' : '1')};
 

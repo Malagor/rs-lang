@@ -82,6 +82,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
   ${(props) => props.breakpoints.down('xs')} {
     .root {
       font-size: 1rem;
+      margin: 10px auto;
     }
 
     .page-item,

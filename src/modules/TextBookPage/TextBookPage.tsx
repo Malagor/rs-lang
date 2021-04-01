@@ -1,8 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Container, Grid } from '@material-ui/core';
-import { ErrorMessage, Loader, Pagination } from 'components';
+import { Container } from '@material-ui/core';
+import { ErrorMessage, Loader, NavGame, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
 import { selectUser } from 'modules/Login/selectors';
@@ -71,28 +71,37 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       {error && <ErrorMessage />}
       {hasContent ? (
         <div className={classes.contentWrapper}>
-          <Grid container>
-            <Grid item xs={12} sm={11} className={classes.mainGrid}>
+          <div className={classes.containerGrid}>
+            {/* <div className={classes.mainGrid}> */}
+            <div className={classes.paginationTop}>
               <Pagination
                 pageCount={30}
                 initialPage={page}
                 forcePage={page}
                 group={group}
               />
+            </div>
+            <div className={classes.gamesWrapper}>
+              <NavGame />
+            </div>
+            <div className={classes.mainGrid}>
               <WordList words={words} />
+            </div>
+            <div className={classes.sideGrid}>
+              <GroupSelector isOpacity={scroll > 200} />
+            </div>
+            <div className={classes.paginationBottom}>
               <Pagination
                 pageCount={30}
                 initialPage={page}
                 forcePage={page}
                 group={group}
               />
-            </Grid>
-            <Grid item xs={12} sm={1} className={classes.sideGrid}>
-              <GroupSelector isOpacity={scroll > 200} />
-            </Grid>
-          </Grid>
+            </div>
+          </div>
         </div>
       ) : (
+        // </div>
         <Loader />
       )}
     </Container>
