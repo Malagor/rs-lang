@@ -6,6 +6,7 @@ import {
   COLOR_LAYOUT_TEXT,
   COLOR_LAYOUT_YELLOW,
 } from 'appConstants/colors';
+import { fade } from '@material-ui/core';
 
 type CircularProgressBarProps = {
   percentage: number;
@@ -29,9 +30,9 @@ export const CircularProgressBar: FC<CircularProgressBarProps> = ({
     const timeout = setTimeout(() => {
       setValue(percentage);
     }, 500);
-   return () => {
-		 clearTimeout(timeout);
-		 }
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [percentage]);
 
   return (
@@ -44,7 +45,9 @@ export const CircularProgressBar: FC<CircularProgressBarProps> = ({
         textSize: props?.fontSize ? `${props.fontSize}px` : '25px',
         pathColor: props?.pathColor ? props.pathColor : COLOR_LAYOUT_YELLOW,
         textColor: props?.textColor ? props.textColor : COLOR_LAYOUT_TEXT,
-        trailColor: props?.trailColor ? props.trailColor : COLOR_LAYOUT_GRAY,
+        trailColor: props?.trailColor
+          ? props.trailColor
+          : fade(COLOR_LAYOUT_GRAY, 0.7),
         pathTransitionDuration: 0.7,
       })}
     />

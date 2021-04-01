@@ -1,7 +1,7 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { database } from 'services';
-import { ErrorType, StateStatistics, Word } from 'types';
+import { ErrorType, StateStatistics } from 'types';
 import { SET_USER_STATISTICS, SET_ERROR } from './actionConst';
 
 export const setUserStatistics = (payload: StateStatistics) => ({
@@ -37,7 +37,7 @@ export const loadUserStatistics = (
 
 export const updateStatisticsLearnedWords = (
   userId: string,
-  addToToday?: number
+  addToToday?: 1 | -1
 ): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
   dispatch
 ) => {
@@ -45,10 +45,13 @@ export const updateStatisticsLearnedWords = (
   let statistics;
 
   try {
-    const words = await database.getUserAggregatedWord(userId);
-    learnedWords = words[0].paginatedResults.filter(
-      (word: Word) => word?.userWord?.difficulty === 'easy'
-    );
+    learnedWords = await database
+      .getUserAggregatedWord({
+        userId,
+        filter: '{"userWord.difficulty":"hard"}',
+      })
+      .then((data) => data[0].totalCount[0].count);
+
     statistics = await database.getUserStatistics(userId);
   } catch (err) {
     dispatch(setStatisticsError(err));
@@ -81,13 +84,13 @@ export const updateStatisticsLearnedWords = (
 
   const newStatistics = {
     ...statistics,
-    learnedWords: learnedWords.length,
+    learnedWords,
     optional: {
       ...statistics?.optional,
       learnedWordsByDays: {
         ...learnedWordsByDays,
         ...missedDays,
-        [date]: todayLearnedWords,
+        [date]: Math.max(todayLearnedWords, 0),
       },
     },
   };

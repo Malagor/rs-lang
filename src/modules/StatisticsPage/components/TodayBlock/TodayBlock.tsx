@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { gamesData } from 'appConstants/games';
-import { LearnedWords } from './components/LearnedWords';
-import { Accuracy } from './components/Accuracy';
-import { GameBlock } from './components/GameBlock';
+import { Accuracy, GameBlock, LearnedWords } from './components';
 import { useStyles } from './styled';
 
 type TodayBlockProps = {

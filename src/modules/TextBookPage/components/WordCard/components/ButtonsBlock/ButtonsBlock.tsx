@@ -21,7 +21,7 @@ import { Container } from './styled';
 
 type Props = {
   colorGroup: string;
-  isEasy: boolean | undefined;
+  isHard: boolean | undefined;
   showBtnDelete: boolean;
   showBtnRestore: boolean;
   wordId: string;
@@ -30,7 +30,7 @@ type Props = {
 export const ButtonsBlock: React.FC<Props> = ({
   colorGroup,
   wordId,
-  isEasy,
+  isHard,
   showBtnDelete,
   showBtnRestore,
 }) => {
@@ -78,10 +78,14 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
-      dispatch(updateStatisticsLearnedWords(userId, type === 'easy' ? 1 : -1));
+      if (!(type === 'hard' && isHard)) {
+        dispatch(
+          updateStatisticsLearnedWords(userId, type === 'hard' ? 1 : -1)
+        );
+      }
     } else {
       await addWordToUserList(userID, wordID, type);
-      if (type === 'easy') {
+      if (type === 'hard') {
         dispatch(updateStatisticsLearnedWords(userId, 1));
       }
     }
@@ -96,7 +100,7 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     await removeWordFromUserList(userID, wordID);
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
-    if (isEasy) {
+    if (isHard) {
       dispatch(updateStatisticsLearnedWords(userId, -1));
     }
   };

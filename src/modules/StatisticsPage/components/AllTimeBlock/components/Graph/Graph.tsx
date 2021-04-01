@@ -19,7 +19,7 @@ export const Graph: FC<GraphProps> = ({ color, points, label, title }) => {
   defaults.global.defaultFontSize = 14;
   defaults.global.defaultFontFamily = theme.typography.fontFamily;
 
-  const data = (canvas: HTMLCanvasElement) => ({
+  const data = () => ({
     labels: [],
     datasets: [
       {

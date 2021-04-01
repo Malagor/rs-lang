@@ -145,13 +145,34 @@ class MongoDatabase {
   };
 
   getUserAggregatedWord = async (
-    userId: string,
-    group: number = 0,
-    page: number = 0,
-    wordPerPage: number = 20,
-    filter: string = '{}'
+    data: Partial<{
+      userId: string;
+      group: number;
+      page: number;
+      wordPerPage: number;
+      filter: string;
+    }>
   ) => {
-    const url = `${this.URL}/users/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordPerPage}&filter=${filter}`;
+    const { userId, group, page, wordPerPage, filter } = data;
+    let url = `${this.URL}/users/${userId}/aggregatedWords`;
+
+    const queries = [];
+    if (group !== undefined) {
+      queries.push(`group=${group}`);
+    }
+    if (page !== undefined) {
+      queries.push(`page=${page}`);
+    }
+    if (wordPerPage !== undefined) {
+      queries.push(`wordsPerPage=${wordPerPage}`);
+    }
+    if (filter !== undefined) {
+      queries.push(`filter=${filter}`);
+    }
+
+    if (queries.length) {
+      url += `?${queries.join('&')}`;
+    }
 
     const rawResponse = await fetch(url, {
       method: 'GET',

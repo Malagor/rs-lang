@@ -1,15 +1,14 @@
 import React, { FC, useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
-import { setPageTitle } from 'store/commonState/actions';
-import { ErrorMessage } from 'components';
 import { gamesData } from 'appConstants/games';
 import { selectUser } from 'modules/Login/selectors';
-import { selectLearnedWordsByDays, selectStatisticsError } from './selectors';
-import { TodayBlock } from './components/TodayBlock';
+import { setPageTitle } from 'store/commonState/actions';
+import { ErrorMessage } from 'components';
 import { loadUserStatistics } from './actions';
+import { selectLearnedWordsByDays, selectStatisticsError } from './selectors';
+import { AllTimeBlock, TodayBlock } from './components';
 import { useStyles } from './styled';
-import { AllTimeBlock } from './components/AllTimeBlock';
 
 const accuracy = 66;
 const initialGameStatistics = {
