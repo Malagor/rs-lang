@@ -4,4 +4,5 @@ export { Loader } from './Loader';
 export { Pagination } from './Pagination';
 export { ErrorMessage } from './ErrorMessage';
 export { NavGame } from './NavGame';
+export { Countdown } from './Countdown';
 export { FullscreenButton } from './FullscreenButton';
