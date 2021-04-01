@@ -29,7 +29,7 @@ export const GameCard: FC<GameCardProps> = ({
 
   return (
     <Card key={name} className={`${classes.cardWrapper} ${classes.wrapper}`}>
-      <Grid container item xs={12} className={classes.wrapper}>
+      <Grid container className={classes.wrapper}>
         <Grid container>
           <Grid
             item
