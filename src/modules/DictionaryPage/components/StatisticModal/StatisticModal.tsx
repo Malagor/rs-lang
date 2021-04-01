@@ -67,7 +67,7 @@ export const StatisticModal: React.FC = () => {
   useEffect(() => {
     if (refOpenStatistic.current)
       dispatch(setRefStatistic(refOpenStatistic.current as HTMLButtonElement));
-  }, []);
+  }, [dispatch]);
 
   const handleClickOpen = () => {
     setOpen(true);

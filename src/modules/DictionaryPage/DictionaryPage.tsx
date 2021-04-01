@@ -2,9 +2,15 @@ import React, { FC, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { Button, Container } from '@material-ui/core';
-import { ErrorMessage, Loader, Pagination, WordList } from 'components';
+import {
+  ErrorMessage,
+  Loader,
+  Pagination,
+  WordList,
+  RedirectionModal,
+} from 'components';
 import { setPageTitle } from 'store/commonState/actions';
-import { selectUser } from 'modules/Login/selectors';
+import { selectUser, selectUserId } from 'modules/Login/selectors';
 import {
   selectTextBookGroup,
   selectTextBookPage,
@@ -40,6 +46,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const wordSection = useSelector(selectWordSection);
   const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
+  const userId = useSelector(selectUserId);
 
   useEffect(() => {
     dispatch(setPageTitle('Dictionary'));
@@ -96,6 +103,8 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     dispatch(loadUserDeletedWords(user.id, group, page));
     dispatch(setCheckedDifficulty('hard'));
   };
+
+  if (!userId) return <RedirectionModal />;
 
   return (
     <Container>
