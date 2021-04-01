@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
 import { Container, Grid } from '@material-ui/core';
@@ -25,6 +25,8 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
 
+  const [scroll, setScroll] = useState(0);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -38,6 +40,27 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   useEffect(() => {
     dispatch(setPageTitle('TextBook'));
   }, [dispatch]);
+
+  useEffect(() => {
+    let lastKnownScrollPosition = scroll;
+    let ticking = false;
+
+    const handlerScroll = () => {
+      lastKnownScrollPosition = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScroll(lastKnownScrollPosition);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handlerScroll);
+    return () => {
+      window.removeEventListener('scroll', handlerScroll);
+    };
+  }, [scroll]);
 
   const classes = useStyles();
 
@@ -65,7 +88,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
               />
             </Grid>
             <Grid item xs={12} sm={1} className={classes.sideGrid}>
-              <GroupSelector />
+              <GroupSelector isOpacity={scroll > 200} />
             </Grid>
           </Grid>
         </div>

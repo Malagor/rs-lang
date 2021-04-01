@@ -2,15 +2,19 @@ import React, { FC } from 'react';
 import { COUNT_GROUPS } from 'appConstants/index';
 import { LEVEL_COLORS } from 'appConstants/colors';
 
-import { Grid, Paper, Typography } from '@material-ui/core';
+import { Grid, Paper, Typography, useTheme } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setGroup } from 'modules/TextBookPage/actions';
 import { selectGroup } from 'store/commonState/selectors';
 import { LocStore } from 'services';
 import { ButtonGroupSelector } from './components';
-import { useStyles } from './styled';
+import { GroupSelectorStyled, useStyles } from './styled';
 
-export const GroupSelector: FC = () => {
+type GroupSelectorProps = {
+  isOpacity: boolean;
+};
+
+export const GroupSelector: FC<GroupSelectorProps> = ({ isOpacity }) => {
   const dispatch = useDispatch();
   const arrayNumberOfPage = Array.from({ length: COUNT_GROUPS }, (v, k) => k);
 
@@ -23,9 +27,11 @@ export const GroupSelector: FC = () => {
 
   const colorText = LEVEL_COLORS[groupNow];
 
-  const classes = useStyles();
+  const theme = useTheme();
+  const classes = useStyles({ theme, isOpacity });
+
   return (
-    <div className={classes.wrapper}>
+    <GroupSelectorStyled isOpacity={isOpacity}>
       <Paper elevation={3} style={{ color: `${colorText}` }}>
         <Grid container className={classes.paperWrapper}>
           <Grid item className={classes.titleWrapper}>
@@ -50,6 +56,6 @@ export const GroupSelector: FC = () => {
           </Grid>
         </Grid>
       </Paper>
-    </div>
+    </GroupSelectorStyled>
   );
 };

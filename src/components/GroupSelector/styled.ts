@@ -1,17 +1,23 @@
 import { makeStyles } from '@material-ui/core/styles';
+import styled from 'styled-components/macro';
 
 export const useStyles = makeStyles((theme) => ({
   wrapper: {
     position: 'sticky',
-    top: '50%',
-    transform: 'translateY(-50%)',
+    top: '10px',
 
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
 
     width: '72px',
-    margin: '0 auto',
+    margin: '95px auto 0',
+    transition: '0.2s',
+
+    // '&:hover': {
+    //   opacity: '1',
+    //   }
+    // },
 
     [theme.breakpoints.down('xs')]: {
       position: 'none',
@@ -60,3 +66,32 @@ export const useStyles = makeStyles((theme) => ({
   },
   containerWrapper: {},
 }));
+
+type GroupSelectorWrapper = {
+  isOpacity: boolean;
+};
+
+export const GroupSelectorStyled = styled.div<GroupSelectorWrapper>`
+  position: sticky;
+  top: 10px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  width: 72px;
+  margin: 200px auto 0;
+  transition: 0.2s;
+  opacity: ${({ isOpacity }) => (isOpacity ? '0.3' : '1')};
+
+  &:hover {
+    opacity: 1;
+  }
+  @media (max-width: 600px) {
+    position: static;
+    top: 0;
+    width: 98%;
+    transform: none;
+    margin: 0;
+  }
+`;
