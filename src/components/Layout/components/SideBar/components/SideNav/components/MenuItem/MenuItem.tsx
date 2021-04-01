@@ -34,7 +34,10 @@ export const MenuItem: FC<MenuItemProps> = ({
     <NavLink
       to={to}
       exact={true}
-      style={{ textDecoration: 'none' }}
+      style={{
+        textDecoration: 'none',
+        opacity: showNotAuthorized ? ' 1' : '0.5',
+      }}
       title={title}
     >
       <ListItem
