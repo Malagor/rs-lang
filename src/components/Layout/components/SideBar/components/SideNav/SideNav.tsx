@@ -5,6 +5,13 @@ import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
 import { useDispatch } from 'react-redux';
+import {
+  URL_MAIN_PAGE,
+  URL_TEXT_BOOK,
+  URL_DICTIONARY,
+  URL_GAMES,
+  URL_STATISTICS,
+} from 'appConstants/url';
 import { logOutUser } from 'modules/Login/actions';
 import BookIcon from '@material-ui/icons/Book';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -33,7 +40,7 @@ export const SideNav: FC<SideNavProps> = () => {
   return (
     <List style={listStyles}>
       <MenuItem
-        to="/"
+        to={URL_MAIN_PAGE}
         title="Main"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 1}
@@ -43,7 +50,7 @@ export const SideNav: FC<SideNavProps> = () => {
       </MenuItem>
 
       <MenuItem
-        to="/textbook"
+        to={URL_TEXT_BOOK}
         title="Textbook"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 2}
@@ -52,7 +59,7 @@ export const SideNav: FC<SideNavProps> = () => {
         <LocalLibraryIcon />
       </MenuItem>
       <MenuItem
-        to="/dictionary"
+        to={URL_DICTIONARY}
         title="Dictionary"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 3}
@@ -62,7 +69,7 @@ export const SideNav: FC<SideNavProps> = () => {
         <BookIcon />
       </MenuItem>
       <MenuItem
-        to="/games"
+        to={URL_GAMES}
         title="Minigames"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 4}
@@ -72,7 +79,7 @@ export const SideNav: FC<SideNavProps> = () => {
         <SportsEsportsIcon />
       </MenuItem>
       <MenuItem
-        to="/statistics"
+        to={URL_STATISTICS}
         title="Statistics"
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 5}
