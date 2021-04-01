@@ -10,17 +10,19 @@ import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
 import { database } from 'services';
-import {
-  AudioCard,
-  FullScreenButton,
-  ProgressBar,
-  NextButton,
-  FinishGame,
-} from './components';
+import { FullscreenButton } from 'components/FullscreenButton';
+import { gamesData } from 'appConstants/games';
+import { AudioCard, ProgressBar, NextButton, FinishGame } from './components';
 import 'react-circular-progressbar/dist/styles.css';
 import { AudioWrapper } from './styled';
 
 const COUNT_ANSWERS = 4;
+
+const game = gamesData.find((gm) => gm.name === 'Audio challenge');
+let bg: string = '';
+if (game) {
+  bg = game.background;
+}
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
@@ -38,7 +40,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   const page = useSelector(selectTextBookPage);
 
   // helpers
-  // const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -205,7 +207,10 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   const hasContent = words.length && words[current];
 
   return (
-    <Container style={{ height: '100%' }} ref={containerRef}>
+    <Container
+      style={{ height: '100%', backgroundImage: bg }}
+      ref={containerRef}
+    >
       <FullScreenWrapperFlexCenter>
         <AudioWrapper>
           {!isFinish && (
@@ -215,7 +220,11 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
               current={current}
             />
           )}
-          <FullScreenButton />
+          <FullscreenButton
+            isFullscreen={open}
+            setFullscreen={setOpen}
+            containerRef={containerRef}
+          />
           {hasContent ? (
             <>
               <AudioCard

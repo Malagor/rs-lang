@@ -1927,6 +1927,13 @@
   resolved "https://registry.yarnpkg.com/@types/q/-/q-1.5.4.tgz#15925414e0ad2cd765bfef58842f7e26a7accb24"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
+"@types/react-countdown-circle-timer@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-countdown-circle-timer/-/react-countdown-circle-timer-1.0.0.tgz#e19648a1b52888f8781b9154fed88a7d6da9dd3a"
+  integrity sha512-6ZZ0PAhFuLXDNKRMJcoXlu/guZ7+VVDzO04QU7bPJfQiqH6HfEtw1yJbGp4B871Y92uHSC3e+cSp06nzAn7tUQ==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-dom@^17.0.0":
   version "17.0.3"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-17.0.3.tgz#7fdf37b8af9d6d40127137865bb3fff8871d7ee1"
@@ -10172,6 +10179,13 @@ react-circular-progressbar@^2.0.4:
   resolved "https://registry.yarnpkg.com/react-circular-progressbar/-/react-circular-progressbar-2.0.4.tgz#5b04a9cf6be8c522c180e4e99ec6db63677335b0"
   integrity sha512-OfX0ThSxRYEVGaQSt0DlXfyl5w4DbXHsXetyeivmoQrh9xA9bzVPHNf8aAhOIiwiaxX2WYWpLDB3gcpsDJ9oww==
 
+react-countdown-circle-timer@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/react-countdown-circle-timer/-/react-countdown-circle-timer-2.5.1.tgz#39da76e91bd78b5424f683ea02a6498f4df66834"
+  integrity sha512-cfzr6dgc/rYFpx3CXXgFnpqti7edFX7eUOP7YPGUfa4MefvrLh8J1zzgVURfVFBDB207PrK7DNK7iYkf2H5YkQ==
+  dependencies:
+    use-elapsed-time "2.1.6"
+
 react-dev-utils@^11.0.3:
   version "11.0.4"
   resolved "https://registry.yarnpkg.com/react-dev-utils/-/react-dev-utils-11.0.4.tgz#a7ccb60257a1ca2e0efe7a83e38e6700d17aa37a"
@@ -12374,6 +12388,11 @@ url@^0.11.0:
   dependencies:
     punycode "1.3.2"
     querystring "0.2.0"
+
+use-elapsed-time@2.1.6:
+  version "2.1.6"
+  resolved "https://registry.yarnpkg.com/use-elapsed-time/-/use-elapsed-time-2.1.6.tgz#8ad0c0054a1ba7bf881540855b5eb2d60ff501be"
+  integrity sha512-6h6bY63oto1REUqcID3Goedgl5tVqWXsLzUSJ6EB9VprqZqnO5VDo1kkQqY/6V5Jc4Wu4XUgW3B8aDUHG2KRcA==
 
 use@^3.1.0:
   version "3.1.1"
