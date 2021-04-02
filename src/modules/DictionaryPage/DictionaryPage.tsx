@@ -1,7 +1,7 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Button, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import {
   ErrorMessage,
   Loader,
@@ -39,6 +39,8 @@ import {
   HARD_DIFFICULTY,
   USUAL_SECTION,
 } from 'appConstants';
+import { useStyles } from 'modules/TextBookPage/styled';
+import { GroupSelector } from 'components/GroupSelector';
 import { Sections } from './components';
 
 type DictionaryProps = {};
@@ -55,12 +57,36 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
+  const [scroll, setScroll] = useState(0);
 
   useEffect(() => {
     dispatch(setPageTitle('Dictionary'));
     dispatch(setGroup(0));
     dispatch(setPage(0));
   }, [dispatch]);
+
+  useEffect(() => {
+    let lastKnownScrollPosition = scroll;
+    let ticking = false;
+
+    const handlerScroll = () => {
+      lastKnownScrollPosition = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScroll(lastKnownScrollPosition);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handlerScroll);
+    return () => {
+      window.removeEventListener('scroll', handlerScroll);
+    };
+  }, [scroll]);
+
+  const classes = useStyles();
 
   useEffect(() => {
     if (user.id) {
@@ -76,18 +102,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
       dispatch(loadWords(group, page));
     }
   }, [dispatch, page, group, user, wordSection]);
-
-  const onPrevGroupHandler = () => {
-    const prevGroup = group === 0 ? 0 : group - 1;
-    dispatch(setPage(0));
-    dispatch(setGroup(prevGroup));
-  };
-
-  const onNextGroupHandler = () => {
-    dispatch(setPage(0));
-    const nextGroup = group === 5 ? 5 : group + 1;
-    dispatch(setGroup(nextGroup));
-  };
 
   const onUsualWords = () => {
     dispatch(setPage(0));
@@ -116,53 +130,49 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
   return (
     <Container>
-      <Sections
-        group={group}
-        wordSection={wordSection}
-        handlers={[onUsualWords, onDifficultWords, onDeletedWords]}
-      />
+      {error && <ErrorMessage />}
+      {isLoading && <Loader />}
 
-      <div>Group: {group}</div>
-      <Button
-        type="button"
-        color="primary"
-        variant="contained"
-        onClick={onPrevGroupHandler}
-      >
-        Prev Group
-      </Button>
-      <Button
-        variant="contained"
-        color="primary"
-        type="button"
-        onClick={onNextGroupHandler}
-      >
-        Next Group
-      </Button>
-      <hr />
-
-      <>
-        {error && <ErrorMessage />}
-
-        {isLoading && <Loader />}
-
-        <NavGame />
-
-        <WordList
-          words={words}
-          checkedDifficulty={checkedDifficulty}
-          isButtons={true}
-          showBtnDeleteDifficult={wordSection === USUAL_SECTION}
-          showBtnRestore={wordSection !== USUAL_SECTION}
-        />
-
-        <Pagination
-          pageCount={pagesCount}
-          initialPage={page}
-          forcePage={page}
-          group={group}
-        />
-      </>
+      <div className={classes.contentWrapper}>
+        <div className={classes.containerGrid}>
+          <div className={classes.paginationTop}>
+            <Pagination
+              pageCount={pagesCount}
+              initialPage={page}
+              forcePage={page}
+              group={group}
+            />
+          </div>
+          <div className={classes.gamesWrapper}>
+            <Sections
+              group={group}
+              wordSection={wordSection}
+              handlers={[onUsualWords, onDifficultWords, onDeletedWords]}
+            />
+            <NavGame />
+          </div>
+          <div className={classes.mainGrid}>
+            <WordList
+              words={words}
+              checkedDifficulty={checkedDifficulty}
+              isButtons={true}
+              showBtnDeleteDifficult={wordSection === USUAL_SECTION}
+              showBtnRestore={wordSection !== USUAL_SECTION}
+            />
+          </div>
+          <div className={classes.sideGrid}>
+            <GroupSelector isOpacity={scroll > 200} />
+          </div>
+          <div className={classes.paginationBottom}>
+            <Pagination
+              pageCount={pagesCount}
+              initialPage={page}
+              forcePage={page}
+              group={group}
+            />
+          </div>
+        </div>
+      </div>
     </Container>
   );
 };
