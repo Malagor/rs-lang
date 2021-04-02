@@ -2,7 +2,10 @@ import React, { FC } from 'react';
 import FullscreenIcon from '@material-ui/icons/Fullscreen';
 import FullscreenExitIcon from '@material-ui/icons/FullscreenExit';
 import styled from 'styled-components';
-import { COLOR_LAYOUT_WHITE } from 'appConstants/colors';
+import {
+  COLOR_LAYOUT_BACKGROUND,
+  COLOR_LAYOUT_WHITE,
+} from 'appConstants/colors';
 
 type FullscreenButtonProps = {
   isFullscreen: boolean;
@@ -50,6 +53,7 @@ const FullScreenButtonContainer = styled.div`
   right: 46px;
   cursor: pointer;
   transition: transform 0.2s;
+  color: ${COLOR_LAYOUT_BACKGROUND};
 
   &:hover {
     transform: scale(1.2);

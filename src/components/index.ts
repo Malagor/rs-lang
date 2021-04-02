@@ -1,4 +1,5 @@
 export { App } from './App';
+export { RedirectionModal } from './RedirectionModal';
 export { Layout } from './Layout';
 export { Loader } from './Loader';
 export { Pagination } from './Pagination';
