@@ -7,6 +7,10 @@ export const SectionsContainer = styled.div`
   max-width: 567px;
   width: 100%;
 
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     flex-wrap: wrap;
     justify-content: center;
@@ -18,7 +22,8 @@ export const Section = styled.div<{ active: boolean }>`
   display: flex;
   align-items: center;
   padding: 12px 24px 12px 16px;
-  margin: 16px 0 16px 0;
+  margin-top: 16px;
+  margin-bottom: 16px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: ${({ active }) =>
@@ -29,11 +34,12 @@ export const Section = styled.div<{ active: boolean }>`
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
   }
 
+  & + div {
+    margin-left: 16px;
+  }
+
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     padding: 12px 12px 12px 8px;
-    & + div {
-      margin-left: 16px;
-    }
   }
 `;
 
