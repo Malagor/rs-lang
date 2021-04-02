@@ -18,7 +18,7 @@ export const Section = styled.div<{ active: boolean }>`
   display: flex;
   align-items: center;
   padding: 12px 24px 12px 16px;
-  margin-bottom: 16px;
+  margin: 40px 0 16px 0;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: ${({ active }) =>

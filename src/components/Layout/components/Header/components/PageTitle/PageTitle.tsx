@@ -4,6 +4,7 @@ import { selectPageTitle } from 'store/commonState/selectors';
 import { Typography } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import { selectRefStatistic } from 'modules/TextBookPage/selectors';
+import { TitleWrapper } from './styled';
 
 type PageTitleProps = {};
 
@@ -14,11 +15,11 @@ export const PageTitle: FC<PageTitleProps> = () => {
   const iconStyles = {
     fontSize: '2rem',
     cursor: 'pointer',
-    margin: '10px 0 0 36px',
+    margin: '8px 0 0 5px',
   };
 
   return (
-    <>
+    <TitleWrapper>
       <Typography variant="h4" component="h1">
         {title}
       </Typography>
@@ -28,6 +29,6 @@ export const PageTitle: FC<PageTitleProps> = () => {
           onClick={() => refStatistic?.click()}
         />
       )}
-    </>
+    </TitleWrapper>
   );
 };
