@@ -65,6 +65,16 @@ export const Imaginarium = () => {
   const quizWordRef = useRef(quizWord);
   const theme = useTheme();
 
+  const playSound = useCallback(
+    (soundUrl: string) => {
+      if (isSoundOn && soundRef && soundRef.current) {
+        soundRef.current.src = soundUrl;
+        soundRef.current.play().catch();
+      }
+    },
+    [isSoundOn]
+  );
+
   const handleImageClick = useCallback(
     (word: Word) => {
       if (!hasStarted && hasFinished) return;
@@ -80,10 +90,7 @@ export const Imaginarium = () => {
         }
         setRightId(word.id);
         setAnimationIsPlaying(true);
-        if (isSoundOn && soundRef && soundRef.current) {
-          soundRef.current.src = CorrectSound;
-          soundRef.current.play().catch((err) => err);
-        }
+        playSound(CorrectSound);
       } else {
         setWrongAnswers(wrongAnswers + 1);
         if (!wronglyAnswered.includes(quizWord)) {
@@ -93,10 +100,7 @@ export const Imaginarium = () => {
         setWrongId(word.id);
         setRightId(quizWord.id);
         setAnimationIsPlaying(true);
-        if (isSoundOn && soundRef && soundRef.current) {
-          soundRef.current.src = WrongSound;
-          soundRef.current.play().catch((err) => err);
-        }
+        playSound(WrongSound);
       }
       setTimeout(() => {
         setRound(round + 1);
@@ -116,7 +120,7 @@ export const Imaginarium = () => {
       wronglyAnswered,
       currentInARow,
       maxInARow,
-      isSoundOn,
+      playSound,
     ]
   );
 
@@ -125,6 +129,7 @@ export const Imaginarium = () => {
     setWronglyAnswered([...wronglyAnswered, quizWordRef.current!]);
     setWrongId(quizWordRef.current!.id);
     setAnimationIsPlaying(true);
+    playSound(WrongSound);
     setTimeout(() => {
       setWrongId('');
       setAnimationIsPlaying(false);
