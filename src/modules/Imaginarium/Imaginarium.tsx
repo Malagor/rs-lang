@@ -7,7 +7,11 @@ import React, {
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
-import { selectTextBookWords } from 'modules/TextBookPage/selectors';
+import {
+  selectTextBookWords,
+  selectTextBookGroup,
+  selectTextBookPage,
+} from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
@@ -54,6 +58,8 @@ export const Imaginarium = () => {
   const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
 
   const words: Word[] = useSelector(selectTextBookWords);
+  const page = useSelector(selectTextBookPage);
+  const group = useSelector(selectTextBookGroup);
   const wordUrls = useMemo(
     () => words.map((word) => `${SERVER_URL}${word.image}`),
     [words]
@@ -142,8 +148,8 @@ export const Imaginarium = () => {
   };
 
   useEffect(() => {
-    dispatch(loadWords(2, 23));
-  }, [dispatch]);
+    dispatch(loadWords(group, page));
+  }, [dispatch, group, page]);
 
   useEffect(() => {
     dispatch(setPageTitle('Imaginarium'));
