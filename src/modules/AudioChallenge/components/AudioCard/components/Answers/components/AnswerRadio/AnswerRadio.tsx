@@ -13,7 +13,11 @@ export const AnswerRadio: FC<AnswerRadioProps> = (props) => {
   const classes = useStyles();
   return (
     <Radio
-      classes={{ root: classes.root, checked: classes.checked }}
+      classes={{
+        root: classes.root,
+        checked: classes.checked,
+        disabled: classes.disabled,
+      }}
       disableRipple
       color="default"
       checkedIcon={

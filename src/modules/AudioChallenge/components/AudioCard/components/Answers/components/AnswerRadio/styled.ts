@@ -19,4 +19,7 @@ export const useStyles = makeStyles({
     width: '12px',
     height: '12px',
   },
+  disabled: {
+    color: `${COLOR_LAYOUT_BACKGROUND} !important`,
+  },
 });

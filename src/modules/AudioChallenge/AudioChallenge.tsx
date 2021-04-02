@@ -19,10 +19,6 @@ import { AudioWrapper } from './styled';
 const COUNT_ANSWERS = 4;
 
 const game = gamesData.find((gm) => gm.name === 'Audio challenge');
-let bg: string = '';
-if (game) {
-  bg = game.background;
-}
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
@@ -205,6 +201,8 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   }, [isFinish, handleFinishGame]);
 
   const hasContent = words.length && words[current];
+
+  const bg = game && game.background && open ? game.background : '';
 
   return (
     <Container

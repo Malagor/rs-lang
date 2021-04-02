@@ -46,6 +46,9 @@ export const useStyles = makeStyles({
       backgroundColor: `rgba(${COLOR_LAYOUT_BACKGROUND_RGB}, 0.3)`,
     },
   },
+  disabled: {
+    color: `${COLOR_LAYOUT_BACKGROUND} !important`,
+  },
 });
 
 export const Answers: FC<AnswersProps> = ({
@@ -69,20 +72,28 @@ export const Answers: FC<AnswersProps> = ({
           value={userChoice}
           onChange={handleChange}
         >
-          {answers.map((answer, index) => (
-            <FormControlLabel
-              key={answer}
-              classes={{ root: classes.root }}
-              style={answerItemStyle}
-              value={index.toString()}
-              control={
-                <AnswerRadio
-                  iscorrect={`${index === parseInt(correctAnswerIndex, 10)}`}
-                />
-              }
-              label={`${index + 1} ${answer}`}
-            />
-          ))}
+          {answers.map((answer, index) => {
+            const activeItem = parseInt(userChoice, 10) === index;
+
+            return (
+              <FormControlLabel
+                key={answer}
+                classes={{
+                  root: classes.root,
+                  disabled: activeItem ? classes.disabled : '',
+                }}
+                style={answerItemStyle}
+                value={index.toString()}
+                control={
+                  <AnswerRadio
+                    iscorrect={`${index === parseInt(correctAnswerIndex, 10)}`}
+                  />
+                }
+                label={`${index + 1} ${answer}`}
+                disabled={userChoice !== '-1'}
+              />
+            );
+          })}
         </RadioGroup>
       </FormControl>
     </AnswersWrapper>

@@ -3,7 +3,6 @@ import { Word } from 'types';
 import { useSelector } from 'react-redux';
 import { selectTextBookGroup } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
-import { NavGame } from 'components';
 import { WordCard } from '../WordCard';
 import { WordListStyled } from './styled';
 import { NoWordsMessage } from './components';
@@ -19,7 +18,6 @@ export const WordList: FC<WordListProps> = ({ words }) => {
 
   return hasWords ? (
     <WordListStyled>
-      <NavGame />
       {words.map((word) => {
         const isDeleted = word.userWord?.difficulty === 'easy';
         const wordStatistics = word.userWord?.optional?.statistics;
