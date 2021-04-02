@@ -124,7 +124,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
       <div
         style={{
-          paddingBottom: '8px',
           minHeight: '200px',
           position: 'relative',
         }}

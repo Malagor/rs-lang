@@ -8,8 +8,10 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'flex-start',
     padding: '0 8px',
-    marginLeft: 12,
+    marginLeft: '12px',
+    marginRight: '12px',
     color: COLOR_LAYOUT_GRAY,
+    overflow: 'hidden',
     ...theme.mixins.toolbar,
   },
 
@@ -39,5 +41,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   divided: {
     marginBottom: 20,
+  },
+  closeButton: {
+    color: COLOR_LAYOUT_GRAY,
+    marginRight: `${theme.spacing()}px`,
   },
 }));

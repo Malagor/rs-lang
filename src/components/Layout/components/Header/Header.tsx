@@ -5,7 +5,6 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AppBar from '@material-ui/core/AppBar';
 import { MOBILE_WIDTH } from 'appConstants';
-import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import { useSelector } from 'react-redux';
 import { selectUser } from 'modules/Login/selectors';
 import { PageTitle, UserInfoBlock, LoginModal } from './components';
@@ -17,7 +16,7 @@ type HeaderProps = {
 };
 
 export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
-  const isMobile = window.document.body.offsetWidth < MOBILE_WIDTH;
+  const isMobile = window.innerWidth < MOBILE_WIDTH;
   const user = useSelector(selectUser);
 
   const classes = useStyles();
@@ -28,14 +27,15 @@ export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
       className={clsx(classes.appBar, open && !isMobile && classes.appBarShift)}
       color="transparent"
     >
-      <Toolbar className={classes.toolbar}>
+      <Toolbar>
         <IconButton
-          edge="start"
-          color="inherit"
-          style={{ color: COLOR_LAYOUT_GRAY }}
           aria-label="open drawer"
           onClick={handleDrawerOpen}
-          className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+          className={clsx(
+            classes.menuButton,
+            !isMobile && open && classes.menuButtonHidden,
+            isMobile && classes.menuButtonMobile
+          )}
         >
           <MenuIcon />
         </IconButton>
