@@ -20,8 +20,6 @@ export const GamesPage: FC<GamesProps> = () => {
 
   const classes = useStyles();
 
-  if (!userId) return <RedirectionModal />;
-
   return (
     <Container>
       <Grid container item xs={12} justify="center" className={classes.wrapper}>

@@ -74,7 +74,6 @@ export const SideNav: FC<SideNavProps> = () => {
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 4}
         index={4}
-        showNotAuthorized={false}
       >
         <SportsEsportsIcon />
       </MenuItem>

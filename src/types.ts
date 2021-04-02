@@ -81,3 +81,9 @@ export type State = {
   commonReducer: StateCommon;
   loginReducer: StateLogin;
 };
+
+export type GameStatistics = {
+  wordsStudied: number;
+  accuracy: number;
+  maxInARow: number;
+};

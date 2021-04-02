@@ -5,6 +5,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
+import { LocStore } from 'services/localStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
 import {
@@ -20,6 +21,7 @@ import { useTheme } from '@material-ui/core/styles';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
+import { selectUserId } from 'modules/Login/selectors';
 import { GameContainer, GameField, QuizWordContainer } from './styled';
 import { Dashboard, WordImage } from './components';
 
@@ -49,8 +51,6 @@ export const Imaginarium = () => {
   const [rightlyAnswered, setRightlyAnswered] = useState<Word[]>([]);
   const [wronglyAnswered, setWronglyAnswered] = useState<Word[]>([]);
   const [quizWord, setQuizWord] = useState<Word | null>(null);
-  const [rightAnswers, setRightAnswers] = useState(0);
-  const [wrongAnswers, setWrongAnswers] = useState(0);
   const [maxInARow, setMaxInARow] = useState(0);
   const [currentInARow, setCurrentInARow] = useState(0);
   const [rightId, setRightId] = useState('');
@@ -60,6 +60,7 @@ export const Imaginarium = () => {
   const words: Word[] = useSelector(selectTextBookWords);
   const page = useSelector(selectTextBookPage);
   const group = useSelector(selectTextBookGroup);
+  const userId = useSelector(selectUserId);
   const wordUrls = useMemo(
     () => words.map((word) => `${SERVER_URL}${word.image}`),
     [words]
@@ -85,27 +86,22 @@ export const Imaginarium = () => {
     (word: Word) => {
       if (!hasStarted && hasFinished) return;
       if (!quizWord) return;
+      if (animationIsPlaying) return;
+      setAnimationIsPlaying(true);
       if (word.id === quizWord.id) {
-        setRightAnswers(rightAnswers + 1);
-        if (!rightlyAnswered.includes(quizWord)) {
-          setRightlyAnswered([...rightlyAnswered, quizWord]);
-        }
+        setRightlyAnswered([...rightlyAnswered, quizWord]);
         setCurrentInARow(currentInARow + 1);
         if (currentInARow + 1 > maxInARow) {
           setMaxInARow(currentInARow + 1);
         }
         setRightId(word.id);
-        setAnimationIsPlaying(true);
+
         playSound(CorrectSound);
       } else {
-        setWrongAnswers(wrongAnswers + 1);
-        if (!wronglyAnswered.includes(quizWord)) {
-          setWronglyAnswered([...wronglyAnswered, quizWord]);
-        }
+        setWronglyAnswered([...wronglyAnswered, quizWord]);
         setCurrentInARow(0);
         setWrongId(word.id);
         setRightId(quizWord.id);
-        setAnimationIsPlaying(true);
         playSound(WrongSound);
       }
       setTimeout(() => {
@@ -119,22 +115,20 @@ export const Imaginarium = () => {
       hasFinished,
       hasStarted,
       quizWord,
-      rightAnswers,
       rightlyAnswered,
-      round,
-      wrongAnswers,
       wronglyAnswered,
+      round,
       currentInARow,
       maxInARow,
       playSound,
+      animationIsPlaying,
     ]
   );
 
   const handleCountdownEnd = (): [boolean, number] | void => {
-    setWrongAnswers(wrongAnswers + 1);
+    setAnimationIsPlaying(true);
     setWronglyAnswered([...wronglyAnswered, quizWordRef.current!]);
     setWrongId(quizWordRef.current!.id);
-    setAnimationIsPlaying(true);
     playSound(WrongSound);
     setTimeout(() => {
       setWrongId('');
@@ -195,13 +189,46 @@ export const Imaginarium = () => {
   useEffect(() => {
     if (round === QUIZ_COUNT) {
       setFinished(true);
+      const wordsStudied = rightlyAnswered.length + wronglyAnswered.length;
+      const accuracy = Math.round(
+        (rightlyAnswered.length * 100) /
+          (rightlyAnswered.length + wronglyAnswered.length)
+      );
       console.log('Game is finished.');
+      console.log(
+        'Rightly answered: ',
+        rightlyAnswered.map((word) => word.word).toString()
+      );
+      console.log(
+        'Wrongly answered: ',
+        wronglyAnswered.map((word) => word.word).toString()
+      );
+      console.log('Words studied', wordsStudied);
+      console.log('Accurracy', accuracy, '%');
+      console.log('Max in a row', maxInARow);
       if (isSoundOn && soundRef && soundRef.current) {
         soundRef.current.src = FinishSound;
         soundRef.current.play().catch((err) => err);
       }
+      if (!userId) {
+        LocStore.updateGamesStatistics(
+          'Imaginarium',
+          rightlyAnswered,
+          wronglyAnswered,
+          maxInARow
+        );
+        LocStore.updateWordsStatistics(rightlyAnswered, wronglyAnswered);
+      }
     }
-  }, [setFinished, round, isSoundOn]);
+  }, [
+    setFinished,
+    round,
+    isSoundOn,
+    maxInARow,
+    rightlyAnswered,
+    wronglyAnswered,
+    userId,
+  ]);
 
   const wordImages = currentWords.map((word, index) => (
     <WordImage
@@ -231,8 +258,8 @@ export const Imaginarium = () => {
             setStarted={setStarted}
             hasFinished={hasFinished}
             initialCountdownTime={INITIAL_COUNTDOWN_TIME}
-            rightAnswers={rightAnswers}
-            wrongAnswers={wrongAnswers}
+            rightAnswers={rightlyAnswered.length}
+            wrongAnswers={wronglyAnswered.length}
             round={round}
             countdownTime={COUNTDOWN_TIME}
             animationIsPlaying={animationIsPlaying}
