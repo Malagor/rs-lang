@@ -29,30 +29,32 @@ export const WordList: FC<WordListProps> = ({
   ).length;
 
   return hasWords ? (
-    <WordListStyled>
+    <>
       <StatisticModal />
+      <WordListStyled>
+        {words.map((word) => {
+          const unsuitableWord =
+            word.userWord?.difficulty === checkedDifficulty;
+          const wordStatistics = word.userWord?.optional?.statistics;
 
-      {words.map((word) => {
-        const unsuitableWord = word.userWord?.difficulty === checkedDifficulty;
-        const wordStatistics = word.userWord?.optional?.statistics;
-
-        return (
-          !unsuitableWord && (
-            <WordCard
-              key={word.word}
-              word={word}
-              colorGroup={LEVEL_COLORS[group]}
-              successCount={wordStatistics?.correct || 0}
-              errorCount={wordStatistics?.incorrect || 0}
-              isTranslate={true}
-              isButtons={isButtons}
-              showBtnDeleteDifficult={showBtnDeleteDifficult}
-              showBtnRestore={showBtnRestore}
-            />
-          )
-        );
-      })}
-    </WordListStyled>
+          return (
+            !unsuitableWord && (
+              <WordCard
+                key={word.word}
+                word={word}
+                colorGroup={LEVEL_COLORS[group]}
+                successCount={wordStatistics?.correct || 0}
+                errorCount={wordStatistics?.incorrect || 0}
+                isTranslate={true}
+                isButtons={isButtons}
+                showBtnDeleteDifficult={showBtnDeleteDifficult}
+                showBtnRestore={showBtnRestore}
+              />
+            )
+          );
+        })}
+      </WordListStyled>
+    </>
   ) : (
     <NoWordsMessage />
   );
