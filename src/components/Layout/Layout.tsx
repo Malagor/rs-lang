@@ -24,7 +24,7 @@ export const Layout: FC = ({ children }) => {
     <div className={classes.root}>
       <CssBaseline />
       <SideBar open={open} handleDrawerClose={handleDrawerClose} />
-      <div className={clsx(classes.container, isMobile)}>
+      <div className={clsx(classes.container)}>
         <Header open={open} handleDrawerOpen={handleDrawerOpen} />
         <main className={classes.content}>{children}</main>
         {!location.pathname.includes('games') && <Footer />}
