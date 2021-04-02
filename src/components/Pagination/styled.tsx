@@ -30,7 +30,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     margin: 0 8px;
     background: ${COLOR_LAYOUT_WHITE};
     border-radius: 10px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
     user-select: none;
     transition: color 0.3s;
 
@@ -77,6 +77,13 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     .root {
       font-size: 1.2rem;
     }
+  }
+
+  ${(props) => props.breakpoints.down('xs')} {
+    .root {
+      font-size: 1rem;
+      margin: 10px auto;
+    }
 
     .page-item,
     .previous-page-item,
@@ -84,21 +91,6 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     .break-item {
       width: 32px;
       height: 32px;
-      margin: 0 4px;
-    }
-  }
-
-  ${(props) => props.breakpoints.down('sm')} {
-    .root {
-      font-size: 1rem;
-    }
-
-    .page-item,
-    .previous-page-item,
-    .next-page-item,
-    .break-item {
-      width: 25px;
-      height: 25px;
     }
   }
 `;
