@@ -1,11 +1,9 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-import Toolbar from '@material-ui/core/Toolbar';
-import IconButton from '@material-ui/core/IconButton';
+import { Toolbar, IconButton, AppBar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import AppBar from '@material-ui/core/AppBar';
-import { MOBILE_WIDTH } from 'appConstants';
 import { useSelector } from 'react-redux';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { selectUser } from 'modules/Login/selectors';
 import { PageTitle, UserInfoBlock, LoginModal } from './components';
 import { useStyles } from './styled';
@@ -16,7 +14,7 @@ type HeaderProps = {
 };
 
 export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
-  const isMobile = window.innerWidth < MOBILE_WIDTH;
+  const isMobile = useIsMobile();
   const user = useSelector(selectUser);
 
   const classes = useStyles();

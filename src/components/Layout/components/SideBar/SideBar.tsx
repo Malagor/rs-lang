@@ -3,8 +3,9 @@ import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Drawer from '@material-ui/core/Drawer';
-import { APP_NAME, MOBILE_WIDTH } from 'appConstants';
 import { Typography } from '@material-ui/core';
+import { APP_NAME } from 'appConstants';
+import { useIsMobile } from 'hooks/useIsMobile';
 import { SideNav } from './components';
 import { useStyles } from './styled';
 
@@ -14,8 +15,7 @@ type SidebarProps = {
 };
 
 export const SideBar: FC<SidebarProps> = ({ open, handleDrawerClose }) => {
-  const isMobile = window.innerWidth < MOBILE_WIDTH;
-
+  const isMobile = useIsMobile();
   const classes = useStyles();
 
   return (
