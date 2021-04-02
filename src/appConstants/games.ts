@@ -1,7 +1,7 @@
 import AUDIO_CHALLENGE_ICON from 'assets/icons/audio.png';
 import SAVANNAH_ICON from 'assets/icons/savannah.png';
 import SPRINT_ICON from 'assets/icons/sprint.png';
-import OWN_GAME_ICON from 'assets/icons/ownGame.png';
+import IMAGINARIUM_ICON from 'assets/icons/imaginarium.png';
 import {
   URL_GAME_SAVANNA,
   URL_GAME_AUDIO_CHALLENGE,
@@ -41,11 +41,11 @@ export const gamesData = [
     colorButton: COLOR_LAYOUT_BLUE,
   },
   {
-    name: 'Own game',
-    img: OWN_GAME_ICON,
+    name: 'Imaginarium',
+    img: IMAGINARIUM_ICON,
     link: URL_GAME_IMAGINARIUM,
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
+      'Enhance your remembering by using visual memory and building strong illustrative connections right in your head.',
     colorButton: COLOR_LAYOUT_DARKBLUE,
   },
 ];
