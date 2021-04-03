@@ -6,7 +6,7 @@ import { useStyles } from './styled';
 
 type GraphProps = {
   color: string;
-  points: { x: string; y: number }[];
+  points: { x: Date; y: number }[];
   label: string;
   title: string;
 };

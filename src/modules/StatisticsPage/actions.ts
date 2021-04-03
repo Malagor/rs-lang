@@ -19,25 +19,9 @@ export const clearStatisticsError = () => ({
   payload: null,
 });
 
-export const loadUserStatistics = (
-  userId: string
-): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
-  dispatch
-) => {
-  database.getUserStatistics(userId).then(
-    (statistics) => {
-      dispatch(setUserStatistics(statistics));
-      dispatch(clearStatisticsError());
-    },
-    (err) => {
-      dispatch(setStatisticsError(err));
-    }
-  );
-};
-
 export const updateStatisticsLearnedWords = (
   userId: string,
-  addToToday?: 1 | -1
+  addLearnedWord?: boolean
 ): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
   dispatch
 ) => {
@@ -62,8 +46,8 @@ export const updateStatisticsLearnedWords = (
 
   const date = new Date().toDateString();
   let todayLearnedWords = learnedWordsByDays?.[date] || 0;
-  if (addToToday) {
-    todayLearnedWords += addToToday;
+  if (addLearnedWord) {
+    todayLearnedWords += 1;
   }
 
   const missedDays: { [date: string]: number } = {};
@@ -90,7 +74,7 @@ export const updateStatisticsLearnedWords = (
       learnedWordsByDays: {
         ...learnedWordsByDays,
         ...missedDays,
-        [date]: Math.max(todayLearnedWords, 0),
+        [date]: todayLearnedWords,
       },
     },
   };

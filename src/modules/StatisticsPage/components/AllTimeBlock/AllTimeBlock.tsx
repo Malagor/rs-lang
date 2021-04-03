@@ -14,16 +14,16 @@ export const AllTimeBlock: FC<AllTimeBlockProps> = ({ learnedWordsByDays }) => {
 
   const wordsByDaysPoints = Object.entries(learnedWordsByDays).map(
     ([date, value]) => ({
-      x: date,
+      x: new Date(date),
       y: value,
     })
   );
 
-  const progressPoints: { x: string; y: number }[] = [];
+  const progressPoints: { x: Date; y: number }[] = [];
 
   Object.entries(learnedWordsByDays).forEach(([date, value]) => {
     const point = {
-      x: date,
+      x: new Date(date),
       y: progressPoints.length
         ? value + progressPoints[progressPoints.length - 1].y
         : value,

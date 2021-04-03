@@ -6,7 +6,7 @@ import { gamesData } from 'appConstants/games';
 import { setPageTitle } from 'store/commonState/actions';
 import { ErrorMessage, RedirectionModal } from 'components';
 import { selectUserId } from 'modules/Login/selectors';
-import { loadUserStatistics } from './actions';
+import { updateStatisticsLearnedWords } from './actions';
 import { selectLearnedWordsByDays, selectStatisticsError } from './selectors';
 import { AllTimeBlock, TodayBlock } from './components';
 import { useStyles } from './styled';
@@ -37,7 +37,7 @@ export const StatisticsPage: FC = () => {
 
   useEffect(() => {
     if (userId) {
-      dispatch(loadUserStatistics(userId));
+      dispatch(updateStatisticsLearnedWords(userId));
     }
   }, [dispatch, userId]);
 

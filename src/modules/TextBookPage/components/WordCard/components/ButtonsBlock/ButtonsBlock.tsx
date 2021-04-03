@@ -78,15 +78,13 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
-      if (!(type === 'hard' && isHard)) {
-        dispatch(
-          updateStatisticsLearnedWords(userId, type === 'hard' ? 1 : -1)
-        );
+      if (type === 'hard' && !isHard) {
+        updateStatisticsLearnedWords(userId, true);
       }
     } else {
       await addWordToUserList(userID, wordID, type);
       if (type === 'hard') {
-        dispatch(updateStatisticsLearnedWords(userId, 1));
+        dispatch(updateStatisticsLearnedWords(userId, true));
       }
     }
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
@@ -100,9 +98,6 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     await removeWordFromUserList(userID, wordID);
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
-    if (isHard) {
-      dispatch(updateStatisticsLearnedWords(userId, -1));
-    }
   };
 
   return (

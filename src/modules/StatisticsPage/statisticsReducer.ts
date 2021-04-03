@@ -8,9 +8,7 @@ type Action = { type: string; payload: any };
 export const InitialStatistics = {
   learnedWords: 0,
   optional: {
-    learnedWordsByDays: {
-      [new Date().toDateString()]: 0,
-    },
+    learnedWordsByDays: {},
   },
 };
 
