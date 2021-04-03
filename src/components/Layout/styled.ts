@@ -11,10 +11,7 @@ export const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
   },
   content: {
-    display: 'flex',
-    flexDirection: 'column',
     flexGrow: 1,
-    overflow: 'auto',
     paddingTop: `${theme.spacing(4)}px`,
     paddingBottom: `${theme.spacing(4)}px`,
     [theme.breakpoints.down('md')]: {
