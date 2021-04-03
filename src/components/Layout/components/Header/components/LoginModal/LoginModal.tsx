@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Auth } from 'types';
 
@@ -9,9 +9,6 @@ import {
   Typography,
   Container,
   CssBaseline,
-  Grid,
-  Link,
-  TextField,
 } from '@material-ui/core';
 
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -19,7 +16,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { database, LocStore } from 'services';
 import { setAuth, loadUserInfoById } from 'modules/Login/actions';
+import { Form } from './components';
 import { useStyles } from './styled';
+
+type InputsData = {
+  name?: string;
+  email: string;
+  password: string;
+};
 
 export const LoginModal: FC = () => {
   const classes = useStyles();
@@ -29,9 +33,6 @@ export const LoginModal: FC = () => {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
 
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleClickOpen = () => {
@@ -41,11 +42,11 @@ export const LoginModal: FC = () => {
     setOpen(false);
   };
 
-  const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
+  const handleSubmitForm = async (data: InputsData) => {
+    const { name, email, password } = data;
 
     try {
-      if (!isLogin) {
+      if (!isLogin && name) {
         // need registration
         await database.createUser({
           id: '',
@@ -98,76 +99,13 @@ export const LoginModal: FC = () => {
             <Typography component="h1" variant="h5">
               {isLogin ? 'Login' : 'Registration'}
             </Typography>
-            <form className={classes.form} noValidate>
-              {!isLogin && (
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Name"
-                  name="name"
-                  autoComplete="name"
-                  autoFocus
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
-              )}
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Typography color="error" variant="subtitle2">
-                {errorMessage}
-              </Typography>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSubmit}
-              >
-                {isLogin ? 'Sign In' : 'Sign Up'}
-              </Button>
-              <Grid container>
-                <Grid item>
-                  <Link
-                    href="#"
-                    variant="body2"
-                    onClick={() => setIsLogin(!isLogin)}
-                  >
-                    {isLogin
-                      ? "Don't have an account? Sign Up"
-                      : 'Do you have an account? Sign In'}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
+
+            <Form
+              isLogin={isLogin}
+              setIsLogin={setIsLogin}
+              handleSubmitForm={handleSubmitForm}
+              errorMessage={errorMessage}
+            />
           </div>
         </Container>
       </Dialog>
