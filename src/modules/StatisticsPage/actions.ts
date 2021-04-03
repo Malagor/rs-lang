@@ -25,17 +25,8 @@ export const updateStatisticsLearnedWords = (
 ): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
   dispatch
 ) => {
-  let learnedWords;
   let statistics;
-
   try {
-    learnedWords = await database
-      .getUserAggregatedWord({
-        userId,
-        filter: '{"userWord.difficulty":"hard"}',
-      })
-      .then((data) => data[0].totalCount?.[0]?.count || 0);
-
     statistics = await database.getUserStatistics(userId);
   } catch (err) {
     dispatch(setStatisticsError(err));
@@ -43,14 +34,13 @@ export const updateStatisticsLearnedWords = (
   }
 
   const learnedWordsByDays = statistics?.optional?.learnedWordsByDays;
-
   const date = new Date().toDateString();
+  const missedDates: { [date: string]: number } = {};
   let todayLearnedWords = learnedWordsByDays?.[date] || 0;
+
   if (addLearnedWord) {
     todayLearnedWords += 1;
   }
-
-  const missedDays: { [date: string]: number } = {};
 
   if (learnedWordsByDays) {
     const dates = Object.keys(learnedWordsByDays);
@@ -59,21 +49,20 @@ export const updateStatisticsLearnedWords = (
     const diffInDays = timeDiff / (1000 * 3600 * 24);
     if (diffInDays > 1) {
       for (let i = 1; i < diffInDays; i += 1) {
-        const tempDate = new Date(lastDate);
-        tempDate.setDate(tempDate.getDate() + i);
-        missedDays[tempDate.toDateString()] = 0;
+        const missedDate = new Date(lastDate);
+        missedDate.setDate(missedDate.getDate() + i);
+        missedDates[missedDate.toDateString()] = 0;
       }
     }
   }
 
   const newStatistics = {
-    ...statistics,
-    learnedWords,
+    learnedWords: todayLearnedWords,
     optional: {
       ...statistics?.optional,
       learnedWordsByDays: {
         ...learnedWordsByDays,
-        ...missedDays,
+        ...missedDates,
         [date]: todayLearnedWords,
       },
     },

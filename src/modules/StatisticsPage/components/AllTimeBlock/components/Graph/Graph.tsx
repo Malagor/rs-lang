@@ -31,7 +31,6 @@ export const Graph: FC<GraphProps> = ({ color, points, label, title }) => {
         pointHoverBorderColor: color,
         pointHoverBorderWidth: 2,
         pointHoverRadius: 3,
-
         radius: 3,
         fill: 'start',
         data: points,

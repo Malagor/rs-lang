@@ -216,10 +216,9 @@ class MongoDatabase {
       return res;
     });
 
-    const data = await rawResponse.json();
-    delete data.id;
+    const { id, ...statistics } = (await rawResponse.json()) || {};
 
-    return data;
+    return statistics;
   };
 
   updateUserStatistics = async (
@@ -227,9 +226,9 @@ class MongoDatabase {
     data: typeof InitialStatistics
   ) => {
     const url = `${this.URL}/users/${userId}/statistics`;
-    const oldStatistics = await this.getUserStatistics(userId);
-    delete oldStatistics.id;
-    const newStatistics = oldStatistics ? { ...oldStatistics, ...data } : data;
+    const { id, ...oldStatistics } =
+      (await this.getUserStatistics(userId)) || {};
+    const newStatistics = { ...oldStatistics, ...data };
 
     const rawResponse = await fetch(url, {
       method: 'PUT',
