@@ -10,7 +10,6 @@ type CardContainerType = {
 };
 export const CardContainer = styled.div<CardContainerType>`
   display: flex;
-  max-width: 832px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   padding: 24px;
