@@ -22,7 +22,7 @@ export const gamesData = [
     link: URL_GAME_SAVANNA,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
-    colorButton: COLOR_LAYOUT_YELLOW,
+    color: COLOR_LAYOUT_YELLOW,
   },
   {
     name: 'Audio challenge',
@@ -30,7 +30,7 @@ export const gamesData = [
     link: URL_GAME_AUDIO_CHALLENGE,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
-    colorButton: COLOR_LAYOUT_ORANGE,
+    color: COLOR_LAYOUT_ORANGE,
   },
   {
     name: 'Sprint',
@@ -38,7 +38,7 @@ export const gamesData = [
     link: URL_GAME_SPRINT,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
-    colorButton: COLOR_LAYOUT_BLUE,
+    color: COLOR_LAYOUT_BLUE,
   },
   {
     name: 'Own game',
@@ -46,6 +46,6 @@ export const gamesData = [
     link: URL_GAME_OWN_GAME,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
-    colorButton: COLOR_LAYOUT_DARKBLUE,
+    color: COLOR_LAYOUT_DARKBLUE,
   },
 ];
