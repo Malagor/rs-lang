@@ -1,13 +1,6 @@
 import styled from 'styled-components/macro';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import { fade } from '@material-ui/core';
-import {
-  COLOR_LAYOUT_BACKGROUND,
-  COLOR_LAYOUT_BLUE,
-  COLOR_LAYOUT_ORANGE,
-  COLOR_LAYOUT_WHITE,
-  COLOR_LAYOUT_YELLOW,
-} from 'appConstants/colors';
+import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
 import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
 
 export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
