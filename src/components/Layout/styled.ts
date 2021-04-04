@@ -13,9 +13,9 @@ export const useStyles = makeStyles((theme) => ({
     [`@media (max-width:${MIDDLE_SCREEN_WIDTH}px)`]: {
       paddingLeft: `${theme.spacing(11)}px`,
     },
-    [`@media (max-width:${MOBILE_WIDTH}px)`]: {
-      paddingLeft: 0,
-    },
+  },
+  containerMobile: {
+    paddingLeft: 0,
   },
   content: {
     flexGrow: 1,
