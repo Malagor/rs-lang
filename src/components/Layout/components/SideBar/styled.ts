@@ -1,5 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { DRAWER_WIDTH } from 'appConstants';
+import { DRAWER_WIDTH, MIDDLE_SCREEN_WIDTH } from 'appConstants';
 import { COLOR_LAYOUT_DARKBLUE, COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 
 export const useStyles = makeStyles((theme) => ({
@@ -27,6 +27,9 @@ export const useStyles = makeStyles((theme) => ({
     backgroundColor: COLOR_LAYOUT_DARKBLUE,
     color: COLOR_LAYOUT_GRAY,
     overflowX: 'hidden',
+    [`@media (max-width:${MIDDLE_SCREEN_WIDTH}px)`]: {
+      position: 'fixed',
+    },
   },
   drawerPaperClose: {
     overflowX: 'hidden',

@@ -1,7 +1,6 @@
 import React, { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import clsx from 'clsx';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { Header, Footer, SideBar } from './components';
 import { useStyles } from './styled';
@@ -24,7 +23,7 @@ export const Layout: FC = ({ children }) => {
     <div className={classes.root}>
       <CssBaseline />
       <SideBar open={open} handleDrawerClose={handleDrawerClose} />
-      <div className={clsx(classes.container)}>
+      <div className={classes.container}>
         <Header open={open} handleDrawerOpen={handleDrawerOpen} />
         <main className={classes.content}>{children}</main>
         {!location.pathname.includes('games') && <Footer />}
