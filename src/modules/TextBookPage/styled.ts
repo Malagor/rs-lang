@@ -33,14 +33,6 @@ export const useStyles = makeStyles((theme) => ({
 
   mainGrid: {
     gridArea: 'main',
-    [theme.breakpoints.down('sm')]: {
-      marginLeft: 'auto',
-      maxWidth: 'calc(500px + 22%)',
-      paddingLeft: '10%',
-    },
-    [theme.breakpoints.down('xs')]: {
-      paddingLeft: 0,
-    },
   },
   sideGrid: {
     position: 'relative',
