@@ -62,7 +62,7 @@ export const GameResults: FC<GameResultsProps> = ({
 
   useEffect(() => {
     const handleClose = (evt: MouseEvent) => {
-      if (isOpened && modalRef.current && closeButtonRef.current) {
+      if (modalRef.current && closeButtonRef.current) {
         if (
           !modalRef.current.contains(evt.target as Node) ||
           closeButtonRef.current.contains(evt.target as Node)
@@ -74,7 +74,13 @@ export const GameResults: FC<GameResultsProps> = ({
         }
       }
     };
-    document.addEventListener('click', handleClose);
+    if (isOpened) {
+      setTimeout(() => {
+        document.addEventListener('click', handleClose);
+      }, 0);
+    } else {
+      document.removeEventListener('click', handleClose);
+    }
     return () => {
       document.removeEventListener('click', handleClose);
     };
