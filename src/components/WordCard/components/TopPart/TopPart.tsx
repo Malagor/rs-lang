@@ -44,7 +44,6 @@ export const TopPart: React.FC<WordCardProps> = ({
   const refAudioExample = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
   const theme = useTheme();
-
   const sounds: HTMLAudioElement[] = useSelector(selectTextBookSounds);
   const playedSound = useSelector(selectPlayedSound);
 

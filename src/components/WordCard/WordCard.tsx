@@ -59,6 +59,8 @@ export const WordCard: React.FC<WordCardProps> = ({
             colorGroup={colorGroup}
             wordId={wordId}
             showBtnDeleteDifficult={showBtnDeleteDifficult}
+            isHard={isHard}
+            // showBtnDelete={showBtnDelete}
             showBtnRestore={showBtnRestore}
           />
         )}
