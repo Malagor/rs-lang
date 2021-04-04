@@ -5,8 +5,5 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       fontSize: '30px',
     },
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '25px',
-    },
   },
 }));
