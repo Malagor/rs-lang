@@ -5,19 +5,5 @@ export const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down('sm')]: {
       fontSize: '30px',
     },
-    [theme.breakpoints.down('xs')]: {
-      fontSize: '25px',
-    },
-    transition: theme.transitions.create('opacity', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.standard,
-    }),
-  },
-  titleHidden: {
-    opacity: 0,
-    transition: theme.transitions.create('opacity', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.shortest,
-    }),
   },
 }));

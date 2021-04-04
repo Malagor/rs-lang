@@ -1,9 +1,8 @@
 import React, { FC } from 'react';
 import clsx from 'clsx';
-import { Toolbar, IconButton, AppBar, useMediaQuery } from '@material-ui/core';
+import { Toolbar, IconButton, AppBar } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { useSelector } from 'react-redux';
-import { MIDDLE_SCREEN_WIDTH } from 'appConstants';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { selectUser } from 'modules/Login/selectors';
 import { PageTitle, UserInfoBlock, LoginModal } from './components';
@@ -16,7 +15,6 @@ type HeaderProps = {
 
 export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
   const isMobile = useIsMobile();
-  const isMiddleScreen = useMediaQuery(`(max-width:${MIDDLE_SCREEN_WIDTH}px)`);
   const user = useSelector(selectUser);
 
   const classes = useStyles();
@@ -39,7 +37,7 @@ export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
         >
           <MenuIcon />
         </IconButton>
-        <PageTitle hidden={isMiddleScreen && open && !isMobile} />
+        <PageTitle />
         <div className={classes.grow} />
         {user.name ? <UserInfoBlock /> : <LoginModal />}
       </Toolbar>
