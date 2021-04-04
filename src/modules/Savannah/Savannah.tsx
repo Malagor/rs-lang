@@ -32,6 +32,10 @@ export const Savannah: FC<GamesProps> = () => {
     history.push('/');
   };
 
+  const handlePlayAgain = () => {
+    console.log('Start over');
+  };
+
   return (
     <Container
       style={{
@@ -49,13 +53,13 @@ export const Savannah: FC<GamesProps> = () => {
       </Button>
       {isResultModalOpened && (
         <GameResults
-          rightAnswers={20}
-          wrongAnswers={3}
           inARow={8}
           rightlyAnswered={rightlyAnswered}
           wronglyAnswered={wronglyAnswered}
+          isOpened={isResultModalOpened}
           setOpened={setResultModalOpened}
           doAfterClose={redirectAfterModalClose}
+          handlePlayAgain={handlePlayAgain}
         />
       )}
     </Container>

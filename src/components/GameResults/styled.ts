@@ -10,7 +10,6 @@ import {
 } from 'appConstants/colors';
 import styled from 'styled-components/macro';
 import { lighten } from '@material-ui/core';
-import DonutLargeIcon from '@material-ui/icons/DonutLarge';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
 import CloseIcon from '@material-ui/icons/Close';
 
@@ -106,17 +105,18 @@ export const Content = styled.div`
 export const AnswerStats = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 `;
 
 export const AccuracyContainer = styled.div`
   width: 114px;
   text-align: center;
-`;
 
-export const AccuracyChart = styled(DonutLargeIcon)`
-  width: 112px;
-  height: 125px;
+  .accuracy-bar {
+    width: 112px;
+    height: 112px;
+    margin-bottom: 6px;
+  }
 `;
 
 export const AccuracyWord = styled.p`
@@ -160,7 +160,7 @@ export const Legend = styled.ul`
 export const LegendItem = styled.li`
   display: flex;
   align-items: center;
-  padding: 5px 0;
+  padding: 4px 0;
 `;
 
 export const LegendItemMarker = styled.div<{ type: AnswerStatType }>`
@@ -178,7 +178,7 @@ export const LegendItemText = styled.span`
 export const LearnedWordsTotal = styled.div`
   display: flex;
   justify-content: center;
-  margin-bottom: 32px;
+  margin-bottom: 26px;
   ${textMixin('bigger')}
 `;
 

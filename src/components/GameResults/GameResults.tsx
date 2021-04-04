@@ -1,8 +1,8 @@
-import { SERVER_URL } from 'appConstants';
 import React, { FC, useRef, useEffect } from 'react';
+import { SERVER_URL } from 'appConstants';
 import { Word } from 'types';
+import { CircularProgressBar } from 'components';
 import {
-  AccuracyChart,
   AccuracyContainer,
   AccuracyWord,
   CategoryContainer,
@@ -33,31 +33,36 @@ import {
 } from './styled';
 
 type GameResultsProps = {
-  rightAnswers: number;
-  wrongAnswers: number;
   inARow: number;
   rightlyAnswered: Word[];
   wronglyAnswered: Word[];
+  isOpened: boolean;
   setOpened: React.Dispatch<React.SetStateAction<boolean>>;
+  handlePlayAgain(): void;
   doAfterClose?(): void;
 };
 
 export const GameResults: FC<GameResultsProps> = ({
-  rightAnswers,
-  wrongAnswers,
   inARow,
   rightlyAnswered,
   wronglyAnswered,
+  isOpened,
   setOpened,
   doAfterClose,
+  handlePlayAgain,
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<SVGSVGElement>(null);
 
+  const handlePlayAgainClick = () => {
+    setOpened(false);
+    handlePlayAgain();
+  };
+
   useEffect(() => {
     const handleClose = (evt: MouseEvent) => {
-      if (modalRef.current && closeButtonRef.current) {
+      if (isOpened && modalRef.current && closeButtonRef.current) {
         if (
           !modalRef.current.contains(evt.target as Node) ||
           closeButtonRef.current.contains(evt.target as Node)
@@ -73,7 +78,7 @@ export const GameResults: FC<GameResultsProps> = ({
     return () => {
       document.removeEventListener('click', handleClose);
     };
-  }, [setOpened, doAfterClose]);
+  }, [isOpened, setOpened, doAfterClose]);
 
   function getWordItems(wordArray: Word[]) {
     return wordArray.map((word) => (
@@ -95,21 +100,29 @@ export const GameResults: FC<GameResultsProps> = ({
 
   const wrongItems = getWordItems(wronglyAnswered);
   const correctItems = getWordItems(rightlyAnswered);
+  const rightAnswers = rightlyAnswered.length;
+  const wrongAnswers = wronglyAnswered.length;
   const totalAnswers = rightAnswers + wrongAnswers;
   const inARowShare = inARow / totalAnswers;
   const rightShare = rightAnswers / totalAnswers;
   const wrongShare = wrongAnswers / totalAnswers;
+  const accuracy = Math.round(rightShare * 100);
 
   return (
     <Container ref={modalRef}>
       <Header>
         <ModalName>Results</ModalName>
-        <PlayAgainButton>play again</PlayAgainButton>
+        <PlayAgainButton onClick={handlePlayAgainClick}>
+          play again
+        </PlayAgainButton>
       </Header>
       <Content>
         <AnswerStats>
           <AccuracyContainer>
-            <AccuracyChart />
+            <CircularProgressBar
+              percentage={accuracy}
+              className="accuracy-bar"
+            />
             <AccuracyWord>Accuracy</AccuracyWord>
           </AccuracyContainer>
           <StripesContainer>
@@ -138,7 +151,7 @@ export const GameResults: FC<GameResultsProps> = ({
           </StripesContainer>
         </AnswerStats>
         <LearnedWordsTotal>
-          <LearnedWordsTotalNumber>{rightAnswers}</LearnedWordsTotalNumber>
+          <LearnedWordsTotalNumber>{totalAnswers}</LearnedWordsTotalNumber>
           words were repeated
         </LearnedWordsTotal>
         <CategoryContainer>
