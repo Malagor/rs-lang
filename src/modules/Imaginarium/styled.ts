@@ -1,5 +1,13 @@
 import styled from 'styled-components/macro';
-import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
+import VolumeUpIcon from '@material-ui/icons/VolumeUp';
+import { fade } from '@material-ui/core';
+import {
+  COLOR_LAYOUT_BACKGROUND,
+  COLOR_LAYOUT_BLUE,
+  COLOR_LAYOUT_ORANGE,
+  COLOR_LAYOUT_WHITE,
+  COLOR_LAYOUT_YELLOW,
+} from 'appConstants/colors';
 import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
 
 export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
@@ -53,5 +61,20 @@ export const QuizWordContainer = styled.div<{ breakpoints: Breakpoints }>`
   ${(props) => props.breakpoints.down('xs')} {
     grid-row: 3;
     grid-column: 1 / span 2;
+  }
+`;
+
+export const PronounceButton = styled(VolumeUpIcon)`
+  width: 72px;
+  height: 72px;
+  background: rgba(250, 252, 254, 0.3);
+  border-radius: 50%;
+  padding: 17px;
+  cursor: pointer;
+  transition: all 0.4s;
+
+  &:hover {
+    background: ${COLOR_LAYOUT_BACKGROUND};
+    color: #5b3085;
   }
 `;

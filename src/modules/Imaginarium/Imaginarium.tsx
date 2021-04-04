@@ -22,8 +22,13 @@ import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
 import { selectUserId } from 'modules/Login/selectors';
-import { GameContainer, GameField, QuizWordContainer } from './styled';
-import { Dashboard, WordImage } from './components';
+import {
+  GameContainer,
+  GameField,
+  PronounceButton,
+  QuizWordContainer,
+} from './styled';
+import { Dashboard, WordImage, ModeChoosing } from './components';
 
 const shuffle = (words: Word[]) => {
   const arr = words;
@@ -40,6 +45,8 @@ const QUIZ_COUNT = 10;
 const ANIMATION_TIME = 1200;
 
 export const Imaginarium = () => {
+  const [mode, setMode] = useState('');
+  const [isModeChoosing, setModeChoosing] = useState(true);
   const [isFullScreen, setFullScreen] = useState(false);
   const [isSoundOn, setSoundOn] = useState(true);
   const [hasStarted, setStarted] = useState(false);
@@ -69,6 +76,7 @@ export const Imaginarium = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameFieldRef = useRef<HTMLDivElement>(null);
   const soundRef = useRef<HTMLAudioElement>(null);
+  const pronunciationRef = useRef<HTMLAudioElement>(null);
   const quizWordRef = useRef(quizWord);
   const theme = useTheme();
 
@@ -140,6 +148,20 @@ export const Imaginarium = () => {
       return undefined;
     }, ANIMATION_TIME + 300);
   };
+
+  const pronounceQuizWord = useCallback(() => {
+    if (pronunciationRef && pronunciationRef.current) {
+      const quizWordAudio = `${SERVER_URL}${quizWord?.audio}`;
+      pronunciationRef.current.src = quizWordAudio;
+      pronunciationRef.current.play().catch();
+    }
+  }, [quizWord?.audio]);
+
+  useEffect(() => {
+    if (mode === 'Sounds' && hasStarted && !hasFinished) {
+      pronounceQuizWord();
+    }
+  }, [quizWord, pronounceQuizWord, hasFinished, hasStarted, mode]);
 
   useEffect(() => {
     dispatch(loadWords(group, page));
@@ -244,9 +266,11 @@ export const Imaginarium = () => {
 
   return (
     <GameContainer ref={containerRef} breakpoints={theme.breakpoints}>
-      {isLoading ? (
-        <Loader />
-      ) : (
+      {isModeChoosing && (
+        <ModeChoosing setMode={setMode} setModeChoosing={setModeChoosing} />
+      )}
+      {!isModeChoosing && isLoading && <Loader />}
+      {!isModeChoosing && !isLoading && (
         <>
           <Dashboard
             isFullscreen={isFullScreen}
@@ -268,10 +292,16 @@ export const Imaginarium = () => {
           <GameField ref={gameFieldRef} breakpoints={theme.breakpoints}>
             {wordImages}
             <QuizWordContainer breakpoints={theme.breakpoints}>
-              {quizWord && quizWord.word}
+              {mode === 'Letters' && quizWord && quizWord.word}
+              {mode === 'Sounds' && (
+                <PronounceButton onClick={pronounceQuizWord} />
+              )}
             </QuizWordContainer>
           </GameField>
           <audio ref={soundRef}>
+            <track kind="captions" />
+          </audio>
+          <audio ref={pronunciationRef}>
             <track kind="captions" />
           </audio>
         </>
