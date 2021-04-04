@@ -1,110 +1,109 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
-import { Button, Container, Paper } from '@material-ui/core';
-import { Pagination } from 'components';
+import { Container } from '@material-ui/core';
+import { ErrorMessage, Loader, NavGame, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
-import { selectGroup, selectPage, selectWords } from './selectors';
-import { loadWords, setGroup, setPage } from './actions';
+import { GroupSelector } from 'components/GroupSelector';
+import { selectUser } from 'modules/Login/selectors';
+import {
+  selectTextBookGroup,
+  selectTextBookPage,
+  selectTextBookError,
+  selectTextBookWords,
+} from './selectors';
+import { loadUserAggregateWords, loadWords } from './actions';
 import { WordList } from './components';
+import { useStyles } from './styled';
 
 type TextBookPageProps = {};
 
 export const TextBookPage: FC<TextBookPageProps> = () => {
-  const words: Word[] = useSelector(selectWords);
-  const page = useSelector(selectPage);
-  const group = useSelector(selectGroup);
+  const words: Word[] = useSelector(selectTextBookWords);
+  const page = useSelector(selectTextBookPage);
+  const group = useSelector(selectTextBookGroup);
+  const error = useSelector(selectTextBookError);
+  const user = useSelector(selectUser);
+
+  const [scroll, setScroll] = useState(0);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(loadWords(group, page));
-  }, [dispatch, page, group]);
+    if (user.id) {
+      dispatch(loadUserAggregateWords(user.id, group, page));
+    } else {
+      dispatch(loadWords(group, page));
+    }
+  }, [dispatch, page, group, user]);
 
   useEffect(() => {
     dispatch(setPageTitle('TextBook'));
   }, [dispatch]);
 
-  const onNextPageHandler = () => {
-    const nextPage = page === 29 ? 29 : page + 1;
-    dispatch(setPage(nextPage));
-  };
+  useEffect(() => {
+    let lastKnownScrollPosition = scroll;
+    let ticking = false;
 
-  const onPrevPageHandler = () => {
-    const prevPage = page === 0 ? 0 : page - 1;
-    dispatch(setPage(prevPage));
-  };
+    const handlerScroll = () => {
+      lastKnownScrollPosition = window.scrollY;
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScroll(lastKnownScrollPosition);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
 
-  const onPrevGroupHandler = () => {
-    const prevGroup = group === 0 ? 0 : group - 1;
-    dispatch(setPage(0));
-    dispatch(setGroup(prevGroup));
-  };
+    window.addEventListener('scroll', handlerScroll);
+    return () => {
+      window.removeEventListener('scroll', handlerScroll);
+    };
+  }, [scroll]);
 
-  const onNextGroupHandler = () => {
-    dispatch(setPage(0));
-    const nextGroup = group === 5 ? 5 : group + 1;
-    dispatch(setGroup(nextGroup));
-  };
+  const classes = useStyles();
+
+  const hasContent = words && words.length;
 
   return (
     <Container>
-      <Paper>
-        <div>Group: {group}</div>
-        <Button
-          type="button"
-          color="primary"
-          variant="contained"
-          onClick={onPrevGroupHandler}
-        >
-          Prev Group
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onNextGroupHandler}
-        >
-          Next Group
-        </Button>
-        <hr />
-        <div>Page: {page}</div>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onPrevPageHandler}
-        >
-          Prev Page
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={onNextPageHandler}
-        >
-          Next Page
-        </Button>
-        <hr />
-
-        {words && (
-          <div style={{ paddingBottom: '8px' }}>
-            <Pagination
-              pageCount={30}
-              initialPage={page}
-              forcePage={page}
-              group={group}
-            />
-            <WordList words={words} />
-            <Pagination
-              pageCount={30}
-              initialPage={page}
-              forcePage={page}
-              group={group}
-            />
+      {error && <ErrorMessage />}
+      {hasContent ? (
+        <div className={classes.contentWrapper}>
+          <div className={classes.containerGrid}>
+            {/* <div className={classes.mainGrid}> */}
+            <div className={classes.paginationTop}>
+              <Pagination
+                pageCount={30}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+            </div>
+            <div className={classes.gamesWrapper}>
+              <NavGame />
+            </div>
+            <div className={classes.mainGrid}>
+              <WordList words={words} />
+            </div>
+            <div className={classes.sideGrid}>
+              <GroupSelector isOpacity={scroll > 200} />
+            </div>
+            <div className={classes.paginationBottom}>
+              <Pagination
+                pageCount={30}
+                initialPage={page}
+                forcePage={page}
+                group={group}
+              />
+            </div>
           </div>
-        )}
-      </Paper>
+        </div>
+      ) : (
+        // </div>
+        <Loader />
+      )}
     </Container>
   );
 };

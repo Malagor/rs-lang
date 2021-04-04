@@ -1,9 +1,4 @@
-import { Auth, User, Word } from 'types';
-
-type UserWordType = {
-  difficulty: string;
-  optional?: { [key: string]: unknown };
-};
+import { Auth, User, UserWord, Word } from 'types';
 
 class MongoDatabase {
   private readonly URL: string;
@@ -33,7 +28,12 @@ class MongoDatabase {
         Authorization: `Bearer ${this.token}`,
         Accept: 'application/json',
       },
-    }).then((data) => data.json());
+    }).then((data) => {
+      if (data.ok) {
+        return data.json();
+      }
+      return null;
+    });
   };
 
   createUser = async (user: User) => {
@@ -66,9 +66,9 @@ class MongoDatabase {
   createUserWord = async (option: {
     userId: string;
     wordId: string;
-    word: UserWordType;
+    wordOptions: UserWord;
   }) => {
-    const { userId, wordId, word } = option;
+    const { userId, wordId, wordOptions } = option;
 
     const url = `${this.URL}/users/${userId}/words/${wordId}`;
     const rawResponse = await fetch(url, {
@@ -79,14 +79,49 @@ class MongoDatabase {
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(word),
+      body: JSON.stringify(wordOptions),
     });
     return rawResponse.json();
   };
 
+  updateUserWord = async (option: {
+    userId: string;
+    wordId: string;
+    wordOptions: UserWord;
+  }) => {
+    const { userId, wordId, wordOptions } = option;
+
+    const url = `${this.URL}/users/${userId}/words/${wordId}`;
+    const rawResponse = await fetch(url, {
+      method: 'PUT',
+      // withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(wordOptions),
+    });
+    return rawResponse.json();
+  };
+
+  deleteUserWord = async (option: { userId: string; wordId: string }) => {
+    const { userId, wordId } = option;
+
+    const url = `${this.URL}/users/${userId}/words/${wordId}`;
+    await fetch(url, {
+      method: 'DELETE',
+      // withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    });
+  };
+
   getUserWord = async (userId: string, wordId: string) => {
     const url = `${this.URL}/users/${userId}/words/${wordId}`;
-
     const rawResponse = await fetch(url, {
       method: 'GET',
       // withCredentials: true,
@@ -102,6 +137,26 @@ class MongoDatabase {
     const url = `${this.URL}/words?group=${group}&page=${page}`;
 
     return fetch(url).then((words) => words.json());
+  };
+
+  getUserAggregatedWord = async (
+    userId: string,
+    group: number = 0,
+    page: number = 0,
+    wordPerPage: number = 20,
+    filter: string = '{}'
+  ) => {
+    const url = `${this.URL}/users/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordPerPage}&filter=${filter}`;
+
+    const rawResponse = await fetch(url, {
+      method: 'GET',
+      // withCredentials: true,
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+      },
+    });
+    return rawResponse.json();
   };
 }
 

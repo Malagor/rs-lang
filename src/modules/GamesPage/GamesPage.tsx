@@ -1,62 +1,41 @@
-import React, { FC, useEffect, useState } from 'react';
-import { Container, Paper, Button } from '@material-ui/core';
+import React, { FC, useEffect } from 'react';
+import { Container, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
-import { GameResults } from 'components';
-import { selectWords } from 'modules/TextBookPage/selectors';
-import { loadWords } from 'modules/TextBookPage/actions';
-import { Word } from 'types';
-import { useHistory } from 'react-router-dom';
-import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
+import { gamesData } from 'appConstants/games';
+import { RedirectionModal } from 'components';
+import { GameCard } from './components';
+import { selectUserId } from '../Login/selectors';
+import { useStyles } from './styled';
 
 type GamesProps = {};
 
 export const GamesPage: FC<GamesProps> = () => {
   const dispatch = useDispatch();
-  const words: Word[] = useSelector(selectWords);
-  const rightlyAnswered = words.slice(0, 15);
-  const wronglyAnswered = words.slice(15, 18);
-  const [isResultModalOpened, setResultModalOpened] = useState(false);
-  const history = useHistory();
+  const userId = useSelector(selectUserId);
 
   useEffect(() => {
     dispatch(setPageTitle('Games'));
   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(loadWords(0, 0));
-  }, [dispatch]);
+  const classes = useStyles();
 
-  const redirectAfterModalClose = () => {
-    history.push('/');
-  };
+  if (!userId) return <RedirectionModal />;
 
   return (
-    <Container
-      style={{
-        position: 'relative',
-        height: '100%',
-        background: SAVANNAH_BACKGROUND,
-      }}
-    >
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setResultModalOpened(true)}
-      >
-        Open Game Results
-      </Button>
-      {isResultModalOpened && (
-        <GameResults
-          rightAnswers={20}
-          wrongAnswers={3}
-          inARow={8}
-          rightlyAnswered={rightlyAnswered}
-          wronglyAnswered={wronglyAnswered}
-          setOpened={setResultModalOpened}
-          doAfterClose={redirectAfterModalClose}
-        />
-      )}
+    <Container>
+      <Grid container item xs={12} justify="center" className={classes.wrapper}>
+        {gamesData.map(({ name, img, description, link, colorButton }) => (
+          <GameCard
+            key={name}
+            img={img}
+            name={name}
+            description={description}
+            link={link}
+            colorButton={colorButton}
+          />
+        ))}
+      </Grid>
     </Container>
   );
 };
