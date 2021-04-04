@@ -58,6 +58,7 @@ export const WordCard: React.FC<WordCardProps> = ({
           <ButtonsBlock
             colorGroup={colorGroup}
             wordId={wordId}
+            isHard={isHard}
             showBtnDelete={showBtnDelete}
             showBtnRestore={showBtnRestore}
           />

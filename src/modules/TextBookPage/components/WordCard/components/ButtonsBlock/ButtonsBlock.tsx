@@ -10,6 +10,8 @@ import {
   removeWordFromUserList,
   updateWordInUserList,
 } from 'modules/TextBookPage/actions';
+import { updateStatisticsLearnedWords } from 'modules/StatisticsPage/actions';
+
 import {
   selectTextBookGroup,
   selectTextBookPage,
@@ -19,6 +21,7 @@ import { Container } from './styled';
 
 type Props = {
   colorGroup: string;
+  isHard: boolean | undefined;
   showBtnDelete: boolean;
   showBtnRestore: boolean;
   wordId: string;
@@ -27,6 +30,7 @@ type Props = {
 export const ButtonsBlock: React.FC<Props> = ({
   colorGroup,
   wordId,
+  isHard,
   showBtnDelete,
   showBtnRestore,
 }) => {
@@ -74,8 +78,14 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
+      if (type === 'hard' && !isHard) {
+        updateStatisticsLearnedWords(userId, true);
+      }
     } else {
       await addWordToUserList(userID, wordID, type);
+      if (type === 'hard') {
+        dispatch(updateStatisticsLearnedWords(userId, true));
+      }
     }
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
   };

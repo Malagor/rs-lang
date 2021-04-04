@@ -1,0 +1,1 @@
+export { LearnedWords } from './LearnedWords';
