@@ -171,13 +171,13 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   // Load Words
 
   useEffect(() => {
-    const locWords = database.getUserAggregatedWord(
+    const locWords = database.getUserAggregatedWord({
       userId,
       group,
       page,
-      20,
-      `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`
-    );
+      wordPerPage: 20,
+      filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
+    });
 
     locWords.then((data) => {
       const mixArr = mixingArray(data[0].paginatedResults);

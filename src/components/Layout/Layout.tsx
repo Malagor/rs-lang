@@ -27,7 +27,12 @@ export const Layout: FC = ({ children }) => {
       <SideBar open={open} handleDrawerClose={handleDrawerClose} />
       <div className={classes.container}>
         <Header open={open} handleDrawerOpen={handleDrawerOpen} />
-        <main className={classes.content} style={{ backgroundImage: backgroundPage }}>{children}</main>
+        <main
+          className={classes.content}
+          style={{ background: backgroundPage }}
+        >
+          {children}
+        </main>
         {!location.pathname.includes('games') && <Footer />}
       </div>
     </div>

@@ -90,13 +90,15 @@ export const loadAudioGameWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  database.getUserAggregatedWord(userId, group, page, wordPerPage, filter).then(
-    (words) => {
-      dispatch(setAudioWords(words[0].paginatedResults));
-      dispatch(clearAudioError());
-    },
-    (err) => {
-      dispatch(setAudioError(err));
-    }
-  );
+  database
+    .getUserAggregatedWord({ userId, group, page, wordPerPage, filter })
+    .then(
+      (words) => {
+        dispatch(setAudioWords(words[0].paginatedResults));
+        dispatch(clearAudioError());
+      },
+      (err) => {
+        dispatch(setAudioError(err));
+      }
+    );
 };

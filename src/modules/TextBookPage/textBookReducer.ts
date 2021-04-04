@@ -17,6 +17,7 @@ export const textBookPageState: StateTextBook = {
   words: [],
   sounds: [],
   error: null,
+  playedSound: '',
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (

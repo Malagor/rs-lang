@@ -2,10 +2,9 @@ import {
   COLOR_LAYOUT_DARKBLUE,
   COLOR_LAYOUT_GRAY,
   COLOR_LAYOUT_TEXT,
-  COLOR_LAYOUT_HEADER
+  COLOR_LAYOUT_HEADER,
 } from 'appConstants/colors';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { DRAWER_WIDTH } from 'appConstants';
 
 export const useStyles = makeStyles((theme) => ({
   toolbar: {
