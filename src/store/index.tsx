@@ -4,15 +4,17 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import { State } from 'types';
-import { commonReducer } from 'store/commonState/commonReducer';
 import { textBookReducer } from 'modules/TextBookPage/textBookReducer';
 import { loginReducer } from 'modules/Login/loginReducer';
+import { statisticsReducer } from 'modules/StatisticsPage/statisticsReducer';
 import { audioGameReducer } from 'modules/AudioChallenge/audioChallengeReducer';
+import { commonReducer } from './commonState/commonReducer';
 
 const appReducer = combineReducers<State>({
-  commonReducer,
   textBookReducer,
   loginReducer,
+  statisticsReducer,
+  commonReducer,
   audioGameReducer,
 });
 

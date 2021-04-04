@@ -114,7 +114,7 @@ export const loadUserAggregateWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  database.getUserAggregatedWord(userId, group, page, wordPerPage).then(
+  database.getUserAggregatedWord({ userId, group, page, wordPerPage }).then(
     (words) => {
       dispatch(setWords(words[0].paginatedResults));
       dispatch(clearWordsError());
@@ -134,13 +134,13 @@ export const loadUserDifficultWords = (
   dispatch
 ) => {
   database
-    .getUserAggregatedWord(
+    .getUserAggregatedWord({
       userId,
       group,
       page,
       wordPerPage,
-      '{"userWord.difficulty":"hard"}'
-    )
+      filter: '{"userWord.difficulty":"hard"}',
+    })
     .then(
       (words) => {
         dispatch(setWords(words[0].paginatedResults));
@@ -161,13 +161,13 @@ export const loadUserDeletedWords = (
   dispatch
 ) => {
   database
-    .getUserAggregatedWord(
+    .getUserAggregatedWord({
       userId,
       group,
       page,
       wordPerPage,
-      '{"userWord.difficulty":"easy"}'
-    )
+      filter: '{"userWord.difficulty":"easy"}',
+    })
     .then(
       (words) => {
         dispatch(setWords(words[0].paginatedResults));

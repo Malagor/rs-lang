@@ -62,6 +62,7 @@ export type StateTextBook = {
   words: Word[];
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;
+  playedSound: string;
 };
 
 export type StateCommon = {
@@ -88,9 +89,22 @@ export type StateAudioGame = {
   longerChain: number;
 };
 
+export type StateStatistics = {
+  learnedWords: number;
+  optional: {
+    learnedWordsByDays: {
+      [date: string]: number;
+    };
+  };
+  error?: ErrorType | null;
+};
+
 export type State = {
   textBookReducer: StateTextBook;
   commonReducer: StateCommon;
   loginReducer: StateLogin;
   audioGameReducer: StateAudioGame;
+  statisticsReducer: StateStatistics;
 };
+
+export type Partial<T> = { [P in keyof T]?: T[P] };
