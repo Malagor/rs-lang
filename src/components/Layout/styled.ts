@@ -1,5 +1,5 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { MIDDLE_SCREEN_WIDTH, MOBILE_WIDTH } from 'appConstants';
+import { MIDDLE_SCREEN_WIDTH } from 'appConstants';
 
 export const useStyles = makeStyles((theme) => ({
   root: {
