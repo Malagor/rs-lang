@@ -10,9 +10,9 @@ import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
 import { database } from 'services';
-import { FullscreenButton } from 'components/FullscreenButton';
+import { FullscreenButton, GameResults } from 'components';
 import { gamesData } from 'appConstants/games';
-import { AudioCard, ProgressBar, NextButton, FinishGame } from './components';
+import { AudioCard, ProgressBar, NextButton } from './components';
 import 'react-circular-progressbar/dist/styles.css';
 import { AudioWrapper } from './styled';
 
@@ -185,6 +185,8 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
     });
   }, [group, page, userId]);
 
+  // add answers
+
   useEffect(() => {
     if (words && words[current]) {
       const curWord = words[current].wordTranslate;
@@ -195,6 +197,8 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
       setCorrectAnswer(corAnswerIndex.toString());
     }
   }, [words, current]);
+
+  // finish game listener
 
   useEffect(() => {
     handleFinishGame();
@@ -240,12 +244,13 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
             </>
           ) : null}
           {isFinish && (
-            <FinishGame
-              onFinishGameHandler={handlerNewGame}
-              buttonRef={buttonRef}
-              correctWords={correctWords}
-              incorrectWord={incorrectWords}
-              longerChain={longerChain}
+            <GameResults
+              inARow={longerChain}
+              rightlyAnswered={correctWords}
+              wronglyAnswered={incorrectWords}
+              isOpened={isFinish}
+              setOpened={setFinish}
+              handlePlayAgain={handlerNewGame}
             />
           )}
         </AudioWrapper>

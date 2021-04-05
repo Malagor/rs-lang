@@ -25,8 +25,6 @@ export const gamesData = [
     background:
       'linear-gradient(180deg, #FF5F6D 0%, #FF8C6F 43.75%, #FFC371 100%)',
     color: COLOR_LAYOUT_YELLOW,
-    background:
-      'linear-gradient(180deg, #FF5F6D 0%, #FF8C6F 43.75%, #FFC371 100%)',
   },
   {
     name: 'Audio challenge',
@@ -36,7 +34,6 @@ export const gamesData = [
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     background: 'linear-gradient(180deg, #185A9D 0%, #43CEA2 100%)',
     color: COLOR_LAYOUT_ORANGE,
-    background: 'linear-gradient(180deg, #185A9D 0%, #43CEA2 100%)',
   },
   {
     name: 'Sprint',
@@ -46,7 +43,6 @@ export const gamesData = [
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     background: 'linear-gradient(180deg, #7F53AC 0%, #647DEE 100%)',
     color: COLOR_LAYOUT_BLUE,
-    background: 'linear-gradient(180deg, #7F53AC 0%, #647DEE 100%)',
   },
   {
     name: 'Own game',
