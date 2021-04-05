@@ -13,12 +13,13 @@ import {
   selectTextBookWords,
   selectTextBookGroup,
   selectTextBookPage,
+  selectTextBookError,
 } from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
 import { URL_GAMES } from 'appConstants/url';
-import { Loader, GameResults } from 'components';
+import { Loader, GameResults, ErrorMessage } from 'components';
 import { useTheme } from '@material-ui/core/styles';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
@@ -71,6 +72,7 @@ export const Imaginarium = () => {
   const page = useSelector(selectTextBookPage);
   const group = useSelector(selectTextBookGroup);
   const userId = useSelector(selectUserId);
+  const error = useSelector(selectTextBookError);
   const wordUrls = useMemo(
     () => words.map((word) => `${SERVER_URL}${word.image}`),
     [words]
@@ -287,11 +289,12 @@ export const Imaginarium = () => {
 
   return (
     <GameContainer ref={containerRef}>
-      {isModeChoosing && (
+      {error && <ErrorMessage />}
+      {!error && isModeChoosing && (
         <ModeChoosing setMode={setMode} setModeChoosing={setModeChoosing} />
       )}
-      {!isModeChoosing && isLoading && <Loader />}
-      {!isModeChoosing && !isLoading && (
+      {!error && !isModeChoosing && isLoading && <Loader />}
+      {!error && !isModeChoosing && !isLoading && (
         <>
           <Dashboard
             isFullscreen={isFullScreen}
