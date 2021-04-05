@@ -18,7 +18,6 @@ export const FileInput: FC<FileInputProps> = ({
   const handleChange = (event: { target: HTMLInputElement }) => {
     if (event.target.files) {
       const { files } = event.target;
-      console.log('files[0]', files[0]);
       uploadImg(files[0]);
     }
   };
