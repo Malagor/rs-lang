@@ -99,7 +99,7 @@ export const Imaginarium = () => {
 
   const handleImageClick = useCallback(
     (word: Word) => {
-      if (!hasStarted && hasFinished) return;
+      if (!hasStarted || hasFinished) return;
       if (!quizWord) return;
       if (animationIsPlaying) return;
       setAnimationIsPlaying(true);
