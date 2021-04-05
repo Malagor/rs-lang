@@ -4,7 +4,7 @@ import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { gamesData } from 'appConstants/games';
 import { setPageTitle } from 'store/commonState/actions';
-import { ErrorMessage, RedirectionModal } from 'components';
+import { ErrorMessage } from 'components';
 import { selectUserId } from 'modules/Login/selectors';
 import { updateStatisticsLearnedWords } from './actions';
 import { selectLearnedWordsByDays, selectStatisticsError } from './selectors';
@@ -40,8 +40,6 @@ export const StatisticsPage: FC = () => {
       dispatch(updateStatisticsLearnedWords(userId));
     }
   }, [dispatch, userId]);
-
-  if (!userId) return <RedirectionModal />;
 
   return (
     <Container>
