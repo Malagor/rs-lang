@@ -286,7 +286,7 @@ export const Imaginarium = () => {
         <ModeChoosing setMode={setMode} setModeChoosing={setModeChoosing} />
       )}
       {!error && !isModeChoosing && isLoading && <Loader />}
-      {!error && !isModeChoosing && !isLoading && (
+      {!error && !isModeChoosing && !isLoading && !hasFinished && (
         <>
           <Dashboard
             isFullscreen={isFullScreen}
@@ -314,23 +314,25 @@ export const Imaginarium = () => {
               )}
             </QuizWordContainer>
           </GameField>
-          <audio ref={soundRef}>
-            <track kind="captions" />
-          </audio>
-          <audio ref={pronunciationRef}>
-            <track kind="captions" />
-          </audio>
-          <GameResults
-            isOpened={isResultsModalOpened}
-            setOpened={setResultsModalOpened}
-            inARow={maxInARow}
-            rightlyAnswered={rightlyAnswered}
-            wronglyAnswered={wronglyAnswered}
-            handlePlayAgain={() => startOver()}
-            doAfterClose={() => history.push(URL_GAMES)}
-          />
         </>
       )}
+      {hasFinished && (
+        <GameResults
+          isOpened={isResultsModalOpened}
+          setOpened={setResultsModalOpened}
+          inARow={maxInARow}
+          rightlyAnswered={rightlyAnswered}
+          wronglyAnswered={wronglyAnswered}
+          handlePlayAgain={() => startOver()}
+          doAfterClose={() => history.push(URL_GAMES)}
+        />
+      )}
+      <audio ref={soundRef}>
+        <track kind="captions" />
+      </audio>
+      <audio ref={pronunciationRef}>
+        <track kind="captions" />
+      </audio>
     </GameContainer>
   );
 };
