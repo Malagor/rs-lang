@@ -76,8 +76,35 @@ export type StateLogin = {
 
 export type StateMainPage = {};
 
+export type StateStatistics = {
+  learnedWords: number;
+  optional: {
+    learnedWordsByDays: {
+      [date: string]: number;
+    };
+  };
+  error?: ErrorType | null;
+};
+
 export type State = {
   textBookReducer: StateTextBook;
   commonReducer: StateCommon;
   loginReducer: StateLogin;
+  statisticsReducer: StateStatistics;
+};
+
+export type Partial<T> = { [P in keyof T]?: T[P] };
+
+export type InputsData = {
+  name?: string;
+  email: string;
+  password: string;
+  avatar: string;
+};
+
+export type InputsForm = {
+  name: string;
+  email: string;
+  password: string;
+  showPassword: boolean;
 };

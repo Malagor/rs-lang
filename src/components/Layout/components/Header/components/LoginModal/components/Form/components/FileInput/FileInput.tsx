@@ -1,14 +1,5 @@
-import React, { FC, useRef, useState } from 'react';
-import {
-  Box,
-  Avatar,
-  ButtonBase,
-  Button,
-  LinearProgress,
-} from '@material-ui/core';
-
-import PhotoCameraIcon from '@material-ui/icons/PhotoCamera';
-// import PhotoCamera from '@material-ui/icons/PhotoCamera';
+import React, { FC, useRef } from 'react';
+import { Box, Avatar, Button, LinearProgress } from '@material-ui/core';
 import { useStyles } from './styled';
 
 type FileInputProps = {
@@ -36,7 +27,9 @@ export const FileInput: FC<FileInputProps> = ({
   return (
     <>
       {isLoadingImg ? (
-        <LinearProgress />
+        <Box className={classes.wrapperLoader}>
+          <LinearProgress />
+        </Box>
       ) : (
         <Box className={classes.wrapper}>
           <Avatar className={classes.avatar} src={imageURL} />

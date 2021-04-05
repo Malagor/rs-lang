@@ -1,6 +1,7 @@
-import React, { FC, SyntheticEvent, useState } from 'react';
+import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Auth } from 'types';
+import { Auth, InputsData } from 'types';
+import { API_CLOUDINARY } from 'appConstants/index';
 
 import {
   Avatar,
@@ -9,10 +10,6 @@ import {
   Typography,
   Container,
   CssBaseline,
-  Grid,
-  Link,
-  TextField,
-  LinearProgress,
 } from '@material-ui/core';
 
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -20,7 +17,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { database, LocStore } from 'services';
 import { setAuth, loadUserInfoById } from 'modules/Login/actions';
-import { FileInput } from './components';
+import { Form } from './components';
 import { useStyles } from './styled';
 
 export const LoginModal: FC = () => {
@@ -31,9 +28,9 @@ export const LoginModal: FC = () => {
   const [open, setOpen] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
 
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+  const [isLoadingImg, steIsLoadingImg] = useState(false);
+  const [imageURL, setImageURL] = useState('');
+
   const [errorMessage, setErrorMessage] = useState('');
 
   const handleClickOpen = () => {
@@ -43,18 +40,18 @@ export const LoginModal: FC = () => {
     setOpen(false);
   };
 
-  const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault();
+  const handleSubmitForm = async (data: InputsData) => {
+    const { name, email, password } = data;
 
     try {
-      if (!isLogin) {
+      if (!isLogin && name) {
         // need registration
         await database.createUser({
           id: '',
           name,
           email,
           password,
-          avatar: 'https://www.1zoom.ru/prev2/290/289595.jpg',
+          avatar: imageURL,
         });
       }
 
@@ -75,9 +72,6 @@ export const LoginModal: FC = () => {
     }
   };
 
-  const [isLoadingImg, steIsLoadingImg] = useState(false);
-  const [imageURL, setImageURL] = useState('');
-
   const uploadImg = async (dataFile: File) => {
     const data = new FormData();
     data.append('file', dataFile);
@@ -85,17 +79,18 @@ export const LoginModal: FC = () => {
     console.log('go img');
 
     steIsLoadingImg(true);
-    const res = await fetch(
-      'https://api.cloudinary.com/v1_1/rs-lang/image/upload',
-      {
+    try {
+      const res = await fetch(API_CLOUDINARY, {
         method: 'POST',
         body: data,
-      }
-    );
-    const file = await res.json();
-    console.log('file', file);
-    setImageURL(file.secure_url);
-    steIsLoadingImg(false);
+      });
+      const file = await res.json();
+
+      setImageURL(file.secure_url);
+      steIsLoadingImg(false);
+    } catch {
+      setErrorMessage('Failed to upload image');
+    }
   };
 
   return (
@@ -123,88 +118,16 @@ export const LoginModal: FC = () => {
             <Typography component="h1" variant="h5">
               {isLogin ? 'Login' : 'Registration'}
             </Typography>
-            <form className={classes.form} noValidate>
-              {!isLogin && (
-                <>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="name"
-                    label="Name"
-                    name="name"
-                    autoComplete="name"
-                    autoFocus
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </>
-              )}
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                type="email"
-                autoComplete="email"
-                autoFocus
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-              <Typography color="error" variant="subtitle2">
-                {errorMessage}
-              </Typography>
 
-              {!isLogin && (
-                <FileInput
-                  isLoadingImg={isLoadingImg}
-                  imageURL={imageURL}
-                  uploadImg={uploadImg}
-                />
-              )}
-
-              <Button
-                disabled={isLoadingImg}
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={handleSubmit}
-              >
-                {isLogin ? 'Sign In' : 'Sign Up'}
-              </Button>
-              <Grid container>
-                <Grid item>
-                  <Link
-                    href="#"
-                    variant="body2"
-                    onClick={() => setIsLogin(!isLogin)}
-                  >
-                    {isLogin
-                      ? "Don't have an account? Sign Up"
-                      : 'Do you have an account? Sign In'}
-                  </Link>
-                </Grid>
-              </Grid>
-            </form>
+            <Form
+              isLogin={isLogin}
+              setIsLogin={setIsLogin}
+              handleSubmitForm={handleSubmitForm}
+              errorMessage={errorMessage}
+              isLoadingImg={isLoadingImg}
+              imageURL={imageURL}
+              uploadImg={uploadImg}
+            />
           </div>
         </Container>
       </Dialog>

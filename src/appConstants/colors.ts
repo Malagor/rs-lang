@@ -14,6 +14,8 @@ export const COLOR_LAYOUT_TEXT = '#000000';
 export const COLOR_LAYOUT_GRAY = '#C4C4C4';
 export const COLOR_LAYOUT_WHITE = '#FFFFFF';
 export const COLOR_LAYOUT_LIGHT_GRAY = '#888888';
+export const COLOR_LAYOUT_DARK_GRAY = '#8D8D8D';
+export const COLOR_FONT_BLACK = '#1E1E1E';
 
 export const LEVEL_COLORS = [
   COLOR_LEVEL_1,
