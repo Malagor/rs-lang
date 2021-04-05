@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { LocStore } from 'services/localStorage';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { setPageTitle } from 'store/commonState/actions';
 import {
   selectTextBookWords,
@@ -16,7 +17,8 @@ import {
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { SERVER_URL } from 'appConstants';
-import { Loader } from 'components';
+import { URL_GAMES } from 'appConstants/url';
+import { Loader, GameResults } from 'components';
 import { useTheme } from '@material-ui/core/styles';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
@@ -63,6 +65,7 @@ export const Imaginarium = () => {
   const [rightId, setRightId] = useState('');
   const [wrongId, setWrongId] = useState('');
   const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
+  const [isResultsModalOpened, setResultsModalOpened] = useState(false);
 
   const words: Word[] = useSelector(selectTextBookWords);
   const page = useSelector(selectTextBookPage);
@@ -79,6 +82,7 @@ export const Imaginarium = () => {
   const pronunciationRef = useRef<HTMLAudioElement>(null);
   const quizWordRef = useRef(quizWord);
   const theme = useTheme();
+  const history = useHistory();
 
   const playSound = useCallback(
     (soundUrl: string) => {
@@ -149,6 +153,22 @@ export const Imaginarium = () => {
     }, ANIMATION_TIME + 300);
   };
 
+  const startOver = () => {
+    setMode('');
+    setModeChoosing(true);
+    setStarted(false);
+    setFinished(false);
+    setRound(0);
+    setCurrentWords([]);
+    setRightlyAnswered([]);
+    setWronglyAnswered([]);
+    setQuizWord(null);
+    setMaxInARow(0);
+    setCurrentInARow(0);
+    setRightId('');
+    setWrongId('');
+  };
+
   const pronounceQuizWord = useCallback(() => {
     if (pronunciationRef && pronunciationRef.current) {
       const quizWordAudio = `${SERVER_URL}${quizWord?.audio}`;
@@ -211,6 +231,7 @@ export const Imaginarium = () => {
   useEffect(() => {
     if (round === QUIZ_COUNT) {
       setFinished(true);
+      setResultsModalOpened(true);
       const wordsStudied = rightlyAnswered.length + wronglyAnswered.length;
       const accuracy = Math.round(
         (rightlyAnswered.length * 100) /
@@ -304,6 +325,15 @@ export const Imaginarium = () => {
           <audio ref={pronunciationRef}>
             <track kind="captions" />
           </audio>
+          <GameResults
+            isOpened={isResultsModalOpened}
+            setOpened={setResultsModalOpened}
+            inARow={maxInARow}
+            rightlyAnswered={rightlyAnswered}
+            wronglyAnswered={wronglyAnswered}
+            handlePlayAgain={() => startOver()}
+            doAfterClose={() => history.push(URL_GAMES)}
+          />
         </>
       )}
     </GameContainer>
