@@ -36,7 +36,7 @@ export const MenuItem: FC<MenuItemProps> = ({
       exact={true}
       style={{
         textDecoration: 'none',
-        opacity: showNotAuthorized ? ' 1' : '0.5',
+        opacity: !showNotAuthorized && !userId ? '0.5' : '1',
       }}
       title={title}
     >

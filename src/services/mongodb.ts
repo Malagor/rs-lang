@@ -1,4 +1,5 @@
 import { Auth, User, UserWord, Word } from 'types';
+import { InitialStatistics } from 'modules/StatisticsPage/statisticsReducer';
 
 class MongoDatabase {
   private readonly URL: string;
@@ -45,7 +46,12 @@ class MongoDatabase {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(user),
-    }).then((data) => data.json());
+    })
+      .then((data) => data.json())
+      .then((data) => {
+        this.createUserStatistics(data.userId);
+        return data;
+      });
   };
 
   loginUser = async (user: {
@@ -90,7 +96,6 @@ class MongoDatabase {
     wordOptions: UserWord;
   }) => {
     const { userId, wordId, wordOptions } = option;
-
     const url = `${this.URL}/users/${userId}/words/${wordId}`;
     const rawResponse = await fetch(url, {
       method: 'PUT',
@@ -140,13 +145,34 @@ class MongoDatabase {
   };
 
   getUserAggregatedWord = async (
-    userId: string,
-    group: number = 0,
-    page: number = 0,
-    wordPerPage: number = 20,
-    filter: string = '{}'
+    data: Partial<{
+      userId: string;
+      group: number;
+      page: number;
+      wordPerPage: number;
+      filter: string;
+    }>
   ) => {
-    const url = `${this.URL}/users/${userId}/aggregatedWords?group=${group}&page=${page}&wordsPerPage=${wordPerPage}&filter=${filter}`;
+    const { userId, group, page, wordPerPage, filter } = data;
+    let url = `${this.URL}/users/${userId}/aggregatedWords`;
+
+    const queries = [];
+    if (group !== undefined) {
+      queries.push(`group=${group}`);
+    }
+    if (page !== undefined) {
+      queries.push(`page=${page}`);
+    }
+    if (wordPerPage !== undefined) {
+      queries.push(`wordsPerPage=${wordPerPage}`);
+    }
+    if (filter !== undefined) {
+      queries.push(`filter=${filter}`);
+    }
+
+    if (queries.length) {
+      url += `?${queries.join('&')}`;
+    }
 
     const rawResponse = await fetch(url, {
       method: 'GET',
@@ -155,6 +181,63 @@ class MongoDatabase {
         Authorization: `Bearer ${this.token}`,
         Accept: 'application/json',
       },
+    });
+    return rawResponse.json();
+  };
+
+  createUserStatistics = async (userId: string) => {
+    const url = `${this.URL}/users/${userId}/statistics`;
+
+    const rawResponse = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(InitialStatistics),
+    });
+    return rawResponse;
+  };
+
+  getUserStatistics = async (userId: string) => {
+    const url = `${this.URL}/users/${userId}/statistics`;
+
+    const rawResponse: Response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+      },
+    }).then((res) => {
+      if (res.status === 404) {
+        return this.createUserStatistics(userId);
+      }
+      return res;
+    });
+
+    const { id, ...statistics } = (await rawResponse.json()) || {};
+
+    return statistics;
+  };
+
+  updateUserStatistics = async (
+    userId: string,
+    data: typeof InitialStatistics
+  ) => {
+    const url = `${this.URL}/users/${userId}/statistics`;
+    const { id, ...oldStatistics } =
+      (await this.getUserStatistics(userId)) || {};
+    const newStatistics = { ...oldStatistics, ...data };
+
+    const rawResponse = await fetch(url, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${this.token}`,
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(newStatistics),
     });
     return rawResponse.json();
   };

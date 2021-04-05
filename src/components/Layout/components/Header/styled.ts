@@ -1,19 +1,21 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { DRAWER_WIDTH } from 'appConstants';
-import { COLOR_LAYOUT_TEXT } from 'appConstants/colors';
+import {
+  COLOR_LAYOUT_DARKBLUE,
+  COLOR_LAYOUT_GRAY,
+  COLOR_LAYOUT_TEXT,
+} from 'appConstants/colors';
 
 export const useStyles = makeStyles((theme) => ({
-  toolbar: {
-    paddingRight: 24, // keep right padding when drawer closed
-  },
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: '0 8px',
+    overflow: 'hidden',
     ...theme.mixins.toolbar,
   },
   appBar: {
+    position: 'static',
     zIndex: theme.zIndex.drawer + 1,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
@@ -23,19 +25,28 @@ export const useStyles = makeStyles((theme) => ({
     boxShadow: 'none',
   },
   appBarShift: {
-    marginLeft: DRAWER_WIDTH,
-    width: `calc(100% - ${DRAWER_WIDTH}px)`,
     transition: theme.transitions.create(['width', 'margin'], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   menuButton: {
-    marginRight: 36,
-    marginLeft: -4,
+    position: 'fixed',
+    left: '20px',
+    zIndex: theme.zIndex.drawer + 1,
+    color: COLOR_LAYOUT_GRAY,
   },
   menuButtonHidden: {
     display: 'none',
+  },
+  menuButtonMobile: {
+    position: 'relative',
+    left: 0,
+    marginRight: `${theme.spacing()}px`,
+    color: COLOR_LAYOUT_DARKBLUE,
+    '&:hover': {
+      backgroundColor: 'transparent',
+    },
   },
   grow: {
     flexGrow: 1,
