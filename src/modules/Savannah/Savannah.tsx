@@ -7,7 +7,7 @@ import { selectTextBookWords } from 'modules/TextBookPage/selectors';
 import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { useHistory } from 'react-router-dom';
-import { gamesData } from 'appConstants/games';
+import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
 
 type GamesProps = {};
 
@@ -41,8 +41,7 @@ export const Savannah: FC<GamesProps> = () => {
       style={{
         position: 'relative',
         height: '100%',
-        background: gamesData.find((game) => game.name === 'Savannah')!
-          .background,
+        background: SAVANNAH_BACKGROUND,
       }}
     >
       <Button
