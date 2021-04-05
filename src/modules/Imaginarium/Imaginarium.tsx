@@ -158,10 +158,10 @@ export const Imaginarium = () => {
   }, [quizWord?.audio]);
 
   useEffect(() => {
-    if (mode === 'Sounds' && hasStarted && !hasFinished) {
+    if (mode === 'Sounds' && hasStarted && round !== QUIZ_COUNT) {
       pronounceQuizWord();
     }
-  }, [quizWord, pronounceQuizWord, hasFinished, hasStarted, mode]);
+  }, [pronounceQuizWord, hasStarted, mode, round]);
 
   useEffect(() => {
     dispatch(loadWords(group, page));
