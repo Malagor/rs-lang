@@ -119,7 +119,7 @@ export const GameResults: FC<GameResultsProps> = ({
   const wrongShare = wrongAnswers / totalAnswers;
   const accuracy = Math.round(rightShare * 100);
 
-  return (
+  return isOpened ? (
     <Container ref={modalRef}>
       <Header>
         <ModalName>Results</ModalName>
@@ -185,5 +185,5 @@ export const GameResults: FC<GameResultsProps> = ({
         <track kind="captions" />
       </audio>
     </Container>
-  );
+  ) : null;
 };
