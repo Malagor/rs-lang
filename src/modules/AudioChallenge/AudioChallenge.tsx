@@ -14,7 +14,7 @@ import { FullscreenButton, GameResults } from 'components';
 import { gamesData } from 'appConstants/games';
 import { AudioCard, ProgressBar, NextButton } from './components';
 import 'react-circular-progressbar/dist/styles.css';
-import { AudioWrapper } from './styled';
+import { AudioWrapper, FinishButtonWrapper } from './styled';
 
 const COUNT_ANSWERS = 4;
 
@@ -24,19 +24,19 @@ const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
   .map((_, i) => `${i + 1}`);
 
-type AudioChallengeProps = {};
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mixingArray = (arr: any[]) => arr.sort(() => Math.random() - 0.5);
 
-export const AudioChallenge: FC<AudioChallengeProps> = () => {
+// Component
+export const AudioChallenge: FC = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
   const group = useSelector(selectTextBookGroup);
   const page = useSelector(selectTextBookPage);
 
   // helpers
-  const [open, setOpen] = useState(false);
+  const [isFullScreen, setIsFullScreen] = useState(false);
+  const [isResultOpen, setIsResultOpen] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -111,12 +111,14 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
     setCurrentWord(0);
     setChain(0);
     setLongerChain(0);
+    setIsResultOpen(false);
   }, []);
 
   // Finish Game
 
   const handleFinishGame = useCallback(() => {
     setLongerChain(chain);
+    setIsResultOpen(true);
   }, [chain]);
 
   // Keyboard listener
@@ -171,19 +173,27 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
   // Load Words
 
   useEffect(() => {
-    const locWords = database.getUserAggregatedWord({
-      userId,
-      group,
-      page,
-      wordPerPage: 20,
-      filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
-    });
+    let locWords: Promise<Word[]>;
+    if (userId) {
+      locWords = database
+        .getUserAggregatedWord({
+          userId,
+          group,
+          page,
+          wordPerPage: 20,
+          filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
+        })
+        .then((data) => data[0].paginatedResults);
+    } else {
+      locWords = database.getWords(group, page);
+    }
 
     locWords.then((data) => {
-      const mixArr = mixingArray(data[0].paginatedResults);
+      const mixArr = mixingArray(data);
       setWords(mixArr);
     });
-  }, [group, page, userId]);
+    handlerNewGame();
+  }, [handlerNewGame, group, page, userId]);
 
   // add answers
 
@@ -206,7 +216,7 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
 
   const hasContent = words.length && words[current];
 
-  const bg = game && game.background && open ? game.background : '';
+  const bg = game && game.background && isFullScreen ? game.background : '';
 
   return (
     <Container
@@ -223,8 +233,8 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
             />
           )}
           <FullscreenButton
-            isFullscreen={open}
-            setFullscreen={setOpen}
+            isFullscreen={isFullScreen}
+            setFullscreen={setIsFullScreen}
             containerRef={containerRef}
           />
           {hasContent ? (
@@ -243,15 +253,25 @@ export const AudioChallenge: FC<AudioChallengeProps> = () => {
               />
             </>
           ) : null}
-          {isFinish && (
+          {isResultOpen && isFinish && (
             <GameResults
               inARow={longerChain}
               rightlyAnswered={correctWords}
               wronglyAnswered={incorrectWords}
-              isOpened={isFinish}
-              setOpened={setFinish}
+              isOpened={isResultOpen}
+              setOpened={setIsResultOpen}
               handlePlayAgain={handlerNewGame}
             />
+          )}
+          {!isResultOpen && isFinish && (
+            <FinishButtonWrapper>
+              <NextButton
+                clickHandler={() => setIsResultOpen(!isResultOpen)}
+                label="show result"
+                colorBtn="secondary"
+              />
+              <NextButton clickHandler={handlerNewGame} label="play again" />
+            </FinishButtonWrapper>
           )}
         </AudioWrapper>
       </FullScreenWrapperFlexCenter>

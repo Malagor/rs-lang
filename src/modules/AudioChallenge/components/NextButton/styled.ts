@@ -1,9 +1,19 @@
-import { lighten, makeStyles } from '@material-ui/core';
+import { lighten, makeStyles, Theme } from '@material-ui/core';
 import { COLOR_LAYOUT_BLUE } from 'appConstants/colors';
+import { gamesData } from 'appConstants/games';
 
-export const useStyles = makeStyles({
+type Props = {
+  color?: 'primary' | 'secondary' | undefined;
+};
+const game = gamesData.find((v) => v.name === 'Audio challenge');
+
+const gameColor = game ? game.color : COLOR_LAYOUT_BLUE;
+
+export const useStyles = makeStyles<Theme, Props>({
   root: {
-    background: COLOR_LAYOUT_BLUE,
+    // background: COLOR_LAYOUT_BLUE,
+    backgroundColor: (props: Props) =>
+      props.color === 'primary' ? COLOR_LAYOUT_BLUE : gameColor,
     border: 0,
     borderRadius: 0,
     color: 'white',
@@ -13,7 +23,10 @@ export const useStyles = makeStyles({
     textTransform: 'lowercase',
 
     '&:hover': {
-      background: lighten(COLOR_LAYOUT_BLUE, 0.1),
+      background: (props: Props) =>
+        props.color === 'primary'
+          ? lighten(COLOR_LAYOUT_BLUE, 0.1)
+          : lighten(gameColor, 0.1),
     },
   },
 });

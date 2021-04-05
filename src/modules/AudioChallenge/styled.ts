@@ -9,3 +9,8 @@ export const AudioWrapper = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+
+export const FinishButtonWrapper = styled.div`
+  display: flex;
+  gap: 20px;
+`;
