@@ -243,23 +243,6 @@ export const Imaginarium = () => {
     if (round === QUIZ_COUNT) {
       setFinished(true);
       setResultsModalOpened(true);
-      const wordsStudied = rightlyAnswered.length + wronglyAnswered.length;
-      const accuracy = Math.round(
-        (rightlyAnswered.length * 100) /
-          (rightlyAnswered.length + wronglyAnswered.length)
-      );
-      console.log('Game is finished.');
-      console.log(
-        'Rightly answered: ',
-        rightlyAnswered.map((word) => word.word).toString()
-      );
-      console.log(
-        'Wrongly answered: ',
-        wronglyAnswered.map((word) => word.word).toString()
-      );
-      console.log('Words studied', wordsStudied);
-      console.log('Accurracy', accuracy, '%');
-      console.log('Max in a row', maxInARow);
       if (isSoundOn && soundRef && soundRef.current) {
         soundRef.current.src = FinishSound;
         soundRef.current.play().catch((err) => err);
