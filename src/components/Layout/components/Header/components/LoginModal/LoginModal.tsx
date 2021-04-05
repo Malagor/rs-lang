@@ -12,6 +12,7 @@ import {
   Grid,
   Link,
   TextField,
+  LinearProgress,
 } from '@material-ui/core';
 
 import LockOpenIcon from '@material-ui/icons/LockOpen';
@@ -19,6 +20,7 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { database, LocStore } from 'services';
 import { setAuth, loadUserInfoById } from 'modules/Login/actions';
+import { FileInput } from './components';
 import { useStyles } from './styled';
 
 export const LoginModal: FC = () => {
@@ -73,6 +75,29 @@ export const LoginModal: FC = () => {
     }
   };
 
+  const [isLoadingImg, steIsLoadingImg] = useState(false);
+  const [imageURL, setImageURL] = useState('');
+
+  const uploadImg = async (dataFile: File) => {
+    const data = new FormData();
+    data.append('file', dataFile);
+    data.append('upload_preset', 'rsLangApp');
+    console.log('go img');
+
+    steIsLoadingImg(true);
+    const res = await fetch(
+      'https://api.cloudinary.com/v1_1/rs-lang/image/upload',
+      {
+        method: 'POST',
+        body: data,
+      }
+    );
+    const file = await res.json();
+    console.log('file', file);
+    setImageURL(file.secure_url);
+    steIsLoadingImg(false);
+  };
+
   return (
     <div>
       <Button
@@ -100,19 +125,21 @@ export const LoginModal: FC = () => {
             </Typography>
             <form className={classes.form} noValidate>
               {!isLogin && (
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Name"
-                  name="name"
-                  autoComplete="name"
-                  autoFocus
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                />
+                <>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="name"
+                    label="Name"
+                    name="name"
+                    autoComplete="name"
+                    autoFocus
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  />
+                </>
               )}
               <TextField
                 variant="outlined"
@@ -144,7 +171,17 @@ export const LoginModal: FC = () => {
               <Typography color="error" variant="subtitle2">
                 {errorMessage}
               </Typography>
+
+              {!isLogin && (
+                <FileInput
+                  isLoadingImg={isLoadingImg}
+                  imageURL={imageURL}
+                  uploadImg={uploadImg}
+                />
+              )}
+
               <Button
+                disabled={isLoadingImg}
                 type="submit"
                 fullWidth
                 variant="contained"
