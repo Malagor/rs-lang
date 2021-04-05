@@ -87,13 +87,18 @@ export const GameResults: FC<GameResultsProps> = ({
   }, [isOpened, setOpened, doAfterClose]);
 
   function getWordItems(wordArray: Word[]) {
-    return wordArray.map((word) => (
-      <WordItem key={word.id}>
-        <SoundIcon onClick={() => handleSoundClick(word.audio)} />
-        <WordItself>{word.word}</WordItself>
-        <span>&nbsp;– {word.wordTranslate}</span>
-      </WordItem>
-    ));
+    const ids: string[] = [];
+    return wordArray.map((word) => {
+      if (ids.includes(word.id)) return null;
+      ids.push(word.id);
+      return (
+        <WordItem key={word.id}>
+          <SoundIcon onClick={() => handleSoundClick(word.audio)} />
+          <WordItself>{word.word}</WordItself>
+          <span>&nbsp;– {word.wordTranslate}</span>
+        </WordItem>
+      );
+    });
   }
 
   function handleSoundClick(audioLink: string) {
