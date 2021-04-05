@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
 import { gamesData } from 'appConstants/games';
 import { RedirectionModal } from 'components';
+import { selectUserId } from 'modules/Login/selectors';
 import { GameCard } from './components';
-import { selectUserId } from '../Login/selectors';
 import { useStyles } from './styled';
 
 type GamesProps = {};
