@@ -7,10 +7,12 @@ import { State } from 'types';
 import { textBookReducer } from '../modules/TextBookPage/textBookReducer';
 import { commonReducer } from './commonState/commonReducer';
 import { loginReducer } from '../modules/Login/loginReducer';
+import { statisticsReducer } from '../modules/StatisticsPage/statisticsReducer';
 
 const appReducer = combineReducers<State>({
   textBookReducer,
   loginReducer,
+  statisticsReducer,
   commonReducer,
 });
 

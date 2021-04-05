@@ -1,6 +1,10 @@
 import styled from 'styled-components/macro';
 import VolumeUpIcon from '@material-ui/icons/VolumeUp';
-import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
+import {
+  COLOR_LAYOUT_BACKGROUND,
+  IMAGINARIUM_BACKGROUND,
+  IMAGINARIUM_STRONG_COLOR,
+} from 'appConstants/colors';
 import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
 
 export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
@@ -11,7 +15,7 @@ export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
   justify-content: stretch;
   min-height: calc(100vh - 84px);
   padding: 20px;
-  background: linear-gradient(180deg, #5b3085 0%, #b7498a 100%);
+  background: ${IMAGINARIUM_BACKGROUND};
 
   ${(props) => props.breakpoints.down('xs')} {
     min-height: calc(100vh - 76px);
@@ -68,6 +72,6 @@ export const PronounceButton = styled(VolumeUpIcon)`
 
   &:hover {
     background: ${COLOR_LAYOUT_BACKGROUND};
-    color: #5b3085;
+    color: ${IMAGINARIUM_STRONG_COLOR};
   }
 `;
