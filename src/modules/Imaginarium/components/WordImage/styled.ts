@@ -84,6 +84,7 @@ export const Image = styled.img<{
   max-width: 100%;
   max-height: 19vh;
   overflow: hidden;
+  cursor: pointer;
   animation: ${({ id, rightId, wrongId, animationTime }) =>
     chooseAnimation(id, rightId, wrongId, animationTime)};
 `;
