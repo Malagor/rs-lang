@@ -286,7 +286,7 @@ export const Imaginarium = () => {
   ));
 
   return (
-    <GameContainer ref={containerRef} breakpoints={theme.breakpoints}>
+    <GameContainer ref={containerRef}>
       {isModeChoosing && (
         <ModeChoosing setMode={setMode} setModeChoosing={setModeChoosing} />
       )}

@@ -7,19 +7,15 @@ import {
 } from 'appConstants/colors';
 import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
 
-export const GameContainer = styled.div<{ breakpoints: Breakpoints }>`
+export const GameContainer = styled.div`
   position: relative;
   display: grid;
   grid-gap: 20px;
   align-content: center;
   justify-content: stretch;
-  min-height: calc(100vh - 84px);
+  height: 100%;
   padding: 20px;
   background: ${IMAGINARIUM_BACKGROUND};
-
-  ${(props) => props.breakpoints.down('xs')} {
-    min-height: calc(100vh - 76px);
-  }
 `;
 
 export const GameField = styled.div<{ breakpoints: Breakpoints }>`
