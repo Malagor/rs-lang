@@ -24,6 +24,7 @@ import { useTheme } from '@material-ui/core/styles';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
+import TickingSound from 'assets/sounds/ticking.mp3';
 import { selectUserId } from 'modules/Login/selectors';
 import {
   GameContainer,
@@ -184,6 +185,14 @@ export const Imaginarium = () => {
       pronounceQuizWord();
     }
   }, [pronounceQuizWord, hasStarted, mode, round]);
+
+  useEffect(() => {
+    if (!error && !isModeChoosing && !hasStarted && isSoundOn) {
+      playSound(TickingSound);
+    } else if (soundRef && soundRef.current && soundRef.current.play) {
+      soundRef.current.pause();
+    }
+  }, [error, hasStarted, isModeChoosing, playSound, isSoundOn]);
 
   useEffect(() => {
     dispatch(loadWords(group, page));
