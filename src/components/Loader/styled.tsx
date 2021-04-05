@@ -22,6 +22,10 @@ export const StyledLoaderContainer = styled.div`
     height: ${LOADER_BLOCK_SIZE * 3}px;
   }
 
+  .cssload-load-fixed {
+    position: fixed;
+  }
+
   .cssload-blockcont {
     display: flex;
     flex-wrap: wrap;
