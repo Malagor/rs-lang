@@ -1,6 +1,6 @@
 import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Container, Paper } from '@material-ui/core';
+import { Container } from '@material-ui/core';
 import { setPageTitle } from 'store/commonState/actions';
 import { Loader } from 'components';
 
@@ -15,10 +15,7 @@ export const MainPage: FC<MainPageProps> = () => {
 
   return (
     <Container>
-      <Paper>
-        Main
-        <Loader />
-      </Paper>
+      <Loader fixed />
     </Container>
   );
 };
