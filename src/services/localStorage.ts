@@ -71,7 +71,9 @@ export class LocStore {
         maxInARow: incomingMaxInARow,
       } = statistics;
       const updatedWordsStudied = currentWordsStudied + incomingWordsStudied;
-      const updatedAccuracy = (currentAccuracy + incomingAccuracy) / 2;
+      const updatedAccuracy = Math.round(
+        (currentAccuracy + incomingAccuracy) / 2
+      );
       const updatedMaxInARow = Math.max(currentMaxInARow, incomingMaxInARow);
       newGamesStatistics = {
         ...currentGamesStatistics,
