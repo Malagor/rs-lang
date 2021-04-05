@@ -64,7 +64,6 @@ export const SideNav: FC<SideNavProps> = () => {
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 3}
         index={3}
-        showNotAuthorized={false}
       >
         <BookIcon />
       </MenuItem>
@@ -74,7 +73,6 @@ export const SideNav: FC<SideNavProps> = () => {
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 4}
         index={4}
-        showNotAuthorized={false}
       >
         <SportsEsportsIcon />
       </MenuItem>
@@ -84,7 +82,6 @@ export const SideNav: FC<SideNavProps> = () => {
         handleListItemClick={handleListItemClick}
         isSelected={selectedIndex === 5}
         index={5}
-        showNotAuthorized={false}
       >
         <EqualizerIcon />
       </MenuItem>
