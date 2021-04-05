@@ -88,7 +88,7 @@ export const Imaginarium = () => {
     (soundUrl: string) => {
       if (isSoundOn && soundRef && soundRef.current) {
         soundRef.current.src = soundUrl;
-        soundRef.current.play().catch();
+        soundRef.current.play().catch((err) => err);
       }
     },
     [isSoundOn]
@@ -173,7 +173,7 @@ export const Imaginarium = () => {
     if (pronunciationRef && pronunciationRef.current) {
       const quizWordAudio = `${SERVER_URL}${quizWord?.audio}`;
       pronunciationRef.current.src = quizWordAudio;
-      pronunciationRef.current.play().catch();
+      pronunciationRef.current.play().catch((err) => err);
     }
   }, [quizWord?.audio]);
 
