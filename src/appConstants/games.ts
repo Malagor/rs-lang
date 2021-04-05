@@ -53,7 +53,7 @@ export const gamesData = [
     img: IMAGINARIUM_ICON,
     link: URL_GAME_IMAGINARIUM,
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
+      'Enhance your remembering by using visual memory and building strong illustrative connections right in your head.',
     color: COLOR_LAYOUT_DARKBLUE,
     background: IMAGINARIUM_BACKGROUND,
     strongColor: IMAGINARIUM_STRONG_COLOR,
