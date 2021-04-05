@@ -40,10 +40,7 @@ export const Form: FC<FormProps> = ({
 
   const createRulesNameValidation = () => {
     if (!isLogin) {
-      rulesNameValidation = yup
-        .string()
-        .matches(/^([^0-9]*)$/, 'Name should not contain numbers')
-        .required('Name is required field');
+      rulesNameValidation = yup.string().required('Name is required field');
     }
   };
   createRulesNameValidation();
