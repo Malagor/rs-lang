@@ -5,6 +5,7 @@ import React, {
   useRef,
   useCallback,
 } from 'react';
+import LinearProgress from '@material-ui/core/LinearProgress';
 import { LocStore } from 'services/localStorage';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -308,6 +309,10 @@ export const Imaginarium = () => {
               )}
             </QuizWordContainer>
           </GameField>
+          <LinearProgress
+            variant="determinate"
+            value={(round / QUIZ_COUNT) * 100}
+          />
         </>
       )}
       {hasFinished && (
