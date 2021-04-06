@@ -4,7 +4,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
 import SportsEsportsIcon from '@material-ui/icons/SportsEsports';
 import EqualizerIcon from '@material-ui/icons/Equalizer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   URL_MAIN_PAGE,
   URL_TEXT_BOOK,
@@ -13,6 +13,7 @@ import {
   URL_STATISTICS,
 } from 'appConstants/url';
 import { logOutUser } from 'modules/Login/actions';
+import { selectUserId } from 'modules/Login/selectors';
 import BookIcon from '@material-ui/icons/Book';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { LogoutItem, MenuItem } from './components';
@@ -27,6 +28,7 @@ const listStyles: React.CSSProperties = {
 
 export const SideNav: FC<SideNavProps> = () => {
   const [selectedIndex, setSelectedIndex] = React.useState(1);
+  const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
 
   const handleListItemClick = (event: SyntheticEvent, index: number) => {
@@ -58,15 +60,17 @@ export const SideNav: FC<SideNavProps> = () => {
       >
         <LocalLibraryIcon />
       </MenuItem>
-      <MenuItem
-        to={URL_DICTIONARY}
-        title="Dictionary"
-        handleListItemClick={handleListItemClick}
-        isSelected={selectedIndex === 3}
-        index={3}
-      >
-        <BookIcon />
-      </MenuItem>
+      {userId && (
+        <MenuItem
+          to={URL_DICTIONARY}
+          title="Dictionary"
+          handleListItemClick={handleListItemClick}
+          isSelected={selectedIndex === 3}
+          index={3}
+        >
+          <BookIcon />
+        </MenuItem>
+      )}
       <MenuItem
         to={URL_GAMES}
         title="Minigames"
