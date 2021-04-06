@@ -28,6 +28,8 @@ export class LocStore {
 
   static deleteNumberGroupPage = () => localStorage.removeItem(GROUP_PAGE);
 
+  static getGamesStatistics = () => getData(GAMES_STATISTICS);
+
   static updateGamesStatistics = (
     game: string,
     rightlyAnswered: Word[],
@@ -89,6 +91,8 @@ export class LocStore {
     }
     localStorage.setItem(GAMES_STATISTICS, JSON.stringify(newGamesStatistics));
   };
+
+  static getWordsStatistics = () => getData(WORDS_STATISTICS);
 
   static updateWordsStatistics = (
     rightlyAnswered: Word[],
