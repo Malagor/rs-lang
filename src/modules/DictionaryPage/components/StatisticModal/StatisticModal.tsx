@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import { useDispatch } from 'react-redux';
 import { setRefStatistic } from 'modules/TextBookPage/actions';
-
+import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 import { ModalContent } from './components';
 
 const styles = (theme: Theme) =>
@@ -25,7 +25,7 @@ const styles = (theme: Theme) =>
       position: 'absolute',
       right: theme.spacing(1),
       top: theme.spacing(1),
-      color: theme.palette.grey[500],
+      color: COLOR_LAYOUT_GRAY,
     },
   });
 
@@ -96,7 +96,7 @@ export const StatisticModal: React.FC = () => {
           Statistic
         </DialogTitle>
 
-        <DialogContent dividers>
+        <DialogContent dividers style={{ paddingBottom: 30 }}>
           <ModalContent />
         </DialogContent>
       </Dialog>

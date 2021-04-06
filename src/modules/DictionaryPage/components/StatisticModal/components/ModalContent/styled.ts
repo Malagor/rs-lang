@@ -27,9 +27,9 @@ type MarkedItemType = {
 export const MarkedItem = styled.div<MarkedItemType>`
   height: 8px;
   width: ${({ length }) => length}%;
-  /* width: 33%; */
   background-color: ${({ color }) => color};
   margin: 4px;
+  border-radius: 4px;
 `;
 
 export const Explanations = styled.div`

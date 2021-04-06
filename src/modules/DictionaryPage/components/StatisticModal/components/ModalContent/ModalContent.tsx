@@ -1,4 +1,9 @@
 import {
+  COLOR_LAYOUT_BLUE,
+  COLOR_LAYOUT_ORANGE,
+  COLOR_LAYOUT_YELLOW,
+} from 'appConstants/colors';
+import {
   selectCheckedDifficulty,
   selectTextBookWords,
 } from 'modules/TextBookPage/selectors';
@@ -50,23 +55,23 @@ export const ModalContent: React.FC = () => {
       <div style={{ marginBottom: 20 }}>
         <Title>Page</Title>
         <MarkedBlock>
-          <MarkedItem length={33} color="#F79928" />
-          <MarkedItem length={33} color="#0252CC" />
-          <MarkedItem length={33} color="#FA5833" />
+          <MarkedItem length={33} color={COLOR_LAYOUT_YELLOW} />
+          <MarkedItem length={33} color={COLOR_LAYOUT_BLUE} />
+          <MarkedItem length={33} color={COLOR_LAYOUT_ORANGE} />
         </MarkedBlock>
         <Explanations>
           <ExplanationItem>
-            <Marker color="#F79928" />
+            <Marker color={COLOR_LAYOUT_YELLOW} />
             <span>Learning words</span>
             <span>{countWords}</span>
           </ExplanationItem>
           <ExplanationItem>
-            <Marker color="#0252CC" />
+            <Marker color={COLOR_LAYOUT_BLUE} />
             <span>Right answers</span>
             <span>{correctPageStatistic}</span>
           </ExplanationItem>
           <ExplanationItem>
-            <Marker color="#FA5833" />
+            <Marker color={COLOR_LAYOUT_ORANGE} />
             <span>Mistakes</span>
             <span>{incorrectPageStatistic}</span>
           </ExplanationItem>
@@ -76,23 +81,23 @@ export const ModalContent: React.FC = () => {
       <>
         <Title>Section</Title>
         <MarkedBlock>
-          <MarkedItem length={33} color="#F79928" />
-          <MarkedItem length={33} color="#0252CC" />
-          <MarkedItem length={33} color="#FA5833" />
+          <MarkedItem length={33} color={COLOR_LAYOUT_YELLOW} />
+          <MarkedItem length={33} color={COLOR_LAYOUT_BLUE} />
+          <MarkedItem length={33} color={COLOR_LAYOUT_ORANGE} />
         </MarkedBlock>
         <Explanations>
           <ExplanationItem>
-            <Marker color="#F79928" />
+            <Marker color={COLOR_LAYOUT_YELLOW} />
             <span>Learning words</span>
             <span>{countWords}</span>
           </ExplanationItem>
           <ExplanationItem>
-            <Marker color="#0252CC" />
+            <Marker color={COLOR_LAYOUT_BLUE} />
             <span>Right answers</span>
             <span>{correctSectionStatistic}</span>
           </ExplanationItem>
           <ExplanationItem>
-            <Marker color="#FA5833" />
+            <Marker color={COLOR_LAYOUT_ORANGE} />
             <span>Mistakes</span>
             <span>{incorrectSectionStatistic}</span>
           </ExplanationItem>
