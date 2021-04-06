@@ -20,6 +20,13 @@ export const COLOR_LAYOUT_LIGHT_GRAY = '#888888';
 export const COLOR_LAYOUT_DARK_GRAY = '#8D8D8D';
 export const COLOR_FONT_BLACK = '#1E1E1E';
 
+export const SAVANNAH_BACKGROUND =
+  'linear-gradient(180deg, #FF5F6D 0%, #FF8C6F 43.75%, #FFC371 100%)';
+export const AUDIO_CHALLENGE_BACKGROUND =
+  'linear-gradient(180deg, #185A9D 0%, #43CEA2 100%)';
+export const SPRINT_BACKGROUND =
+  'linear-gradient(180deg, #7F53AC 0%, #647DEE 100%)';
+
 export const LEVEL_COLORS = [
   COLOR_LEVEL_1,
   COLOR_LEVEL_2,
