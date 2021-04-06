@@ -13,6 +13,9 @@ import {
   COLOR_LAYOUT_ORANGE,
   COLOR_LAYOUT_BLUE,
   COLOR_LAYOUT_DARKBLUE,
+  SAVANNAH_BACKGROUND,
+  AUDIO_CHALLENGE_BACKGROUND,
+  SPRINT_BACKGROUND,
 } from './colors';
 
 export const gamesData = [
@@ -23,6 +26,7 @@ export const gamesData = [
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     color: COLOR_LAYOUT_YELLOW,
+    background: SAVANNAH_BACKGROUND,
   },
   {
     name: 'Audio challenge',
@@ -31,6 +35,7 @@ export const gamesData = [
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     color: COLOR_LAYOUT_ORANGE,
+    background: AUDIO_CHALLENGE_BACKGROUND,
   },
   {
     name: 'Sprint',
@@ -39,6 +44,7 @@ export const gamesData = [
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
     color: COLOR_LAYOUT_BLUE,
+    background: SPRINT_BACKGROUND,
   },
   {
     name: 'Own game',
