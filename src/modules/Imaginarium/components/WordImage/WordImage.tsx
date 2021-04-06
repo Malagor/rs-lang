@@ -21,7 +21,7 @@ export const WordImage: FC<WordImageProps> = ({
   handleImageClick,
 }) => (
   <div>
-    <WordImageContainer key={word.id} number={index + 1} id={word.id}>
+    <WordImageContainer key={word.word} number={index + 1} id={word.id}>
       <Image
         src={`${SERVER_URL}${word.image}`}
         alt={word.word}

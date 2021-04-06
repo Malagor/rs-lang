@@ -34,14 +34,8 @@ import {
 } from './styled';
 import { Dashboard, WordImage, ModeChoosing } from './components';
 
-const shuffle = (words: Word[]) => {
-  const arr = words;
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-};
+const shuffle = (words: Word[]) =>
+  words.slice().sort(() => Math.random() - 0.5);
 
 const INITIAL_COUNTDOWN_TIME = 3;
 const COUNTDOWN_TIME = 10;
@@ -74,7 +68,7 @@ export const Imaginarium = () => {
   const group = useSelector(selectTextBookGroup);
   const userId = useSelector(selectUserId);
   const error = useSelector(selectTextBookError);
-  const wordUrls = useMemo(
+  const wordImageUrls = useMemo(
     () => words.map((word) => `${SERVER_URL}${word.image}`),
     [words]
   );
@@ -221,7 +215,7 @@ export const Imaginarium = () => {
 
   useEffect(() => {
     if (!words) return;
-    const preloadedImages = wordUrls.map((imageUrl) => {
+    const preloadedImages = wordImageUrls.map((imageUrl) => {
       const img = new Image();
       img.src = imageUrl;
       return img;
@@ -230,7 +224,7 @@ export const Imaginarium = () => {
     if (images.length > 0) {
       setLoading(false);
     }
-  }, [words, wordUrls, images.length]);
+  }, [words, wordImageUrls, images.length]);
 
   useEffect(() => {
     const randomWords = shuffle(words).slice(0, 8);
@@ -269,7 +263,7 @@ export const Imaginarium = () => {
 
   const wordImages = currentWords.map((word, index) => (
     <WordImage
-      key={word.id}
+      key={word.word}
       word={word}
       index={index}
       rightId={rightId}
