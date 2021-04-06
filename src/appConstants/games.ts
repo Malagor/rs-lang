@@ -16,6 +16,7 @@ import {
   SAVANNAH_BACKGROUND,
   AUDIO_CHALLENGE_BACKGROUND,
   SPRINT_BACKGROUND,
+  IMAGINARIUM_BACKGROUND,
 } from './colors';
 
 export const gamesData = [
@@ -52,8 +53,7 @@ export const gamesData = [
     link: URL_GAME_OWN_GAME,
     description:
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
-    background:
-      'linear-gradient(180deg, #FF5F6D 0%, #FF8C6F 43.75%, #FFC371 100%)',
+    background: IMAGINARIUM_BACKGROUND,
     color: COLOR_LAYOUT_DARKBLUE,
   },
 ];
