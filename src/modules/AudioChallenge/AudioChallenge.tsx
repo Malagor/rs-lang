@@ -178,6 +178,7 @@ export const AudioChallenge: FC = () => {
       // next word
       if (key === ' ') {
         if (isFinish) {
+          setWords(mixingArray(words));
           handlerNewGame();
         } else if (userAnswerIndex !== '-1' && buttonRef && buttonRef.current) {
           // setUserAnswer('-1');
