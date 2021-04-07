@@ -3,7 +3,7 @@ import React, { FC, useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
-import { ErrorMessage, RedirectionModal } from 'components';
+import { ErrorMessage } from 'components';
 import { selectUserId } from 'modules/Login/selectors';
 import { updateStatisticsLearnedWords } from './actions';
 import {
@@ -32,8 +32,6 @@ export const StatisticsPage: FC = () => {
       dispatch(updateStatisticsLearnedWords(userId));
     }
   }, [dispatch, userId]);
-
-  if (!userId) return <RedirectionModal />;
 
   return (
     <Container>
