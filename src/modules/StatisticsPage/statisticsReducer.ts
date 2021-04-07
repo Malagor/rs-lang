@@ -9,6 +9,7 @@ export const InitialStatistics = {
   learnedWords: 0,
   optional: {
     learnedWordsByDays: {},
+    games: {},
   },
 };
 

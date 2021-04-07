@@ -21,7 +21,7 @@ export const clearStatisticsError = () => ({
 
 export const updateStatisticsLearnedWords = (
   userId: string,
-  addLearnedWord?: boolean
+  learnedWordsCount: number = 0
 ): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
   dispatch
 ) => {
@@ -38,9 +38,7 @@ export const updateStatisticsLearnedWords = (
   const missedDates: { [date: string]: number } = {};
   let todayLearnedWords = learnedWordsByDays?.[date] || 0;
 
-  if (addLearnedWord) {
-    todayLearnedWords += 1;
-  }
+  todayLearnedWords += learnedWordsCount;
 
   if (learnedWordsByDays) {
     const dates = Object.keys(learnedWordsByDays);
@@ -71,6 +69,62 @@ export const updateStatisticsLearnedWords = (
   database.updateUserStatistics(userId, newStatistics).then(
     (data) => {
       dispatch(setUserStatistics(data));
+    },
+    (err) => {
+      dispatch(setStatisticsError(err));
+    }
+  );
+};
+
+export const updateStatisticsGames = (
+  userId: string,
+  game: string,
+  learnedWords: number,
+  accuracy: number,
+  inARow: number
+): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
+  dispatch
+) => {
+  let statistics;
+  try {
+    statistics = await database.getUserStatistics(userId);
+  } catch (err) {
+    dispatch(setStatisticsError(err));
+    return;
+  }
+
+  const { optional } = statistics;
+  const { games } = optional;
+  const gameOldStatistics = games?.[game];
+  const date = new Date().toDateString();
+  const isOldDate = date === gameOldStatistics?.date;
+
+  const gameStatistics = {
+    learnedWords: isOldDate
+      ? learnedWords + gameOldStatistics.learnedWords
+      : learnedWords,
+    accuracy: isOldDate
+      ? Math.round((accuracy + gameOldStatistics.accuracy) / 2)
+      : accuracy,
+    inARow: isOldDate ? Math.max(inARow, gameOldStatistics.inARow) : inARow,
+    date,
+  };
+
+  const newStatistics = {
+    ...statistics,
+    optional: {
+      ...statistics.optional,
+      games: {
+        ...statistics.optional.games,
+        [game]: gameStatistics,
+      },
+    },
+  };
+
+  database.updateUserStatistics(userId, newStatistics).then(
+    (data) => {
+      dispatch(setUserStatistics(data));
+      dispatch(updateStatisticsLearnedWords(userId, learnedWords));
     },
     (err) => {
       dispatch(setStatisticsError(err));

@@ -8,3 +8,6 @@ export const selectLearnedWordsByDays = (state: State) =>
 
 export const selectLearnedWords = (state: State) =>
   state.statisticsReducer.learnedWords;
+
+export const selectGamesStatistics = (state: State) =>
+  state.statisticsReducer.optional.games;

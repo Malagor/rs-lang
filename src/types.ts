@@ -82,6 +82,14 @@ export type StateStatistics = {
     learnedWordsByDays: {
       [date: string]: number;
     };
+    games: {
+      [gameName: string]: {
+        learnedWords: number;
+        accuracy: number;
+        inARow: number;
+        date: string;
+      };
+    };
   };
   error?: ErrorType | null;
 };

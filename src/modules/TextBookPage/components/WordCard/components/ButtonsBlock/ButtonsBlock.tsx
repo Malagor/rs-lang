@@ -79,12 +79,12 @@ export const ButtonsBlock: React.FC<Props> = ({
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
       if (type === 'hard' && !isHard) {
-        updateStatisticsLearnedWords(userId, true);
+        updateStatisticsLearnedWords(userId, 1);
       }
     } else {
       await addWordToUserList(userID, wordID, type);
       if (type === 'hard') {
-        dispatch(updateStatisticsLearnedWords(userId, true));
+        dispatch(updateStatisticsLearnedWords(userId, 1));
       }
     }
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
