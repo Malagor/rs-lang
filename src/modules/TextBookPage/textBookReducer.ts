@@ -1,4 +1,4 @@
-import { EASY_DIFFICULTY, USUAL_SECTION } from 'appConstants';
+import { EASY_DIFFICULTY, LEARNING_SECTION } from 'appConstants';
 import { Reducer } from 'redux';
 import { StateTextBook } from 'types';
 import {
@@ -27,7 +27,7 @@ export const textBookPageState: StateTextBook = {
   playedSound: '',
   checkedDifficulty: EASY_DIFFICULTY,
   pagesCount: 0,
-  wordSection: USUAL_SECTION,
+  wordSection: LEARNING_SECTION,
   isLoading: false,
   refStatistic: null,
 };

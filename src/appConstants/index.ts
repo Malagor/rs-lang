@@ -31,13 +31,13 @@ export const AUTHORS = [
   },
 ];
 
-export const sectionNames = [
+export const DICTIONARY_TOPICS = [
   'Learning words',
   'Difficult words',
   'Deleted words',
 ];
 
-export const USUAL_SECTION = 'usual';
+export const LEARNING_SECTION = 'usual';
 export const DIFFICULT_SECTION = 'difficult';
 export const DELETED_SECTION = 'deleted';
 

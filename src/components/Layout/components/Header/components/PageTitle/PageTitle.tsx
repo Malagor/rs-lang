@@ -27,6 +27,7 @@ export const PageTitle: FC<PageTitleProps> = () => {
       {title === 'Dictionary' && (
         <TimelineIcon
           style={iconStyles}
+          titleAccess="Statistic"
           onClick={() => refStatistic?.click()}
         />
       )}

@@ -37,7 +37,7 @@ import {
   DIFFICULT_SECTION,
   EASY_DIFFICULTY,
   HARD_DIFFICULTY,
-  USUAL_SECTION,
+  LEARNING_SECTION,
 } from 'appConstants';
 import { useStyles } from 'modules/TextBookPage/styled';
 import { GroupSelector } from 'components/GroupSelector';
@@ -90,7 +90,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
   useEffect(() => {
     if (user.id) {
-      if (wordSection === USUAL_SECTION)
+      if (wordSection === LEARNING_SECTION)
         dispatch(loadUserAggregateWords(user.id, group, page));
 
       if (wordSection === DIFFICULT_SECTION)
@@ -106,7 +106,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const onUsualWords = () => {
     dispatch(setPage(0));
     dispatch(setGroup(group));
-    dispatch(setWordSection(USUAL_SECTION));
+    dispatch(setWordSection(LEARNING_SECTION));
     dispatch(loadUserAggregateWords(user.id, group, page));
     dispatch(setCheckedDifficulty(EASY_DIFFICULTY));
   };
@@ -131,7 +131,11 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   return (
     <Container>
       {error && <ErrorMessage />}
-      {isLoading && <Loader />}
+      {isLoading && (
+        <div style={{ position: 'relative', zIndex: 10 }}>
+          <Loader />
+        </div>
+      )}
 
       <div className={classes.contentWrapper}>
         <div className={classes.containerGrid}>
@@ -146,7 +150,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           <div className={classes.gamesWrapper}>
             <Sections
               group={group}
-              wordSection={wordSection}
+              activeSection={wordSection}
               handlers={[onUsualWords, onDifficultWords, onDeletedWords]}
             />
             <NavGame />
@@ -156,8 +160,8 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
               words={words}
               checkedDifficulty={checkedDifficulty}
               isButtons={true}
-              showBtnDeleteDifficult={wordSection === USUAL_SECTION}
-              showBtnRestore={wordSection !== USUAL_SECTION}
+              showBtnDeleteDifficult={wordSection === LEARNING_SECTION}
+              showBtnRestore={wordSection !== LEARNING_SECTION}
             />
           </div>
           <div className={classes.sideGrid}>

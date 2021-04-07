@@ -25,7 +25,7 @@ import {
   DIFFICULT_SECTION,
   EASY_DIFFICULTY,
   HARD_DIFFICULTY,
-  USUAL_SECTION,
+  LEARNING_SECTION,
 } from 'appConstants';
 import { Container } from './styled';
 
@@ -33,7 +33,6 @@ type Props = {
   colorGroup: string;
   showBtnDeleteDifficult: boolean;
   isHard: boolean | undefined;
-  // showBtnDelete: boolean;
   showBtnRestore: boolean;
   wordId: string;
 };
@@ -43,7 +42,6 @@ export const ButtonsBlock: React.FC<Props> = ({
   wordId,
   showBtnDeleteDifficult,
   isHard,
-  // showBtnDelete,
   showBtnRestore,
 }) => {
   const theme = useTheme();
@@ -92,12 +90,12 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
-      if (type === 'hard' && !isHard) {
+      if (type === HARD_DIFFICULTY && !isHard) {
         updateStatisticsLearnedWords(userId, true);
       }
     } else {
       await addWordToUserList(userID, wordID, type);
-      if (type === 'hard') {
+      if (type === HARD_DIFFICULTY) {
         dispatch(updateStatisticsLearnedWords(userId, true));
       }
     }
@@ -111,7 +109,7 @@ export const ButtonsBlock: React.FC<Props> = ({
     pageNumber: number
   ) => {
     await removeWordFromUserList(userID, wordID);
-    if (wordSection === USUAL_SECTION)
+    if (wordSection === LEARNING_SECTION)
       dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
 
     if (wordSection === DIFFICULT_SECTION)

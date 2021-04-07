@@ -60,7 +60,6 @@ export const WordCard: React.FC<WordCardProps> = ({
             wordId={wordId}
             showBtnDeleteDifficult={showBtnDeleteDifficult}
             isHard={isHard}
-            // showBtnDelete={showBtnDelete}
             showBtnRestore={showBtnRestore}
           />
         )}

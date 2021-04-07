@@ -24,11 +24,11 @@ export const WordList: FC<WordListProps> = ({
   showBtnRestore,
 }) => {
   const group = useSelector(selectTextBookGroup);
-  const hasWords = words.filter(
+  const countWords = words.filter(
     (word) => word.userWord?.difficulty !== checkedDifficulty
   ).length;
 
-  return hasWords ? (
+  return countWords ? (
     <>
       <StatisticModal />
       <WordListStyled>
