@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
+import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { useBackgroundPage } from 'hooks/useBackgroundPage';
 import { useIsMobile } from 'hooks/useIsMobile';
+import { URL_GAMES } from 'appConstants/url';
 import { Header, Footer, SideBar } from './components';
 import { useStyles } from './styled';
 
@@ -21,6 +23,8 @@ export const Layout: FC = ({ children }) => {
   };
   const backgroundPage = useBackgroundPage();
 
+  const isGamingPage = location.pathname.includes(URL_GAMES);
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -28,12 +32,14 @@ export const Layout: FC = ({ children }) => {
       <div className={classes.container}>
         <Header open={open} handleDrawerOpen={handleDrawerOpen} />
         <main
-          className={classes.content}
-          style={{ background: backgroundPage }}
+          className={clsx(
+            classes.content,
+            isGamingPage && classes.gamesContent
+          )}
         >
           {children}
         </main>
-        {!location.pathname.includes('games') && <Footer />}
+        {!isGamingPage && <Footer />}
       </div>
     </div>
   );
