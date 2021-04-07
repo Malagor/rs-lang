@@ -23,7 +23,11 @@ const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .map((_, i) => `${i + 1}`);
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mixingArray = (arr: any[]) => arr.sort(() => Math.random() - 0.5);
+const mixingArray = (arr: any[]) => {
+  const locArr = [...arr];
+  locArr.sort(() => Math.random() - 0.5);
+  return locArr;
+};
 
 // Component
 export const AudioChallenge: FC = () => {
@@ -89,6 +93,40 @@ export const AudioChallenge: FC = () => {
     },
     [correctAnswerIndex, handlerCorrectAnswer, handlerIncorrectAnswer]
   );
+
+  // add answers
+
+  const addVariantsAnswers = useCallback(() => {
+    if (words && words[current]) {
+      let candidatesForAnswers: Word[] = mixingArray(words).splice(
+        0,
+        COUNT_ANSWERS
+      );
+
+      const indexCurrentWord = candidatesForAnswers.findIndex(
+        (word: Word) => word.wordTranslate === words[current].wordTranslate
+      );
+
+      if (indexCurrentWord === -1) {
+        candidatesForAnswers.splice(-1, 1, words[current]);
+      } else {
+        candidatesForAnswers.splice(indexCurrentWord, 1, words[current]);
+      }
+
+      candidatesForAnswers = mixingArray(candidatesForAnswers);
+
+      const answer = candidatesForAnswers.map((word) => word.wordTranslate);
+
+      const indexRightAnswer = answer.indexOf(words[current].wordTranslate);
+
+      // const curWord = words[current].wordTranslate;
+      // const mixAnswers = mixingArray(['сдача', 'рассвет', 'стол', curWord]);
+      // const corAnswerIndex = mixAnswers.indexOf(words[current].wordTranslate);
+
+      setAnswers(answer);
+      setCorrectAnswer(indexRightAnswer.toString());
+    }
+  }, [words, current]);
 
   // Next Question
 
@@ -193,18 +231,11 @@ export const AudioChallenge: FC = () => {
     handlerNewGame();
   }, [handlerNewGame, group, page, userId]);
 
-  // add answers
+  // add Variant Answers
 
   useEffect(() => {
-    if (words && words[current]) {
-      const curWord = words[current].wordTranslate;
-      const mixAnswers = mixingArray(['сдача', 'рассвет', 'стол', curWord]);
-      const corAnswerIndex = mixAnswers.indexOf(words[current].wordTranslate);
-
-      setAnswers(mixAnswers);
-      setCorrectAnswer(corAnswerIndex.toString());
-    }
-  }, [words, current]);
+    addVariantsAnswers();
+  }, [addVariantsAnswers]);
 
   // finish game listener
 
