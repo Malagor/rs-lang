@@ -19,6 +19,8 @@ import {
   IMAGINARIUM_BACKGROUND,
 } from './colors';
 
+export const COUNT_ANSWERS = 4;
+
 export const gamesData = [
   {
     name: 'Savannah',

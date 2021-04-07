@@ -11,12 +11,10 @@ import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
 import { database } from 'services';
 import { FullscreenButton, GameResults } from 'components';
-import { gamesData } from 'appConstants/games';
+import { gamesData, COUNT_ANSWERS } from 'appConstants/games';
 import { AudioCard, ProgressBar, NextButton } from './components';
 import 'react-circular-progressbar/dist/styles.css';
 import { AudioWrapper, FinishButtonWrapper } from './styled';
-
-const COUNT_ANSWERS = 4;
 
 const game = gamesData.find((gm) => gm.name === 'Audio challenge');
 
