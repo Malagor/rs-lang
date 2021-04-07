@@ -23,6 +23,9 @@ export const AUDIO_CHALLENGE_BACKGROUND =
   'linear-gradient(180deg, #185A9D 0%, #43CEA2 100%)';
 export const SPRINT_BACKGROUND =
   'linear-gradient(180deg, #7F53AC 0%, #647DEE 100%)';
+export const IMAGINARIUM_BACKGROUND =
+  'linear-gradient(180deg, #5b3085 0%, #b7498a 100%)';
+export const IMAGINARIUM_STRONG_COLOR = '#5b3085';
 
 export const LEVEL_COLORS = [
   COLOR_LEVEL_1,
