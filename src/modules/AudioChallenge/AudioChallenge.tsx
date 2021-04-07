@@ -11,10 +11,13 @@ import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
 import { database } from 'services';
-import { FullscreenButton, GameResults } from 'components';
+import { FullscreenButton, GameResults, SoundButton } from 'components';
 import { COUNT_ANSWERS } from 'appConstants/games';
 import 'react-circular-progressbar/dist/styles.css';
 import { AUDIO_CHALLENGE_BACKGROUND } from 'appConstants/colors';
+import FinishSound from 'assets/sounds/finish.mp3';
+import CorrectSound from 'assets/sounds/correct.mp3';
+import WrongSound from 'assets/sounds/error.mp3';
 import { AudioWrapper } from './styled';
 import { AudioCard, ProgressBar, NextButton } from './components';
 
@@ -41,8 +44,10 @@ export const AudioChallenge: FC = () => {
   // helpers
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isResultOpen, setIsResultOpen] = useState(false);
+  const [isSoundOn, setSoundOn] = useState(true);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const soundRef = useRef<HTMLAudioElement>(null);
 
   // about quiz
   const [words, setWords] = useState<Word[]>([]);
@@ -64,6 +69,17 @@ export const AudioChallenge: FC = () => {
   useEffect(() => {
     dispatch(setPageTitle('Audio challenge'));
   }, [dispatch]);
+
+  // Play sound
+  const playSound = useCallback(
+    (soundUrl: string) => {
+      if (isSoundOn && soundRef && soundRef.current) {
+        soundRef.current.src = soundUrl;
+        soundRef.current.play().catch((err) => err);
+      }
+    },
+    [isSoundOn]
+  );
 
   // New Game
   const handlerNewGame = useCallback(() => {
@@ -104,7 +120,8 @@ export const AudioChallenge: FC = () => {
   const handlerCorrectAnswer = useCallback(() => {
     setCorrectWords([...correctWords, words[current]]);
     setChain((prev) => prev + 1);
-  }, [correctWords, words, current]);
+    playSound(CorrectSound);
+  }, [correctWords, words, current, playSound]);
 
   // Incorrect Answer
   const handlerIncorrectAnswer = useCallback(() => {
@@ -113,7 +130,8 @@ export const AudioChallenge: FC = () => {
       setLongerChain(chain);
     }
     setChain(0);
-  }, [chain, longerChain, incorrectWords, words, current]);
+    playSound(WrongSound);
+  }, [chain, longerChain, incorrectWords, words, current, playSound]);
 
   // Check Answer
   const checkAnswer = useCallback(
@@ -167,9 +185,12 @@ export const AudioChallenge: FC = () => {
 
   // Finish Game
   const handleFinishGame = useCallback(() => {
-    setLongerChain(chain > longerChain ? chain : longerChain);
-    setIsResultOpen(true);
-  }, [chain, longerChain]);
+    if (isFinish) {
+      setLongerChain(chain > longerChain ? chain : longerChain);
+      setIsResultOpen(true);
+      playSound(FinishSound);
+    }
+  }, [chain, longerChain, playSound, isFinish]);
 
   const closeResultModal = useCallback(() => {
     history.push('/games');
@@ -185,6 +206,10 @@ export const AudioChallenge: FC = () => {
         if (isFinish) {
           return;
         }
+        if (userAnswerIndex !== '-1') {
+          return;
+        }
+
         const index = `${parseInt(key, 10) - 1}`;
         setUserAnswer(index);
         checkAnswer(index);
@@ -231,7 +256,8 @@ export const AudioChallenge: FC = () => {
   // Finish game listener
   useEffect(() => {
     handleFinishGame();
-  }, [isFinish, handleFinishGame]);
+    // playSound(FinishSound);
+  }, [isFinish, handleFinishGame, playSound]);
 
   const hasContent = words.length && words[current];
 
@@ -249,6 +275,11 @@ export const AudioChallenge: FC = () => {
               current={current}
             />
           )}
+          <SoundButton isSoundOn={isSoundOn} setSoundOn={setSoundOn} />
+          <audio ref={soundRef}>
+            <track kind="captions" />
+          </audio>
+
           <FullscreenButton
             isFullscreen={isFullScreen}
             setFullscreen={setIsFullScreen}
