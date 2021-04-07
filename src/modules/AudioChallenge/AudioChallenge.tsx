@@ -12,12 +12,11 @@ import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
 import { database } from 'services';
 import { FullscreenButton, GameResults } from 'components';
-import { gamesData, COUNT_ANSWERS } from 'appConstants/games';
-import { AudioCard, ProgressBar, NextButton } from './components';
+import { COUNT_ANSWERS } from 'appConstants/games';
 import 'react-circular-progressbar/dist/styles.css';
+import { AUDIO_CHALLENGE_BACKGROUND } from 'appConstants/colors';
 import { AudioWrapper } from './styled';
-
-const game = gamesData.find((gm) => gm.name === 'Audio challenge');
+import { AudioCard, ProgressBar, NextButton } from './components';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
@@ -112,8 +111,8 @@ export const AudioChallenge: FC = () => {
     setIncorrectWords([...incorrectWords, words[current]]);
     if (chain > longerChain) {
       setLongerChain(chain);
-      setChain(0);
     }
+    setChain(0);
   }, [chain, longerChain, incorrectWords, words, current]);
 
   // Check Answer
@@ -168,9 +167,9 @@ export const AudioChallenge: FC = () => {
 
   // Finish Game
   const handleFinishGame = useCallback(() => {
-    setLongerChain(chain);
+    setLongerChain(chain > longerChain ? chain : longerChain);
     setIsResultOpen(true);
-  }, [chain]);
+  }, [chain, longerChain]);
 
   const closeResultModal = useCallback(() => {
     history.push('/games');
@@ -236,11 +235,9 @@ export const AudioChallenge: FC = () => {
 
   const hasContent = words.length && words[current];
 
-  const bg = game && game.background && isFullScreen ? game.background : '';
-
   return (
     <Container
-      style={{ height: '100%', backgroundImage: bg }}
+      style={{ height: '100%', backgroundImage: AUDIO_CHALLENGE_BACKGROUND }}
       ref={containerRef}
     >
       <FullScreenWrapperFlexCenter>
