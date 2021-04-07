@@ -3,7 +3,7 @@ import { setPageTitle } from 'store/commonState/actions';
 import { Container, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavGame, RedirectionModal } from 'components';
-import { selectUserId } from '../Login/selectors';
+import { selectUserId } from 'modules/Login/selectors';
 
 type DictionaryProps = {};
 
