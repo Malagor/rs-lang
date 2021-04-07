@@ -93,6 +93,12 @@ export type State = {
   statisticsReducer: StateStatistics;
 };
 
+export type GameStatistics = {
+  wordsStudied: number;
+  accuracy: number;
+  maxInARow: number;
+};
+
 export type Partial<T> = { [P in keyof T]?: T[P] };
 
 export type InputsData = {
