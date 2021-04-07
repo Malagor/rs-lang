@@ -1,4 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
@@ -14,7 +15,7 @@ import { FullscreenButton, GameResults } from 'components';
 import { gamesData, COUNT_ANSWERS } from 'appConstants/games';
 import { AudioCard, ProgressBar, NextButton } from './components';
 import 'react-circular-progressbar/dist/styles.css';
-import { AudioWrapper, FinishButtonWrapper } from './styled';
+import { AudioWrapper } from './styled';
 
 const game = gamesData.find((gm) => gm.name === 'Audio challenge');
 
@@ -32,6 +33,8 @@ const mixingArray = (arr: any[]) => {
 // Component
 export const AudioChallenge: FC = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
+
   const userId = useSelector(selectUserId);
   const group = useSelector(selectTextBookGroup);
   const page = useSelector(selectTextBookPage);
@@ -116,12 +119,7 @@ export const AudioChallenge: FC = () => {
       candidatesForAnswers = mixingArray(candidatesForAnswers);
 
       const answer = candidatesForAnswers.map((word) => word.wordTranslate);
-
       const indexRightAnswer = answer.indexOf(words[current].wordTranslate);
-
-      // const curWord = words[current].wordTranslate;
-      // const mixAnswers = mixingArray(['сдача', 'рассвет', 'стол', curWord]);
-      // const corAnswerIndex = mixAnswers.indexOf(words[current].wordTranslate);
 
       setAnswers(answer);
       setCorrectAnswer(indexRightAnswer.toString());
@@ -157,6 +155,10 @@ export const AudioChallenge: FC = () => {
     setIsResultOpen(true);
   }, [chain]);
 
+  const closeResultModal = useCallback(() => {
+    history.push('/games');
+  }, [history]);
+
   // Keyboard listener
 
   useEffect(() => {
@@ -170,7 +172,6 @@ export const AudioChallenge: FC = () => {
         }
         const index = `${parseInt(key, 10) - 1}`;
         setUserAnswer(index);
-
         checkAnswer(index);
       }
 
@@ -179,7 +180,7 @@ export const AudioChallenge: FC = () => {
         if (isFinish) {
           handlerNewGame();
         } else if (userAnswerIndex !== '-1' && buttonRef && buttonRef.current) {
-          setUserAnswer('-1');
+          // setUserAnswer('-1');
           buttonRef.current.click();
         } else {
           setIncorrectWords([...incorrectWords, words[current]]);
@@ -290,17 +291,8 @@ export const AudioChallenge: FC = () => {
               isOpened={isResultOpen}
               setOpened={setIsResultOpen}
               handlePlayAgain={handlerNewGame}
+              doAfterClose={closeResultModal}
             />
-          )}
-          {!isResultOpen && isFinish && (
-            <FinishButtonWrapper>
-              <NextButton
-                clickHandler={() => setIsResultOpen(!isResultOpen)}
-                label="show result"
-                colorBtn="secondary"
-              />
-              <NextButton clickHandler={handlerNewGame} label="play again" />
-            </FinishButtonWrapper>
           )}
         </AudioWrapper>
       </FullScreenWrapperFlexCenter>
