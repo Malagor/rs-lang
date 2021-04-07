@@ -1,0 +1,1 @@
+export { WordImage } from './WordImage';

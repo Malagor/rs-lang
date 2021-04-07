@@ -1,1 +1,0 @@
-export { OwnGame } from './OwnGame';
