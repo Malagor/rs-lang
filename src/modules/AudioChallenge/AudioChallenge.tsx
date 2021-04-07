@@ -10,7 +10,7 @@ import {
 import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
-import { database } from 'services';
+import { database, LocStore } from 'services';
 import { FullscreenButton, GameResults, SoundButton } from 'components';
 import { COUNT_ANSWERS } from 'appConstants/games';
 import 'react-circular-progressbar/dist/styles.css';
@@ -80,6 +80,18 @@ export const AudioChallenge: FC = () => {
     },
     [isSoundOn]
   );
+
+  const saveStatistics = useCallback(() => {
+    if (!userId) {
+      LocStore.updateGamesStatistics(
+        'Audio challenge',
+        correctWords,
+        incorrectWords,
+        longerChain
+      );
+      LocStore.updateWordsStatistics(correctWords, incorrectWords);
+    }
+  }, [userId, correctWords, incorrectWords, longerChain]);
 
   // New Game
   const handlerNewGame = useCallback(() => {
@@ -189,8 +201,9 @@ export const AudioChallenge: FC = () => {
       setLongerChain(chain > longerChain ? chain : longerChain);
       setIsResultOpen(true);
       playSound(FinishSound);
+      saveStatistics();
     }
-  }, [chain, longerChain, playSound, isFinish]);
+  }, [chain, longerChain, playSound, isFinish, saveStatistics]);
 
   const closeResultModal = useCallback(() => {
     history.push('/games');
