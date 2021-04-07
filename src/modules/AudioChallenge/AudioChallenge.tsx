@@ -234,11 +234,11 @@ export const AudioChallenge: FC = () => {
           setWords(mixingArray(words));
           handlerNewGame();
         } else if (userAnswerIndex !== '-1' && buttonRef && buttonRef.current) {
-          // setUserAnswer('-1');
           buttonRef.current.click();
         } else {
           setIncorrectWords([...incorrectWords, words[current]]);
           setUserAnswer(correctAnswerIndex);
+          playSound(WrongSound);
         }
       }
     };
@@ -259,6 +259,7 @@ export const AudioChallenge: FC = () => {
     correctAnswerIndex,
     handlerCorrectAnswer,
     handlerIncorrectAnswer,
+    playSound,
   ]);
 
   // Add Variants for Answers listener
