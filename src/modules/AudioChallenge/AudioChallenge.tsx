@@ -66,15 +66,48 @@ export const AudioChallenge: FC = () => {
     dispatch(setPageTitle('Audio challenge'));
   }, [dispatch]);
 
-  // Correct Answer
+  // New Game
+  const handlerNewGame = useCallback(() => {
+    setFinish(false);
+    setCorrectWords([]);
+    setIncorrectWords([]);
+    setCurrentWord(0);
+    setChain(0);
+    setLongerChain(0);
+    setIsResultOpen(false);
+  }, []);
 
+  // Load Words
+  useEffect(() => {
+    let locWords: Promise<Word[]>;
+    if (userId) {
+      locWords = database
+        .getUserAggregatedWord({
+          userId,
+          group,
+          page,
+          wordPerPage: 20,
+          filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
+        })
+        .then((data) => data[0].paginatedResults);
+    } else {
+      locWords = database.getWords(group, page);
+    }
+
+    locWords.then((data) => {
+      const mixArr = mixingArray(data);
+      setWords(mixArr);
+    });
+    handlerNewGame();
+  }, [handlerNewGame, group, page, userId]);
+
+  // Correct Answer
   const handlerCorrectAnswer = useCallback(() => {
     setCorrectWords([...correctWords, words[current]]);
     setChain((prev) => prev + 1);
   }, [correctWords, words, current]);
 
   // Incorrect Answer
-
   const handlerIncorrectAnswer = useCallback(() => {
     setIncorrectWords([...incorrectWords, words[current]]);
     if (chain > longerChain) {
@@ -84,7 +117,6 @@ export const AudioChallenge: FC = () => {
   }, [chain, longerChain, incorrectWords, words, current]);
 
   // Check Answer
-
   const checkAnswer = useCallback(
     (index: string) => {
       setUserAnswer(index);
@@ -97,8 +129,7 @@ export const AudioChallenge: FC = () => {
     [correctAnswerIndex, handlerCorrectAnswer, handlerIncorrectAnswer]
   );
 
-  // add answers
-
+  // Choice of answer options
   const addVariantsAnswers = useCallback(() => {
     if (words && words[current]) {
       let candidatesForAnswers: Word[] = mixingArray(words).splice(
@@ -127,7 +158,6 @@ export const AudioChallenge: FC = () => {
   }, [words, current]);
 
   // Next Question
-
   const answerHandler = useCallback(() => {
     setUserAnswer('-1');
     if (current === words.length - 1) setFinish(true);
@@ -136,20 +166,7 @@ export const AudioChallenge: FC = () => {
     }
   }, [words, current]);
 
-  // New Game
-
-  const handlerNewGame = useCallback(() => {
-    setFinish(false);
-    setCorrectWords([]);
-    setIncorrectWords([]);
-    setCurrentWord(0);
-    setChain(0);
-    setLongerChain(0);
-    setIsResultOpen(false);
-  }, []);
-
   // Finish Game
-
   const handleFinishGame = useCallback(() => {
     setLongerChain(chain);
     setIsResultOpen(true);
@@ -160,7 +177,6 @@ export const AudioChallenge: FC = () => {
   }, [history]);
 
   // Keyboard listener
-
   useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent) => {
       const { key } = e;
@@ -208,39 +224,12 @@ export const AudioChallenge: FC = () => {
     handlerIncorrectAnswer,
   ]);
 
-  // Load Words
-
-  useEffect(() => {
-    let locWords: Promise<Word[]>;
-    if (userId) {
-      locWords = database
-        .getUserAggregatedWord({
-          userId,
-          group,
-          page,
-          wordPerPage: 20,
-          filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
-        })
-        .then((data) => data[0].paginatedResults);
-    } else {
-      locWords = database.getWords(group, page);
-    }
-
-    locWords.then((data) => {
-      const mixArr = mixingArray(data);
-      setWords(mixArr);
-    });
-    handlerNewGame();
-  }, [handlerNewGame, group, page, userId]);
-
-  // add Variant Answers
-
+  // Add Variants for Answers listener
   useEffect(() => {
     addVariantsAnswers();
   }, [addVariantsAnswers]);
 
-  // finish game listener
-
+  // Finish game listener
   useEffect(() => {
     handleFinishGame();
   }, [isFinish, handleFinishGame]);
