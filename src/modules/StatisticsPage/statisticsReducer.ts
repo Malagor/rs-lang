@@ -16,6 +16,7 @@ export const InitialStatistics = {
 export const statisticsPageState: StateStatistics = {
   ...InitialStatistics,
   error: null,
+  loading: false,
 };
 
 export const statisticsReducer: Reducer<StateStatistics, Action> = (

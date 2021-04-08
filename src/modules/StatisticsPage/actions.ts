@@ -75,6 +75,8 @@ export const updateStatistics = (
     },
   };
 
+  dispatch(clearStatisticsError());
+
   database.updateUserStatistics(userId, newStatistics).then(
     (data) => {
       dispatch(setUserStatistics(data));
@@ -106,16 +108,16 @@ export const updateStatisticsGames = (
   const { games } = optional;
   const gameOldStatistics = games?.[game];
   const date = new Date().toDateString();
-  const isOldDate = date === gameOldStatistics?.date;
+  const isSameDate = date === gameOldStatistics?.date;
 
   const gameStatistics: GameStatistics = {
-    wordsStudied: isOldDate
+    wordsStudied: isSameDate
       ? wordsStudied + gameOldStatistics.wordsStudied
       : wordsStudied,
-    accuracy: isOldDate
+    accuracy: isSameDate
       ? Math.round((accuracy + gameOldStatistics.accuracy) / 2)
       : accuracy,
-    maxInARow: isOldDate
+    maxInARow: isSameDate
       ? Math.max(maxInARow, gameOldStatistics.maxInARow)
       : maxInARow,
     date,
@@ -131,6 +133,8 @@ export const updateStatisticsGames = (
       },
     },
   };
+
+  dispatch(clearStatisticsError());
 
   database.updateUserStatistics(userId, newStatistics).then(
     (data) => {

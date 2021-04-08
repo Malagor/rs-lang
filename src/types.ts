@@ -88,7 +88,8 @@ export type StateStatistics = {
       [game: string]: GameStatistics;
     };
   };
-  error?: ErrorType | null;
+  error: ErrorType | null;
+  loading: boolean;
 };
 
 export type State = {

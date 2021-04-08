@@ -4,8 +4,8 @@ import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { gamesData } from 'appConstants/games';
 import { setPageTitle } from 'store/commonState/actions';
-import { ErrorMessage } from 'components';
-import { selectUserId } from 'modules/Login/selectors';
+import { ErrorMessage, Loader } from 'components';
+import { selectAuthLoadingStatus, selectUserId } from 'modules/Login/selectors';
 import { LocStore } from 'services';
 import { updateStatistics } from './actions';
 import {
@@ -24,6 +24,7 @@ export const StatisticsPage: FC = () => {
   const learnedWordsByDays = useSelector(selectLearnedWordsByDays);
   const error = useSelector(selectStatisticsError);
   const userId = useSelector(selectUserId);
+  const isUserLoading = useSelector(selectAuthLoadingStatus);
   const statisticsLearnedWords = useSelector(selectLearnedWords);
   const serverGamesStatistics = useSelector(selectGamesStatistics);
 
@@ -57,27 +58,27 @@ export const StatisticsPage: FC = () => {
     }
   }, [dispatch, userId]);
 
+  if (isUserLoading) return <Loader />;
+  if (error) return <ErrorMessage />;
+
   return (
     <Container>
-      {error && <ErrorMessage />}
-      {!error && (
-        <div className={classes.container}>
-          <div className={classes.wrapper}>
-            <h2 className={classes.title}>Today</h2>
-            <TodayBlock
-              learnedWords={learnedWords}
-              accuracy={totalAccuracy}
-              gamesStatistics={gamesStatistics}
-            />
-            {userId && (
-              <>
-                <h2 className={classes.title}>All time</h2>
-                <AllTimeBlock learnedWordsByDays={learnedWordsByDays} />
-              </>
-            )}
-          </div>
+      <div className={classes.container}>
+        <div className={classes.wrapper}>
+          <h2 className={classes.title}>Today</h2>
+          <TodayBlock
+            learnedWords={learnedWords}
+            accuracy={totalAccuracy}
+            gamesStatistics={gamesStatistics}
+          />
+          {userId && (
+            <>
+              <h2 className={classes.title}>All time</h2>
+              <AllTimeBlock learnedWordsByDays={learnedWordsByDays} />
+            </>
+          )}
         </div>
-      )}
+      </div>
     </Container>
   );
 };

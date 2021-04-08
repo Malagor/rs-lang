@@ -25,8 +25,7 @@ const updateWordStatistics = async (
   Promise.all(
     words.map(async (word: Word) => {
       // eslint-disable-next-line no-underscore-dangle
-      const wordId = word.id || word._id;
-      if (!wordId) return Promise.resolve();
+      const wordId = word._id || word.id;
 
       const userWord = await database.getUserWord(userId, wordId).catch(
         () => null
@@ -80,8 +79,10 @@ export const saveGameResults = async ({
   const wordsStudied = rightlyAnswered.length + wronglyAnswered.length;
   const accuracy = Math.round((rightlyAnswered.length / wordsStudied) * 100);
 
-  updateWordStatistics(userId, rightlyAnswered, 'correct').catch();
-  updateWordStatistics(userId, wronglyAnswered, 'incorrect').catch();
+  updateWordStatistics(userId, rightlyAnswered, 'correct').catch((err) => err);
+  updateWordStatistics(userId, wronglyAnswered, 'incorrect').catch(
+    (err) => err
+  );
 
   dispatch(
     updateStatisticsGames(userId, game, wordsStudied, accuracy, maxInARow)
