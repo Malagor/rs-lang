@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Auth, InputsData } from 'types';
+import { Auth } from 'types';
 import { API_CLOUDINARY } from 'appConstants/index';
 
 import {
@@ -20,15 +20,22 @@ import { setAuth, loadUserInfoById } from 'modules/Login/actions';
 import { Form } from './components';
 import { useStyles } from './styled';
 
+type SubmitFormData = {
+  name?: string;
+  email: string;
+  password: string;
+  avatar: string;
+};
+
 export const LoginModal: FC = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [login, setLogin] = useState(true);
 
-  const [isLoadingImg, steIsLoadingImg] = useState(false);
+  const [loadingImg, setLoadingImg] = useState(false);
   const [imageURL, setImageURL] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
@@ -40,11 +47,11 @@ export const LoginModal: FC = () => {
     setOpen(false);
   };
 
-  const handleSubmitForm = async (data: InputsData) => {
+  const handleSubmitForm = async (data: SubmitFormData) => {
     const { name, email, password } = data;
 
     try {
-      if (!isLogin && name) {
+      if (!login && name) {
         // need registration
         await database.createUser({
           id: '',
@@ -76,9 +83,8 @@ export const LoginModal: FC = () => {
     const data = new FormData();
     data.append('file', dataFile);
     data.append('upload_preset', 'rsLangApp');
-    console.log('go img');
 
-    steIsLoadingImg(true);
+    setLoadingImg(true);
     try {
       const res = await fetch(API_CLOUDINARY, {
         method: 'POST',
@@ -87,7 +93,7 @@ export const LoginModal: FC = () => {
       const file = await res.json();
 
       setImageURL(file.secure_url);
-      steIsLoadingImg(false);
+      setLoadingImg(false);
     } catch {
       setErrorMessage('Failed to upload image');
     }
@@ -116,15 +122,15 @@ export const LoginModal: FC = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              {isLogin ? 'Login' : 'Registration'}
+              {login ? 'Login' : 'Registration'}
             </Typography>
 
             <Form
-              isLogin={isLogin}
-              setIsLogin={setIsLogin}
+              isLogin={login}
+              setLogin={setLogin}
               handleSubmitForm={handleSubmitForm}
               errorMessage={errorMessage}
-              isLoadingImg={isLoadingImg}
+              isLoadingImg={loadingImg}
               imageURL={imageURL}
               uploadImg={uploadImg}
             />

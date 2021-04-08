@@ -45,7 +45,7 @@ export const FileInput: FC<FileInputProps> = ({
               hidden
               onChange={handleChange}
             />
-            add
+            upload avatar
           </Button>
         </Box>
       )}

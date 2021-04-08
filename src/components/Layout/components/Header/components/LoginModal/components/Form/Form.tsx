@@ -3,8 +3,6 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 import * as yup from 'yup';
 import { MIN_PASSWORD_LENGTH } from 'appConstants/index';
-import { InputsForm } from 'types';
-
 import {
   Checkbox,
   Link,
@@ -19,18 +17,25 @@ import { useStyles } from './styled';
 
 type FormProps = {
   isLogin: boolean;
-  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setLogin: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmitForm: Function;
   errorMessage: string;
 
-  uploadImg: Function;
+  uploadImg: (dataFile: File) => Promise<void>;
   imageURL: string;
   isLoadingImg: boolean;
 };
 
+type InputsFormData = {
+  name: string;
+  email: string;
+  password: string;
+  showPassword: boolean;
+};
+
 export const Form: FC<FormProps> = ({
   isLogin,
-  setIsLogin,
+  setLogin,
   handleSubmitForm,
   errorMessage,
   uploadImg,
@@ -61,7 +66,7 @@ export const Form: FC<FormProps> = ({
       .required('No password provided.'),
   });
 
-  const { register, handleSubmit, watch, errors } = useForm<InputsForm>({
+  const { register, handleSubmit, watch, errors } = useForm<InputsFormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema),
   });
@@ -154,7 +159,7 @@ export const Form: FC<FormProps> = ({
 
       <Grid container className={classes.link}>
         <Grid item>
-          <Link href="#" variant="body2" onClick={() => setIsLogin(!isLogin)}>
+          <Link href="#" variant="body2" onClick={() => setLogin(!isLogin)}>
             {isLogin
               ? "Don't have an account? Sign Up"
               : 'Do you have an account? Sign In'}

@@ -100,17 +100,3 @@ export type GameStatistics = {
 };
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
-
-export type InputsData = {
-  name?: string;
-  email: string;
-  password: string;
-  avatar: string;
-};
-
-export type InputsForm = {
-  name: string;
-  email: string;
-  password: string;
-  showPassword: boolean;
-};
