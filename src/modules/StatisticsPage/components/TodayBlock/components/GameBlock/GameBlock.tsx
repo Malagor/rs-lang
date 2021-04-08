@@ -1,15 +1,12 @@
 import React, { FC } from 'react';
+import { GameStatistics } from 'types';
 import { useStyles } from './styled';
 
 type GameBlockProps = {
   img: string;
   name: string;
   color: string;
-  statistics: {
-    learnedWords: number;
-    accuracy: number;
-    inARow: number;
-  };
+  statistics: GameStatistics;
 };
 
 export const GameBlock: FC<GameBlockProps> = ({
@@ -19,7 +16,7 @@ export const GameBlock: FC<GameBlockProps> = ({
   statistics,
 }) => {
   const classes = useStyles({ color });
-  const { learnedWords = 0, accuracy = 0, inARow = 0 } = statistics || {};
+  const { wordsStudied = 0, accuracy = 0, maxInARow = 0 } = statistics || {};
 
   return (
     <div className={classes.container}>
@@ -29,7 +26,7 @@ export const GameBlock: FC<GameBlockProps> = ({
       </div>
       <div className={classes.body}>
         <div className={classes.item}>
-          <span className={classes.value}>{learnedWords}</span>
+          <span className={classes.value}>{wordsStudied}</span>
           <span>words</span>
         </div>
         <div className={classes.item}>
@@ -37,7 +34,7 @@ export const GameBlock: FC<GameBlockProps> = ({
           <span>accuracy</span>
         </div>
         <div className={classes.item}>
-          <span className={classes.value}>{inARow}</span>
+          <span className={classes.value}>{maxInARow}</span>
           <span>in a row</span>
         </div>
       </div>

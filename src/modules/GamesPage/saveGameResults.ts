@@ -7,8 +7,8 @@ import { StateStatistics, Word } from 'types';
 
 type GameResultsProps = {
   userId: string;
-  gameName: string;
-  inARow: number;
+  game: string;
+  maxInARow: number;
   rightlyAnswered: Word[];
   wronglyAnswered: Word[];
 };
@@ -72,19 +72,18 @@ const updateWordStatistics = async (
 
 export const saveGameResults = async ({
   userId,
-  gameName,
-  inARow,
+  game,
+  maxInARow,
   rightlyAnswered,
   wronglyAnswered,
 }: GameResultsProps) => {
-  const learnedWords = rightlyAnswered.length + wronglyAnswered.length;
-  const rightShare = rightlyAnswered.length / learnedWords;
-  const accuracy = Math.round(rightShare * 100);
+  const wordsStudied = rightlyAnswered.length + wronglyAnswered.length;
+  const accuracy = Math.round((rightlyAnswered.length / wordsStudied) * 100);
 
   updateWordStatistics(userId, rightlyAnswered, 'correct').catch();
   updateWordStatistics(userId, wronglyAnswered, 'incorrect').catch();
 
   dispatch(
-    updateStatisticsGames(userId, gameName, learnedWords, accuracy, inARow)
+    updateStatisticsGames(userId, game, wordsStudied, accuracy, maxInARow)
   );
 };

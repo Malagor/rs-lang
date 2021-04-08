@@ -83,12 +83,7 @@ export type StateStatistics = {
       [date: string]: number;
     };
     games: {
-      [gameName: string]: {
-        learnedWords: number;
-        accuracy: number;
-        inARow: number;
-        date: string;
-      };
+      [game: string]: GameStatistics;
     };
   };
   error?: ErrorType | null;
@@ -105,6 +100,7 @@ export type GameStatistics = {
   wordsStudied: number;
   accuracy: number;
   maxInARow: number;
+  date?: string;
 };
 
 export type Partial<T> = { [P in keyof T]?: T[P] };

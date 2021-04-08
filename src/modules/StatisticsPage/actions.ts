@@ -1,7 +1,7 @@
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { database } from 'services';
-import { ErrorType, StateStatistics } from 'types';
+import { ErrorType, GameStatistics, StateStatistics } from 'types';
 import { SET_USER_STATISTICS, SET_STATISTICS_ERROR } from './actionConst';
 
 export const setUserStatistics = (payload: StateStatistics) => ({
@@ -79,9 +79,9 @@ export const updateStatisticsLearnedWords = (
 export const updateStatisticsGames = (
   userId: string,
   game: string,
-  learnedWords: number,
+  wordsStudied: number,
   accuracy: number,
-  inARow: number
+  maxInARow: number
 ): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
   dispatch
 ) => {
@@ -99,14 +99,16 @@ export const updateStatisticsGames = (
   const date = new Date().toDateString();
   const isOldDate = date === gameOldStatistics?.date;
 
-  const gameStatistics = {
-    learnedWords: isOldDate
-      ? learnedWords + gameOldStatistics.learnedWords
-      : learnedWords,
+  const gameStatistics: GameStatistics = {
+    wordsStudied: isOldDate
+      ? wordsStudied + gameOldStatistics.wordsStudied
+      : wordsStudied,
     accuracy: isOldDate
       ? Math.round((accuracy + gameOldStatistics.accuracy) / 2)
       : accuracy,
-    inARow: isOldDate ? Math.max(inARow, gameOldStatistics.inARow) : inARow,
+    maxInARow: isOldDate
+      ? Math.max(maxInARow, gameOldStatistics.maxInARow)
+      : maxInARow,
     date,
   };
 
@@ -124,7 +126,7 @@ export const updateStatisticsGames = (
   database.updateUserStatistics(userId, newStatistics).then(
     (data) => {
       dispatch(setUserStatistics(data));
-      dispatch(updateStatisticsLearnedWords(userId, learnedWords));
+      dispatch(updateStatisticsLearnedWords(userId, wordsStudied));
     },
     (err) => {
       dispatch(setStatisticsError(err));

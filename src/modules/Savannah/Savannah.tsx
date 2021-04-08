@@ -8,8 +8,6 @@ import { loadWords } from 'modules/TextBookPage/actions';
 import { Word } from 'types';
 import { useHistory } from 'react-router-dom';
 import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
-import { saveGameResults } from 'modules/GamesPage/saveGameResults';
-import { selectUserId } from 'modules/Login/selectors';
 
 type GamesProps = {};
 
@@ -21,7 +19,6 @@ export const Savannah: FC<GamesProps> = () => {
   const wronglyAnswered = words.slice(15, 18);
   const [isResultModalOpened, setResultModalOpened] = useState(false);
   const history = useHistory();
-  const userId = useSelector(selectUserId);
 
   useEffect(() => {
     dispatch(setPageTitle('Savannah'));
@@ -33,15 +30,6 @@ export const Savannah: FC<GamesProps> = () => {
 
   const redirectAfterModalClose = () => {
     history.push('/');
-    if (userId) {
-      saveGameResults({
-        userId,
-        gameName: 'Savannah',
-        rightlyAnswered,
-        wronglyAnswered,
-        inARow: 8,
-      });
-    }
   };
 
   const handlePlayAgain = () => {
