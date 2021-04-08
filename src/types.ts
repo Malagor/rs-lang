@@ -72,6 +72,8 @@ export type StateCommon = {
 export type StateLogin = {
   user: User;
   auth: Auth;
+  error: boolean;
+  loading: boolean;
 };
 
 export type StateMainPage = {};
