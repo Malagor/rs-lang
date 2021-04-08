@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+
 import { Word } from 'types';
 import { Container } from '@material-ui/core';
 import {
@@ -11,7 +12,11 @@ import {
   NavGame,
 } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
-import { selectUser, selectUserId } from 'modules/Login/selectors';
+import {
+  selectUser,
+  selectUserId,
+  selectAuthLoadingStatus,
+} from 'modules/Login/selectors';
 import {
   selectTextBookGroup,
   selectTextBookPage,
@@ -43,6 +48,7 @@ import { useStyles } from 'modules/TextBookPage/styled';
 import { GroupSelector } from 'components/GroupSelector';
 import { Sections } from './components';
 import { LoadWrapper } from './styled';
+// import { selectAuthLoadingStatus, selectUserId } from 'modules/Login/selectors';
 
 type DictionaryProps = {};
 
@@ -59,6 +65,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
   const [scroll, setScroll] = useState(0);
+  const isUserLoading = useSelector(selectAuthLoadingStatus);
 
   useEffect(() => {
     dispatch(setPageTitle('Dictionary'));
@@ -127,7 +134,8 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     dispatch(setCheckedDifficulty(HARD_DIFFICULTY));
   };
 
-  if (!userId) return <RedirectionModal />;
+  if (!userId && !isUserLoading) return <RedirectionModal />;
+  if (!userId && isUserLoading) return <Loader />;
 
   return (
     <Container>
