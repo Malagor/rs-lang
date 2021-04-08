@@ -1,4 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
+import { COLOR_LAYOUT_BLUE } from 'appConstants/colors';
 
 export const useStyles = makeStyles((theme) => ({
   form: {
@@ -10,5 +11,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   link: {
     margin: theme.spacing(2, 0, 1, 0),
+  },
+  button: {
+    backgroundColor: COLOR_LAYOUT_BLUE,
   },
 }));
