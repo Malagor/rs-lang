@@ -5,25 +5,24 @@ import { Accuracy, GameBlock, LearnedWords } from './components';
 import { useStyles } from './styled';
 
 type TodayBlockProps = {
+  learnedWords: number;
+  accuracy: number;
   gamesStatistics: {
     [game: string]: GameStatistics;
   };
 };
 
-export const TodayBlock: FC<TodayBlockProps> = ({ gamesStatistics }) => {
+export const TodayBlock: FC<TodayBlockProps> = ({
+  learnedWords,
+  accuracy,
+  gamesStatistics,
+}) => {
   const classes = useStyles();
-  const accuracies = gamesStatistics
-    ? gamesData.map(({ name }) => gamesStatistics?.[name]?.accuracy || 0)
-    : [];
-  const accuraciesSum = accuracies.reduce((a, b) => a + b, 0);
-  const totalAccuracy = accuraciesSum
-    ? Math.round(accuraciesSum / gamesData.length)
-    : 0;
 
   return (
     <div className={classes.container}>
-      <LearnedWords />
-      <Accuracy percentage={totalAccuracy} />
+      <LearnedWords learnedWords={learnedWords} />
+      <Accuracy percentage={accuracy} />
       {gamesData.map((game) => (
         <GameBlock
           key={game.name}

@@ -19,7 +19,7 @@ export const clearStatisticsError = () => ({
   payload: null,
 });
 
-export const updateStatisticsLearnedWords = (
+export const updateStatistics = (
   userId: string,
   learnedWordsCount: number = 0
 ): ThunkAction<void, StateStatistics, unknown, Action<string>> => async (
@@ -33,8 +33,16 @@ export const updateStatisticsLearnedWords = (
     return;
   }
 
-  const learnedWordsByDays = statistics?.optional?.learnedWordsByDays;
   const date = new Date().toDateString();
+
+  const games: { [game: string]: GameStatistics } = {};
+  Object.entries((statistics?.optional?.games || {}) as GameStatistics[])
+    .filter(([, options]) => options.date === date)
+    .forEach(([game, options]) => {
+      games[game] = options;
+    });
+
+  const learnedWordsByDays = statistics?.optional?.learnedWordsByDays;
   const missedDates: { [date: string]: number } = {};
   let todayLearnedWords = learnedWordsByDays?.[date] || 0;
 
@@ -58,6 +66,7 @@ export const updateStatisticsLearnedWords = (
     learnedWords: todayLearnedWords,
     optional: {
       ...statistics?.optional,
+      games,
       learnedWordsByDays: {
         ...learnedWordsByDays,
         ...missedDates,
@@ -126,7 +135,7 @@ export const updateStatisticsGames = (
   database.updateUserStatistics(userId, newStatistics).then(
     (data) => {
       dispatch(setUserStatistics(data));
-      dispatch(updateStatisticsLearnedWords(userId, wordsStudied));
+      dispatch(updateStatistics(userId, wordsStudied));
     },
     (err) => {
       dispatch(setStatisticsError(err));
