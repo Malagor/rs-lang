@@ -85,10 +85,10 @@ beforeEach(() => {
 });
 
 describe('TextBook page thunk tests', () => {
-  test('Thunk loadWords must be called', async () => {
+  test('Thunk loadWords must call dispatch', async () => {
     const thunk = actions.loadWords(0, 0);
     await thunk(dispatchMock, getStateMock, {});
 
-    expect(dispatchMock).toBeCalledTimes(2);
+    expect(dispatchMock).toBeCalled();
   });
 });
