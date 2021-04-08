@@ -3,12 +3,11 @@ import styled from 'styled-components/macro';
 
 export const SectionsContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  max-width: 567px;
-  width: 100%;
-
   flex-wrap: wrap;
   justify-content: center;
+
+  width: 100%;
+  max-width: 567px;
   margin: 0 auto;
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
@@ -22,16 +21,13 @@ export const Section = styled.div<{ active: boolean }>`
   display: flex;
   align-items: center;
   padding: 12px 24px 12px 16px;
-  margin-top: 16px;
-  margin-bottom: 16px;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: ${({ active }) =>
-    active ? '0px 0px 10px rgba(0, 0, 0, 0.15)' : ''};
+  box-shadow: ${({ active }) => (active ? '0 0 10px rgba(0, 0, 0, 0.15)' : '')};
 
   &:hover {
     cursor: pointer;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
   }
 
   & + div {
