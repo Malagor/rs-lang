@@ -10,14 +10,14 @@ type DictionaryProps = {};
 export const DictionaryPage: FC<DictionaryProps> = () => {
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
-  const isUserLoaded = useSelector(selectAuthLoadingStatus);
+  const isUserLoading = useSelector(selectAuthLoadingStatus);
 
   useEffect(() => {
     dispatch(setPageTitle('DictionaryPage'));
   }, [dispatch]);
 
-  if (!userId && !isUserLoaded) return <RedirectionModal />;
-  if (!userId && isUserLoaded) return <Loader />;
+  if (!userId && !isUserLoading) return <RedirectionModal />;
+  if (!userId && isUserLoading) return <Loader />;
 
   return (
     <Container>
