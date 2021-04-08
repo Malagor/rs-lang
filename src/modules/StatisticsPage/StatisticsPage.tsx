@@ -6,21 +6,25 @@ import { gamesData } from 'appConstants/games';
 import { setPageTitle } from 'store/commonState/actions';
 import { ErrorMessage } from 'components';
 import { selectUserId } from 'modules/Login/selectors';
+import { LocStore } from 'services';
 import { updateStatisticsLearnedWords } from './actions';
-import { selectLearnedWordsByDays, selectStatisticsError } from './selectors';
+import {
+  selectLearnedWords,
+  selectLearnedWordsByDays,
+  selectStatisticsError,
+} from './selectors';
 import { AllTimeBlock, TodayBlock } from './components';
 import { useStyles } from './styled';
 
-const accuracy = 66;
 const initialGameStatistics = {
   accuracy: 0,
   words: 0,
   inRow: 0,
 };
 
-const gamesStatistics: { [name: string]: typeof initialGameStatistics } = {};
+const gamesStats: { [name: string]: typeof initialGameStatistics } = {};
 gamesData.forEach((game) => {
-  gamesStatistics[game.name] = { ...initialGameStatistics };
+  gamesStats[game.name] = { ...initialGameStatistics };
 });
 
 export const StatisticsPage: FC = () => {
@@ -30,6 +34,22 @@ export const StatisticsPage: FC = () => {
   const learnedWordsByDays = useSelector(selectLearnedWordsByDays);
   const error = useSelector(selectStatisticsError);
   const userId = useSelector(selectUserId);
+  const statisticsLearnedWords = useSelector(selectLearnedWords);
+  const gamesStatistics = userId
+    ? gamesStats
+    : LocStore.getGamesStatistics()?.[new Date().toDateString()] || {};
+
+  const totalAccuracy = Math.round(
+    gamesData
+      .map(({ name }) => gamesStatistics?.[name]?.accuracy || 0)
+      .reduce((a, b) => a + b, 0) / gamesData.length
+  );
+
+  const learnedWords = userId
+    ? statisticsLearnedWords
+    : gamesData
+        .map(({ name }) => gamesStatistics?.[name]?.wordsStudied || 0)
+        .reduce((a, b) => a + b, 0);
 
   useEffect(() => {
     dispatch(setPageTitle('Statistics'));
@@ -48,9 +68,17 @@ export const StatisticsPage: FC = () => {
         <div className={classes.container}>
           <div className={classes.wrapper}>
             <h2 className={classes.title}>Today</h2>
-            <TodayBlock accuracy={accuracy} gamesStatistics={gamesStatistics} />
-            <h2 className={classes.title}>All time</h2>
-            <AllTimeBlock learnedWordsByDays={learnedWordsByDays} />
+            <TodayBlock
+              learnedWords={learnedWords}
+              accuracy={totalAccuracy}
+              gamesStatistics={gamesStatistics}
+            />
+            {userId && (
+              <>
+                <h2 className={classes.title}>All time</h2>
+                <AllTimeBlock learnedWordsByDays={learnedWordsByDays} />
+              </>
+            )}
           </div>
         </div>
       )}
