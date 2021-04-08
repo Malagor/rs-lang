@@ -1,4 +1,4 @@
-import React, { FC, useRef, useEffect } from 'react';
+import React, { FC, useRef } from 'react';
 import { SERVER_URL } from 'appConstants';
 import { Word } from 'types';
 import { CircularProgressBar } from 'components';
@@ -52,39 +52,18 @@ export const GameResults: FC<GameResultsProps> = ({
   handlePlayAgain,
 }) => {
   const audioRef = useRef<HTMLAudioElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
-  const closeButtonRef = useRef<SVGSVGElement>(null);
 
   const handlePlayAgainClick = () => {
     setOpened(false);
     handlePlayAgain();
   };
 
-  useEffect(() => {
-    const handleClose = (evt: MouseEvent) => {
-      if (modalRef.current && closeButtonRef.current) {
-        if (
-          !modalRef.current.contains(evt.target as Node) ||
-          closeButtonRef.current.contains(evt.target as Node)
-        ) {
-          setOpened(false);
-          if (doAfterClose) {
-            doAfterClose();
-          }
-        }
-      }
-    };
-    if (isOpened) {
-      setTimeout(() => {
-        document.addEventListener('click', handleClose);
-      }, 0);
-    } else {
-      document.removeEventListener('click', handleClose);
+  const handleClosing = () => {
+    setOpened(false);
+    if (doAfterClose) {
+      doAfterClose();
     }
-    return () => {
-      document.removeEventListener('click', handleClose);
-    };
-  }, [isOpened, setOpened, doAfterClose]);
+  };
 
   function getWordItems(wordArray: Word[]) {
     const usedWordStrings: string[] = [];
@@ -120,7 +99,7 @@ export const GameResults: FC<GameResultsProps> = ({
   const accuracy = Math.round(rightShare * 100);
 
   return isOpened ? (
-    <Container ref={modalRef}>
+    <Container>
       <Header>
         <ModalName>Results</ModalName>
         <PlayAgainButton onClick={handlePlayAgainClick}>
@@ -180,7 +159,7 @@ export const GameResults: FC<GameResultsProps> = ({
           <WordList>{correctItems}</WordList>
         </CategoryContainer>
       </Content>
-      <CloseButton ref={closeButtonRef} />
+      <CloseButton onClick={handleClosing} />
       <audio ref={audioRef}>
         <track kind="captions" />
       </audio>
