@@ -212,10 +212,10 @@ export const AudioChallenge: FC = () => {
   // Keyboard listener
   useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent) => {
-      const { key } = e;
+      const { key, repeat } = e;
 
       // select answer
-      if (KEYS_ARRAY.includes(key)) {
+      if (!repeat && KEYS_ARRAY.includes(key)) {
         if (isFinish) {
           return;
         }
@@ -229,7 +229,7 @@ export const AudioChallenge: FC = () => {
       }
 
       // next word
-      if (key === ' ') {
+      if (!repeat && key === ' ') {
         if (isFinish) {
           setWords(mixingArray(words));
           handlerNewGame();
