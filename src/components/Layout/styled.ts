@@ -21,4 +21,8 @@ export const useStyles = makeStyles((theme) => ({
       paddingTop: `${theme.spacing(2)}px`,
     },
   },
+  gamesContent: {
+    paddingTop: 0,
+    paddingBottom: 0,
+  },
 }));
