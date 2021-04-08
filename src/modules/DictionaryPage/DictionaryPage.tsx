@@ -42,6 +42,7 @@ import {
 import { useStyles } from 'modules/TextBookPage/styled';
 import { GroupSelector } from 'components/GroupSelector';
 import { Sections } from './components';
+import { LoadWrapper } from './styled';
 
 type DictionaryProps = {};
 
@@ -132,9 +133,9 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     <Container>
       {error && <ErrorMessage />}
       {isLoading && (
-        <div style={{ position: 'relative', zIndex: 10 }}>
+        <LoadWrapper>
           <Loader />
-        </div>
+        </LoadWrapper>
       )}
 
       <div className={classes.contentWrapper}>

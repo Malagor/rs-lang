@@ -91,7 +91,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           <div className={classes.containerGrid}>
             <div className={classes.paginationTop}>
               <Pagination
-                pageCount={pagesCount}
+                pageCount={30}
                 initialPage={page}
                 forcePage={page}
                 group={group}
@@ -114,7 +114,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
             </div>
             <div className={classes.paginationBottom}>
               <Pagination
-                pageCount={pagesCount}
+                pageCount={30}
                 initialPage={page}
                 forcePage={page}
                 group={group}
