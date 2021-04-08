@@ -7,7 +7,6 @@ import { State } from 'types';
 import { textBookReducer } from 'modules/TextBookPage/textBookReducer';
 import { loginReducer } from 'modules/Login/loginReducer';
 import { statisticsReducer } from 'modules/StatisticsPage/statisticsReducer';
-import { audioGameReducer } from 'modules/AudioChallenge/audioChallengeReducer';
 import { commonReducer } from './commonState/commonReducer';
 
 const appReducer = combineReducers<State>({
@@ -15,7 +14,6 @@ const appReducer = combineReducers<State>({
   loginReducer,
   statisticsReducer,
   commonReducer,
-  audioGameReducer,
 });
 
 const store = createStore(
