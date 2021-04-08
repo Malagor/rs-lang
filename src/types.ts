@@ -72,6 +72,8 @@ export type StateCommon = {
 export type StateLogin = {
   user: User;
   auth: Auth;
+  error: boolean;
+  loading: boolean;
 };
 
 export type StateMainPage = {};
@@ -91,6 +93,12 @@ export type State = {
   commonReducer: StateCommon;
   loginReducer: StateLogin;
   statisticsReducer: StateStatistics;
+};
+
+export type GameStatistics = {
+  wordsStudied: number;
+  accuracy: number;
+  maxInARow: number;
 };
 
 export type Partial<T> = { [P in keyof T]?: T[P] };

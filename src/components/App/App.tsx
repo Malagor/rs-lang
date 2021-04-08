@@ -9,7 +9,7 @@ import {
   AudioChallenge,
   Savannah,
   Sprint,
-  OwnGame,
+  Imaginarium,
 } from 'modules';
 import * as URL from 'appConstants/url';
 import { Layout } from 'components';
@@ -47,7 +47,7 @@ export const App: FC = () => {
       <Switch>
         <Route path={URL.URL_TEXT_BOOK} component={TextBookPage} />
         <Route path={URL.URL_GAME_AUDIO_CHALLENGE} component={AudioChallenge} />
-        <Route path={URL.URL_GAME_OWN_GAME} component={OwnGame} />
+        <Route path={URL.URL_GAME_IMAGINARIUM} component={Imaginarium} />
         <Route path={URL.URL_GAME_SAVANNA} component={Savannah} />
         <Route path={URL.URL_GAME_SPRINT} component={Sprint} />
         <Route path={URL.URL_DICTIONARY} component={DictionaryPage} />
