@@ -18,8 +18,6 @@ import {
   selectTextBookPage,
   selectTextBookError,
   selectTextBookWords,
-  selectPagesCount,
-  // selectIsLoading,
 } from './selectors';
 import {
   loadUserAggregateWords,
@@ -37,8 +35,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const group = useSelector(selectTextBookGroup);
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
-  const pagesCount = useSelector(selectPagesCount);
-  // const isLoading = useSelector(selectIsLoading);
 
   const [scroll, setScroll] = useState(0);
 
