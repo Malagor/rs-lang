@@ -27,6 +27,7 @@ import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
 import TickingSound from 'assets/sounds/ticking.mp3';
 import { selectUserId } from 'modules/Login/selectors';
+import { saveGameResults } from 'modules/GamesPage/saveGameResults';
 import {
   GameContainer,
   GameField,
@@ -250,6 +251,14 @@ export const Imaginarium = () => {
           maxInARow
         );
         LocStore.updateWordsStatistics(rightlyAnswered, wronglyAnswered);
+      } else {
+        saveGameResults({
+          userId,
+          game: 'Imaginarium',
+          rightlyAnswered,
+          wronglyAnswered,
+          maxInARow,
+        });
       }
     }
   }, [

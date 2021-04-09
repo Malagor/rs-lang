@@ -1,11 +1,12 @@
 import React, { FC } from 'react';
-import { useSelector } from 'react-redux';
-import { selectLearnedWords } from 'modules/StatisticsPage/selectors';
 import { useStyles } from './styled';
 
-export const LearnedWords: FC = () => {
+type LearnedWordsProps = {
+  learnedWords: number;
+};
+
+export const LearnedWords: FC<LearnedWordsProps> = ({ learnedWords }) => {
   const classes = useStyles();
-  const learnedWords = useSelector(selectLearnedWords);
 
   return (
     <div className={classes.container}>

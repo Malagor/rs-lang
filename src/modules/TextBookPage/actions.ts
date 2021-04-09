@@ -78,10 +78,13 @@ export const updateWordInUserList = async (
   wordId: string,
   type: DifficultyType
 ) => {
+  const word = await database.getUserWord(userId, wordId);
+  const wordOptions = word?.optional || {};
   const options: CreateUserWordType = {
     userId,
     wordId,
     wordOptions: {
+      ...wordOptions,
       difficulty: type,
     },
   };
