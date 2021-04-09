@@ -1,6 +1,7 @@
 import React, { FC, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Auth } from 'types';
+import { API_CLOUDINARY } from 'appConstants/index';
 
 import {
   Avatar,
@@ -19,10 +20,11 @@ import { setAuth, loadUserInfoById } from 'modules/Login/actions';
 import { Form } from './components';
 import { useStyles } from './styled';
 
-type InputsData = {
+type SubmitFormData = {
   name?: string;
   email: string;
   password: string;
+  avatar: string;
 };
 
 export const LoginModal: FC = () => {
@@ -31,7 +33,10 @@ export const LoginModal: FC = () => {
   const dispatch = useDispatch();
 
   const [open, setOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
+  const [login, setLogin] = useState(true);
+
+  const [loadingImg, setLoadingImg] = useState(false);
+  const [imageURL, setImageURL] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
 
@@ -42,18 +47,18 @@ export const LoginModal: FC = () => {
     setOpen(false);
   };
 
-  const handleSubmitForm = async (data: InputsData) => {
+  const handleSubmitForm = async (data: SubmitFormData) => {
     const { name, email, password } = data;
 
     try {
-      if (!isLogin && name) {
+      if (!login && name) {
         // need registration
         await database.createUser({
           id: '',
           name,
           email,
           password,
-          avatar: 'https://www.1zoom.ru/prev2/290/289595.jpg',
+          avatar: imageURL,
         });
       }
 
@@ -71,6 +76,26 @@ export const LoginModal: FC = () => {
       }
     } catch (err) {
       setErrorMessage('Failed to connect');
+    }
+  };
+
+  const uploadImg = async (dataFile: File) => {
+    const data = new FormData();
+    data.append('file', dataFile);
+    data.append('upload_preset', 'rsLangApp');
+
+    setLoadingImg(true);
+    try {
+      const res = await fetch(API_CLOUDINARY, {
+        method: 'POST',
+        body: data,
+      });
+      const file = await res.json();
+
+      setImageURL(file.secure_url);
+      setLoadingImg(false);
+    } catch {
+      setErrorMessage('Failed to upload image');
     }
   };
 
@@ -97,14 +122,17 @@ export const LoginModal: FC = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              {isLogin ? 'Login' : 'Registration'}
+              {login ? 'Login' : 'Registration'}
             </Typography>
 
             <Form
-              isLogin={isLogin}
-              setIsLogin={setIsLogin}
+              isLogin={login}
+              setLogin={setLogin}
               handleSubmitForm={handleSubmitForm}
               errorMessage={errorMessage}
+              isLoadingImg={loadingImg}
+              imageURL={imageURL}
+              uploadImg={uploadImg}
             />
           </div>
         </Container>
