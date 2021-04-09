@@ -35,6 +35,20 @@ describe('Login state tests', () => {
     expect(state.auth.token).toBeTruthy();
     expect(state.auth.message).toBe('testMessage');
   });
+
+  test('AuthError must be set', () => {
+    const action = actions.setAuthError(true);
+    const state = loginReducer(loginState, action);
+
+    expect(state.error).toBeTruthy();
+  });
+
+  test('AuthLoading must be set', () => {
+    const action = actions.setAuthLoading(true);
+    const state = loginReducer(loginState, action);
+
+    expect(state.loading).toBeTruthy();
+  });
 });
 
 const dispatchMock = jest.fn();
