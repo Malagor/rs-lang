@@ -85,6 +85,9 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       {hasContent ? (
         <div className={classes.contentWrapper}>
           <div className={classes.containerGrid}>
+            <div className={classes.gamesWrapper}>
+              <NavGame />
+            </div>
             <div className={classes.paginationTop}>
               <Pagination
                 pageCount={30}
@@ -92,9 +95,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 forcePage={page}
                 group={group}
               />
-            </div>
-            <div className={classes.gamesWrapper}>
-              <NavGame />
             </div>
             <div className={classes.mainGrid}>
               <WordList

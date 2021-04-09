@@ -147,7 +147,10 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
       )}
 
       <div className={classes.contentWrapper}>
-        <div className={classes.containerGrid}>
+        <div className={classes.containerGridDictionary}>
+          <div className={classes.gamesWrapper}>
+            <NavGame />
+          </div>
           <div className={classes.paginationTop}>
             <Pagination
               pageCount={pagesCount}
@@ -156,13 +159,12 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
               group={group}
             />
           </div>
-          <div className={classes.gamesWrapper}>
+          <div className={classes.topicWrapper}>
             <Sections
               group={group}
               activeSection={wordSection}
               handlers={[onUsualWords, onDifficultWords, onDeletedWords]}
             />
-            <NavGame />
           </div>
           <div className={classes.mainGrid}>
             <WordList
