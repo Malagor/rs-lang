@@ -1,0 +1,1 @@
+export { GameStatisticBoard } from './GameStatisticBoard';
