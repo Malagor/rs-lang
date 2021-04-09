@@ -12,7 +12,7 @@ import {
   removeWordFromUserList,
   updateWordInUserList,
 } from 'modules/TextBookPage/actions';
-import { updateStatisticsLearnedWords } from 'modules/StatisticsPage/actions';
+import { updateStatistics } from 'modules/StatisticsPage/actions';
 
 import {
   selectTextBookGroup,
@@ -91,12 +91,12 @@ export const ButtonsBlock: React.FC<Props> = ({
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
       if (type === HARD_DIFFICULTY && !isHard) {
-        updateStatisticsLearnedWords(userId, true);
+        updateStatistics(userId, 1);
       }
     } else {
       await addWordToUserList(userID, wordID, type);
       if (type === HARD_DIFFICULTY) {
-        dispatch(updateStatisticsLearnedWords(userId, true));
+        dispatch(updateStatistics(userId, 1));
       }
     }
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));

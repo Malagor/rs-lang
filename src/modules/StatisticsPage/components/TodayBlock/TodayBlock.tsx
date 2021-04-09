@@ -1,20 +1,19 @@
 import React, { FC } from 'react';
 import { gamesData } from 'appConstants/games';
+import { GameStatistics } from 'types';
 import { Accuracy, GameBlock, LearnedWords } from './components';
 import { useStyles } from './styled';
 
 type TodayBlockProps = {
+  learnedWords: number;
   accuracy: number;
   gamesStatistics: {
-    [name: string]: {
-      words: number;
-      accuracy: number;
-      inRow: number;
-    };
+    [game: string]: GameStatistics;
   };
 };
 
 export const TodayBlock: FC<TodayBlockProps> = ({
+  learnedWords,
   accuracy,
   gamesStatistics,
 }) => {
@@ -22,7 +21,7 @@ export const TodayBlock: FC<TodayBlockProps> = ({
 
   return (
     <div className={classes.container}>
-      <LearnedWords />
+      <LearnedWords learnedWords={learnedWords} />
       <Accuracy percentage={accuracy} />
       {gamesData.map((game) => (
         <GameBlock
@@ -30,7 +29,7 @@ export const TodayBlock: FC<TodayBlockProps> = ({
           img={game.img}
           name={game.name}
           color={game.color}
-          statistics={gamesStatistics[game.name]}
+          statistics={gamesStatistics?.[game.name]}
         />
       ))}
     </div>
