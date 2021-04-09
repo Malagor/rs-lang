@@ -21,10 +21,10 @@ const word = {
 
 describe('TextBook page state tests', () => {
   test('The number of group must be changed', () => {
-    const action = actions.setGroup(1);
+    const action = actions.setGroup(2);
     const state = textBookReducer(textBookPageState, action);
 
-    expect(state.group).toBe(1);
+    expect(state.group).toBe(2);
   });
 
   test('The number of Page must be changed', () => {
