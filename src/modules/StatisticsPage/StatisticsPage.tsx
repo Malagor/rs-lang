@@ -3,6 +3,7 @@ import React, { FC, useEffect } from 'react';
 import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { gamesData } from 'appConstants/games';
+import { GameStatistics } from 'types';
 import { setPageTitle } from 'store/commonState/actions';
 import { ErrorMessage, Loader } from 'components';
 import { selectAuthLoadingStatus, selectUserId } from 'modules/Login/selectors';
@@ -28,15 +29,19 @@ export const StatisticsPage: FC = () => {
   const statisticsLearnedWords = useSelector(selectLearnedWords);
   const serverGamesStatistics = useSelector(selectGamesStatistics);
 
-  const gamesStatistics = userId
-    ? serverGamesStatistics
-    : LocStore.getGamesStatistics()?.[new Date().toDateString()] || {};
+  let gamesStatistics: { [game: string]: GameStatistics } = {};
+
+  if (!isUserLoading) {
+    gamesStatistics = userId
+      ? serverGamesStatistics
+      : LocStore.getGamesStatistics()?.[new Date().toDateString()] || {};
+  }
 
   const accuraciesArray = gamesData
     .map(({ name }) =>
       gamesStatistics?.[name] ? gamesStatistics[name].accuracy || 0 : null
     )
-    .filter((game) => game !== null);
+    .filter((game): game is number => game !== null);
 
   const totalAccuracy = Math.round(
     accuraciesArray.reduce((a, b) => a + b, 0) / accuraciesArray.length || 0
