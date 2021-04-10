@@ -103,6 +103,7 @@ export const Savannah: FC = () => {
     setChain(0);
     setLongerChain(0);
     setIsResultOpen(false);
+    setLives(SAVANNAH_LIVES);
   }, []);
 
   // Load Words
@@ -144,6 +145,7 @@ export const Savannah: FC = () => {
     }
     setChain(0);
     playSound(WrongSound);
+    setLives((l) => l - 1);
   }, [chain, longerChain, incorrectWords, words, current, playSound]);
 
   // Choice of answer variants
@@ -178,10 +180,11 @@ export const Savannah: FC = () => {
   const answerHandler = useCallback(() => {
     setUserAnswer('-1');
     if (current === words.length - 1) setFinish(true);
+    if (lives <= 1) setFinish(true);
     if (current < words.length) {
       setCurrentWord(current + 1);
     }
-  }, [words, current]);
+  }, [words, current, lives]);
 
   // Check Answer
   const checkAnswer = useCallback(
@@ -262,7 +265,6 @@ export const Savannah: FC = () => {
   // Finish game listener
   useEffect(() => {
     handleFinishGame();
-    // playSound(FinishSound);
   }, [isFinish, handleFinishGame, playSound]);
 
   const hasContent = words.length && words[current];
@@ -278,7 +280,7 @@ export const Savannah: FC = () => {
               current={current}
             />
           )}
-          <Lives lives={5} />
+          <Lives lives={lives} />
           <SoundButton isSoundOn={isSoundOn} setSoundOn={setSoundOn} />
           <audio ref={soundRef}>
             <track kind="captions" />
@@ -289,7 +291,7 @@ export const Savannah: FC = () => {
             setFullscreen={setIsFullScreen}
             containerRef={containerRef}
           />
-          {hasContent ? (
+          {hasContent && !isFinish ? (
             <LivesContext.Provider value={lives}>
               <SavannahCard
                 word={words[current]}
