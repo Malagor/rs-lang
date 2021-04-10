@@ -21,6 +21,7 @@ import {
 } from './colors';
 
 export const COUNT_ANSWERS = 4;
+export const SAVANNAH_LIVES = 5;
 
 export const gamesData = [
   {
