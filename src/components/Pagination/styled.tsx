@@ -12,7 +12,7 @@ export const StyledPaginationContainer = styled.div<StyledPaginationContainerPro
     display: flex;
     justify-content: center;
     padding: 0;
-    margin: 32px auto;
+    margin: 0 auto;
     list-style: none;
     font-size: 1.4rem;
   }

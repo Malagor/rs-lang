@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 
 export const Container = styled.div`
   flex: 1 1 auto;
-  width: 235px;
+  width: 246px;
   display: flex;
   justify-content: space-between;
 
@@ -11,10 +11,11 @@ export const Container = styled.div`
   }
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
-    margin-top: 24px;
-  }
+    width: 258px;
+    margin: 24px auto 0;
 
-  @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
-    margin: 0 auto;
+    button {
+      margin: 0 auto;
+    }
   }
 `;

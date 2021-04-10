@@ -12,13 +12,16 @@ export const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
-    paddingTop: `${theme.spacing(4)}px`,
-    paddingBottom: `${theme.spacing(4)}px`,
+    paddingTop: `${theme.spacing(5)}px`,
+    paddingBottom: `${theme.spacing(5)}px`,
     [theme.breakpoints.down('md')]: {
-      paddingTop: `${theme.spacing(3)}px`,
+      paddingTop: `${theme.spacing(4)}px`,
     },
     [theme.breakpoints.down('sm')]: {
-      paddingTop: `${theme.spacing(2)}px`,
+      paddingTop: `${theme.spacing(4)}px`,
+    },
+    [theme.breakpoints.down('xs')]: {
+      paddingTop: `${theme.spacing(5)}px`,
     },
   },
   gamesContent: {

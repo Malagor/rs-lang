@@ -56,6 +56,8 @@ export type ErrorType = {
   message?: string;
 };
 
+export type WordSectionType = 'usual' | 'difficult' | 'deleted';
+
 export type StateTextBook = {
   group: number;
   page: number;
@@ -63,6 +65,11 @@ export type StateTextBook = {
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;
   playedSound: string;
+  checkedDifficulty: DifficultyType;
+  pagesCount: number;
+  wordSection: WordSectionType;
+  isLoading: boolean;
+  refStatistic: HTMLButtonElement | null;
 };
 
 export type StateCommon = {

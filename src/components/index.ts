@@ -7,6 +7,8 @@ export { GameResults } from './GameResults';
 export { SoundButton } from './SoundButton';
 export { ErrorMessage } from './ErrorMessage';
 export { NavGame } from './NavGame';
+export { WordList } from './WordsList';
+export { WordCard } from './WordCard';
 export { Countdown } from './Countdown';
 export { FullscreenButton } from './FullscreenButton';
 export { CircularProgressBar } from './CircularProgressBar';

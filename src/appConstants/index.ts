@@ -33,3 +33,16 @@ export const AUTHORS = [
     gitHub: 'https://github.com/Vadim-Bykov',
   },
 ];
+
+export const DICTIONARY_TOPICS = [
+  'Learning words',
+  'Difficult words',
+  'Deleted words',
+];
+
+export const LEARNING_SECTION = 'usual';
+export const DIFFICULT_SECTION = 'difficult';
+export const DELETED_SECTION = 'deleted';
+
+export const HARD_DIFFICULTY = 'hard';
+export const EASY_DIFFICULTY = 'easy';

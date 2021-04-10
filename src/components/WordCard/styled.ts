@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { COLOR_LAYOUT_BACKGROUND } from '../../../../appConstants/colors';
+import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
 
 export const WordCard = styled.div`
   display: flex;
