@@ -7,6 +7,9 @@ export const DRAWER_WIDTH = 240;
 export const COUNT_GROUPS = 6;
 export const MIN_PASSWORD_LENGTH = 8;
 
+export const API_CLOUDINARY =
+  'https://api.cloudinary.com/v1_1/rs-lang/image/upload';
+
 export const AUTHORS = [
   {
     name: 'Malagor',

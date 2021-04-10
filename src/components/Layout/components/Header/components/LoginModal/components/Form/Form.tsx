@@ -1,10 +1,8 @@
 import React, { FC } from 'react';
-
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers';
 import * as yup from 'yup';
 import { MIN_PASSWORD_LENGTH } from 'appConstants/index';
-
 import {
   Checkbox,
   Link,
@@ -14,16 +12,21 @@ import {
   Button,
   Typography,
 } from '@material-ui/core';
+import { FileInput } from './components';
 import { useStyles } from './styled';
 
 type FormProps = {
   isLogin: boolean;
-  setIsLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setLogin: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmitForm: Function;
   errorMessage: string;
+
+  uploadImg: (dataFile: File) => Promise<void>;
+  imageURL: string;
+  isLoadingImg: boolean;
 };
 
-type Inputs = {
+type InputsFormData = {
   name: string;
   email: string;
   password: string;
@@ -32,9 +35,12 @@ type Inputs = {
 
 export const Form: FC<FormProps> = ({
   isLogin,
-  setIsLogin,
+  setLogin,
   handleSubmitForm,
   errorMessage,
+  uploadImg,
+  imageURL,
+  isLoadingImg,
 }) => {
   let rulesNameValidation = yup.string();
 
@@ -60,7 +66,7 @@ export const Form: FC<FormProps> = ({
       .required('No password provided.'),
   });
 
-  const { register, handleSubmit, watch, errors } = useForm<Inputs>({
+  const { register, handleSubmit, watch, errors } = useForm<InputsFormData>({
     mode: 'onBlur',
     resolver: yupResolver(schema),
   });
@@ -128,17 +134,32 @@ export const Form: FC<FormProps> = ({
         label="Show password"
       />
 
+      {!isLogin && (
+        <FileInput
+          isLoadingImg={isLoadingImg}
+          imageURL={imageURL}
+          uploadImg={uploadImg}
+        />
+      )}
+
       <Typography color="error" variant="subtitle2">
         {errorMessage}
       </Typography>
 
-      <Button type="submit" fullWidth variant="contained" color="primary">
+      <Button
+        disabled={isLoadingImg}
+        className={classes.button}
+        type="submit"
+        fullWidth
+        variant="contained"
+        color="primary"
+      >
         {isLogin ? 'Sign In' : 'Sign Up'}
       </Button>
 
       <Grid container className={classes.link}>
         <Grid item>
-          <Link href="#" variant="body2" onClick={() => setIsLogin(!isLogin)}>
+          <Link href="#" variant="body2" onClick={() => setLogin(!isLogin)}>
             {isLogin
               ? "Don't have an account? Sign Up"
               : 'Do you have an account? Sign In'}
