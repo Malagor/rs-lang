@@ -48,7 +48,6 @@ import { useStyles } from 'modules/TextBookPage/styled';
 import { GroupSelector } from 'components/GroupSelector';
 import { Sections } from './components';
 import { LoadWrapper } from './styled';
-// import { selectAuthLoadingStatus, selectUserId } from 'modules/Login/selectors';
 
 type DictionaryProps = {};
 
@@ -66,6 +65,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const userId = useSelector(selectUserId);
   const [scroll, setScroll] = useState(0);
   const isUserLoading = useSelector(selectAuthLoadingStatus);
+  const classes = useStyles();
 
   useEffect(() => {
     dispatch(setPageTitle('Dictionary'));
@@ -93,8 +93,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
       window.removeEventListener('scroll', handlerScroll);
     };
   }, [scroll]);
-
-  const classes = useStyles();
 
   useEffect(() => {
     if (user.id) {

@@ -10,5 +10,5 @@ const style = {
   alignItems: 'center',
 };
 export const NoWordsMessage: FC = () => (
-  <Paper style={style}>You have learned all the words on this page.</Paper>
+  <Paper style={style}>No words found to display on this page.</Paper>
 );
