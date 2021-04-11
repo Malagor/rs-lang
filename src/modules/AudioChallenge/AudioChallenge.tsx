@@ -18,6 +18,7 @@ import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import { AudioGameContainer, AudioWrapper } from './styled';
 import { AudioCard, ProgressBar, NextButton } from './components';
+import { saveGameResults } from '../GamesPage/saveGameResults';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
@@ -88,6 +89,14 @@ export const AudioChallenge: FC = () => {
         longerChain
       );
       LocStore.updateWordsStatistics(correctWords, incorrectWords);
+    } else {
+      saveGameResults({
+        userId,
+        game: 'Audio challenge',
+        rightlyAnswered: correctWords,
+        wronglyAnswered: incorrectWords,
+        maxInARow: longerChain,
+      });
     }
   }, [userId, correctWords, incorrectWords, longerChain]);
 
