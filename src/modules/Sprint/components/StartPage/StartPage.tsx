@@ -7,50 +7,49 @@ import {
   FormControl,
   FormLabel,
 } from '@material-ui/core';
+import { COUNT_GROUPS } from 'appConstants/index';
 import { TGamePages, PLAY_PAGE } from '../../Sprint';
 
 type StartPageProps = {
   setGamePage: (page: TGamePages) => void;
+  setGroup: React.Dispatch<React.SetStateAction<number>>;
+  group: number;
 };
 
-export const StartPage: FC<StartPageProps> = ({ setGamePage }) => {
-  const test = 1;
+const arrayNumberOfPage = Array.from({ length: COUNT_GROUPS }, (v, k) => k);
+
+export const StartPage: FC<StartPageProps> = ({
+  setGamePage,
+  setGroup,
+  group,
+}) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setGroup(Number((event.target as HTMLInputElement).value));
+  };
 
   return (
     <>
       <FormControl component="fieldset">
         <FormLabel component="legend">labelPlacement</FormLabel>
         <RadioGroup
+          onChange={handleChange}
           row
           aria-label="position"
           name="position"
-          defaultValue="top"
+          defaultValue={String(group)}
         >
-          <FormControlLabel
-            value="top"
-            control={<Radio color="primary" />}
-            label="Top"
-            labelPlacement="top"
-          />
-          <FormControlLabel
-            value="start"
-            control={<Radio color="primary" />}
-            label="Start"
-            labelPlacement="start"
-          />
-          <FormControlLabel
-            value="bottom"
-            control={<Radio color="primary" />}
-            label="Bottom"
-            labelPlacement="bottom"
-          />
-          <FormControlLabel
-            value="end"
-            control={<Radio color="primary" />}
-            label="End"
-          />
+          {arrayNumberOfPage.map((numberGroup: number) => (
+            <FormControlLabel
+              key={numberGroup}
+              value={String(numberGroup)}
+              control={<Radio color="primary" />}
+              label={numberGroup + 1}
+              labelPlacement="top"
+            />
+          ))}
         </RadioGroup>
       </FormControl>
+
       <div>Description</div>
       <div>
         <Button

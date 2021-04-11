@@ -40,6 +40,7 @@ const getRandomIntInclusive = (min: number, max: number) => {
 
 export const Sprint: FC<GamesProps> = () => {
   const [gamePage, setGamePage] = useState<TGamePages>(START_PAGE);
+  const [group, setGroup] = useState(useSelector(selectTextBookGroup));
   const [isSoundOn, setSoundOn] = useState(true);
 
   const [gamePoints, setGamePoints] = useState(0);
@@ -60,7 +61,7 @@ export const Sprint: FC<GamesProps> = () => {
 
   const words: Word[] = useSelector(selectTextBookWords);
   const page = useSelector(selectTextBookPage);
-  const group = useSelector(selectTextBookGroup);
+  // const group = useSelector(selectTextBookGroup);
   const userId = useSelector(selectUserId);
   const error = useSelector(selectTextBookError);
 
@@ -190,11 +191,18 @@ export const Sprint: FC<GamesProps> = () => {
 
   /* if (!userId) return <RedirectionModal />; */
 
+  // console.log('selectedValue', selectedValue);
+  console.log(' group ', group);
+
   return (
     <GameContainer>
       {error && <ErrorMessage />}
       {!error && gamePage === START_PAGE && (
-        <StartPage setGamePage={setGamePage} />
+        <StartPage
+          setGamePage={setGamePage}
+          setGroup={setGroup}
+          group={group}
+        />
       )}
       {!error && gamePage === PLAY_PAGE && (
         <PlayPage
