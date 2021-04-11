@@ -1,8 +1,11 @@
 import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import { Word } from 'types';
+import { URL_GAMES } from 'appConstants/url';
 import { Container, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { setPageTitle } from 'store/commonState/actions';
+import { Loader, GameResults, ErrorMessage } from 'components';
 import {
   selectTextBookWords,
   selectTextBookGroup,
@@ -40,6 +43,10 @@ export const Sprint: FC<GamesProps> = () => {
   const [indexWordNow, setIndexWordNow] = useState<number | null>(null);
   const [gameEnglishWord, setGameEnglishWord] = useState('');
   const [gameTranslatedWord, setGameTranslatedWord] = useState('');
+  const [rightlyAnswered, setRightlyAnswered] = useState<Word[]>([]);
+  const [wronglyAnswered, setWronglyAnswered] = useState<Word[]>([]);
+
+  const [isResultsModalOpened, setResultsModalOpened] = useState(false);
 
   const words: Word[] = useSelector(selectTextBookWords);
   // const page = useSelector(selectTextBookPage);
@@ -47,19 +54,44 @@ export const Sprint: FC<GamesProps> = () => {
   const userId = useSelector(selectUserId);
   // const error = useSelector(selectTextBookError);
 
+  const history = useHistory();
+
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const multiplierHandler = (answer: boolean) => {
-    if (answer) {
-      if (preMultiplier === 3) {
-        setPreMultiplier(0);
-        setMultiplier(multiplier + 1);
-      } else {
-        setPreMultiplier(preMultiplier + 1);
-      }
-    } else {
+  const startOver = () => {
+    setGamePage(PLAY_PAGE);
+    setIndexWordNow(null);
+    setGamePoints(0);
+    setPreMultiplier(0);
+    setMultiplier(1);
+    setRightCase(null);
+    setIndexWordNow(null);
+  };
+
+  const rightMultiplierHandle = () => {
+    if (preMultiplier === 3) {
       setPreMultiplier(0);
+      setMultiplier(multiplier + 1);
+    } else {
+      setPreMultiplier(preMultiplier + 1);
     }
+  };
+
+  const handleAnswerButton = (answer: boolean) => {
+    if (indexWordNow) {
+      const quizWord = words[indexWordNow];
+
+      if (answer) {
+        setRightlyAnswered([...rightlyAnswered, quizWord]);
+        rightMultiplierHandle();
+      } else {
+        setWronglyAnswered([...wronglyAnswered, quizWord]);
+        setPreMultiplier(0);
+      }
+    }
+
+    console.log('rightlyAnswered', rightlyAnswered);
+    console.log('wronglyAnswered', wronglyAnswered);
   };
 
   const dispatch = useDispatch();
@@ -111,12 +143,22 @@ export const Sprint: FC<GamesProps> = () => {
           gameEnglishWord={gameEnglishWord}
           gameTranslatedWord={gameTranslatedWord}
           setNumNextWord={setNumNextWord}
-          multiplierHandler={multiplierHandler}
+          handleAnswerButton={handleAnswerButton}
           preMultiplier={preMultiplier}
           multiplier={multiplier}
         />
       )}
-      {gamePage === RESULTS_PAGE && <ResultsPage />}
+      {gamePage === RESULTS_PAGE && (
+        <GameResults
+          isOpened={true}
+          setOpened={setResultsModalOpened}
+          inARow={1}
+          rightlyAnswered={rightlyAnswered}
+          wronglyAnswered={wronglyAnswered}
+          handlePlayAgain={() => startOver()}
+          doAfterClose={() => history.push(URL_GAMES)}
+        />
+      )}
       Sprint
     </GameContainer>
   );

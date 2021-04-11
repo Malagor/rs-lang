@@ -65,7 +65,6 @@ export const Imaginarium = () => {
   const [isResultsModalOpened, setResultsModalOpened] = useState(false);
 
   const words: Word[] = useSelector(selectTextBookWords);
-  console.log('words', words);
   const page = useSelector(selectTextBookPage);
   const group = useSelector(selectTextBookGroup);
   const userId = useSelector(selectUserId);

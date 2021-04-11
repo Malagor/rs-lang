@@ -13,7 +13,7 @@ type GameStatisticBoardProps = {
   gameTranslatedWord: string;
 
   setNumNextWord: () => void;
-  multiplierHandler: (answer: boolean) => void;
+  handleAnswerButton: (answer: boolean) => void;
   preMultiplier: number;
   multiplier: number;
 };
@@ -28,7 +28,7 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
   gameTranslatedWord,
 
   setNumNextWord,
-  multiplierHandler,
+  handleAnswerButton,
   preMultiplier,
   multiplier,
 }) => {
@@ -39,9 +39,9 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
   const handleRightButton = () => {
     if (isRightCase) {
       setGamePoints(gamePoints + 10 * multiplier);
-      multiplierHandler(true);
+      handleAnswerButton(true);
     } else {
-      multiplierHandler(false);
+      handleAnswerButton(false);
     }
     setNumNextWord();
   };
@@ -49,9 +49,9 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
   const handleWrongButton = () => {
     if (!isRightCase) {
       setGamePoints(gamePoints + 10 * multiplier);
-      multiplierHandler(true);
+      handleAnswerButton(true);
     } else {
-      multiplierHandler(false);
+      handleAnswerButton(false);
     }
     setNumNextWord();
   };
