@@ -49,26 +49,18 @@ export const Sprint: FC<GamesProps> = () => {
 
   const dispatch = useDispatch();
 
-  const createGameWords = () => {
-    const randomNumWord = getRandomIntInclusive(0, words.length - 1);
-    setIndexWordNow(randomNumWord);
-    setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
-
-    /*    console.log('randomNumWord', indexWordNow);
-    console.log('randomNumWord', indexWordNow);
-    console.log('isRightCase', isRightCase) */
-
-    if (words) {
-      setGameEnglishWord(words[randomNumWord].word);
+  useEffect(() => {
+    if (words && indexWordNow) {
+      setGameEnglishWord(words[indexWordNow].word);
       if (isRightCase) {
-        setGameTranslatedWord(words[randomNumWord].wordTranslate);
-      } else if (isRightCase !== null && !isRightCase) {
+        setGameTranslatedWord(words[indexWordNow].wordTranslate);
+      } else {
         const randomNumWordTranslate = () => {
           const numRandomWordTranslate = getRandomIntInclusive(
             0,
             words.length - 1
           );
-          if (randomNumWord === numRandomWordTranslate) {
+          if (indexWordNow === numRandomWordTranslate) {
             randomNumWordTranslate();
           } else {
             setGameTranslatedWord(words[numRandomWordTranslate].wordTranslate);
@@ -77,15 +69,48 @@ export const Sprint: FC<GamesProps> = () => {
         randomNumWordTranslate();
       }
     }
-  };
+  }, [indexWordNow]);
+
+  /*   const createGameWords = () => {
+    const randomNumWord = getRandomIntInclusive(0, words.length - 1);
+    setIndexWordNow(randomNumWord);
+    setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
+
+    console.log('createGameWords__isRightCase', isRightCase);
+    console.log('randomNumWord', indexWordNow);
+
+
+
+    if (words && indexWordNow) {
+      setGameEnglishWord(words[indexWordNow].word);
+      if (isRightCase) {
+        setGameTranslatedWord(words[indexWordNow].wordTranslate);
+      } else {
+        const randomNumWordTranslate = () => {
+          const numRandomWordTranslate = getRandomIntInclusive(
+            0,
+            words.length - 1
+          );
+          if (indexWordNow === numRandomWordTranslate) {
+            randomNumWordTranslate();
+          } else {
+            setGameTranslatedWord(words[numRandomWordTranslate].wordTranslate);
+          }
+        };
+        randomNumWordTranslate();
+      }
+    }
+  }; */
 
   useEffect(() => {
     setGameArrayWorlds(words);
   }, [words]);
 
-  /*   console.log('isRightCase', isRightCase);
-  console.log('gameEnglishWord', gameEnglishWord);
-  console.log('gameTranslatedWord', gameTranslatedWord); */
+  const setNumNextWord = () => {
+    const randomNumWord = getRandomIntInclusive(0, words.length - 1);
+    setIndexWordNow(randomNumWord);
+    setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
+  };
 
   useEffect(() => {
     dispatch(setPageTitle('Sprint'));
@@ -105,7 +130,7 @@ export const Sprint: FC<GamesProps> = () => {
           isRightCase={isRightCase}
           gameEnglishWord={gameEnglishWord}
           gameTranslatedWord={gameTranslatedWord}
-          createGameWords={createGameWords}
+          setNumNextWord={setNumNextWord}
         />
       )}
       {gamePage === RESULTS_PAGE && <ResultsPage />}

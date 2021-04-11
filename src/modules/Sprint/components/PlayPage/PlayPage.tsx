@@ -11,7 +11,14 @@ type GameStatisticBoardProps = {
   isRightCase: boolean | null;
   gameEnglishWord: string;
   gameTranslatedWord: string;
-  createGameWords: () => void;
+
+  setNumNextWord: () => void;
+};
+
+const getRandomIntInclusive = (min: number, max: number) => {
+  const min1 = Math.ceil(min);
+  const max1 = Math.floor(max);
+  return Math.floor(Math.random() * (max1 - min1 + 1)) + min1; // Максимум и минимум включаются
 };
 
 export const PlayPage: FC<GameStatisticBoardProps> = ({
@@ -22,30 +29,26 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
   isRightCase,
   gameEnglishWord,
   gameTranslatedWord,
-  createGameWords,
+
+  setNumNextWord,
 }) => {
-  console.log('isRightCase ', isRightCase);
+  useEffect(() => {
+    setNumNextWord();
+  }, []);
 
   const handleRightButton = () => {
-    // console.log('handleRightButton ', isRightCase);
     if (isRightCase) {
       setGamePoints(gamePoints + 10);
     }
-    createGameWords();
+    setNumNextWord();
   };
 
   const handleWrongButton = () => {
-    // console.log('handleWrongButton ', isRightCase);
     if (!isRightCase) {
       setGamePoints(gamePoints + 10);
     }
-    const test = 1;
-    createGameWords();
+    setNumNextWord();
   };
-
-  useEffect(() => {
-    createGameWords();
-  }, []);
 
   return (
     <>
