@@ -32,10 +32,12 @@ const getRandomIntInclusive = (min: number, max: number) => {
 export const Sprint: FC<GamesProps> = () => {
   const [gamePage, setGamePage] = useState<TGamePages>(START_PAGE);
   const [gamePoints, setGamePoints] = useState(0);
+  const [preMultiplier, setPreMultiplier] = useState(0);
+  const [multiplier, setMultiplier] = useState(1);
+
   const [isRightCase, setRightCase] = useState<boolean | null>(null);
 
   const [indexWordNow, setIndexWordNow] = useState<number | null>(null);
-  const [gameArrayWorlds, setGameArrayWorlds] = useState<Word[]>([]);
   const [gameEnglishWord, setGameEnglishWord] = useState('');
   const [gameTranslatedWord, setGameTranslatedWord] = useState('');
 
@@ -46,6 +48,19 @@ export const Sprint: FC<GamesProps> = () => {
   // const error = useSelector(selectTextBookError);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const multiplierHandler = (answer: boolean) => {
+    if (answer) {
+      if (preMultiplier === 3) {
+        setPreMultiplier(0);
+        setMultiplier(multiplier + 1);
+      } else {
+        setPreMultiplier(preMultiplier + 1);
+      }
+    } else {
+      setPreMultiplier(0);
+    }
+  };
 
   const dispatch = useDispatch();
 
@@ -71,7 +86,43 @@ export const Sprint: FC<GamesProps> = () => {
     }
   }, [indexWordNow]);
 
-  /*   const createGameWords = () => {
+  const setNumNextWord = () => {
+    const randomNumWord = getRandomIntInclusive(0, words.length - 1);
+    setIndexWordNow(randomNumWord);
+    setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
+  };
+
+  useEffect(() => {
+    dispatch(setPageTitle('Sprint'));
+  }, [dispatch]);
+
+  if (!userId) return <RedirectionModal />;
+
+  return (
+    <GameContainer ref={containerRef}>
+      {gamePage === START_PAGE && <StartPage setGamePage={setGamePage} />}
+      {gamePage === PLAY_PAGE && (
+        <PlayPage
+          timeGame={TIME_GAME}
+          setGamePage={setGamePage}
+          gamePoints={gamePoints}
+          setGamePoints={setGamePoints}
+          isRightCase={isRightCase}
+          gameEnglishWord={gameEnglishWord}
+          gameTranslatedWord={gameTranslatedWord}
+          setNumNextWord={setNumNextWord}
+          multiplierHandler={multiplierHandler}
+          preMultiplier={preMultiplier}
+          multiplier={multiplier}
+        />
+      )}
+      {gamePage === RESULTS_PAGE && <ResultsPage />}
+      Sprint
+    </GameContainer>
+  );
+};
+
+/*   const createGameWords = () => {
     const randomNumWord = getRandomIntInclusive(0, words.length - 1);
     setIndexWordNow(randomNumWord);
     setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
@@ -101,40 +152,3 @@ export const Sprint: FC<GamesProps> = () => {
       }
     }
   }; */
-
-  useEffect(() => {
-    setGameArrayWorlds(words);
-  }, [words]);
-
-  const setNumNextWord = () => {
-    const randomNumWord = getRandomIntInclusive(0, words.length - 1);
-    setIndexWordNow(randomNumWord);
-    setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
-  };
-
-  useEffect(() => {
-    dispatch(setPageTitle('Sprint'));
-  }, [dispatch]);
-
-  if (!userId) return <RedirectionModal />;
-
-  return (
-    <GameContainer ref={containerRef}>
-      {gamePage === START_PAGE && <StartPage setGamePage={setGamePage} />}
-      {gamePage === PLAY_PAGE && (
-        <PlayPage
-          timeGame={TIME_GAME}
-          setGamePage={setGamePage}
-          gamePoints={gamePoints}
-          setGamePoints={setGamePoints}
-          isRightCase={isRightCase}
-          gameEnglishWord={gameEnglishWord}
-          gameTranslatedWord={gameTranslatedWord}
-          setNumNextWord={setNumNextWord}
-        />
-      )}
-      {gamePage === RESULTS_PAGE && <ResultsPage />}
-      Sprint
-    </GameContainer>
-  );
-};

@@ -13,12 +13,9 @@ type GameStatisticBoardProps = {
   gameTranslatedWord: string;
 
   setNumNextWord: () => void;
-};
-
-const getRandomIntInclusive = (min: number, max: number) => {
-  const min1 = Math.ceil(min);
-  const max1 = Math.floor(max);
-  return Math.floor(Math.random() * (max1 - min1 + 1)) + min1; // Максимум и минимум включаются
+  multiplierHandler: (answer: boolean) => void;
+  preMultiplier: number;
+  multiplier: number;
 };
 
 export const PlayPage: FC<GameStatisticBoardProps> = ({
@@ -31,6 +28,9 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
   gameTranslatedWord,
 
   setNumNextWord,
+  multiplierHandler,
+  preMultiplier,
+  multiplier,
 }) => {
   useEffect(() => {
     setNumNextWord();
@@ -38,14 +38,20 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
 
   const handleRightButton = () => {
     if (isRightCase) {
-      setGamePoints(gamePoints + 10);
+      setGamePoints(gamePoints + 10 * multiplier);
+      multiplierHandler(true);
+    } else {
+      multiplierHandler(false);
     }
     setNumNextWord();
   };
 
   const handleWrongButton = () => {
     if (!isRightCase) {
-      setGamePoints(gamePoints + 10);
+      setGamePoints(gamePoints + 10 * multiplier);
+      multiplierHandler(true);
+    } else {
+      multiplierHandler(false);
     }
     setNumNextWord();
   };
@@ -56,6 +62,8 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
         timeGame={timeGame}
         setGamePage={setGamePage}
         gamePoints={gamePoints}
+        preMultiplier={preMultiplier}
+        multiplier={multiplier}
       />
       <div>{gameEnglishWord}</div>
       <div>{gameTranslatedWord}</div>
