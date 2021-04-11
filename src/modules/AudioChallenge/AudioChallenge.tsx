@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Container } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
 import {
@@ -14,11 +13,10 @@ import { database, LocStore } from 'services';
 import { FullscreenButton, GameResults, SoundButton } from 'components';
 import { COUNT_ANSWERS } from 'appConstants/games';
 import 'react-circular-progressbar/dist/styles.css';
-import { AUDIO_CHALLENGE_BACKGROUND } from 'appConstants/colors';
 import FinishSound from 'assets/sounds/finish.mp3';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
-import { AudioWrapper } from './styled';
+import { AudioGameContainer, AudioWrapper } from './styled';
 import { AudioCard, ProgressBar, NextButton } from './components';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
@@ -276,10 +274,7 @@ export const AudioChallenge: FC = () => {
   const hasContent = words.length && words[current];
 
   return (
-    <Container
-      style={{ height: '100%', backgroundImage: AUDIO_CHALLENGE_BACKGROUND }}
-      ref={containerRef}
-    >
+    <AudioGameContainer ref={containerRef}>
       <FullScreenWrapperFlexCenter>
         <AudioWrapper>
           {!isFinish && (
@@ -328,6 +323,6 @@ export const AudioChallenge: FC = () => {
           )}
         </AudioWrapper>
       </FullScreenWrapperFlexCenter>
-    </Container>
+    </AudioGameContainer>
   );
 };
