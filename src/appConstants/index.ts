@@ -7,6 +7,9 @@ export const DRAWER_WIDTH = 240;
 export const COUNT_GROUPS = 6;
 export const MIN_PASSWORD_LENGTH = 8;
 
+export const API_CLOUDINARY =
+  'https://api.cloudinary.com/v1_1/rs-lang/image/upload';
+
 export const AUTHORS = [
   {
     name: 'Malagor',
@@ -30,3 +33,16 @@ export const AUTHORS = [
     gitHub: 'https://github.com/Vadim-Bykov',
   },
 ];
+
+export const DICTIONARY_TOPICS = [
+  'Learning words',
+  'Difficult words',
+  'Deleted words',
+];
+
+export const LEARNING_SECTION = 'usual';
+export const DIFFICULT_SECTION = 'difficult';
+export const DELETED_SECTION = 'deleted';
+
+export const HARD_DIFFICULTY = 'hard';
+export const EASY_DIFFICULTY = 'easy';

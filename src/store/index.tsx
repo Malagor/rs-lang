@@ -16,7 +16,7 @@ const appReducer = combineReducers<State>({
   commonReducer,
 });
 
-const store = createStore(
+export const store = createStore(
   appReducer,
   composeWithDevTools(applyMiddleware(thunkMiddleware))
 );

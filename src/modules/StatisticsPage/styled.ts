@@ -7,9 +7,6 @@ export const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     maxWidth: '1000px',
     margin: `0 auto  ${theme.spacing()}px`,
-    '&:not(:last-child)': {
-      marginBottom: `${theme.spacing(7)}px`,
-    },
   },
   wrapper: {
     display: 'inline-flex',
@@ -27,6 +24,9 @@ export const useStyles = makeStyles((theme) => ({
     color: COLOR_LAYOUT_LIGHT_GRAY,
     [theme.breakpoints.down('sm')]: {
       textAlign: 'center',
+    },
+    '&:not(:first-child)': {
+      marginTop: `${theme.spacing(7)}px`,
     },
   },
 }));

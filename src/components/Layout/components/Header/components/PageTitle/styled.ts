@@ -1,4 +1,12 @@
+import styled from 'styled-components/macro';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+
+export const TitleWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  max-width: 220px;
+  width: 100%;
+`;
 
 export const useStyles = makeStyles((theme) => ({
   title: {

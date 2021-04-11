@@ -1,1 +1,0 @@
-export { WordList } from './WordsList';
