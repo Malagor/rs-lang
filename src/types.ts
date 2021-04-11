@@ -62,6 +62,7 @@ export type StateTextBook = {
   group: number;
   page: number;
   words: Word[];
+  gameWords: Word[];
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;
   playedSound: string;

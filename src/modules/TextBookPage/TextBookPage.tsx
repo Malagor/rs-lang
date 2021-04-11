@@ -13,16 +13,21 @@ import { Container } from '@material-ui/core';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
 import { selectAuthLoadingStatus, selectUser } from 'modules/Login/selectors';
+import { EASY_DIFFICULTY } from 'appConstants';
 import {
   selectTextBookGroup,
   selectTextBookPage,
   selectTextBookError,
   selectTextBookWords,
+  selectIsLoading,
+  selectGameWords,
 } from './selectors';
 import {
   loadUserAggregateWords,
   loadWords,
+  setGameWords,
   setGroup,
+  setIsLoading,
   setPage,
 } from './actions';
 import { useStyles } from './styled';
@@ -31,16 +36,19 @@ type TextBookPageProps = {};
 
 export const TextBookPage: FC<TextBookPageProps> = () => {
   const words: Word[] = useSelector(selectTextBookWords);
+  const gameWords: Word[] = useSelector(selectGameWords);
   const page = useSelector(selectTextBookPage);
   const group = useSelector(selectTextBookGroup);
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
+  const isLoading = useSelector(selectIsLoading);
   const isUserLoading = useSelector(selectAuthLoadingStatus);
   const [scroll, setScroll] = useState(0);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setIsLoading(true));
     dispatch(setPageTitle('TextBook'));
     dispatch(setGroup(0));
     dispatch(setPage(0));
@@ -53,6 +61,24 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       dispatch(loadWords(group, page));
     }
   }, [dispatch, page, group, user, isUserLoading]);
+
+  useEffect(() => {
+    if (!isUserLoading && !isLoading) {
+      const nonDeletedWords = words
+        .slice()
+        .filter(
+          (word) =>
+            !word.userWord || word.userWord.difficulty !== EASY_DIFFICULTY
+        );
+      console.log('number of non deleted words is', nonDeletedWords.length);
+      dispatch(setGameWords(nonDeletedWords));
+      if (nonDeletedWords.length > 10) {
+        console.log('there are enough words for the game');
+      } else {
+        console.log('need to get more words');
+      }
+    }
+  }, [isLoading, isUserLoading, dispatch, words]);
 
   useEffect(() => {
     let lastKnownScrollPosition = scroll;

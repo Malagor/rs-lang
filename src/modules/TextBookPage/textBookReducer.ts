@@ -13,6 +13,7 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  SET_GAME_WORDS,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,6 +23,7 @@ export const textBookPageState: StateTextBook = {
   group: 0,
   page: 0,
   words: [],
+  gameWords: [],
   sounds: [],
   error: null,
   playedSound: '',
@@ -41,6 +43,11 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         words: action.payload,
+      };
+    case SET_GAME_WORDS:
+      return {
+        ...state,
+        gameWords: action.payload,
       };
     case SET_GROUP:
       return {

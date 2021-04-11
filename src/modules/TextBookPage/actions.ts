@@ -23,6 +23,7 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  SET_GAME_WORDS,
 } from './actionConst';
 
 export const setPage = (payload: number) => ({
@@ -42,6 +43,11 @@ export const setSound = (payload: HTMLAudioElement[]) => ({
 
 export const setWords = (payload: Word[]) => ({
   type: SET_WORDS,
+  payload,
+});
+
+export const setGameWords = (payload: Word[]) => ({
+  type: SET_GAME_WORDS,
   payload,
 });
 
