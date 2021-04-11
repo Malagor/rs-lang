@@ -110,7 +110,7 @@ export const MainPage: FC<MainPageProps> = () => {
         <SectionTitle theme={theme}>All posibilities</SectionTitle>
         <VideoContainer>
           <VideoWrapper>
-            <Video src="https://www.youtube-nocookie.com/embed/tgbNymZ7vqY" />
+            <Video src="https://www.youtube-nocookie.com/embed/_oFHbBSZe1A" />
           </VideoWrapper>
         </VideoContainer>
       </Section>
