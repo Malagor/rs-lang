@@ -12,7 +12,7 @@ import {
 import { Container } from '@material-ui/core';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
-import { selectUser } from 'modules/Login/selectors';
+import { selectAuthLoadingStatus, selectUser } from 'modules/Login/selectors';
 import {
   selectTextBookGroup,
   selectTextBookPage,
@@ -35,7 +35,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const group = useSelector(selectTextBookGroup);
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
-
+  const isUserLoading = useSelector(selectAuthLoadingStatus);
   const [scroll, setScroll] = useState(0);
 
   const dispatch = useDispatch();
@@ -49,10 +49,10 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   useEffect(() => {
     if (user.id) {
       dispatch(loadUserAggregateWords(user.id, group, page));
-    } else {
+    } else if (!isUserLoading) {
       dispatch(loadWords(group, page));
     }
-  }, [dispatch, page, group, user]);
+  }, [dispatch, page, group, user, isUserLoading]);
 
   useEffect(() => {
     let lastKnownScrollPosition = scroll;
