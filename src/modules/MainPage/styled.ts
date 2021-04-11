@@ -1,5 +1,5 @@
 import styled from 'styled-components/macro';
-import { lighten } from '@material-ui/core';
+import { lighten, Theme } from '@material-ui/core';
 import {
   COLOR_LAYOUT_BACKGROUND,
   COLOR_LAYOUT_DARKBLUE,
@@ -7,6 +7,26 @@ import {
   COLOR_LAYOUT_TEXT,
 } from 'appConstants/colors';
 import { NavLink } from 'react-router-dom';
+
+const buttonMixin = (theme: Theme, color: string) => `
+display: inline-block;
+margin-top: ${theme.spacing(3)}px;
+padding: ${theme.spacing()}px
+  ${theme.spacing(5)}px;
+color: ${COLOR_LAYOUT_BACKGROUND};
+background-color: ${color};
+text-align: center;
+text-decoration: none;
+font-size: 16px;
+line-height: 1.5;
+outline: none;
+border: none;
+cursor: pointer;
+transition: background-color 0.2s ease;
+&:hover {
+  background-color: ${lighten(color, 0.2)};
+}
+`;
 
 export const Section = styled.section`
   display: flex;
@@ -60,20 +80,15 @@ type ButtonProps = {
   color: string;
 };
 
-export const Button = styled(NavLink)<ButtonProps>`
-  display: inline-block;
+export const ButtonLink = styled(NavLink)<ButtonProps>`
+  ${({ theme, color }) => buttonMixin(theme, color)}
+`;
+
+export const Button = styled.button<ButtonProps>`
+  ${({ theme, color }) => buttonMixin(theme, color)}
   min-width: 115px;
-  margin-top: ${({ theme }) => theme.spacing(3)}px;
   padding: ${({ theme }) => theme.spacing()}px
-    ${({ theme }) => theme.spacing(5)}px;
-  color: ${COLOR_LAYOUT_BACKGROUND};
-  background-color: ${({ color }) => color};
-  text-align: center;
-  text-decoration: none;
-  transition: background-color 0.2s ease;
-  &:hover {
-    background-color: ${({ color }) => lighten(color, 0.2)};
-  }
+    ${({ theme }) => theme.spacing(4)}px;
   &:not(:first-of-type) {
     margin-left: ${({ theme }) => theme.spacing(3)}px;
   }

@@ -4,11 +4,16 @@ import { Container, useTheme } from '@material-ui/core';
 import lottie from 'lottie-web';
 import { URL_TEXT_BOOK } from 'appConstants/url';
 import { COLOR_LAYOUT_BLUE, COLOR_LAYOUT_YELLOW } from 'appConstants/colors';
-import { setPageTitle } from 'store/commonState/actions';
+import {
+  setLoginModalOpen,
+  setPageTitle,
+  setRegistrationModalOpen,
+} from 'store/commonState/actions';
 import heroAnimationData from 'assets/animations/main-hero.json';
 import dontForgetAnimationData from 'assets/animations/main-dont-forget.json';
 import {
   Button,
+  ButtonLink,
   DontForgetAnimation,
   DontForgetAnimationContainer,
   DontForgetContent,
@@ -36,6 +41,15 @@ export const MainPage: FC<MainPageProps> = () => {
 
   const heroAnimationRef = useRef<HTMLDivElement>(null);
   const dontForgetAnimationRef = useRef<HTMLDivElement>(null);
+
+  const handleLoginButtonClick = () => {
+    dispatch(setLoginModalOpen(true));
+    dispatch(setRegistrationModalOpen(false));
+  };
+  const handleRegistrationButtonClick = () => {
+    dispatch(setRegistrationModalOpen(true));
+    dispatch(setLoginModalOpen(false));
+  };
 
   useEffect(() => {
     dispatch(setPageTitle('Main'));
@@ -75,14 +89,14 @@ export const MainPage: FC<MainPageProps> = () => {
             commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.
             Ipsum, mauris laoreet laoreet potenti maecenas convallis.
           </Paragraph>
-          <Button
+          <ButtonLink
             to={URL_TEXT_BOOK}
             exact={true}
             theme={theme}
             color={COLOR_LAYOUT_YELLOW}
           >
             let's start
-          </Button>
+          </ButtonLink>
         </HeroContent>
         <HeroAnimationContainer theme={theme}>
           <HeroAnimation ref={heroAnimationRef} theme={theme} />
@@ -108,19 +122,16 @@ export const MainPage: FC<MainPageProps> = () => {
             dictionary, please login or sign up first.
           </Paragraph>
           <Button
-            to={URL_TEXT_BOOK}
-            exact={true}
             theme={theme}
             color={COLOR_LAYOUT_BLUE}
+            onClick={handleLoginButtonClick}
           >
             login
           </Button>
           <Button
-            to={URL_TEXT_BOOK}
-            exact={true}
             theme={theme}
             color={COLOR_LAYOUT_YELLOW}
-            style={{ padding: `${theme.spacing()}px ${theme.spacing(4)}px` }}
+            onClick={handleRegistrationButtonClick}
           >
             sign up
           </Button>
