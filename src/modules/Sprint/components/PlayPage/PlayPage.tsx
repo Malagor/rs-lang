@@ -16,6 +16,7 @@ type GameStatisticBoardProps = {
   handleAnswerButton: (answer: boolean) => void;
   preMultiplier: number;
   multiplier: number;
+  playFinishSound: () => void;
 };
 
 export const PlayPage: FC<GameStatisticBoardProps> = ({
@@ -31,6 +32,7 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
   handleAnswerButton,
   preMultiplier,
   multiplier,
+  playFinishSound,
 }) => {
   useEffect(() => {
     setNumNextWord();
@@ -64,6 +66,7 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
         gamePoints={gamePoints}
         preMultiplier={preMultiplier}
         multiplier={multiplier}
+        playFinishSound={playFinishSound}
       />
       <div>{gameEnglishWord}</div>
       <div>{gameTranslatedWord}</div>

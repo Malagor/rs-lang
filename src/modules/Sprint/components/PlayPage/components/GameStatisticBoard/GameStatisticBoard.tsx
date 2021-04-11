@@ -9,6 +9,7 @@ type GameStatisticBoardProps = {
   setGamePage: React.Dispatch<React.SetStateAction<TGamePages>>; // (page: TGamePages) => void;
   preMultiplier: number;
   multiplier: number;
+  playFinishSound: () => void;
 };
 
 export const GameStatisticBoard: FC<GameStatisticBoardProps> = ({
@@ -17,15 +18,16 @@ export const GameStatisticBoard: FC<GameStatisticBoardProps> = ({
   setGamePage,
   preMultiplier,
   multiplier,
+  playFinishSound,
 }) => {
-  const test = 1;
+  const handleComplete = () => {
+    playFinishSound();
+    setGamePage(RESULTS_PAGE);
+  };
 
   return (
     <>
-      <Countdown
-        duration={timeGame}
-        onComplete={() => setGamePage(RESULTS_PAGE)}
-      />
+      <Countdown duration={timeGame} onComplete={handleComplete} />
       <Typography>{gamePoints}</Typography>
       <Typography>preMultiplier:{preMultiplier}</Typography>
       <Typography>multiplier:{multiplier}</Typography>
