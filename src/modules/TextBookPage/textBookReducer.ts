@@ -1,3 +1,4 @@
+import { EASY_DIFFICULTY, LEARNING_SECTION } from 'appConstants';
 import { Reducer } from 'redux';
 import { StateTextBook } from 'types';
 import {
@@ -7,6 +8,11 @@ import {
   SET_SOUND,
   SET_WORDS,
   SET_PLAYED_SOUND,
+  SET_CHECKED_DIFFICULTY,
+  SET_PAGES_COUNT,
+  SET_WORD_SECTION,
+  SET_IS_LOADING,
+  SET_REF_STATISTIC,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -19,6 +25,11 @@ export const textBookPageState: StateTextBook = {
   sounds: [],
   error: null,
   playedSound: '',
+  checkedDifficulty: EASY_DIFFICULTY,
+  pagesCount: 0,
+  wordSection: LEARNING_SECTION,
+  isLoading: false,
+  refStatistic: null,
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
@@ -60,6 +71,36 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         playedSound: action.payload,
+      };
+
+    case SET_CHECKED_DIFFICULTY:
+      return {
+        ...state,
+        checkedDifficulty: action.payload,
+      };
+
+    case SET_PAGES_COUNT:
+      return {
+        ...state,
+        pagesCount: Math.ceil(action.payload / 20) || 1,
+      };
+
+    case SET_WORD_SECTION:
+      return {
+        ...state,
+        wordSection: action.payload,
+      };
+
+    case SET_IS_LOADING:
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
+
+    case SET_REF_STATISTIC:
+      return {
+        ...state,
+        refStatistic: action.payload,
       };
 
     default:

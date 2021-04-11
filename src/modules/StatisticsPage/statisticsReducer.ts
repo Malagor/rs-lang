@@ -9,12 +9,14 @@ export const InitialStatistics = {
   learnedWords: 0,
   optional: {
     learnedWordsByDays: {},
+    games: {},
   },
 };
 
 export const statisticsPageState: StateStatistics = {
   ...InitialStatistics,
   error: null,
+  loading: false,
 };
 
 export const statisticsReducer: Reducer<StateStatistics, Action> = (

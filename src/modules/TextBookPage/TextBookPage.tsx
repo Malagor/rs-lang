@@ -1,8 +1,15 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Word } from 'types';
+import {
+  ErrorMessage,
+  Loader,
+  Pagination,
+  WordList,
+  NavGame,
+} from 'components';
+
 import { Container } from '@material-ui/core';
-import { ErrorMessage, Loader, NavGame, Pagination } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
 import { selectUser } from 'modules/Login/selectors';
@@ -12,8 +19,12 @@ import {
   selectTextBookError,
   selectTextBookWords,
 } from './selectors';
-import { loadUserAggregateWords, loadWords } from './actions';
-import { WordList } from './components';
+import {
+  loadUserAggregateWords,
+  loadWords,
+  setGroup,
+  setPage,
+} from './actions';
 import { useStyles } from './styled';
 
 type TextBookPageProps = {};
@@ -30,16 +41,18 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    dispatch(setPageTitle('TextBook'));
+    dispatch(setGroup(0));
+    dispatch(setPage(0));
+  }, [dispatch]);
+
+  useEffect(() => {
     if (user.id) {
       dispatch(loadUserAggregateWords(user.id, group, page));
     } else {
       dispatch(loadWords(group, page));
     }
   }, [dispatch, page, group, user]);
-
-  useEffect(() => {
-    dispatch(setPageTitle('TextBook'));
-  }, [dispatch]);
 
   useEffect(() => {
     let lastKnownScrollPosition = scroll;
@@ -72,7 +85,9 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       {hasContent ? (
         <div className={classes.contentWrapper}>
           <div className={classes.containerGrid}>
-            {/* <div className={classes.mainGrid}> */}
+            <div className={classes.gamesWrapper}>
+              <NavGame />
+            </div>
             <div className={classes.paginationTop}>
               <Pagination
                 pageCount={30}
@@ -81,11 +96,14 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 group={group}
               />
             </div>
-            <div className={classes.gamesWrapper}>
-              <NavGame />
-            </div>
             <div className={classes.mainGrid}>
-              <WordList words={words} />
+              <WordList
+                words={words}
+                checkedDifficulty="easy"
+                isButtons={true}
+                showBtnDeleteDifficult={true}
+                showBtnRestore={false}
+              />
             </div>
             <div className={classes.sideGrid}>
               <GroupSelector isOpacity={scroll > 200} />
@@ -101,7 +119,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           </div>
         </div>
       ) : (
-        // </div>
         <Loader />
       )}
     </Container>

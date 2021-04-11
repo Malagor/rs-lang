@@ -7,22 +7,32 @@ import { DifficultyType } from 'types';
 import {
   addWordToUserList,
   loadUserAggregateWords,
+  loadUserDeletedWords,
+  loadUserDifficultWords,
   removeWordFromUserList,
   updateWordInUserList,
 } from 'modules/TextBookPage/actions';
-import { updateStatisticsLearnedWords } from 'modules/StatisticsPage/actions';
+import { updateStatistics } from 'modules/StatisticsPage/actions';
 
 import {
   selectTextBookGroup,
   selectTextBookPage,
+  selectWordSection,
 } from 'modules/TextBookPage/selectors';
 import { useIsWordIncluded } from 'hooks/useIsWordIncluded';
+import {
+  DELETED_SECTION,
+  DIFFICULT_SECTION,
+  EASY_DIFFICULTY,
+  HARD_DIFFICULTY,
+  LEARNING_SECTION,
+} from 'appConstants';
 import { Container } from './styled';
 
 type Props = {
   colorGroup: string;
+  showBtnDeleteDifficult: boolean;
   isHard: boolean | undefined;
-  showBtnDelete: boolean;
   showBtnRestore: boolean;
   wordId: string;
 };
@@ -30,8 +40,8 @@ type Props = {
 export const ButtonsBlock: React.FC<Props> = ({
   colorGroup,
   wordId,
+  showBtnDeleteDifficult,
   isHard,
-  showBtnDelete,
   showBtnRestore,
 }) => {
   const theme = useTheme();
@@ -40,6 +50,7 @@ export const ButtonsBlock: React.FC<Props> = ({
   const page = useSelector(selectTextBookPage);
   const group = useSelector(selectTextBookGroup);
   const hasWordInList = useIsWordIncluded(wordId);
+  const wordSection = useSelector(selectWordSection);
 
   const DifficultBtn = withStyles({
     root: {
@@ -60,6 +71,7 @@ export const ButtonsBlock: React.FC<Props> = ({
     root: {
       width: '104px',
       height: '37px',
+      marginRight: '14px',
       background: COLOR_LAYOUT_GRAY,
       borderRadius: 0,
       textTransform: 'lowercase',
@@ -69,7 +81,7 @@ export const ButtonsBlock: React.FC<Props> = ({
     },
   })(Button);
 
-  const handlerAddWordToList = async (
+  const handleAddWordToList = async (
     userID: string,
     wordID: string,
     type: DifficultyType,
@@ -78,13 +90,13 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     if (hasWordInList) {
       await updateWordInUserList(userID, wordID, type);
-      if (type === 'hard' && !isHard) {
-        updateStatisticsLearnedWords(userId, true);
+      if (type === HARD_DIFFICULTY && !isHard) {
+        updateStatistics(userId, 1);
       }
     } else {
       await addWordToUserList(userID, wordID, type);
-      if (type === 'hard') {
-        dispatch(updateStatisticsLearnedWords(userId, true));
+      if (type === HARD_DIFFICULTY) {
+        dispatch(updateStatistics(userId, 1));
       }
     }
     dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
@@ -97,37 +109,46 @@ export const ButtonsBlock: React.FC<Props> = ({
     pageNumber: number
   ) => {
     await removeWordFromUserList(userID, wordID);
-    dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
+    if (wordSection === LEARNING_SECTION)
+      dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
+
+    if (wordSection === DIFFICULT_SECTION)
+      dispatch(loadUserDifficultWords(userID, groupNumber, pageNumber));
+
+    if (wordSection === DELETED_SECTION)
+      dispatch(loadUserDeletedWords(userID, groupNumber, pageNumber));
   };
 
   return (
     <Container theme={theme}>
-      <DifficultBtn
-        variant="contained"
-        onClick={() =>
-          handlerAddWordToList(userId, wordId, 'hard', group, page)
-        }
-      >
-        difficult
-      </DifficultBtn>
-      {showBtnDelete && (
-        <DeleteBtn
-          variant="contained"
-          onClick={() =>
-            handlerAddWordToList(userId, wordId, 'easy', group, page)
-          }
-        >
-          delete
-        </DeleteBtn>
+      {showBtnDeleteDifficult && (
+        <>
+          <DifficultBtn
+            variant="contained"
+            onClick={() =>
+              handleAddWordToList(userId, wordId, HARD_DIFFICULTY, group, page)
+            }
+          >
+            difficult
+          </DifficultBtn>
+
+          <DeleteBtn
+            variant="contained"
+            onClick={() =>
+              handleAddWordToList(userId, wordId, EASY_DIFFICULTY, group, page)
+            }
+          >
+            delete
+          </DeleteBtn>
+        </>
       )}
       {showBtnRestore && (
-        <DeleteBtn
+        <DifficultBtn
           variant="contained"
-          color="secondary"
           onClick={() => handlerRemoveWordFromList(userId, wordId, group, page)}
         >
           restore
-        </DeleteBtn>
+        </DifficultBtn>
       )}
     </Container>
   );

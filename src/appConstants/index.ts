@@ -58,3 +58,16 @@ export const AUTHORS = [
       'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris. Elementum commodo adipiscing ',
   },
 ];
+
+export const DICTIONARY_TOPICS = [
+  'Learning words',
+  'Difficult words',
+  'Deleted words',
+];
+
+export const LEARNING_SECTION = 'usual';
+export const DIFFICULT_SECTION = 'difficult';
+export const DELETED_SECTION = 'deleted';
+
+export const HARD_DIFFICULTY = 'hard';
+export const EASY_DIFFICULTY = 'easy';

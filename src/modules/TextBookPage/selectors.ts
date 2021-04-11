@@ -16,3 +16,18 @@ export const selectTextBookError = (state: State) =>
 
 export const selectPlayedSound = (state: State) =>
   state.textBookReducer.playedSound;
+
+export const selectCheckedDifficulty = (state: State) =>
+  state.textBookReducer.checkedDifficulty;
+
+export const selectPagesCount = (state: State) =>
+  state.textBookReducer.pagesCount;
+
+export const selectWordSection = (state: State) =>
+  state.textBookReducer.wordSection;
+
+export const selectIsLoading = (state: State) =>
+  state.textBookReducer.isLoading;
+
+export const selectRefStatistic = (state: State) =>
+  state.textBookReducer.refStatistic;

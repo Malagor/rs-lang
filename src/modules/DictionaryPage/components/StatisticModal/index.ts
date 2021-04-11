@@ -1,0 +1,1 @@
+export { StatisticModal } from './StatisticModal';
