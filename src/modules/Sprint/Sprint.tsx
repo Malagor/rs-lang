@@ -37,6 +37,8 @@ export const Sprint: FC<GamesProps> = () => {
   const [gamePoints, setGamePoints] = useState(0);
   const [preMultiplier, setPreMultiplier] = useState(0);
   const [multiplier, setMultiplier] = useState(1);
+  const [maxInARow, setMaxInARow] = useState(0);
+  const [currentInARow, setCurrentInARow] = useState(0);
 
   const [isRightCase, setRightCase] = useState<boolean | null>(null);
 
@@ -66,6 +68,7 @@ export const Sprint: FC<GamesProps> = () => {
     setMultiplier(1);
     setRightCase(null);
     setIndexWordNow(null);
+    setMaxInARow(0);
   };
 
   const rightMultiplierHandle = () => {
@@ -77,6 +80,13 @@ export const Sprint: FC<GamesProps> = () => {
     }
   };
 
+  const rightInARow = () => {
+    setCurrentInARow(currentInARow + 1);
+    if (currentInARow + 1 > maxInARow) {
+      setMaxInARow(currentInARow + 1);
+    }
+  };
+
   const handleAnswerButton = (answer: boolean) => {
     if (indexWordNow) {
       const quizWord = words[indexWordNow];
@@ -84,9 +94,11 @@ export const Sprint: FC<GamesProps> = () => {
       if (answer) {
         setRightlyAnswered([...rightlyAnswered, quizWord]);
         rightMultiplierHandle();
+        rightInARow();
       } else {
         setWronglyAnswered([...wronglyAnswered, quizWord]);
         setPreMultiplier(0);
+        setCurrentInARow(0);
       }
     }
 
@@ -152,7 +164,7 @@ export const Sprint: FC<GamesProps> = () => {
         <GameResults
           isOpened={true}
           setOpened={setResultsModalOpened}
-          inARow={1}
+          inARow={maxInARow}
           rightlyAnswered={rightlyAnswered}
           wronglyAnswered={wronglyAnswered}
           handlePlayAgain={() => startOver()}
