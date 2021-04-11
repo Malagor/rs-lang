@@ -9,16 +9,32 @@ export const useStyles = makeStyles((theme) => ({
   containerGrid: {
     display: 'grid',
     gridTemplateColumns: '1fr 72px',
-    gridTemplateRows: '50px minmax(50px, max-content) 1fr 110px',
-    gridTemplateAreas: `"paginationTop paginationTop" "games games" "main groups" "paginationBottom paginationBottom"`,
-    gridGap: '32px',
+    gridTemplateRows: 'max-content max-content 1fr 110px',
+    gridTemplateAreas: `"games games" "paginationTop paginationTop"  "main groups" "paginationBottom paginationBottom"`,
+    gridRowGap: '32px',
+    gridColumnGap: '32px',
+
+    [theme.breakpoints.down('xs')]: {
+      gridTemplateColumns: '1fr',
+      gridTemplateRows: 'max-content max-content max-content 1fr max-content',
+      gridTemplateAreas: `"games" "groups" "paginationTop"  "main" "paginationBottom"`,
+      gridRowGap: '24px',
+    },
+  },
+  containerGridDictionary: {
+    display: 'grid',
+    gridTemplateColumns: '1fr 72px',
+    gridTemplateRows: 'max-content max-content max-content 1fr 110px',
+    gridTemplateAreas: `"games games" "topics topics" "paginationTop paginationTop" "main groups" "paginationBottom paginationBottom"`,
+    gridRowGap: '32px',
+    gridColumnGap: '32px',
 
     [theme.breakpoints.down('xs')]: {
       gridTemplateColumns: '1fr',
       gridTemplateRows:
-        'minmax(50px, max-content) 35px minmax(50px, max-content) 1fr minmax(50px, max-content)',
-      gridTemplateAreas: `"groups" "paginationTop" "games" "main" "paginationBottom"`,
-      gridGap: '24px',
+        'max-content max-content max-content max-content 1fr max-content',
+      gridTemplateAreas: `"games" "topics" "groups" "paginationTop" "main" "paginationBottom"`,
+      gridRowGap: '24px',
     },
   },
   paginationTop: {
@@ -30,7 +46,9 @@ export const useStyles = makeStyles((theme) => ({
   gamesWrapper: {
     gridArea: 'games',
   },
-
+  topicWrapper: {
+    gridArea: 'topics',
+  },
   mainGrid: {
     gridArea: 'main',
   },

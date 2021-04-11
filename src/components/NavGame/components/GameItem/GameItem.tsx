@@ -1,5 +1,5 @@
-import { useTheme } from '@material-ui/core';
 import React, { FC } from 'react';
+import { useTheme } from '@material-ui/core';
 import { Image, ItemContainer } from './styled';
 
 type GamesProps = {

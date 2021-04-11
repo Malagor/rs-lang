@@ -56,6 +56,8 @@ export type ErrorType = {
   message?: string;
 };
 
+export type WordSectionType = 'usual' | 'difficult' | 'deleted';
+
 export type StateTextBook = {
   group: number;
   page: number;
@@ -63,6 +65,11 @@ export type StateTextBook = {
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;
   playedSound: string;
+  checkedDifficulty: DifficultyType;
+  pagesCount: number;
+  wordSection: WordSectionType;
+  isLoading: boolean;
+  refStatistic: HTMLButtonElement | null;
 };
 
 export type StateCommon = {
@@ -72,6 +79,8 @@ export type StateCommon = {
 export type StateLogin = {
   user: User;
   auth: Auth;
+  error: boolean;
+  loading: boolean;
 };
 
 export type StateMainPage = {};
@@ -82,8 +91,12 @@ export type StateStatistics = {
     learnedWordsByDays: {
       [date: string]: number;
     };
+    games: {
+      [game: string]: GameStatistics;
+    };
   };
-  error?: ErrorType | null;
+  error: ErrorType | null;
+  loading: boolean;
 };
 
 export type State = {
@@ -97,6 +110,7 @@ export type GameStatistics = {
   wordsStudied: number;
   accuracy: number;
   maxInARow: number;
+  date?: string;
 };
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
