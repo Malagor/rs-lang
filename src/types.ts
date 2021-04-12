@@ -74,6 +74,8 @@ export type StateTextBook = {
 
 export type StateCommon = {
   title: string;
+  isLoginModalOpen: boolean;
+  isRegistrationModalOpen: boolean;
 };
 
 export type StateLogin = {
