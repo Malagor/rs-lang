@@ -6,6 +6,9 @@ export const selectTextBookWords = (state: State) =>
 export const selectGameWords = (state: State) =>
   state.textBookReducer.gameWords;
 
+export const selectGameWordsKind = (state: State) =>
+  state.textBookReducer.gameWordsKind;
+
 export const selectTextBookPage = (state: State) => state.textBookReducer.page;
 
 export const selectTextBookGroup = (state: State) =>

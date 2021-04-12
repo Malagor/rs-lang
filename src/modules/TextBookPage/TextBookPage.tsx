@@ -20,6 +20,7 @@ import {
 import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
+import { MIN_WORDS_TO_PLAY, WordsSource } from 'appConstants';
 import {
   selectTextBookGroup,
   selectTextBookPage,
@@ -36,6 +37,7 @@ import {
   setPage,
   setGameWords,
   loadAdditionalGameWords,
+  setGameWordsKind,
 } from './actions';
 import { useStyles } from './styled';
 
@@ -60,6 +62,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const dispatch: ThunkDispatch<StateTextBook, void, AnyAction> = useDispatch();
 
   useEffect(() => {
+    dispatch(setGameWordsKind(WordsSource.FROM_TEXTBOOK));
     dispatch(setIsLoading(true));
     dispatch(setPageTitle('TextBook'));
     dispatch(setGroup(0));
@@ -92,7 +95,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   useEffect(() => {
     if (!isUserLoading && !isLoading && !noMoreGameWords) {
-      if (gameWords.length > 10) {
+      if (gameWords.length >= MIN_WORDS_TO_PLAY) {
         setGettingGameWords(false);
         return;
       }

@@ -1,3 +1,5 @@
+import { WordsSource } from 'appConstants';
+
 export type Auth = {
   message: string;
   token: string;
@@ -63,6 +65,7 @@ export type StateTextBook = {
   page: number;
   words: Word[];
   gameWords: Word[];
+  gameWordsKind: GameWordsKindType;
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;
   playedSound: string;
@@ -115,3 +118,10 @@ export type GameStatistics = {
 };
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
+
+export type GameWordsKindType =
+  | WordsSource.FROM_MENU
+  | WordsSource.FROM_TEXTBOOK
+  | WordsSource.FROM_LEARING
+  | WordsSource.FROM_DIFFICULT
+  | WordsSource.FROM_DELETED;

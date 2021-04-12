@@ -13,8 +13,9 @@ import { setPageTitle } from 'store/commonState/actions';
 import {
   selectTextBookError,
   selectGameWords,
+  selectGameWordsKind,
 } from 'modules/TextBookPage/selectors';
-import { Word } from 'types';
+import { GameWordsKindType, Word } from 'types';
 import { SERVER_URL } from 'appConstants';
 import { URL_GAMES } from 'appConstants/url';
 import { Loader, GameResults, ErrorMessage } from 'components';
@@ -63,6 +64,7 @@ export const Imaginarium = () => {
   const [isResultsModalOpened, setResultsModalOpened] = useState(false);
 
   const gameWords: Word[] = useSelector(selectGameWords);
+  const gameWordsKind: GameWordsKindType = useSelector(selectGameWordsKind);
   const userId = useSelector(selectUserId);
   const error = useSelector(selectTextBookError);
   const wordImageUrls = useMemo(
@@ -77,6 +79,7 @@ export const Imaginarium = () => {
   const quizWordRef = useRef(quizWord);
   const theme = useTheme();
   const history = useHistory();
+  console.log('Words came', gameWordsKind);
 
   const playSound = useCallback(
     (soundUrl: string) => {

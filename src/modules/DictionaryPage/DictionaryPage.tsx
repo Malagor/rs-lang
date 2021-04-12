@@ -66,6 +66,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const [scroll, setScroll] = useState(0);
   const isUserLoading = useSelector(selectAuthLoadingStatus);
   const classes = useStyles();
+  console.log(wordSection);
 
   useEffect(() => {
     dispatch(setPageTitle('Dictionary'));
