@@ -13,6 +13,8 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  SET_IS_TRANSLATE,
+  SET_IS_BUTTONS,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -30,6 +32,8 @@ export const textBookPageState: StateTextBook = {
   wordSection: LEARNING_SECTION,
   isLoading: false,
   refStatistic: null,
+  isTranslate: true,
+  isButtons: true,
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
@@ -101,6 +105,18 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         refStatistic: action.payload,
+      };
+
+    case SET_IS_TRANSLATE:
+      return {
+        ...state,
+        isTranslate: action.payload,
+      };
+
+    case SET_IS_BUTTONS:
+      return {
+        ...state,
+        isButtons: action.payload,
       };
 
     default:

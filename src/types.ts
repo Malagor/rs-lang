@@ -70,6 +70,8 @@ export type StateTextBook = {
   wordSection: WordSectionType;
   isLoading: boolean;
   refStatistic: HTMLButtonElement | null;
+  isTranslate: boolean;
+  isButtons: boolean;
 };
 
 export type StateCommon = {

@@ -23,6 +23,8 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  SET_IS_TRANSLATE,
+  SET_IS_BUTTONS,
 } from './actionConst';
 
 export const setPage = (payload: number) => ({
@@ -87,6 +89,16 @@ export const setIsLoading = (payload: boolean) => ({
 
 export const setRefStatistic = (payload: HTMLButtonElement) => ({
   type: SET_REF_STATISTIC,
+  payload,
+});
+
+export const setIsTranslate = (payload: boolean) => ({
+  type: SET_IS_TRANSLATE,
+  payload,
+});
+
+export const setIsButtons = (payload: boolean) => ({
+  type: SET_IS_BUTTONS,
   payload,
 });
 

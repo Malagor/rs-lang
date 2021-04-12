@@ -168,7 +168,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
             <WordList
               words={words}
               checkedDifficulty={checkedDifficulty}
-              isButtons={true}
               showBtnDeleteDifficult={wordSection === LEARNING_SECTION}
               showBtnRestore={wordSection !== LEARNING_SECTION}
             />

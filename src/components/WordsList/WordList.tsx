@@ -2,7 +2,9 @@ import React, { FC } from 'react';
 import { DifficultyType, Word } from 'types';
 import { useSelector } from 'react-redux';
 import {
+  selectIsButtons,
   selectIsLoading,
+  selectIsTranslate,
   selectTextBookGroup,
 } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
@@ -14,7 +16,6 @@ import { NoWordsMessage } from './components';
 type WordListProps = {
   words: Word[];
   checkedDifficulty: DifficultyType;
-  isButtons: boolean;
   showBtnDeleteDifficult: boolean;
   showBtnRestore: boolean;
 };
@@ -22,12 +23,13 @@ type WordListProps = {
 export const WordList: FC<WordListProps> = ({
   words,
   checkedDifficulty,
-  isButtons,
   showBtnDeleteDifficult,
   showBtnRestore,
 }) => {
   const group = useSelector(selectTextBookGroup);
   const isLoading = useSelector(selectIsLoading);
+  const isTranslate = useSelector(selectIsTranslate);
+  const isButtons = useSelector(selectIsButtons);
 
   const countWords = words.filter(
     (word) => word.userWord?.difficulty !== checkedDifficulty
@@ -49,7 +51,7 @@ export const WordList: FC<WordListProps> = ({
                 colorGroup={LEVEL_COLORS[group]}
                 successCount={wordStatistics?.correct || 0}
                 errorCount={wordStatistics?.incorrect || 0}
-                isTranslate={true}
+                isTranslate={isTranslate}
                 isButtons={isButtons}
                 showBtnDeleteDifficult={showBtnDeleteDifficult}
                 showBtnRestore={showBtnRestore}

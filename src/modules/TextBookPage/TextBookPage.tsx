@@ -100,7 +100,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
               <WordList
                 words={words}
                 checkedDifficulty="easy"
-                isButtons={true}
                 showBtnDeleteDifficult={true}
                 showBtnRestore={false}
               />

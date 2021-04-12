@@ -5,6 +5,7 @@ import TimelineIcon from '@material-ui/icons/Timeline';
 import { selectRefStatistic } from 'modules/TextBookPage/selectors';
 import { selectPageTitle } from 'store/commonState/selectors';
 import { TitleWrapper, useStyles } from './styled';
+import { TextBookSettings } from './components';
 
 type PageTitleProps = {};
 
@@ -31,6 +32,7 @@ export const PageTitle: FC<PageTitleProps> = () => {
           onClick={() => refStatistic?.click()}
         />
       )}
+      {(title === 'Dictionary' || title === 'TextBook') && <TextBookSettings />}
     </TitleWrapper>
   );
 };

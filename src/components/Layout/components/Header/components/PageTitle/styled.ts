@@ -4,7 +4,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 export const TitleWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  max-width: 220px;
+  max-width: 240px;
   width: 100%;
 `;
 
