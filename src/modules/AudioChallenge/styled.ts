@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import { AUDIO_CHALLENGE_BACKGROUND } from 'appConstants/colors';
 
 export const AudioWrapper = styled.div`
   position: relative;
@@ -10,7 +11,7 @@ export const AudioWrapper = styled.div`
   flex-direction: column;
 `;
 
-export const FinishButtonWrapper = styled.div`
-  display: flex;
-  gap: 20px;
+export const AudioGameContainer = styled.div`
+  height: 100%;
+  background-image: ${AUDIO_CHALLENGE_BACKGROUND};
 `;

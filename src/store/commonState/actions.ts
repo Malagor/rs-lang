@@ -1,22 +1,20 @@
-import { SET_PAGE_TITLE } from './actionConsts';
+import {
+  SET_LOGIN_MODAL_OPEN,
+  SET_PAGE_TITLE,
+  SET_REGISTRATION_MODAL_OPEN,
+} from './actionConsts';
 
 export const setPageTitle = (payload: string) => ({
   type: SET_PAGE_TITLE,
   payload,
 });
 
-// export const loadWords = (
-//   group: number = 0,
-//   page: number = 0
-// ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
-//   dispatch
-// ) => {
-//   database
-//     .getWords(group, page)
-//     .then((words) => {
-//       dispatch(setWords(words));
-//     })
-//     .catch((err) => {
-//       throw new Error(`Can not read Words. ${err}`);
-//     });
-// };
+export const setLoginModalOpen = (payload: boolean) => ({
+  type: SET_LOGIN_MODAL_OPEN,
+  payload,
+});
+
+export const setRegistrationModalOpen = (payload: boolean) => ({
+  type: SET_REGISTRATION_MODAL_OPEN,
+  payload,
+});

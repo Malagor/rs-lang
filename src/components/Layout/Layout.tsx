@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import clsx from 'clsx';
 import { useLocation } from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { useBackgroundPage } from 'hooks/useBackgroundPage';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { URL_GAMES } from 'appConstants/url';
 import { Header, Footer, SideBar } from './components';
@@ -21,7 +20,6 @@ export const Layout: FC = ({ children }) => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const backgroundPage = useBackgroundPage();
 
   const isGamingPage = location.pathname.includes(URL_GAMES);
 

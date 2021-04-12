@@ -3,6 +3,10 @@ import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
 
 export const useStyles = makeStyles({
   root: {
+    position: 'absolute',
+    top: '50%',
+    left: 0,
+    transform: 'translateY(-50%)',
     color: COLOR_LAYOUT_BACKGROUND,
     width: 0,
     height: 0,

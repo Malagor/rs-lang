@@ -1,5 +1,5 @@
 import {
-  COLOR_FONT_BLACK,
+  COLOR_LAYOUT_TEXT,
   COLOR_LAYOUT_BACKGROUND,
   COLOR_LAYOUT_BLUE,
   COLOR_LAYOUT_YELLOW,
@@ -19,7 +19,7 @@ const textMixin = (size: 'bigger' | 'smaller') => `
   font-size: ${size === 'bigger' ? '16px ' : '14px'};
   line-height: ${size === 'bigger' ? '24px ' : '16px'};
   font-weight: 400;
-  color: ${COLOR_FONT_BLACK};
+  color: ${COLOR_LAYOUT_TEXT};
 `;
 
 const pickBackground = (type: AnswerStatType) => {
@@ -65,7 +65,7 @@ export const ModalName = styled.h3`
   font-size: 35px;
   line-height: 35px;
   font-weight: 400;
-  color: ${COLOR_FONT_BLACK};
+  color: ${COLOR_LAYOUT_TEXT};
 `;
 
 export const PlayAgainButton = styled.button`
@@ -238,7 +238,7 @@ export const SoundIcon = styled(VolumeUpIcon)`
 `;
 
 export const WordItself = styled.span`
-  color: ${COLOR_FONT_BLACK};
+  color: ${COLOR_LAYOUT_TEXT};
   text-transform: capitalize;
 `;
 

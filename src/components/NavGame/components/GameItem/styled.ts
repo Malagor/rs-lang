@@ -2,7 +2,6 @@ import styled from 'styled-components/macro';
 
 export const ItemContainer = styled.div`
   display: flex;
-  margin-top: 16px;
   padding: 8px 24px 8px 16px;
   align-items: center;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);

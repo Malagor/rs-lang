@@ -3,6 +3,7 @@ import {
   COLOR_LAYOUT_BACKGROUND_RGB,
   COLOR_LAYOUT_BACKGROUND,
 } from 'appConstants/colors';
+import { makeStyles } from '@material-ui/core';
 
 export const AnswersWrapper = styled.div`
   display: flex;
@@ -11,13 +12,20 @@ export const AnswersWrapper = styled.div`
   margin-bottom: 40px;
 `;
 
-export const AnswerItem = styled.div`
-  color: ${COLOR_LAYOUT_BACKGROUND};
-  padding: 8px 16px;
-  cursor: pointer;
-  transition: 0.3s;
+export const useStyles = makeStyles({
+  root: {
+    position: 'relative',
+    color: `${COLOR_LAYOUT_BACKGROUND}`,
+    padding: '8px 20px',
+    cursor: 'pointer',
+    transition: '0.3s',
+    margin: 0,
 
-  &:hover {
-    background-color: rgba(${COLOR_LAYOUT_BACKGROUND_RGB}, 0.3);
-  }
-`;
+    '&:hover': {
+      backgroundColor: `rgba(${COLOR_LAYOUT_BACKGROUND_RGB}, 0.3)`,
+    },
+  },
+  disabled: {
+    color: `${COLOR_LAYOUT_BACKGROUND} !important`,
+  },
+});
