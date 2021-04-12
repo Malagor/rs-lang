@@ -10,6 +10,7 @@ import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
 import { getCountWords } from 'helpers/dictionaryHelpers';
+import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import {
   SET_PAGE,
   SET_WORDS,
@@ -23,6 +24,7 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  ADD_GAME_WORDS,
   SET_GAME_WORDS,
 } from './actionConst';
 
@@ -48,6 +50,11 @@ export const setWords = (payload: Word[]) => ({
 
 export const setGameWords = (payload: Word[]) => ({
   type: SET_GAME_WORDS,
+  payload,
+});
+
+export const addGameWords = (payload: Word[]) => ({
+  type: ADD_GAME_WORDS,
   payload,
 });
 
@@ -239,6 +246,39 @@ export const loadUserDeletedWords = (
       (err) => {
         dispatch(setWordsError(err));
         dispatch(setIsLoading(false));
+      }
+    );
+};
+
+export const loadAdditionalGameWords = (
+  userId: string,
+  group: number = 0,
+  page: number = 0,
+  wordPerPage: number = 20
+): ThunkAction<
+  Promise<unknown>,
+  StateTextBook,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  dispatch(setIsLoading(true));
+  database
+    .getUserAggregatedWord({
+      userId,
+      group,
+      page,
+      wordPerPage,
+    })
+    .then(
+      (res) => {
+        const additionalWords: Word[] = getNonDeletedWords(
+          res[0].paginatedResults
+        );
+        dispatch(addGameWords(additionalWords));
+        dispatch(setIsLoading(false));
+      },
+      (err) => {
+        dispatch(setWordsError(err));
       }
     );
 };

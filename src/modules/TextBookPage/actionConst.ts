@@ -11,3 +11,4 @@ export const SET_WORD_SECTION = 'SET_WORD_SECTION';
 export const SET_IS_LOADING = 'SET_IS_LOADING';
 export const SET_REF_STATISTIC = 'SET_REF_STATISTIC';
 export const SET_GAME_WORDS = 'SET_GAME_WORDS';
+export const ADD_GAME_WORDS = 'ADD_GAME_WORDS';

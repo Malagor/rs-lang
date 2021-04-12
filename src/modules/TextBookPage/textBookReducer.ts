@@ -13,6 +13,7 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  ADD_GAME_WORDS,
   SET_GAME_WORDS,
 } from './actionConst';
 
@@ -48,6 +49,11 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         gameWords: action.payload,
+      };
+    case ADD_GAME_WORDS:
+      return {
+        ...state,
+        gameWords: [...state.gameWords, ...action.payload],
       };
     case SET_GROUP:
       return {
