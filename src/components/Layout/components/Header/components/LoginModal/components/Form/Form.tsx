@@ -17,7 +17,7 @@ import { useStyles } from './styled';
 
 type FormProps = {
   isLogin: boolean;
-  setLogin: React.Dispatch<React.SetStateAction<boolean>>;
+  setLogin: (value: boolean) => void;
   handleSubmitForm: Function;
   errorMessage: string;
 
