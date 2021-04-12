@@ -55,8 +55,6 @@ export const Savannah: FC = () => {
   const [userAnswerIndex, setUserAnswer] = useState('-1');
   const [lives, setLives] = useState(SAVANNAH_LIVES);
 
-  const LivesContext = React.createContext(lives);
-
   // statistics
   const [correctWords, setCorrectWords] = useState<Word[]>([]);
   const [incorrectWords, setIncorrectWords] = useState<Word[]>([]);
@@ -68,7 +66,7 @@ export const Savannah: FC = () => {
 
   // Set Title Page
   useEffect(() => {
-    dispatch(setPageTitle('Audio challenge'));
+    dispatch(setPageTitle('Savannah'));
   }, [dispatch]);
 
   // Play sound
@@ -132,21 +130,23 @@ export const Savannah: FC = () => {
 
   // Correct Answer
   const handlerCorrectAnswer = useCallback(() => {
+    console.log('Correct Answer', words[current].wordTranslate);
     setCorrectWords([...correctWords, words[current]]);
-    setChain((prev) => prev + 1);
+    setChain((prev) => prev);
     playSound(CorrectSound);
   }, [correctWords, words, current, playSound]);
 
   // Incorrect Answer
   const handlerIncorrectAnswer = useCallback(() => {
+    console.log('Incorrect Answer', words[current].wordTranslate);
     setIncorrectWords([...incorrectWords, words[current]]);
     if (chain > longerChain) {
       setLongerChain(chain);
     }
     setChain(0);
     playSound(WrongSound);
-    setLives((l) => l - 1);
-  }, [chain, longerChain, incorrectWords, words, current, playSound]);
+    setLives((l: number) => l - 1);
+  }, [incorrectWords, chain, longerChain, words, current, playSound]);
 
   // Choice of answer variants
   const addVariantsAnswers = useCallback(() => {
@@ -241,21 +241,7 @@ export const Savannah: FC = () => {
     return () => {
       window.removeEventListener('keydown', keyDownHandler);
     };
-  }, [
-    checkAnswer,
-    isFinish,
-    handlerNewGame,
-    incorrectWords,
-    correctWords,
-    current,
-    words,
-    setUserAnswer,
-    userAnswerIndex,
-    correctAnswerIndex,
-    handlerCorrectAnswer,
-    handlerIncorrectAnswer,
-    playSound,
-  ]);
+  }, [checkAnswer, isFinish, setUserAnswer, userAnswerIndex]);
 
   // Add Variants for Answers listener
   useEffect(() => {
@@ -292,7 +278,7 @@ export const Savannah: FC = () => {
             containerRef={containerRef}
           />
           {hasContent && !isFinish ? (
-            <LivesContext.Provider value={lives}>
+            <>
               <SavannahCard
                 word={words[current]}
                 variants={answersArray}
@@ -300,7 +286,7 @@ export const Savannah: FC = () => {
                 onUserAnswer={checkAnswer}
                 userChoice={userAnswerIndex}
               />
-            </LivesContext.Provider>
+            </>
           ) : null}
           {isResultOpen && isFinish && (
             <GameResults

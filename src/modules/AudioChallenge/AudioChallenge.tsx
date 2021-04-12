@@ -218,11 +218,14 @@ export const AudioChallenge: FC = () => {
 
   // Keyboard listener
   useEffect(() => {
+    console.log('Mount');
     const keyDownHandler = (e: KeyboardEvent) => {
+      console.log('keyDownHandler');
       const { key, repeat } = e;
 
       // select answer
       if (!repeat && KEYS_ARRAY.includes(key)) {
+        console.log('Кропка', { e, key });
         if (isFinish) {
           return;
         }
@@ -237,6 +240,7 @@ export const AudioChallenge: FC = () => {
 
       // next word
       if (!repeat && key === ' ') {
+        console.log('Пробел', { e, key });
         if (isFinish) {
           setWords(mixingArray(words));
           handlerNewGame();
@@ -251,6 +255,7 @@ export const AudioChallenge: FC = () => {
     };
     window.addEventListener('keydown', keyDownHandler);
     return () => {
+      console.log('Unmount');
       window.removeEventListener('keydown', keyDownHandler);
     };
   }, [
