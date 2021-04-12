@@ -4,6 +4,7 @@ export const SERVER_URL = 'https://rs-lang-react.herokuapp.com/';
 export const LOADER_BLOCK_SIZE = 25;
 export const MOBILE_WIDTH = 1140;
 export const DRAWER_WIDTH = 240;
+export const SIDEBAR_MARKER_HEIGHT = 32;
 export const COUNT_GROUPS = 6;
 export const MIN_PASSWORD_LENGTH = 8;
 
