@@ -13,6 +13,11 @@ import { ThunkAction } from 'redux-thunk';
 import { getCountWords } from 'helpers/dictionaryHelpers';
 import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import {
+  DELETED_SECTION,
+  DIFFICULT_SECTION,
+  LEARNING_SECTION,
+} from 'appConstants';
+import {
   SET_PAGE,
   SET_WORDS,
   SET_GROUP,
@@ -261,7 +266,8 @@ export const loadAdditionalGameWords = (
   userId: string,
   group: number = 0,
   page: number = 0,
-  wordPerPage: number = 20
+  wordPerPage: number = 20,
+  wordsFilter: WordSectionType = LEARNING_SECTION
 ): ThunkAction<
   Promise<unknown>,
   StateTextBook,
@@ -269,18 +275,26 @@ export const loadAdditionalGameWords = (
   Action<string>
 > => async (dispatch) => {
   dispatch(setIsLoading(true));
+  let filter = '';
+  if (wordsFilter === DIFFICULT_SECTION) {
+    filter = '{"userWord.difficulty":"hard"}';
+  } else if (wordsFilter === DELETED_SECTION) {
+    filter = '{"userWord.difficulty":"easy"}';
+  }
   database
     .getUserAggregatedWord({
       userId,
       group,
       page,
       wordPerPage,
+      filter,
     })
     .then(
       (res) => {
-        const additionalWords: Word[] = getNonDeletedWords(
-          res[0].paginatedResults
-        );
+        const additionalWords: Word[] =
+          wordsFilter === DELETED_SECTION
+            ? res[0].paginatedResults
+            : getNonDeletedWords(res[0].paginatedResults);
         dispatch(addGameWords(additionalWords));
         dispatch(setIsLoading(false));
       },

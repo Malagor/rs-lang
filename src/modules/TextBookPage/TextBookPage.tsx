@@ -95,22 +95,19 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   useEffect(() => {
     if (!isUserLoading && !isLoading && !noMoreGameWords) {
-      if (gameWords.length >= MIN_WORDS_TO_PLAY) {
+      if (gameWords.length > MIN_WORDS_TO_PLAY) {
         setGettingGameWords(false);
         return;
       }
 
-      console.log('need to get more words');
+      // Need MORE words for playing games
 
       if (checkGroupForGameWords === -1 && checkPageForGameWords === -1) {
-        console.log('Sorry, cant get more words for playing');
+        // Can't get more words for playing
         setNoMoreGameWords(true);
         setGettingGameWords(false);
         return;
       }
-
-      console.log('checkGroup', checkGroupForGameWords);
-      console.log('checkPage', checkPageForGameWords);
 
       dispatch(
         loadAdditionalGameWords(
@@ -144,7 +141,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     noMoreGameWords,
   ]);
 
-  console.log('updated game words', gameWords);
+  // console.log('updated game words', gameWords);
 
   useEffect(() => {
     let lastKnownScrollPosition = scroll;

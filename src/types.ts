@@ -122,6 +122,6 @@ export type Partial<T> = { [P in keyof T]?: T[P] };
 export type GameWordsKindType =
   | WordsSource.FROM_MENU
   | WordsSource.FROM_TEXTBOOK
-  | WordsSource.FROM_LEARING
+  | WordsSource.FROM_LEARNING
   | WordsSource.FROM_DIFFICULT
   | WordsSource.FROM_DELETED;

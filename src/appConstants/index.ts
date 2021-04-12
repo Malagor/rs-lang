@@ -52,7 +52,7 @@ export const EASY_DIFFICULTY = 'easy';
 export enum WordsSource {
   FROM_MENU = 'from menu',
   FROM_TEXTBOOK = 'from textbook',
-  FROM_LEARING = 'from learning',
+  FROM_LEARNING = 'from learning',
   FROM_DIFFICULT = 'from difficult',
   FROM_DELETED = 'from deleted',
 }
