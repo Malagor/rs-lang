@@ -8,6 +8,12 @@ export const selectTextBookPage = (state: State) => state.textBookReducer.page;
 export const selectTextBookGroup = (state: State) =>
   state.textBookReducer.group;
 
+export const selectDictionaryPage = (state: State) =>
+  state.textBookReducer.dictionaryPage;
+
+export const selectDictionaryGroup = (state: State) =>
+  state.textBookReducer.dictionaryGroup;
+
 export const selectTextBookSounds = (state: State) =>
   state.textBookReducer.sounds;
 

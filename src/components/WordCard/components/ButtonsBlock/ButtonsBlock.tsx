@@ -14,11 +14,7 @@ import {
 } from 'modules/TextBookPage/actions';
 import { updateStatistics } from 'modules/StatisticsPage/actions';
 
-import {
-  selectTextBookGroup,
-  selectTextBookPage,
-  selectWordSection,
-} from 'modules/TextBookPage/selectors';
+import { selectWordSection } from 'modules/TextBookPage/selectors';
 import { useIsWordIncluded } from 'hooks/useIsWordIncluded';
 import {
   DELETED_SECTION,
@@ -35,6 +31,8 @@ type Props = {
   isHard: boolean | undefined;
   showBtnRestore: boolean;
   wordId: string;
+  page: number;
+  group: number;
 };
 
 export const ButtonsBlock: React.FC<Props> = ({
@@ -43,12 +41,12 @@ export const ButtonsBlock: React.FC<Props> = ({
   showBtnDeleteDifficult,
   isHard,
   showBtnRestore,
+  page,
+  group,
 }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
-  const page = useSelector(selectTextBookPage);
-  const group = useSelector(selectTextBookGroup);
   const hasWordInList = useIsWordIncluded(wordId);
   const wordSection = useSelector(selectWordSection);
 

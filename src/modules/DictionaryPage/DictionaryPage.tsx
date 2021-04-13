@@ -1,8 +1,9 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Word } from 'types';
+import { Word, WordSectionType } from 'types';
 import { Container } from '@material-ui/core';
+import { LocStore } from 'services';
 import {
   ErrorMessage,
   Loader,
@@ -18,8 +19,8 @@ import {
   selectAuthLoadingStatus,
 } from 'modules/Login/selectors';
 import {
-  selectTextBookGroup,
-  selectTextBookPage,
+  selectDictionaryGroup,
+  selectDictionaryPage,
   selectTextBookError,
   selectTextBookWords,
   selectCheckedDifficulty,
@@ -33,8 +34,8 @@ import {
   loadUserDifficultWords,
   loadWords,
   setCheckedDifficulty,
-  setGroup,
-  setPage,
+  setDictionaryGroup,
+  setDictionaryPage,
   setWordSection,
 } from 'modules/TextBookPage/actions';
 import {
@@ -53,25 +54,49 @@ type DictionaryProps = {};
 
 export const DictionaryPage: FC<DictionaryProps> = () => {
   const words: Word[] = useSelector(selectTextBookWords);
-  const page = useSelector(selectTextBookPage);
-  const group = useSelector(selectTextBookGroup);
+  const page = useSelector(selectDictionaryPage);
+  const group = useSelector(selectDictionaryGroup);
   const error = useSelector(selectTextBookError);
   const user = useSelector(selectUser);
   const checkedDifficulty = useSelector(selectCheckedDifficulty);
   const pagesCount = useSelector(selectPagesCount);
   const wordSection = useSelector(selectWordSection);
   const isLoading = useSelector(selectIsLoading);
-  const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
-  const [scroll, setScroll] = useState(0);
   const isUserLoading = useSelector(selectAuthLoadingStatus);
+  const [scroll, setScroll] = useState(0);
+  const dispatch = useDispatch();
   const classes = useStyles();
+
+  const onGroupChange = (groupNumber: number) => {
+    dispatch(setDictionaryGroup(groupNumber));
+    LocStore.setDictionaryPosition({ group: groupNumber });
+  };
+
+  const onPageClick = (pageNumber: number) => {
+    if (pagesCount) {
+      dispatch(setDictionaryPage(pageNumber));
+      LocStore.setDictionaryPosition({ page: pageNumber });
+    }
+  };
 
   useEffect(() => {
     dispatch(setPageTitle('Dictionary'));
-    dispatch(setGroup(0));
-    dispatch(setPage(0));
   }, [dispatch]);
+
+  useEffect(() => {
+    const { group: groupNumber, page: pageNumber, section } =
+      LocStore.getDictionaryPosition() || {};
+    dispatch(setWordSection(section || LEARNING_SECTION));
+    dispatch(setDictionaryGroup(groupNumber || 0));
+    if (pagesCount) {
+      dispatch(
+        setDictionaryPage(
+          pageNumber && pageNumber < pagesCount ? pageNumber : 0
+        )
+      );
+    }
+  }, [dispatch, pagesCount]);
 
   useEffect(() => {
     let lastKnownScrollPosition = scroll;
@@ -95,41 +120,45 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   }, [scroll]);
 
   useEffect(() => {
-    if (user.id) {
+    if (userId) {
       if (wordSection === LEARNING_SECTION)
-        dispatch(loadUserAggregateWords(user.id, group, page));
+        dispatch(loadUserAggregateWords(userId, group, page));
 
       if (wordSection === DIFFICULT_SECTION)
-        dispatch(loadUserDifficultWords(user.id, group, page));
+        dispatch(loadUserDifficultWords(userId, group, page));
 
       if (wordSection === DELETED_SECTION)
-        dispatch(loadUserDeletedWords(user.id, group, page));
+        dispatch(loadUserDeletedWords(userId, group, page));
     } else {
       dispatch(loadWords(group, page));
     }
-  }, [dispatch, page, group, user, wordSection]);
+  }, [dispatch, page, group, userId, wordSection]);
+
+  const onSectionChange = (section: WordSectionType) => {
+    dispatch(setWordSection(section));
+    dispatch(setDictionaryPage(0));
+    LocStore.setDictionaryPosition({
+      page: 0,
+      section,
+    });
+  };
 
   const onUsualWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(group));
-    dispatch(setWordSection(LEARNING_SECTION));
-    dispatch(loadUserAggregateWords(user.id, group, page));
+    onSectionChange(LEARNING_SECTION);
     dispatch(setCheckedDifficulty(EASY_DIFFICULTY));
+    dispatch(loadUserAggregateWords(user.id, group, 0));
   };
 
   const onDifficultWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(group));
-    dispatch(setWordSection(DIFFICULT_SECTION));
-    dispatch(loadUserDifficultWords(user.id, group, page));
+    onSectionChange(DIFFICULT_SECTION);
     dispatch(setCheckedDifficulty(EASY_DIFFICULTY));
+    dispatch(loadUserDifficultWords(user.id, group, 0));
   };
+
   const onDeletedWords = () => {
-    dispatch(setPage(0));
-    dispatch(setGroup(group));
-    dispatch(setWordSection(DELETED_SECTION));
-    dispatch(loadUserDeletedWords(user.id, group, page));
+    onSectionChange(DELETED_SECTION);
     dispatch(setCheckedDifficulty(HARD_DIFFICULTY));
+    dispatch(loadUserDeletedWords(user.id, group, 0));
   };
 
   if (!userId && !isUserLoading) return <RedirectionModal />;
@@ -155,6 +184,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
               initialPage={page}
               forcePage={page}
               group={group}
+              onPageClick={onPageClick}
             />
           </div>
           <div className={classes.topicWrapper}>
@@ -166,6 +196,8 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           </div>
           <div className={classes.mainGrid}>
             <WordList
+              group={group}
+              page={page}
               words={words}
               checkedDifficulty={checkedDifficulty}
               isButtons={true}
@@ -174,7 +206,11 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
             />
           </div>
           <div className={classes.sideGrid}>
-            <GroupSelector isOpacity={scroll > 200} />
+            <GroupSelector
+              group={group}
+              isOpacity={scroll > 200}
+              onGroupChange={onGroupChange}
+            />
           </div>
           <div className={classes.paginationBottom}>
             <Pagination
@@ -182,6 +218,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
               initialPage={page}
               forcePage={page}
               group={group}
+              onPageClick={onPageClick}
             />
           </div>
         </div>

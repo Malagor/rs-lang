@@ -61,6 +61,8 @@ export type WordSectionType = 'usual' | 'difficult' | 'deleted';
 export type StateTextBook = {
   group: number;
   page: number;
+  dictionaryGroup: number;
+  dictionaryPage: number;
   words: Word[];
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;

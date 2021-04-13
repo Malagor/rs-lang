@@ -10,6 +10,7 @@ import {
 } from 'components';
 
 import { Container } from '@material-ui/core';
+import { LocStore } from 'services';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
 import { selectUser } from 'modules/Login/selectors';
@@ -40,10 +41,24 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   const dispatch = useDispatch();
 
+  const onGroupChange = (groupNumber: number) => {
+    dispatch(setGroup(groupNumber));
+    LocStore.setTextBookPosition({ group: groupNumber });
+  };
+
+  const onPageClick = (pageNumber: number) => {
+    dispatch(setPage(pageNumber));
+    LocStore.setTextBookPosition({ page: pageNumber });
+  };
+
   useEffect(() => {
     dispatch(setPageTitle('TextBook'));
-    dispatch(setGroup(0));
-    dispatch(setPage(0));
+
+    const { page: pageNumber, group: groupNumber } =
+      LocStore.getTextBookPosition() || {};
+
+    dispatch(setGroup(groupNumber || 0));
+    dispatch(setPage(pageNumber || 0));
   }, [dispatch]);
 
   useEffect(() => {
@@ -94,10 +109,13 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 initialPage={page}
                 forcePage={page}
                 group={group}
+                onPageClick={onPageClick}
               />
             </div>
             <div className={classes.mainGrid}>
               <WordList
+                group={group}
+                page={page}
                 words={words}
                 checkedDifficulty="easy"
                 isButtons={true}
@@ -106,7 +124,11 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
               />
             </div>
             <div className={classes.sideGrid}>
-              <GroupSelector isOpacity={scroll > 200} />
+              <GroupSelector
+                group={group}
+                isOpacity={scroll > 200}
+                onGroupChange={onGroupChange}
+              />
             </div>
             <div className={classes.paginationBottom}>
               <Pagination
@@ -114,6 +136,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 initialPage={page}
                 forcePage={page}
                 group={group}
+                onPageClick={onPageClick}
               />
             </div>
           </div>
