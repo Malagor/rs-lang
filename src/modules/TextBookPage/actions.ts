@@ -271,7 +271,7 @@ export const loadAdditionalGameWords = (
   group: number = 0,
   page: number = 0,
   wordPerPage: number = WORDS_ON_EACH_PAGE,
-  wordsFilter: WordSectionType = LEARNING_SECTION
+  wordsFilter?: WordSectionType
 ): ThunkAction<
   Promise<unknown>,
   StateTextBook,
@@ -280,10 +280,12 @@ export const loadAdditionalGameWords = (
 > => async (dispatch) => {
   dispatch(setIsLoading(true));
   let filter = '';
-  if (wordsFilter === DIFFICULT_SECTION) {
-    filter = '{"userWord.difficulty":"hard"}';
+  if (wordsFilter === LEARNING_SECTION) {
+    filter = `{"$or":[{"userWord.difficulty":"${NORMAL_DIFFICULTY}"},{"userWord.difficulty":"${HARD_DIFFICULTY}"}]}`;
+  } else if (wordsFilter === DIFFICULT_SECTION) {
+    filter = `{"userWord.difficulty":"${HARD_DIFFICULTY}"}`;
   } else if (wordsFilter === DELETED_SECTION) {
-    filter = '{"userWord.difficulty":"easy"}';
+    filter = `{"userWord.difficulty":"${EASY_DIFFICULTY}"}`;
   }
   database
     .getUserAggregatedWord({
@@ -296,7 +298,7 @@ export const loadAdditionalGameWords = (
     .then(
       (res) => {
         const additionalWords: Word[] =
-          wordsFilter === DELETED_SECTION
+          filter !== ''
             ? res[0].paginatedResults
             : getNonDeletedWords(res[0].paginatedResults);
         dispatch(addGameWords(additionalWords));

@@ -56,7 +56,6 @@ import {
 } from 'appConstants';
 import { useStyles } from 'modules/TextBookPage/styled';
 import { GroupSelector } from 'components/GroupSelector';
-import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import { Sections } from './components';
 import { LoadWrapper } from './styled';
 
@@ -111,14 +110,12 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   }, [scroll]);
 
   useEffect(() => {
+    dispatch(setGameWords(words));
     if (wordSection === LEARNING_SECTION) {
-      dispatch(setGameWords(getNonDeletedWords(words)));
       dispatch(setGameWordsKind(WordsSource.FROM_LEARNING));
     } else if (wordSection === DIFFICULT_SECTION) {
-      dispatch(setGameWords(words));
       dispatch(setGameWordsKind(WordsSource.FROM_DIFFICULT));
     } else {
-      dispatch(setGameWords(words));
       dispatch(setGameWordsKind(WordsSource.FROM_DELETED));
     }
     setGettingGameWords(true);
