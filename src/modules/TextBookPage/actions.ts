@@ -16,6 +16,8 @@ import {
   DELETED_SECTION,
   DIFFICULT_SECTION,
   LEARNING_SECTION,
+  PAGES_IN_EACH_GROUP,
+  WORDS_ON_EACH_PAGE,
 } from 'appConstants';
 import {
   SET_PAGE,
@@ -270,7 +272,7 @@ export const loadRandomGameWords = (
   unknown,
   Action<string>
 > => async (dispatch) => {
-  const page = Math.floor(Math.random() * 30);
+  const page = Math.floor(Math.random() * PAGES_IN_EACH_GROUP);
   dispatch(setIsLoading(true));
   database.getWords(group, page).then(
     (words) => {
@@ -289,7 +291,7 @@ export const loadAdditionalGameWords = (
   userId: string,
   group: number = 0,
   page: number = 0,
-  wordPerPage: number = 20,
+  wordPerPage: number = WORDS_ON_EACH_PAGE,
   wordsFilter: WordSectionType = LEARNING_SECTION
 ): ThunkAction<
   Promise<unknown>,

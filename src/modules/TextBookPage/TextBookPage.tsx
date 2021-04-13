@@ -20,7 +20,11 @@ import {
 import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
-import { MIN_WORDS_TO_PLAY, WordsSource } from 'appConstants';
+import {
+  MIN_WORDS_TO_PLAY,
+  PAGES_IN_EACH_GROUP,
+  WordsSource,
+} from 'appConstants';
 import {
   selectTextBookGroup,
   selectTextBookPage,
@@ -86,7 +90,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
       setCheckPageForGameWords(-1);
     } else if (page === 0) {
       setCheckGroupForGameWords(group - 1);
-      setCheckPageForGameWords(29);
+      setCheckPageForGameWords(PAGES_IN_EACH_GROUP - 1);
     } else {
       setCheckGroupForGameWords(group);
       setCheckPageForGameWords(page - 1);
@@ -121,7 +125,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
           setCheckPageForGameWords(-1);
         } else if (checkPageForGameWords === 0) {
           setCheckGroupForGameWords(checkGroupForGameWords - 1);
-          setCheckPageForGameWords(29);
+          setCheckPageForGameWords(PAGES_IN_EACH_GROUP - 1);
         } else {
           setCheckPageForGameWords(checkPageForGameWords - 1);
         }

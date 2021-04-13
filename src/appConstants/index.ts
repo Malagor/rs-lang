@@ -7,6 +7,8 @@ export const DRAWER_WIDTH = 240;
 export const COUNT_GROUPS = 6;
 export const MIN_PASSWORD_LENGTH = 8;
 export const MIN_WORDS_TO_PLAY = 10;
+export const WORDS_ON_EACH_PAGE = 20;
+export const PAGES_IN_EACH_GROUP = 30;
 
 export const API_CLOUDINARY =
   'https://api.cloudinary.com/v1_1/rs-lang/image/upload';
