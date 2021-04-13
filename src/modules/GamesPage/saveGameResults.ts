@@ -1,3 +1,4 @@
+import { NORMAL_DIFFICULTY } from 'appConstants';
 import { updateStatisticsGames } from 'modules/StatisticsPage/actions';
 import { AnyAction } from 'redux';
 import { ThunkDispatch } from 'redux-thunk';
@@ -27,21 +28,20 @@ const updateWordStatistics = async (
       // eslint-disable-next-line no-underscore-dangle
       const wordId = word._id || word.id;
 
-      const userWord = await database.getUserWord(userId, wordId).catch(
-        () => null
-        //   database.createUserWord({
-        //     userId,
-        //     wordId,
-        //     wordOptions: {
-        //       difficulty: 'learning',
-        //       optional: {
-        //         statistics: {
-        //           correct: 0,
-        //           incorrect: 0,
-        //         },
-        //       },
-        //     },
-        //   })
+      const userWord = await database.getUserWord(userId, wordId).catch(() =>
+        database.createUserWord({
+          userId,
+          wordId,
+          wordOptions: {
+            difficulty: NORMAL_DIFFICULTY,
+            optional: {
+              statistics: {
+                correct: 0,
+                incorrect: 0,
+              },
+            },
+          },
+        })
       );
 
       if (!userWord) return Promise.resolve();

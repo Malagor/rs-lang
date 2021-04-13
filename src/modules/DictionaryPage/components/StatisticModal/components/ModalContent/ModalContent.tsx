@@ -4,7 +4,7 @@ import {
   COLOR_LAYOUT_YELLOW,
 } from 'appConstants/colors';
 import {
-  selectCheckedDifficulty,
+  selectCheckedDifficulties,
   selectTextBookWords,
 } from 'modules/TextBookPage/selectors';
 import React from 'react';
@@ -22,7 +22,7 @@ import {
 
 export const ModalContent: React.FC = () => {
   const words: Word[] = useSelector(selectTextBookWords);
-  const checkedDifficulty = useSelector(selectCheckedDifficulty);
+  const checkedDifficulties = useSelector(selectCheckedDifficulties);
 
   const wordPerPage = 20;
 
@@ -47,7 +47,7 @@ export const ModalContent: React.FC = () => {
   );
 
   const countWords = words.filter(
-    (word) => word.userWord?.difficulty !== checkedDifficulty
+    (word) => !checkedDifficulties.includes(word.userWord?.difficulty!)
   ).length;
 
   return (
