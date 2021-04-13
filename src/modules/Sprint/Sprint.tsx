@@ -30,7 +30,7 @@ export const START_PAGE = 'startPage';
 export const PLAY_PAGE = 'palyPage';
 export const RESULTS_PAGE = 'resultsPage';
 
-const TIME_GAME = 10;
+const TIME_GAME = 60;
 
 const getRandomIntInclusive = (min: number, max: number) => {
   const min1 = Math.ceil(min);
@@ -61,16 +61,13 @@ export const Sprint: FC<GamesProps> = () => {
 
   const words: Word[] = useSelector(selectTextBookWords);
   const page = useSelector(selectTextBookPage);
-  // const group = useSelector(selectTextBookGroup);
   const userId = useSelector(selectUserId);
   const error = useSelector(selectTextBookError);
 
   const history = useHistory();
   const dispatch = useDispatch();
 
-  // const containerRef = useRef<HTMLDivElement>(null);
   const soundRef = useRef<HTMLAudioElement>(null);
-  // const pronunciationRef = useRef<HTMLAudioElement>(null);
 
   const startOver = () => {
     setGamePage(PLAY_PAGE);
@@ -189,11 +186,6 @@ export const Sprint: FC<GamesProps> = () => {
     dispatch(setPageTitle('Sprint'));
   }, [dispatch]);
 
-  /* if (!userId) return <RedirectionModal />; */
-
-  // console.log('selectedValue', selectedValue);
-  console.log(' group ', group);
-
   return (
     <GameContainer>
       {error && <ErrorMessage />}
@@ -234,40 +226,6 @@ export const Sprint: FC<GamesProps> = () => {
       <audio ref={soundRef}>
         <track kind="captions" />
       </audio>
-      {/*       <audio ref={pronunciationRef}>
-        <track kind="captions" />
-      </audio> */}
     </GameContainer>
   );
 };
-
-/*   const createGameWords = () => {
-    const randomNumWord = getRandomIntInclusive(0, words.length - 1);
-    setIndexWordNow(randomNumWord);
-    setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
-
-    console.log('createGameWords__isRightCase', isRightCase);
-    console.log('randomNumWord', indexWordNow);
-
-
-
-    if (words && indexWordNow) {
-      setGameEnglishWord(words[indexWordNow].word);
-      if (isRightCase) {
-        setGameTranslatedWord(words[indexWordNow].wordTranslate);
-      } else {
-        const randomNumWordTranslate = () => {
-          const numRandomWordTranslate = getRandomIntInclusive(
-            0,
-            words.length - 1
-          );
-          if (indexWordNow === numRandomWordTranslate) {
-            randomNumWordTranslate();
-          } else {
-            setGameTranslatedWord(words[numRandomWordTranslate].wordTranslate);
-          }
-        };
-        randomNumWordTranslate();
-      }
-    }
-  }; */
