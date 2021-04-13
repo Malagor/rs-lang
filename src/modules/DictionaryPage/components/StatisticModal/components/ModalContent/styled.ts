@@ -10,12 +10,11 @@ export const Title = styled.div`
 `;
 
 export const MarkedBlock = styled.div`
-  display: flex;
-  width: 100%;
-  height: 8px;
+  display: grid;
+  /* width: 100%; */
 
   & + div {
-    margin-right: 8px;
+    margin-top: 8px;
   }
 `;
 
@@ -28,12 +27,12 @@ export const MarkedItem = styled.div<MarkedItemType>`
   height: 8px;
   width: ${({ length }) => length}%;
   background-color: ${({ color }) => color};
-  margin: 4px;
+  margin: 8px;
   border-radius: 4px;
 `;
 
 export const Explanations = styled.div`
-  display: flex;
+  display: grid;
   width: 100%;
   justify-content: space-between;
   align-items: center;
@@ -42,7 +41,7 @@ export const Explanations = styled.div`
 export const ExplanationItem = styled.div`
   display: flex;
   align-items: center;
-  margin: 8px;
+  margin: 4px;
 
   span {
     margin: 0 4px;

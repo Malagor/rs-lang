@@ -55,7 +55,7 @@ export const ModalContent: React.FC = () => {
       <div style={{ marginBottom: 20 }}>
         <Title>Page</Title>
         <MarkedBlock>
-          <MarkedItem length={33} color={COLOR_LAYOUT_YELLOW} />
+          <MarkedItem length={100} color={COLOR_LAYOUT_YELLOW} />
           <MarkedItem length={33} color={COLOR_LAYOUT_BLUE} />
           <MarkedItem length={33} color={COLOR_LAYOUT_ORANGE} />
         </MarkedBlock>
