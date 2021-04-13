@@ -49,7 +49,9 @@ import {
   HARD_DIFFICULTY,
   LEARNING_SECTION,
   MIN_WORDS_TO_PLAY,
+  PAGES_IN_EACH_GROUP,
   WordsSource,
+  WORDS_ON_EACH_PAGE,
 } from 'appConstants';
 import { useStyles } from 'modules/TextBookPage/styled';
 import { GroupSelector } from 'components/GroupSelector';
@@ -168,7 +170,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           userId,
           checkGroupForGameWords,
           checkPageForGameWords,
-          20,
+          WORDS_ON_EACH_PAGE,
           wordSection
         )
       ).then(() => {
@@ -177,7 +179,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           setCheckPageForGameWords(-1);
         } else if (checkPageForGameWords === 0) {
           setCheckGroupForGameWords(checkGroupForGameWords - 1);
-          setCheckPageForGameWords(29);
+          setCheckPageForGameWords(PAGES_IN_EACH_GROUP - 1);
         } else {
           setCheckPageForGameWords(checkPageForGameWords - 1);
         }
