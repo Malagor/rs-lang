@@ -13,29 +13,25 @@ import {
   NavGame,
 } from 'components';
 import { setPageTitle } from 'store/commonState/actions';
-import {
-  selectUser,
-  selectUserId,
-  selectAuthLoadingStatus,
-} from 'modules/Login/selectors';
+import { selectUserId, selectAuthLoadingStatus } from 'modules/Login/selectors';
 import {
   selectDictionaryGroup,
   selectDictionaryPage,
   selectTextBookError,
   selectTextBookWords,
-  selectCheckedDifficulty,
+  selectCheckedDifficulties,
   selectPagesCount,
   selectWordSection,
   selectIsLoading,
 } from 'modules/TextBookPage/selectors';
 import {
-  loadUserAggregateWords,
   loadUserDeletedWords,
   loadUserDifficultWords,
+  loadUserLearningWords,
   loadWords,
-  setCheckedDifficulty,
   setDictionaryGroup,
   setDictionaryPage,
+  setCheckedDifficulties,
   setWordSection,
 } from 'modules/TextBookPage/actions';
 import {
@@ -44,6 +40,7 @@ import {
   EASY_DIFFICULTY,
   HARD_DIFFICULTY,
   LEARNING_SECTION,
+  NORMAL_DIFFICULTY,
 } from 'appConstants';
 import { useStyles } from 'modules/TextBookPage/styled';
 import { GroupSelector } from 'components/GroupSelector';
@@ -57,8 +54,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   const page = useSelector(selectDictionaryPage);
   const group = useSelector(selectDictionaryGroup);
   const error = useSelector(selectTextBookError);
-  const user = useSelector(selectUser);
-  const checkedDifficulty = useSelector(selectCheckedDifficulty);
+  const checkedDifficulties = useSelector(selectCheckedDifficulties);
   const pagesCount = useSelector(selectPagesCount);
   const wordSection = useSelector(selectWordSection);
   const isLoading = useSelector(selectIsLoading);
@@ -122,7 +118,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   useEffect(() => {
     if (userId) {
       if (wordSection === LEARNING_SECTION)
-        dispatch(loadUserAggregateWords(userId, group, page));
+        dispatch(loadUserLearningWords(userId, group, page));
 
       if (wordSection === DIFFICULT_SECTION)
         dispatch(loadUserDifficultWords(userId, group, page));
@@ -143,22 +139,19 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     });
   };
 
-  const onUsualWords = () => {
+  const onLearningWords = () => {
     onSectionChange(LEARNING_SECTION);
-    dispatch(setCheckedDifficulty(EASY_DIFFICULTY));
-    dispatch(loadUserAggregateWords(user.id, group, 0));
+    dispatch(setCheckedDifficulties([EASY_DIFFICULTY]));
   };
 
   const onDifficultWords = () => {
     onSectionChange(DIFFICULT_SECTION);
-    dispatch(setCheckedDifficulty(EASY_DIFFICULTY));
-    dispatch(loadUserDifficultWords(user.id, group, 0));
+    dispatch(setCheckedDifficulties([NORMAL_DIFFICULTY, EASY_DIFFICULTY]));
   };
 
   const onDeletedWords = () => {
     onSectionChange(DELETED_SECTION);
-    dispatch(setCheckedDifficulty(HARD_DIFFICULTY));
-    dispatch(loadUserDeletedWords(user.id, group, 0));
+    dispatch(setCheckedDifficulties([NORMAL_DIFFICULTY, HARD_DIFFICULTY]));
   };
 
   if (!userId && !isUserLoading) return <RedirectionModal />;
@@ -191,7 +184,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
             <Sections
               group={group}
               activeSection={wordSection}
-              handlers={[onUsualWords, onDifficultWords, onDeletedWords]}
+              handlers={[onLearningWords, onDifficultWords, onDeletedWords]}
             />
           </div>
           <div className={classes.mainGrid}>
@@ -199,7 +192,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
               group={group}
               page={page}
               words={words}
-              checkedDifficulty={checkedDifficulty}
+              checkedDifficulties={checkedDifficulties}
               isButtons={true}
               showBtnDeleteDifficult={wordSection === LEARNING_SECTION}
               showBtnRestore={wordSection !== LEARNING_SECTION}

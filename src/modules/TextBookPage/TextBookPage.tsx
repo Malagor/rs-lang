@@ -10,6 +10,7 @@ import {
 } from 'components';
 
 import { Container } from '@material-ui/core';
+import { EASY_DIFFICULTY } from 'appConstants';
 import { LocStore } from 'services';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
@@ -117,7 +118,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 group={group}
                 page={page}
                 words={words}
-                checkedDifficulty="easy"
+                checkedDifficulties={[EASY_DIFFICULTY]}
                 isButtons={true}
                 showBtnDeleteDifficult={true}
                 showBtnRestore={false}

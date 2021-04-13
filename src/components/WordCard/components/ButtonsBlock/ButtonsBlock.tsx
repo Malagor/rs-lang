@@ -9,6 +9,7 @@ import {
   loadUserAggregateWords,
   loadUserDeletedWords,
   loadUserDifficultWords,
+  loadUserLearningWords,
   removeWordFromUserList,
   updateWordInUserList,
 } from 'modules/TextBookPage/actions';
@@ -108,7 +109,7 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     await removeWordFromUserList(userID, wordID);
     if (wordSection === LEARNING_SECTION)
-      dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
+      dispatch(loadUserLearningWords(userID, groupNumber, pageNumber));
 
     if (wordSection === DIFFICULT_SECTION)
       dispatch(loadUserDifficultWords(userID, groupNumber, pageNumber));
