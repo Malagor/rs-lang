@@ -262,6 +262,29 @@ export const loadUserDeletedWords = (
     );
 };
 
+export const loadRandomGameWords = (
+  group: number
+): ThunkAction<
+  Promise<unknown>,
+  StateTextBook,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  const page = Math.floor(Math.random() * 30);
+  dispatch(setIsLoading(true));
+  database.getWords(group, page).then(
+    (words) => {
+      dispatch(setGameWords(words));
+      dispatch(clearWordsError());
+      dispatch(setIsLoading(false));
+    },
+    (err) => {
+      dispatch(setWordsError(err));
+      dispatch(setIsLoading(false));
+    }
+  );
+};
+
 export const loadAdditionalGameWords = (
   userId: string,
   group: number = 0,
@@ -296,6 +319,7 @@ export const loadAdditionalGameWords = (
             ? res[0].paginatedResults
             : getNonDeletedWords(res[0].paginatedResults);
         dispatch(addGameWords(additionalWords));
+        dispatch(clearWordsError());
         dispatch(setIsLoading(false));
       },
       (err) => {
