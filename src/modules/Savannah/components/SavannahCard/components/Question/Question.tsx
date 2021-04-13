@@ -15,31 +15,14 @@ const ANIMATION_DURATION = 500;
 export const Question: FC<QuestionProps> = ({
   word,
   hasAnswer,
-  setAnimation,
   setFinishRound,
 }) => {
   const [top, setTop] = useState(0);
 
-  // useEffect(() => {
-  // }, [setFinishRound, word]);
-
   useEffect(() => {
-    // setFinishRound(false);
-    console.log('useEffect Start');
-    if (hasAnswer) {
-      console.log('есть ответ');
-      setTimeout(() => {
-        setFinishRound(true);
-      }, ANIMATION_DELAY);
-    }
     const interval = setInterval(() => {
       setTop((prev) => {
         if (hasAnswer) {
-          console.log('prev', prev);
-
-          //   setTimeout(() => {
-          //     setFinishRound(true);
-          //   }, ANIMATION_DELAY);
           return prev;
         }
         if (prev + 100 < 500) {
@@ -55,12 +38,8 @@ export const Question: FC<QuestionProps> = ({
     }, ANIMATION_DURATION);
 
     return () => {
-      console.log('useEffect FINISH');
       setTop(0);
       clearInterval(interval);
-      // setTimeout(() => {
-      //   setAnimation(false);
-      // }, ANIMATION_DELAY);
     };
   }, [setFinishRound, hasAnswer, word]);
 
@@ -68,11 +47,6 @@ export const Question: FC<QuestionProps> = ({
     top: `${top}px`,
     transition: `top ${ANIMATION_DURATION}ms linear`,
     opacity: 1,
-  };
-
-  const styleIncorrect = {
-    letterSpacing: `100px`,
-    transition: `letter-spacing ${ANIMATION_DURATION}s linear`,
   };
 
   return (

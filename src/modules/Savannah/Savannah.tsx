@@ -103,7 +103,6 @@ export const Savannah: FC = () => {
     setLongerChain(0);
     setIsResultOpen(false);
     setLives(SAVANNAH_LIVES);
-    // setAnimation(false);
   }, []);
 
   // Load Words
@@ -132,7 +131,6 @@ export const Savannah: FC = () => {
 
   // Correct Answer
   const handlerCorrectAnswer = useCallback(() => {
-    // console.log('CORRECT:', words[current].wordTranslate);
     setCorrectWords([...correctWords, words[current]]);
     setChain((prev) => prev);
     playSound(CorrectSound);
@@ -140,7 +138,6 @@ export const Savannah: FC = () => {
 
   // Incorrect Answer
   const handlerIncorrectAnswer = useCallback(() => {
-    // console.log('INCORRECT:', words[current].wordTranslate);
     setIncorrectWords([...incorrectWords, words[current]]);
     if (chain > longerChain) {
       setLongerChain(chain);
@@ -209,13 +206,9 @@ export const Savannah: FC = () => {
         handlerIncorrectAnswer();
       }
       setUserAnswer(index);
-      console.log('Новый раунд');
-      if (finishRound) {
-        nextRound();
-      }
+      nextRound();
     },
     [
-      finishRound,
       nextRound,
       correctAnswerIndex,
       handlerCorrectAnswer,
@@ -249,10 +242,6 @@ export const Savannah: FC = () => {
         if (isFinish) {
           return;
         }
-        // if (userAnswerIndex !== '-1') {
-        //   console.log('keyDownHandler ответ пользователя === -1');
-        //   return;
-        // }
         const index = `${parseInt(key, 10) - 1}`;
         checkAnswer(index);
       }
