@@ -6,7 +6,7 @@ import { TGamePages, RESULTS_PAGE } from '../../../../Sprint';
 type GameStatisticBoardProps = {
   timeGame: number;
   gamePoints: number;
-  setGamePage: React.Dispatch<React.SetStateAction<TGamePages>>; // (page: TGamePages) => void;
+  setGamePage: React.Dispatch<React.SetStateAction<TGamePages>>;
   preMultiplier: number;
   multiplier: number;
   playFinishSound: () => void;

@@ -5,7 +5,7 @@ import { GameStatisticBoard } from './components';
 
 type GameStatisticBoardProps = {
   timeGame: number;
-  setGamePage: React.Dispatch<React.SetStateAction<TGamePages>>; // (game: TGamePages) => void;
+  setGamePage: React.Dispatch<React.SetStateAction<TGamePages>>;
   gamePoints: number;
   setGamePoints: React.Dispatch<React.SetStateAction<number>>;
   isRightCase: boolean | null;

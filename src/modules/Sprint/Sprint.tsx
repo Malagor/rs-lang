@@ -1,7 +1,6 @@
 import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
 import { Word } from 'types';
 import { URL_GAMES } from 'appConstants/url';
-import { Container, Paper } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setPageTitle } from 'store/commonState/actions';
@@ -17,10 +16,8 @@ import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
 import { LocStore } from 'services/localStorage';
-import { saveGameResults } from 'modules/GamesPage/saveGameResults';
-import { RedirectionModal } from '../../components/RedirectionModal';
 import { selectUserId } from '../Login/selectors';
-import { StartPage, PlayPage, ResultsPage } from './components';
+import { StartPage, PlayPage } from './components';
 import { GameContainer } from './styled';
 
 type GamesProps = {};
