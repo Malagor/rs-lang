@@ -57,9 +57,6 @@ export const Answers: FC<AnswersProps> = ({
   onUserAnswer,
   userChoice,
 }) => {
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onUserAnswer(event.target.value);
-  };
   const classes = useStyles();
 
   return (
@@ -70,7 +67,7 @@ export const Answers: FC<AnswersProps> = ({
           aria-label="answers"
           name="answers"
           value={userChoice}
-          onChange={handleChange}
+          onChange={(event) => onUserAnswer(event.target.value)}
         >
           {answers.map((answer, index) => {
             const activeItem = parseInt(userChoice, 10) === index;

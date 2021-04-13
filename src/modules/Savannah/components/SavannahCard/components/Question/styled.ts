@@ -8,32 +8,32 @@ export const QuestionWrapper = styled.div`
   transform: translate(-50%, -50%);
   height: 500px;
   width: 500px;
-  border-bottom: 1px solid blue;
+  border-bottom: 1px solid #eafff2;
 `;
 
 const letterSpacing = keyframes`
   from {
-  opacity: 1;
+  //opacity: 1;
     letter-spacing: 0;
   }
   to {
-  opacity: 0;
+  //opacity: 0;
     letter-spacing: 100px;
   }
 `;
 
 const slidedown = keyframes`
   0% {
-    opacity: 1;
+    //opacity: 1;
     top: 0;
   }
   100% {
     top: 500px;
-    opacity: 1;
+    //opacity: 1;
   }
 `;
 
-export const CurrentWord = styled.div`
+export const CurrentWord = styled.div<{ topPosition: number }>`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -41,12 +41,7 @@ export const CurrentWord = styled.div`
   padding: 0;
   font-size: 35px;
   color: ${COLOR_LAYOUT_BACKGROUND};
-  animation: ${slidedown} 5s linear forwards,
-    ${letterSpacing} 1s linear 5s forwards;
   opacity: 0;
 `;
-
-type AnswerReactionProps = {
-  userAnswer?: boolean;
-};
-export const AnswerReaction = styled.div<AnswerReactionProps>``;
+// top: ${({ topPosition }) => topPosition || 0}px;
+// transition: top 0.5s linear;

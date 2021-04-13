@@ -8,6 +8,7 @@ export const AudioWrapper = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  color: black;
 `;
 
 export const GameContainer = styled.div<{ background: string }>`

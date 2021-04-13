@@ -19,8 +19,10 @@ export const COLOR_LAYOUT_HEADER = '#F5F5F5';
 export const COLOR_LAYOUT_LIGHT_GRAY = '#888888';
 export const COLOR_LAYOUT_DARK_GRAY = '#8D8D8D';
 
+// TODO: Вернуть цвета
 export const SAVANNAH_BACKGROUND =
-  'linear-gradient(180deg, #FF5F6D 0%, #FF8C6F 43.75%, #FFC371 100%)';
+  'linear-gradient(180deg, #870510 0%,#6e1600 43.75%,#5b5040 100%)';
+// 'linear-gradient(180deg, #FF5F6D 0%, #FF8C6F 43.75%, #FFC371 100%)';
 export const AUDIO_CHALLENGE_BACKGROUND =
   'linear-gradient(180deg, #185A9D 0%, #43CEA2 100%)';
 export const SPRINT_BACKGROUND =

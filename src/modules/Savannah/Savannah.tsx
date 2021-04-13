@@ -54,6 +54,7 @@ export const Savannah: FC = () => {
   const [correctAnswerIndex, setCorrectAnswer] = useState('-1');
   const [userAnswerIndex, setUserAnswer] = useState('-1');
   const [lives, setLives] = useState(SAVANNAH_LIVES);
+  const [finishRound, setFinishRound] = useState(false);
 
   // statistics
   const [correctWords, setCorrectWords] = useState<Word[]>([]);
@@ -102,6 +103,7 @@ export const Savannah: FC = () => {
     setLongerChain(0);
     setIsResultOpen(false);
     setLives(SAVANNAH_LIVES);
+    // setAnimation(false);
   }, []);
 
   // Load Words
@@ -113,7 +115,7 @@ export const Savannah: FC = () => {
           userId,
           group,
           page,
-          wordPerPage: 20,
+          wordPerPage: 6,
           filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
         })
         .then((data) => data[0].paginatedResults);
@@ -130,7 +132,7 @@ export const Savannah: FC = () => {
 
   // Correct Answer
   const handlerCorrectAnswer = useCallback(() => {
-    console.log('Correct Answer', words[current].wordTranslate);
+    // console.log('CORRECT:', words[current].wordTranslate);
     setCorrectWords([...correctWords, words[current]]);
     setChain((prev) => prev);
     playSound(CorrectSound);
@@ -138,7 +140,7 @@ export const Savannah: FC = () => {
 
   // Incorrect Answer
   const handlerIncorrectAnswer = useCallback(() => {
-    console.log('Incorrect Answer', words[current].wordTranslate);
+    // console.log('INCORRECT:', words[current].wordTranslate);
     setIncorrectWords([...incorrectWords, words[current]]);
     if (chain > longerChain) {
       setLongerChain(chain);
@@ -146,7 +148,19 @@ export const Savannah: FC = () => {
     setChain(0);
     playSound(WrongSound);
     setLives((l: number) => l - 1);
-  }, [incorrectWords, chain, longerChain, words, current, playSound]);
+    if (lives - 1 <= 0) {
+      setFinish(true);
+    }
+  }, [
+    setFinish,
+    lives,
+    incorrectWords,
+    chain,
+    longerChain,
+    words,
+    current,
+    playSound,
+  ]);
 
   // Choice of answer variants
   const addVariantsAnswers = useCallback(() => {
@@ -176,29 +190,35 @@ export const Savannah: FC = () => {
     }
   }, [words, current]);
 
-  // Next Question
-  const answerHandler = useCallback(() => {
-    setUserAnswer('-1');
-    if (current === words.length - 1) setFinish(true);
-    if (lives <= 1) setFinish(true);
-    if (current < words.length) {
-      setCurrentWord(current + 1);
+  // Next Round
+  // const nextRound = useCallback(() => {
+  useEffect(() => {
+    if (finishRound) {
+      // setFinishRound(false);
+      console.log('finishRound', finishRound);
+
+      setUserAnswer('-1');
+      if (current === words.length - 1) setFinish(true);
+      if (current < words.length) {
+        setCurrentWord((prev) => prev + 1);
+      }
     }
-  }, [words, current, lives]);
+  }, [words, current, finishRound]);
 
   // Check Answer
   const checkAnswer = useCallback(
     (index: string) => {
-      setUserAnswer(index);
+      console.log('CHECK_ANSWER, index answer', index);
       if (index === correctAnswerIndex) {
         handlerCorrectAnswer();
       } else {
         handlerIncorrectAnswer();
       }
-      answerHandler();
+      setUserAnswer(index);
+      // nextRound();
     },
     [
-      answerHandler,
+      // nextRound,
       correctAnswerIndex,
       handlerCorrectAnswer,
       handlerIncorrectAnswer,
@@ -216,8 +236,10 @@ export const Savannah: FC = () => {
   }, [chain, longerChain, playSound, isFinish, saveStatistics]);
 
   const closeResultModal = useCallback(() => {
-    history.push('/games');
-  }, [history]);
+    // history.push('/games');
+    // TODO: Убрать начало новой игры и вернуть переадресацию
+    handlerNewGame();
+  }, [handlerNewGame, history]);
 
   // Keyboard listener
   useEffect(() => {
@@ -229,19 +251,20 @@ export const Savannah: FC = () => {
         if (isFinish) {
           return;
         }
-        if (userAnswerIndex !== '-1') {
-          return;
-        }
+        // if (userAnswerIndex !== '-1') {
+        //   console.log('keyDownHandler ответ пользователя === -1');
+        //   return;
+        // }
         const index = `${parseInt(key, 10) - 1}`;
-        setUserAnswer(index);
         checkAnswer(index);
       }
     };
+
     window.addEventListener('keydown', keyDownHandler);
     return () => {
       window.removeEventListener('keydown', keyDownHandler);
     };
-  }, [checkAnswer, isFinish, setUserAnswer, userAnswerIndex]);
+  }, [checkAnswer, isFinish]);
 
   // Add Variants for Answers listener
   useEffect(() => {
@@ -250,11 +273,14 @@ export const Savannah: FC = () => {
 
   // Finish game listener
   useEffect(() => {
-    handleFinishGame();
-  }, [isFinish, handleFinishGame, playSound]);
+    if (lives <= 0 || isFinish) {
+      handleFinishGame();
+    }
+  }, [handleFinishGame, lives, isFinish]);
 
   const hasContent = words.length && words[current];
 
+  // console.log('hasAnimation', hasAnimation);
   return (
     <GameContainer background={SAVANNAH_BACKGROUND} ref={containerRef}>
       <FullScreenWrapperFlexCenter>
@@ -278,15 +304,15 @@ export const Savannah: FC = () => {
             containerRef={containerRef}
           />
           {hasContent && !isFinish ? (
-            <>
-              <SavannahCard
-                word={words[current]}
-                variants={answersArray}
-                correctIndex={correctAnswerIndex}
-                onUserAnswer={checkAnswer}
-                userChoice={userAnswerIndex}
-              />
-            </>
+            <SavannahCard
+              word={words[current]}
+              variants={answersArray}
+              correctIndex={correctAnswerIndex}
+              userChoice={userAnswerIndex}
+              onUserAnswer={checkAnswer}
+              // onAnimation={setAnimation}
+              onFinishRound={setFinishRound}
+            />
           ) : null}
           {isResultOpen && isFinish && (
             <GameResults
