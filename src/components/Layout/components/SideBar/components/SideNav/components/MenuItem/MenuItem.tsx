@@ -13,7 +13,6 @@ type MenuItemProps = {
   to: string;
   title: string;
   showNotAuthorized?: boolean;
-  setMarkerTop?: React.Dispatch<React.SetStateAction<number>>;
 };
 
 export const MenuItem: FC<MenuItemProps> = ({
