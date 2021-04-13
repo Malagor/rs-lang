@@ -1,29 +1,18 @@
 import { loadRandomGameWords } from 'modules/TextBookPage/actions';
 import React, { FC } from 'react';
-import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { AnyAction } from 'redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { StateTextBook } from 'types';
 import { useStyles } from './styled';
 
 type GroupButtonProps = {
   group: number;
-  chosenGameLink: string;
 };
 
-export const GroupButton: FC<GroupButtonProps> = ({
-  group,
-  chosenGameLink,
-}) => {
+export const GroupButton: FC<GroupButtonProps> = ({ group }) => {
   const classes = useStyles({ group });
-  const dispatch: ThunkDispatch<StateTextBook, void, AnyAction> = useDispatch();
-  const history = useHistory();
+  const dispatch = useDispatch();
 
   const handleGroupClick = () => {
-    dispatch(loadRandomGameWords(group)).then(() => {
-      history.push(chosenGameLink);
-    });
+    dispatch(loadRandomGameWords(group));
   };
 
   return (

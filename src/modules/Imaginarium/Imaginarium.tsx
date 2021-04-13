@@ -32,7 +32,12 @@ import {
   PronounceButton,
   QuizWordContainer,
 } from './styled';
-import { Dashboard, WordImage, ModeChoosing } from './components';
+import {
+  Dashboard,
+  WordImage,
+  ModeChoosing,
+  NotEnoughWordsMessage,
+} from './components';
 
 const shuffle = (words: Word[]) =>
   words.slice().sort(() => Math.random() - 0.5);
@@ -62,6 +67,7 @@ export const Imaginarium = () => {
   const [wrongWord, setWrongWord] = useState('');
   const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
   const [isResultsModalOpened, setResultsModalOpened] = useState(false);
+  const [notEnoughWords, setNotEnoughWords] = useState(false);
 
   const gameWords: Word[] = useSelector(selectGameWords);
   const gameWordsKind: GameWordsKindType = useSelector(selectGameWordsKind);
@@ -174,18 +180,32 @@ export const Imaginarium = () => {
   }, [quizWord?.audio]);
 
   useEffect(() => {
+    if (gameWords.length < 8) {
+      setLoading(false);
+      setModeChoosing(false);
+      setNotEnoughWords(true);
+    }
+  }, [gameWords.length]);
+
+  useEffect(() => {
     if (mode === 'Sounds' && hasStarted && round !== QUIZ_COUNT) {
       pronounceQuizWord();
     }
   }, [pronounceQuizWord, hasStarted, mode, round]);
 
   useEffect(() => {
-    if (!error && !isModeChoosing && !hasStarted && isSoundOn) {
+    if (
+      !error &&
+      !notEnoughWords &&
+      !isModeChoosing &&
+      !hasStarted &&
+      isSoundOn
+    ) {
       playSound(TickingSound);
     } else if (soundRef && soundRef.current && soundRef.current.play) {
       soundRef.current.pause();
     }
-  }, [error, hasStarted, isModeChoosing, playSound, isSoundOn]);
+  }, [error, hasStarted, isModeChoosing, playSound, isSoundOn, notEnoughWords]);
 
   useEffect(() => {
     dispatch(setPageTitle('Imaginarium'));
@@ -286,44 +306,49 @@ export const Imaginarium = () => {
   return (
     <GameContainer ref={containerRef}>
       {error && <ErrorMessage />}
+      {notEnoughWords && <NotEnoughWordsMessage />}
       {!error && isModeChoosing && (
         <ModeChoosing setMode={setMode} setModeChoosing={setModeChoosing} />
       )}
       {!error && !isModeChoosing && isLoading && <Loader />}
-      {!error && !isModeChoosing && !isLoading && !hasFinished && (
-        <>
-          <Dashboard
-            isFullscreen={isFullScreen}
-            setFullscreen={setFullScreen}
-            isSoundOn={isSoundOn}
-            setSoundOn={setSoundOn}
-            containerRef={containerRef}
-            hasStarted={hasStarted}
-            setStarted={setStarted}
-            hasFinished={hasFinished}
-            initialCountdownTime={INITIAL_COUNTDOWN_TIME}
-            rightAnswers={rightlyAnswered.length}
-            wrongAnswers={wronglyAnswered.length}
-            round={round}
-            countdownTime={COUNTDOWN_TIME}
-            animationIsPlaying={animationIsPlaying}
-            handleCountdownEnd={handleCountdownEnd}
-          />
-          <GameField ref={gameFieldRef} breakpoints={theme.breakpoints}>
-            {wordImages}
-            <QuizWordContainer breakpoints={theme.breakpoints}>
-              {mode === 'Letters' && quizWord && quizWord.word}
-              {mode === 'Sounds' && (
-                <PronounceButton onClick={pronounceQuizWord} />
-              )}
-            </QuizWordContainer>
-          </GameField>
-          <LinearProgress
-            variant="determinate"
-            value={(round / QUIZ_COUNT) * 100}
-          />
-        </>
-      )}
+      {!error &&
+        !notEnoughWords &&
+        !isModeChoosing &&
+        !isLoading &&
+        !hasFinished && (
+          <>
+            <Dashboard
+              isFullscreen={isFullScreen}
+              setFullscreen={setFullScreen}
+              isSoundOn={isSoundOn}
+              setSoundOn={setSoundOn}
+              containerRef={containerRef}
+              hasStarted={hasStarted}
+              setStarted={setStarted}
+              hasFinished={hasFinished}
+              initialCountdownTime={INITIAL_COUNTDOWN_TIME}
+              rightAnswers={rightlyAnswered.length}
+              wrongAnswers={wronglyAnswered.length}
+              round={round}
+              countdownTime={COUNTDOWN_TIME}
+              animationIsPlaying={animationIsPlaying}
+              handleCountdownEnd={handleCountdownEnd}
+            />
+            <GameField ref={gameFieldRef} breakpoints={theme.breakpoints}>
+              {wordImages}
+              <QuizWordContainer breakpoints={theme.breakpoints}>
+                {mode === 'Letters' && quizWord && quizWord.word}
+                {mode === 'Sounds' && (
+                  <PronounceButton onClick={pronounceQuizWord} />
+                )}
+              </QuizWordContainer>
+            </GameField>
+            <LinearProgress
+              variant="determinate"
+              value={(round / QUIZ_COUNT) * 100}
+            />
+          </>
+        )}
       {hasFinished && (
         <GameResults
           isOpened={isResultsModalOpened}
