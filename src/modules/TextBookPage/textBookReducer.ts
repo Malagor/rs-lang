@@ -8,7 +8,7 @@ import {
   SET_SOUND,
   SET_WORDS,
   SET_PLAYED_SOUND,
-  SET_CHECKED_DIFFICULTY,
+  SET_CHECKED_DIFFICULTIES,
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
   SET_IS_LOADING,
@@ -25,7 +25,7 @@ export const textBookPageState: StateTextBook = {
   sounds: [],
   error: null,
   playedSound: '',
-  checkedDifficulty: EASY_DIFFICULTY,
+  checkedDifficulties: [EASY_DIFFICULTY],
   pagesCount: 0,
   wordSection: LEARNING_SECTION,
   isLoading: false,
@@ -73,10 +73,10 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
         playedSound: action.payload,
       };
 
-    case SET_CHECKED_DIFFICULTY:
+    case SET_CHECKED_DIFFICULTIES:
       return {
         ...state,
-        checkedDifficulty: action.payload,
+        checkedDifficulties: action.payload.slice(),
       };
 
     case SET_PAGES_COUNT:

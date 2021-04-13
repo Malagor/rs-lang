@@ -13,7 +13,7 @@ import { NoWordsMessage } from './components';
 
 type WordListProps = {
   words: Word[];
-  checkedDifficulty: DifficultyType;
+  checkedDifficulties: DifficultyType[];
   isButtons: boolean;
   showBtnDeleteDifficult: boolean;
   showBtnRestore: boolean;
@@ -21,7 +21,7 @@ type WordListProps = {
 
 export const WordList: FC<WordListProps> = ({
   words,
-  checkedDifficulty,
+  checkedDifficulties,
   isButtons,
   showBtnDeleteDifficult,
   showBtnRestore,
@@ -30,7 +30,7 @@ export const WordList: FC<WordListProps> = ({
   const isLoading = useSelector(selectIsLoading);
 
   const countWords = words.filter(
-    (word) => word.userWord?.difficulty !== checkedDifficulty
+    (word) => !checkedDifficulties.includes(word.userWord?.difficulty!)
   ).length;
 
   return countWords || isLoading ? (
@@ -38,7 +38,9 @@ export const WordList: FC<WordListProps> = ({
       <StatisticModal />
       <WordListStyled>
         {words.map((word) => {
-          const correctWord = word.userWord?.difficulty !== checkedDifficulty;
+          const correctWord = !checkedDifficulties.includes(
+            word.userWord?.difficulty!
+          );
           const wordStatistics = word.userWord?.optional?.statistics;
 
           return (

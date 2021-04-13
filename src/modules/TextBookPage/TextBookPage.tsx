@@ -10,6 +10,7 @@ import {
 } from 'components';
 
 import { Container } from '@material-ui/core';
+import { EASY_DIFFICULTY } from 'appConstants';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
 import { selectUser } from 'modules/Login/selectors';
@@ -99,7 +100,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
             <div className={classes.mainGrid}>
               <WordList
                 words={words}
-                checkedDifficulty="easy"
+                checkedDifficulties={[EASY_DIFFICULTY]}
                 isButtons={true}
                 showBtnDeleteDifficult={true}
                 showBtnRestore={false}
