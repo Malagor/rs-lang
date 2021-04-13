@@ -229,7 +229,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
   return (
     <Container>
       {error && <ErrorMessage />}
-      {isLoading && (
+      {(isLoading || gettingGameWords) && (
         <LoadWrapper>
           <Loader />
         </LoadWrapper>

@@ -174,7 +174,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   return (
     <Container>
-      {(!gameWords.length || gettingGameWords || isLoading) && (
+      {(gettingGameWords || isLoading) && (
         <div style={{ position: 'relative', zIndex: 10 }}>
           <Loader fixed />
         </div>
