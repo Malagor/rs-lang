@@ -166,12 +166,10 @@ export const loadUserAggregateWords = (
   dispatch
 ) => {
   dispatch(setIsLoading(true));
-  console.log(filter);
   database
     .getUserAggregatedWord({ userId, group, page, wordPerPage, filter })
     .then(
       (words) => {
-        console.log(words);
         dispatch(setWords(words[0].paginatedResults));
         dispatch(setPagesCount(getCountWords(words[0].totalCount)));
         dispatch(clearWordsError());
