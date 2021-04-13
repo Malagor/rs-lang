@@ -191,34 +191,32 @@ export const Savannah: FC = () => {
   }, [words, current]);
 
   // Next Round
-  // const nextRound = useCallback(() => {
-  useEffect(() => {
-    if (finishRound) {
-      // setFinishRound(false);
-      console.log('finishRound', finishRound);
-
-      setUserAnswer('-1');
-      if (current === words.length - 1) setFinish(true);
-      if (current < words.length) {
-        setCurrentWord((prev) => prev + 1);
-      }
+  const nextRound = useCallback(() => {
+    // useEffect(() => {
+    setUserAnswer('-1');
+    if (current === words.length - 1) setFinish(true);
+    if (current < words.length) {
+      setCurrentWord((prev) => prev + 1);
     }
-  }, [words, current, finishRound]);
+  }, [words, current]);
 
   // Check Answer
   const checkAnswer = useCallback(
     (index: string) => {
-      console.log('CHECK_ANSWER, index answer', index);
       if (index === correctAnswerIndex) {
         handlerCorrectAnswer();
       } else {
         handlerIncorrectAnswer();
       }
       setUserAnswer(index);
-      // nextRound();
+      console.log('Новый раунд');
+      if (finishRound) {
+        nextRound();
+      }
     },
     [
-      // nextRound,
+      finishRound,
+      nextRound,
       correctAnswerIndex,
       handlerCorrectAnswer,
       handlerIncorrectAnswer,

@@ -24,21 +24,24 @@ export const Question: FC<QuestionProps> = ({
   // }, [setFinishRound, word]);
 
   useEffect(() => {
-    setFinishRound(false);
+    // setFinishRound(false);
     console.log('useEffect Start');
     if (hasAnswer) {
+      console.log('есть ответ');
       setTimeout(() => {
         setFinishRound(true);
       }, ANIMATION_DELAY);
     }
     const interval = setInterval(() => {
       setTop((prev) => {
-        // if (hasAnswer) {
-        //   setTimeout(() => {
-        //     setFinishRound(true);
-        //   }, ANIMATION_DELAY);
-        //   return prev;
-        // }
+        if (hasAnswer) {
+          console.log('prev', prev);
+
+          //   setTimeout(() => {
+          //     setFinishRound(true);
+          //   }, ANIMATION_DELAY);
+          return prev;
+        }
         if (prev + 100 < 500) {
           return prev + 50;
         }
