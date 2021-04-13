@@ -1,5 +1,5 @@
 import React, { FC, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Auth } from 'types';
 import { API_CLOUDINARY } from 'appConstants/index';
 
@@ -16,6 +16,14 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { database, LocStore } from 'services';
+import {
+  selectLoginModalOpen,
+  selectRegistrationModalOpen,
+} from 'store/commonState/selectors';
+import {
+  setLoginModalOpen,
+  setRegistrationModalOpen,
+} from 'store/commonState/actions';
 import { setAuth, loadUserInfoById } from 'modules/Login/actions';
 import { Form } from './components';
 import { useStyles } from './styled';
@@ -32,27 +40,34 @@ export const LoginModal: FC = () => {
 
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(false);
-  const [login, setLogin] = useState(true);
+  const isLoginModalOpen = useSelector(selectLoginModalOpen);
+  const isRegistrationModalOpen = useSelector(selectRegistrationModalOpen);
+  const open = isLoginModalOpen || isRegistrationModalOpen;
 
   const [loadingImg, setLoadingImg] = useState(false);
   const [imageURL, setImageURL] = useState('');
 
   const [errorMessage, setErrorMessage] = useState('');
 
+  const setLogin = (value: boolean) => {
+    dispatch(setLoginModalOpen(value));
+    dispatch(setRegistrationModalOpen(!value));
+  };
+
   const handleClickOpen = () => {
-    setOpen(true);
+    dispatch(setRegistrationModalOpen(false));
+    dispatch(setLoginModalOpen(true));
   };
   const handleClose = () => {
-    setOpen(false);
+    dispatch(setLoginModalOpen(false));
+    dispatch(setRegistrationModalOpen(false));
   };
 
   const handleSubmitForm = async (data: SubmitFormData) => {
     const { name, email, password } = data;
 
     try {
-      if (!login && name) {
-        // need registration
+      if (isRegistrationModalOpen && name) {
         await database.createUser({
           id: '',
           name,
@@ -122,11 +137,11 @@ export const LoginModal: FC = () => {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              {login ? 'Login' : 'Registration'}
+              {isLoginModalOpen ? 'Login' : 'Registration'}
             </Typography>
 
             <Form
-              isLogin={login}
+              isLogin={isLoginModalOpen || !isRegistrationModalOpen}
               setLogin={setLogin}
               handleSubmitForm={handleSubmitForm}
               errorMessage={errorMessage}
