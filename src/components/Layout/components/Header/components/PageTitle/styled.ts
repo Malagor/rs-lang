@@ -15,3 +15,9 @@ export const useStyles = makeStyles((theme) => ({
     },
   },
 }));
+
+export const iconStyles = {
+  fontSize: '2rem',
+  cursor: 'pointer',
+  margin: '8px 0 0 5px',
+};

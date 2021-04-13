@@ -4,7 +4,7 @@ import { Typography } from '@material-ui/core';
 import TimelineIcon from '@material-ui/icons/Timeline';
 import { selectRefStatistic } from 'modules/TextBookPage/selectors';
 import { selectPageTitle } from 'store/commonState/selectors';
-import { TitleWrapper, useStyles } from './styled';
+import { iconStyles, TitleWrapper, useStyles } from './styled';
 import { TextBookSettings } from './components';
 
 type PageTitleProps = {};
@@ -13,12 +13,6 @@ export const PageTitle: FC<PageTitleProps> = () => {
   const title = useSelector(selectPageTitle);
   const refStatistic = useSelector(selectRefStatistic);
   const classes = useStyles();
-
-  const iconStyles = {
-    fontSize: '2rem',
-    cursor: 'pointer',
-    margin: '8px 0 0 5px',
-  };
 
   return (
     <TitleWrapper>
