@@ -10,15 +10,18 @@ import {
 import { database } from 'services';
 import { Action } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import { getCountWords } from 'helpers/dictionaryHelpers';
-import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import {
+  EASY_DIFFICULTY,
+  HARD_DIFFICULTY,
+  NORMAL_DIFFICULTY,
   DELETED_SECTION,
   DIFFICULT_SECTION,
   LEARNING_SECTION,
   PAGES_IN_EACH_GROUP,
   WORDS_ON_EACH_PAGE,
 } from 'appConstants';
+import { getCountWords } from 'helpers/dictionaryHelpers';
+import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import {
   SET_PAGE,
   SET_WORDS,
@@ -27,7 +30,7 @@ import {
   UPDATE_WORDS,
   SET_ERROR,
   SET_PLAYED_SOUND,
-  SET_CHECKED_DIFFICULTY,
+  SET_CHECKED_DIFFICULTIES,
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
   SET_IS_LOADING,
@@ -92,8 +95,8 @@ export const setPlayedSound = (payload: string) => ({
   payload,
 });
 
-export const setCheckedDifficulty = (payload: string) => ({
-  type: SET_CHECKED_DIFFICULTY,
+export const setCheckedDifficulties = (payload: DifficultyType[]) => ({
+  type: SET_CHECKED_DIFFICULTIES,
   payload,
 });
 
@@ -182,24 +185,26 @@ export const loadUserAggregateWords = (
   userId: string,
   group: number = 0,
   page: number = 0,
-  wordPerPage: number = 20
+  wordPerPage: number = 20,
+  filter: string = ''
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
   dispatch(setIsLoading(true));
-  // database.getUserAggregatedWord(userId, group, page, wordPerPage).then(
-  database.getUserAggregatedWord({ userId, group, page, wordPerPage }).then(
-    (words) => {
-      dispatch(setWords(words[0].paginatedResults));
-      dispatch(setPagesCount(getCountWords(words[0].totalCount)));
-      dispatch(clearWordsError());
-      dispatch(setIsLoading(false));
-    },
-    (err) => {
-      dispatch(setWordsError(err));
-      dispatch(setIsLoading(false));
-    }
-  );
+  database
+    .getUserAggregatedWord({ userId, group, page, wordPerPage, filter })
+    .then(
+      (words) => {
+        dispatch(setWords(words[0].paginatedResults));
+        dispatch(setPagesCount(getCountWords(words[0].totalCount)));
+        dispatch(clearWordsError());
+        dispatch(setIsLoading(false));
+      },
+      (err) => {
+        dispatch(setWordsError(err));
+        dispatch(setIsLoading(false));
+      }
+    );
 };
 
 export const loadUserDifficultWords = (
@@ -210,27 +215,20 @@ export const loadUserDifficultWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  dispatch(setIsLoading(true));
-  database
-    .getUserAggregatedWord({
-      userId,
-      group,
-      page,
-      wordPerPage,
-      filter: '{"userWord.difficulty":"hard"}',
-    })
-    .then(
-      (words) => {
-        dispatch(setWords(words[0].paginatedResults));
-        dispatch(setPagesCount(getCountWords(words[0].totalCount)));
-        dispatch(clearWordsError());
-        dispatch(setIsLoading(false));
-      },
-      (err) => {
-        dispatch(setWordsError(err));
-        dispatch(setIsLoading(false));
-      }
-    );
+  const filter = `{"userWord.difficulty":"${HARD_DIFFICULTY}"}`;
+  dispatch(loadUserAggregateWords(userId, group, page, wordPerPage, filter));
+};
+
+export const loadUserLearningWords = (
+  userId: string,
+  group: number = 0,
+  page: number = 0,
+  wordPerPage: number = 20
+): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
+  dispatch
+) => {
+  const filter = `{"$or":[{"userWord.difficulty":"${NORMAL_DIFFICULTY}"},{"userWord.difficulty":"${HARD_DIFFICULTY}"}]}`;
+  dispatch(loadUserAggregateWords(userId, group, page, wordPerPage, filter));
 };
 
 export const loadUserDeletedWords = (
@@ -241,27 +239,8 @@ export const loadUserDeletedWords = (
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
-  dispatch(setIsLoading(true));
-  database
-    .getUserAggregatedWord({
-      userId,
-      group,
-      page,
-      wordPerPage,
-      filter: '{"userWord.difficulty":"easy"}',
-    })
-    .then(
-      (words) => {
-        dispatch(setWords(words[0].paginatedResults));
-        dispatch(setPagesCount(getCountWords(words[0].totalCount)));
-        dispatch(clearWordsError());
-        dispatch(setIsLoading(false));
-      },
-      (err) => {
-        dispatch(setWordsError(err));
-        dispatch(setIsLoading(false));
-      }
-    );
+  const filter = `{"userWord.difficulty":"${EASY_DIFFICULTY}"}`;
+  dispatch(loadUserAggregateWords(userId, group, page, wordPerPage, filter));
 };
 
 export const loadRandomGameWords = (

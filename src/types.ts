@@ -16,7 +16,7 @@ export type User = {
   avatar?: string;
 };
 
-export type DifficultyType = 'hard' | 'easy';
+export type DifficultyType = 'hard' | 'normal' | 'easy';
 
 export type UserWord = {
   difficulty: DifficultyType;
@@ -58,7 +58,7 @@ export type ErrorType = {
   message?: string;
 };
 
-export type WordSectionType = 'usual' | 'difficult' | 'deleted';
+export type WordSectionType = 'learning' | 'difficult' | 'deleted';
 
 export type StateTextBook = {
   group: number;
@@ -69,7 +69,7 @@ export type StateTextBook = {
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;
   playedSound: string;
-  checkedDifficulty: DifficultyType;
+  checkedDifficulties: DifficultyType[];
   pagesCount: number;
   wordSection: WordSectionType;
   isLoading: boolean;

@@ -1,4 +1,4 @@
-import React, { FC, SyntheticEvent } from 'react';
+import React, { FC } from 'react';
 import { List } from '@material-ui/core';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import LocalLibraryIcon from '@material-ui/icons/LocalLibrary';
@@ -27,13 +27,8 @@ const listStyles: React.CSSProperties = {
 };
 
 export const SideNav: FC<SideNavProps> = () => {
-  const [selectedIndex, setSelectedIndex] = React.useState(1);
   const userId = useSelector(selectUserId);
   const dispatch = useDispatch();
-
-  const handleListItemClick = (event: SyntheticEvent, index: number) => {
-    setSelectedIndex(index);
-  };
 
   const logout = () => {
     dispatch(logOutUser());
@@ -41,52 +36,21 @@ export const SideNav: FC<SideNavProps> = () => {
 
   return (
     <List style={listStyles}>
-      <MenuItem
-        to={URL_MAIN_PAGE}
-        title="Main"
-        handleListItemClick={handleListItemClick}
-        isSelected={selectedIndex === 1}
-        index={1}
-      >
+      <MenuItem to={URL_MAIN_PAGE} title="Main">
         <DashboardIcon />
       </MenuItem>
-
-      <MenuItem
-        to={URL_TEXT_BOOK}
-        title="Textbook"
-        handleListItemClick={handleListItemClick}
-        isSelected={selectedIndex === 2}
-        index={2}
-      >
+      <MenuItem to={URL_TEXT_BOOK} title="Textbook">
         <LocalLibraryIcon />
       </MenuItem>
       {userId && (
-        <MenuItem
-          to={URL_DICTIONARY}
-          title="Dictionary"
-          handleListItemClick={handleListItemClick}
-          isSelected={selectedIndex === 3}
-          index={3}
-        >
+        <MenuItem to={URL_DICTIONARY} title="Dictionary">
           <BookIcon />
         </MenuItem>
       )}
-      <MenuItem
-        to={URL_GAMES}
-        title="Minigames"
-        handleListItemClick={handleListItemClick}
-        isSelected={selectedIndex === 4}
-        index={4}
-      >
+      <MenuItem to={URL_GAMES} title="Minigames">
         <SportsEsportsIcon />
       </MenuItem>
-      <MenuItem
-        to={URL_STATISTICS}
-        title="Statistics"
-        handleListItemClick={handleListItemClick}
-        isSelected={selectedIndex === 5}
-        index={5}
-      >
+      <MenuItem to={URL_STATISTICS} title="Statistics">
         <EqualizerIcon />
       </MenuItem>
       <LogoutItem handlerLogout={logout} title="Log out">
