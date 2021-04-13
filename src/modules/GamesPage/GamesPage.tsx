@@ -2,7 +2,9 @@ import React, { FC, useEffect, useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
+import { WordsSource } from 'appConstants';
 import { gamesData } from 'appConstants/games';
+import { setGameWordsKind } from 'modules/TextBookPage/actions';
 import { selectIsLoading } from 'modules/TextBookPage/selectors';
 import { Loader } from 'components';
 import { GameCard, ChooseDifficulty } from './components';
@@ -17,6 +19,7 @@ export const GamesPage: FC<GamesProps> = () => {
 
   useEffect(() => {
     dispatch(setPageTitle('Games'));
+    dispatch(setGameWordsKind(WordsSource.FROM_MENU));
   }, [dispatch]);
 
   const classes = useStyles();

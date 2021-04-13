@@ -16,7 +16,7 @@ import {
   selectGameWordsKind,
 } from 'modules/TextBookPage/selectors';
 import { GameWordsKindType, Word } from 'types';
-import { SERVER_URL } from 'appConstants';
+import { SERVER_URL, WordsSource } from 'appConstants';
 import { URL_GAMES } from 'appConstants/url';
 import { Loader, GameResults, ErrorMessage } from 'components';
 import { useTheme } from '@material-ui/core/styles';
@@ -79,7 +79,6 @@ export const Imaginarium = () => {
   const quizWordRef = useRef(quizWord);
   const theme = useTheme();
   const history = useHistory();
-  console.log('Words came', gameWordsKind);
 
   const playSound = useCallback(
     (soundUrl: string) => {
@@ -237,6 +236,12 @@ export const Imaginarium = () => {
         soundRef.current.src = FinishSound;
         soundRef.current.play().catch((err) => err);
       }
+      if (
+        gameWordsKind === WordsSource.FROM_MENU ||
+        gameWordsKind === WordsSource.FROM_DELETED
+      ) {
+        return;
+      }
       if (!userId) {
         LocStore.updateGamesStatistics(
           'Imaginarium',
@@ -263,6 +268,7 @@ export const Imaginarium = () => {
     rightlyAnswered,
     wronglyAnswered,
     userId,
+    gameWordsKind,
   ]);
 
   const wordImages = currentWords.map((word, index) => (
