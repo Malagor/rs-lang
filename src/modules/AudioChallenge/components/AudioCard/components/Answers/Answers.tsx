@@ -6,9 +6,9 @@ import { AnswerRadio } from './components/AnswerRadio';
 
 type AnswersProps = {
   answers: string[];
-  correctAnswerIndex: string;
-  onUserAnswer: (userAnswer: string) => void;
-  userChoice: string;
+  correctAnswerIndex: number;
+  onUserAnswer: (userAnswer: number) => void;
+  userChoice: number;
 };
 
 export const Answers: FC<AnswersProps> = ({
@@ -18,7 +18,7 @@ export const Answers: FC<AnswersProps> = ({
   userChoice,
 }) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onUserAnswer(event.target.value);
+    onUserAnswer(parseInt(event.target.value, 10));
   };
   const classes = useStyles();
 
@@ -34,7 +34,7 @@ export const Answers: FC<AnswersProps> = ({
           style={{ justifyContent: 'center', gap: '0' }}
         >
           {answers.map((answer, index) => {
-            const activeItem = parseInt(userChoice, 10) === index;
+            const activeItem = userChoice === index;
 
             return (
               <FormControlLabel
@@ -45,12 +45,10 @@ export const Answers: FC<AnswersProps> = ({
                 }}
                 value={index.toString()}
                 control={
-                  <AnswerRadio
-                    iscorrect={`${index === parseInt(correctAnswerIndex, 10)}`}
-                  />
+                  <AnswerRadio iscorrect={`${index === correctAnswerIndex}`} />
                 }
                 label={`${index + 1} ${answer}`}
-                disabled={userChoice !== '-1'}
+                disabled={userChoice !== -1}
               />
             );
           })}
