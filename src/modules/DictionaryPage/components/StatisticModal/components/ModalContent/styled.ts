@@ -7,11 +7,24 @@ export const Content = styled.div`
 `;
 export const Title = styled.div`
   font-size: 1.5rem;
+  margin-right: 12px;
+`;
+
+export const Wrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+`;
+
+export const WrapperMarkedBlock = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 export const MarkedBlock = styled.div`
-  display: grid;
-  /* width: 100%; */
+  display: flex;
+  flex-direction: column;
+  width: 200px;
 
   & + div {
     margin-top: 8px;
@@ -24,6 +37,7 @@ type MarkedItemType = {
 };
 
 export const MarkedItem = styled.div<MarkedItemType>`
+  flex-grow: 1;
   height: 8px;
   width: ${({ length }) => length}%;
   background-color: ${({ color }) => color};

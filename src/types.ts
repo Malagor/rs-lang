@@ -69,7 +69,7 @@ export type StateTextBook = {
   pagesCount: number;
   wordSection: WordSectionType;
   isLoading: boolean;
-  refStatistic: HTMLButtonElement | null;
+  statisticWords: Word[];
 };
 
 export type StateCommon = {

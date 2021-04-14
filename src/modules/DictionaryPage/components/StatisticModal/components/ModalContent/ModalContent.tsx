@@ -1,15 +1,19 @@
+import React, { useEffect } from 'react';
 import {
   COLOR_LAYOUT_BLUE,
   COLOR_LAYOUT_ORANGE,
   COLOR_LAYOUT_YELLOW,
+  LEVEL_COLORS,
 } from 'appConstants/colors';
 import {
-  selectCheckedDifficulties,
-  selectTextBookWords,
+  selectTextBookGroup,
+  selectStatisticWords,
 } from 'modules/TextBookPage/selectors';
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Word } from 'types';
+import { selectUserId } from 'modules/Login/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { InfoBlock } from 'components/WordCard/components/TopPart/styled';
+import { loadUserLearningWords } from 'modules/TextBookPage/actions';
+import { Accuracy } from './components';
 import {
   Content,
   Explanations,
@@ -18,91 +22,116 @@ import {
   MarkedItem,
   Marker,
   Title,
+  Wrapper,
+  WrapperMarkedBlock,
 } from './styled';
 
+interface ICountAnswers {
+  [key: number]: { correct: number | undefined; incorrect: number | undefined };
+}
+
 export const ModalContent: React.FC = () => {
-  const words: Word[] = useSelector(selectTextBookWords);
-  const checkedDifficulties = useSelector(selectCheckedDifficulties);
+  const group = useSelector(selectTextBookGroup);
+  const userId = useSelector(selectUserId);
+  const statisticWords = useSelector(selectStatisticWords);
+  const dispatch = useDispatch();
 
-  const wordPerPage = 20;
+  useEffect(() => {
+    dispatch(loadUserLearningWords(userId, group, 0, 600, true));
+  }, [group, userId, dispatch]);
 
-  const correctPageStatistic = words.reduce((acc, word, i) => {
-    if (i === wordPerPage) return acc;
-    return acc + (word.userWord?.optional?.statistics?.correct || 0);
-  }, 0);
-
-  const incorrectPageStatistic = words.reduce((acc, word, i) => {
-    if (i === wordPerPage) return acc;
-    return acc + (word.userWord?.optional?.statistics?.incorrect || 0);
-  }, 0);
-
-  const correctSectionStatistic = words.reduce(
+  const correctSectionStatistic = statisticWords.reduce(
     (acc, word) => acc + (word.userWord?.optional?.statistics?.correct || 0),
     0
   );
 
-  const incorrectSectionStatistic = words.reduce(
-    (acc, word) => acc + (word.userWord?.optional?.statistics?.correct || 0),
+  const incorrectSectionStatistic = statisticWords.reduce(
+    (acc, word) => acc + (word.userWord?.optional?.statistics?.incorrect || 0),
     0
   );
 
-  const countWords = words.filter(
-    (word) => !checkedDifficulties.includes(word.userWord?.difficulty!)
-  ).length;
+  const allAnswers = correctSectionStatistic + incorrectSectionStatistic;
+
+  const accuracy = Math.round((correctSectionStatistic / allAnswers) * 100);
+
+  const pages: ICountAnswers = {};
+
+  statisticWords.forEach((word) => {
+    pages[word.page]
+      ? (pages[word.page] = {
+          correct:
+            pages[word.page].correct ||
+            0 + word.userWord?.optional?.statistics!?.correct ||
+            0,
+          incorrect:
+            pages[word.page].incorrect ||
+            0 + word.userWord?.optional?.statistics?.incorrect! ||
+            0,
+        })
+      : (pages[word.page] = {
+          correct: word.userWord?.optional?.statistics?.correct || 0,
+          incorrect: word.userWord?.optional?.statistics?.incorrect || 0,
+        });
+  });
+
+  const pagesStatistic = Object.entries(pages).map((page) => (
+    <div key={page[0]}>
+      <span>Page: {+page[0] + 1}</span>
+      <span>correct: {page[1].correct}</span>
+      <span>correct: {page[1].incorrect}</span>
+    </div>
+  ));
 
   return (
     <Content>
       <div style={{ marginBottom: 20 }}>
-        <Title>Page</Title>
-        <MarkedBlock>
-          <MarkedItem length={100} color={COLOR_LAYOUT_YELLOW} />
-          <MarkedItem length={33} color={COLOR_LAYOUT_BLUE} />
-          <MarkedItem length={33} color={COLOR_LAYOUT_ORANGE} />
-        </MarkedBlock>
-        <Explanations>
-          <ExplanationItem>
-            <Marker color={COLOR_LAYOUT_YELLOW} />
-            <span>Learning words</span>
-            <span>{countWords}</span>
-          </ExplanationItem>
-          <ExplanationItem>
-            <Marker color={COLOR_LAYOUT_BLUE} />
-            <span>Right answers</span>
-            <span>{correctPageStatistic}</span>
-          </ExplanationItem>
-          <ExplanationItem>
-            <Marker color={COLOR_LAYOUT_ORANGE} />
-            <span>Mistakes</span>
-            <span>{incorrectPageStatistic}</span>
-          </ExplanationItem>
-        </Explanations>
+        <Wrapper>
+          <Title>Group</Title>
+          <InfoBlock color={LEVEL_COLORS[group]} title="Correct attempts">
+            {group + 1}
+          </InfoBlock>
+        </Wrapper>
+        <Wrapper>
+          <Accuracy percentage={accuracy || 0} />
+          <WrapperMarkedBlock>
+            <MarkedBlock>
+              <MarkedItem
+                length={
+                  (statisticWords.length / statisticWords.length) * 100 || 5
+                }
+                color={COLOR_LAYOUT_YELLOW}
+              />
+              <MarkedItem
+                length={(correctSectionStatistic / allAnswers) * 100 || 5}
+                color={COLOR_LAYOUT_BLUE}
+              />
+              <MarkedItem
+                length={(incorrectSectionStatistic / allAnswers) * 100 || 5}
+                color={COLOR_LAYOUT_ORANGE}
+              />
+            </MarkedBlock>
+            <Explanations>
+              <ExplanationItem>
+                <Marker color={COLOR_LAYOUT_YELLOW} />
+                <span>Learning words</span>
+                <span>{statisticWords.length}</span>
+              </ExplanationItem>
+              <ExplanationItem>
+                <Marker color={COLOR_LAYOUT_BLUE} />
+                <span>Right answers</span>
+                <span>{correctSectionStatistic}</span>
+              </ExplanationItem>
+              <ExplanationItem>
+                <Marker color={COLOR_LAYOUT_ORANGE} />
+                <span>Mistakes</span>
+                <span>{incorrectSectionStatistic}</span>
+              </ExplanationItem>
+            </Explanations>
+          </WrapperMarkedBlock>
+        </Wrapper>
       </div>
 
-      <>
-        <Title>Section</Title>
-        <MarkedBlock>
-          <MarkedItem length={33} color={COLOR_LAYOUT_YELLOW} />
-          <MarkedItem length={33} color={COLOR_LAYOUT_BLUE} />
-          <MarkedItem length={33} color={COLOR_LAYOUT_ORANGE} />
-        </MarkedBlock>
-        <Explanations>
-          <ExplanationItem>
-            <Marker color={COLOR_LAYOUT_YELLOW} />
-            <span>Learning words</span>
-            <span>{countWords}</span>
-          </ExplanationItem>
-          <ExplanationItem>
-            <Marker color={COLOR_LAYOUT_BLUE} />
-            <span>Right answers</span>
-            <span>{correctSectionStatistic}</span>
-          </ExplanationItem>
-          <ExplanationItem>
-            <Marker color={COLOR_LAYOUT_ORANGE} />
-            <span>Mistakes</span>
-            <span>{incorrectSectionStatistic}</span>
-          </ExplanationItem>
-        </Explanations>
-      </>
+      {pagesStatistic}
     </Content>
   );
 };

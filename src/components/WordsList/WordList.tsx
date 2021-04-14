@@ -7,7 +7,6 @@ import {
 } from 'modules/TextBookPage/selectors';
 import { LEVEL_COLORS } from 'appConstants/colors';
 import { WordCard } from 'components';
-import { StatisticModal } from 'modules/DictionaryPage/components/StatisticModal';
 import { WordListStyled } from './styled';
 import { NoWordsMessage } from './components';
 
@@ -34,33 +33,30 @@ export const WordList: FC<WordListProps> = ({
   ).length;
 
   return countWords || isLoading ? (
-    <>
-      <StatisticModal />
-      <WordListStyled>
-        {words.map((word) => {
-          const correctWord = !checkedDifficulties.includes(
-            word.userWord?.difficulty!
-          );
-          const wordStatistics = word.userWord?.optional?.statistics;
+    <WordListStyled>
+      {words.map((word) => {
+        const correctWord = !checkedDifficulties.includes(
+          word.userWord?.difficulty!
+        );
+        const wordStatistics = word.userWord?.optional?.statistics;
 
-          return (
-            correctWord && (
-              <WordCard
-                key={word.word}
-                word={word}
-                colorGroup={LEVEL_COLORS[group]}
-                successCount={wordStatistics?.correct || 0}
-                errorCount={wordStatistics?.incorrect || 0}
-                isTranslate={true}
-                isButtons={isButtons}
-                showBtnDeleteDifficult={showBtnDeleteDifficult}
-                showBtnRestore={showBtnRestore}
-              />
-            )
-          );
-        })}
-      </WordListStyled>
-    </>
+        return (
+          correctWord && (
+            <WordCard
+              key={word.word}
+              word={word}
+              colorGroup={LEVEL_COLORS[group]}
+              successCount={wordStatistics?.correct || 0}
+              errorCount={wordStatistics?.incorrect || 0}
+              isTranslate={true}
+              isButtons={isButtons}
+              showBtnDeleteDifficult={showBtnDeleteDifficult}
+              showBtnRestore={showBtnRestore}
+            />
+          )
+        );
+      })}
+    </WordListStyled>
   ) : (
     <NoWordsMessage />
   );
