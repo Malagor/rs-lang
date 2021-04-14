@@ -65,9 +65,10 @@ export const DICTIONARY_TOPICS = [
   'Deleted words',
 ];
 
-export const LEARNING_SECTION = 'usual';
+export const LEARNING_SECTION = 'learning';
 export const DIFFICULT_SECTION = 'difficult';
 export const DELETED_SECTION = 'deleted';
 
+export const NORMAL_DIFFICULTY = 'normal';
 export const HARD_DIFFICULTY = 'hard';
 export const EASY_DIFFICULTY = 'easy';
