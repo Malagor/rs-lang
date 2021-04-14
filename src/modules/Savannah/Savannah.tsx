@@ -10,7 +10,12 @@ import { selectUserId } from 'modules/Login/selectors';
 import { FullScreenWrapperFlexCenter } from 'styles';
 import { Word } from 'types';
 import { database, LocStore } from 'services';
-import { FullscreenButton, GameResults, SoundButton } from 'components';
+import {
+  FullscreenButton,
+  GameResults,
+  RoundProgressBar,
+  SoundButton,
+} from 'components';
 import { COUNT_ANSWERS, SAVANNAH_LIVES } from 'appConstants/games';
 import 'react-circular-progressbar/dist/styles.css';
 import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
@@ -25,7 +30,7 @@ import {
   PlantAnimation,
   PlantContainer,
 } from './styled';
-import { SavannahCard, ProgressBar, Lives } from './components';
+import { SavannahCard, Lives } from './components';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
@@ -318,7 +323,7 @@ export const Savannah: FC = () => {
       <FullScreenWrapperFlexCenter>
         <AudioWrapper>
           {!isFinish && (
-            <ProgressBar
+            <RoundProgressBar
               group={group}
               totalCount={words.length}
               current={current}
