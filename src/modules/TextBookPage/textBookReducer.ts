@@ -1,4 +1,4 @@
-import { EASY_DIFFICULTY, LEARNING_SECTION } from 'appConstants';
+import { EASY_DIFFICULTY, LEARNING_SECTION, WordsSource } from 'appConstants';
 import { Reducer } from 'redux';
 import { StateTextBook } from 'types';
 import {
@@ -14,6 +14,9 @@ import {
   SET_REF_STATISTIC,
   SET_DICTIONARY_PAGE,
   SET_DICTIONARY_GROUP,
+  ADD_GAME_WORDS,
+  SET_GAME_WORDS,
+  SET_GAME_WORDS_KIND,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,6 +28,8 @@ export const textBookPageState: StateTextBook = {
   dictionaryGroup: 0,
   dictionaryPage: 0,
   words: [],
+  gameWords: [],
+  gameWordsKind: WordsSource.FROM_MENU,
   sounds: [],
   error: null,
   playedSound: '',
@@ -44,6 +49,24 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         words: action.payload,
+      };
+
+    case SET_GAME_WORDS:
+      return {
+        ...state,
+        gameWords: action.payload,
+      };
+
+    case SET_GAME_WORDS_KIND:
+      return {
+        ...state,
+        gameWordsKind: action.payload,
+      };
+
+    case ADD_GAME_WORDS:
+      return {
+        ...state,
+        gameWords: [...state.gameWords, ...action.payload],
       };
 
     case SET_GROUP:

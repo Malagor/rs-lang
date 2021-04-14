@@ -6,8 +6,8 @@ import { WordImageContainer, Image } from './styled';
 type WordImageProps = {
   word: Word;
   index: number;
-  rightId: string;
-  wrongId: string;
+  rightWord: string;
+  wrongWord: string;
   ANIMATION_TIME: number;
   handleImageClick(word: Word): void;
 };
@@ -15,20 +15,20 @@ type WordImageProps = {
 export const WordImage: FC<WordImageProps> = ({
   word,
   index,
-  rightId,
-  wrongId,
+  rightWord,
+  wrongWord,
   ANIMATION_TIME,
   handleImageClick,
 }) => (
   <div>
-    <WordImageContainer key={word.word} number={index + 1} id={word.id}>
+    <WordImageContainer key={word.word} number={index + 1}>
       <Image
         src={`${SERVER_URL}${word.image}`}
         alt={word.word}
         onClick={() => handleImageClick(word)}
-        id={word.id}
-        rightId={rightId}
-        wrongId={wrongId}
+        word={word.word}
+        rightWord={rightWord}
+        wrongWord={wrongWord}
         animationTime={ANIMATION_TIME}
       />
     </WordImageContainer>
