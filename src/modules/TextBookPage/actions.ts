@@ -307,6 +307,7 @@ export const loadAdditionalGameWords = (
       },
       (err) => {
         dispatch(setWordsError(err));
+        dispatch(setIsLoading(false));
       }
     );
 };
