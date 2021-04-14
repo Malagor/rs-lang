@@ -3,33 +3,34 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
 import {
+  selectGameWords,
+  selectGameWordsKind,
   selectTextBookGroup,
-  selectTextBookPage,
 } from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
-import { FullScreenWrapperFlexCenter } from 'styles';
-import { Word } from 'types';
-import { database, LocStore } from 'services';
-import { FullscreenButton, GameResults, SoundButton } from 'components';
-import { COUNT_ANSWERS } from 'appConstants/games';
+import { GameWordsKindType, Word } from 'types';
+import { LocStore } from 'services';
+import {
+  FullscreenButton,
+  GameResults,
+  RoundProgressBar,
+  SoundButton,
+} from 'components';
 import 'react-circular-progressbar/dist/styles.css';
 import FinishSound from 'assets/sounds/finish.mp3';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
+import { saveGameResults } from 'modules/GamesPage/saveGameResults';
+import { WordsSource } from 'appConstants';
+import { COUNT_ANSWERS } from 'appConstants/games';
+import { mixingArray } from 'helpers/mixingArray';
+import { FullScreenWrapperFlexCenter } from 'styles';
 import { AudioGameContainer, AudioWrapper } from './styled';
-import { AudioCard, ProgressBar, NextButton } from './components';
-import { saveGameResults } from '../GamesPage/saveGameResults';
+import { AudioCard, NextButton } from './components';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
   .map((_, i) => `${i + 1}`);
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mixingArray = (arr: any[]) => {
-  const locArr = [...arr];
-  locArr.sort(() => Math.random() - 0.5);
-  return locArr;
-};
 
 // Component
 export const AudioChallenge: FC = () => {
@@ -38,7 +39,8 @@ export const AudioChallenge: FC = () => {
 
   const userId = useSelector(selectUserId);
   const group = useSelector(selectTextBookGroup);
-  const page = useSelector(selectTextBookPage);
+  const gameWords: Word[] = useSelector(selectGameWords);
+  const gameWordsKind: GameWordsKindType = useSelector(selectGameWordsKind);
 
   // helpers
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -113,27 +115,10 @@ export const AudioChallenge: FC = () => {
 
   // Load Words
   useEffect(() => {
-    let locWords: Promise<Word[]>;
-    if (userId) {
-      locWords = database
-        .getUserAggregatedWord({
-          userId,
-          group,
-          page,
-          wordPerPage: 20,
-          filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
-        })
-        .then((data) => data[0].paginatedResults);
-    } else {
-      locWords = database.getWords(group, page);
-    }
-
-    locWords.then((data) => {
-      const mixArr = mixingArray(data);
-      setWords(mixArr);
-    });
+    const mixArr = mixingArray(gameWords);
+    setWords(mixArr);
     handlerNewGame();
-  }, [handlerNewGame, group, page, userId]);
+  }, [handlerNewGame, gameWords]);
 
   // Correct Answer
   const handlerCorrectAnswer = useCallback(() => {
@@ -208,9 +193,14 @@ export const AudioChallenge: FC = () => {
       setLongerChain(chain > longerChain ? chain : longerChain);
       setIsResultOpen(true);
       playSound(FinishSound);
-      saveStatistics();
+      if (
+        gameWordsKind === WordsSource.FROM_MENU ||
+        gameWordsKind === WordsSource.FROM_DELETED
+      ) {
+        saveStatistics();
+      }
     }
-  }, [chain, longerChain, playSound, isFinish, saveStatistics]);
+  }, [chain, longerChain, playSound, isFinish, saveStatistics, gameWordsKind]);
 
   const closeResultModal = useCallback(() => {
     history.push('/games');
@@ -287,7 +277,7 @@ export const AudioChallenge: FC = () => {
       <FullScreenWrapperFlexCenter>
         <AudioWrapper>
           {!isFinish && (
-            <ProgressBar
+            <RoundProgressBar
               group={group}
               totalCount={words.length}
               current={current}
