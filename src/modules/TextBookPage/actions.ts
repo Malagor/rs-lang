@@ -5,6 +5,7 @@ import {
   Word,
   ErrorType,
   WordSectionType,
+  GameWordsKindType,
 } from 'types';
 import { database } from 'services';
 import { Action } from 'redux';
@@ -13,8 +14,14 @@ import {
   EASY_DIFFICULTY,
   HARD_DIFFICULTY,
   NORMAL_DIFFICULTY,
+  DELETED_SECTION,
+  DIFFICULT_SECTION,
+  LEARNING_SECTION,
+  PAGES_IN_EACH_GROUP,
+  WORDS_ON_EACH_PAGE,
 } from 'appConstants';
 import { getCountWords } from 'helpers/dictionaryHelpers';
+import { getNonDeletedWords } from 'helpers/getNonDeletedWords';
 import {
   SET_PAGE,
   SET_WORDS,
@@ -28,6 +35,9 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  ADD_GAME_WORDS,
+  SET_GAME_WORDS,
+  SET_GAME_WORDS_KIND,
 } from './actionConst';
 
 export const setPage = (payload: number) => ({
@@ -47,6 +57,21 @@ export const setSound = (payload: HTMLAudioElement[]) => ({
 
 export const setWords = (payload: Word[]) => ({
   type: SET_WORDS,
+  payload,
+});
+
+export const setGameWords = (payload: Word[]) => ({
+  type: SET_GAME_WORDS,
+  payload,
+});
+
+export const setGameWordsKind = (payload: GameWordsKindType) => ({
+  type: SET_GAME_WORDS_KIND,
+  payload,
+});
+
+export const addGameWords = (payload: Word[]) => ({
+  type: ADD_GAME_WORDS,
   payload,
 });
 
@@ -216,4 +241,73 @@ export const loadUserDeletedWords = (
 ) => {
   const filter = `{"userWord.difficulty":"${EASY_DIFFICULTY}"}`;
   dispatch(loadUserAggregateWords(userId, group, page, wordPerPage, filter));
+};
+
+export const loadRandomGameWords = (
+  group: number
+): ThunkAction<
+  Promise<unknown>,
+  StateTextBook,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  const page = Math.floor(Math.random() * PAGES_IN_EACH_GROUP);
+  dispatch(setIsLoading(true));
+  database.getWords(group, page).then(
+    (words) => {
+      dispatch(setGameWords(words));
+      dispatch(clearWordsError());
+      dispatch(setIsLoading(false));
+    },
+    (err) => {
+      dispatch(setWordsError(err));
+      dispatch(setIsLoading(false));
+    }
+  );
+};
+
+export const loadAdditionalGameWords = (
+  userId: string,
+  group: number = 0,
+  page: number = 0,
+  wordPerPage: number = WORDS_ON_EACH_PAGE,
+  wordsFilter?: WordSectionType
+): ThunkAction<
+  Promise<unknown>,
+  StateTextBook,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
+  dispatch(setIsLoading(true));
+  let filter = '';
+  if (wordsFilter === LEARNING_SECTION) {
+    filter = `{"$or":[{"userWord.difficulty":"${NORMAL_DIFFICULTY}"},{"userWord.difficulty":"${HARD_DIFFICULTY}"}]}`;
+  } else if (wordsFilter === DIFFICULT_SECTION) {
+    filter = `{"userWord.difficulty":"${HARD_DIFFICULTY}"}`;
+  } else if (wordsFilter === DELETED_SECTION) {
+    filter = `{"userWord.difficulty":"${EASY_DIFFICULTY}"}`;
+  }
+  database
+    .getUserAggregatedWord({
+      userId,
+      group,
+      page,
+      wordPerPage,
+      filter,
+    })
+    .then(
+      (res) => {
+        const additionalWords: Word[] =
+          filter !== ''
+            ? res[0].paginatedResults
+            : getNonDeletedWords(res[0].paginatedResults);
+        dispatch(addGameWords(additionalWords));
+        dispatch(clearWordsError());
+        dispatch(setIsLoading(false));
+      },
+      (err) => {
+        dispatch(setWordsError(err));
+        dispatch(setIsLoading(false));
+      }
+    );
 };

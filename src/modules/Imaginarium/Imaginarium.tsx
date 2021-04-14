@@ -11,16 +11,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setPageTitle } from 'store/commonState/actions';
 import {
-  selectTextBookWords,
-  selectTextBookGroup,
-  selectTextBookPage,
   selectTextBookError,
+  selectGameWords,
+  selectGameWordsKind,
 } from 'modules/TextBookPage/selectors';
-import { loadWords } from 'modules/TextBookPage/actions';
-import { Word } from 'types';
-import { SERVER_URL } from 'appConstants';
+import { GameWordsKindType, Word } from 'types';
+import { SERVER_URL, WordsSource } from 'appConstants';
 import { URL_GAMES } from 'appConstants/url';
-import { Loader, GameResults, ErrorMessage } from 'components';
+import {
+  Loader,
+  GameResults,
+  ErrorMessage,
+  NotEnoughWordsMessage,
+} from 'components';
 import { useTheme } from '@material-ui/core/styles';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
@@ -43,6 +46,7 @@ const INITIAL_COUNTDOWN_TIME = 3;
 const COUNTDOWN_TIME = 10;
 const QUIZ_COUNT = 10;
 const ANIMATION_TIME = 1200;
+const MIN_WORDS_TO_PLAY = 8;
 
 export const Imaginarium = () => {
   const [mode, setMode] = useState('');
@@ -60,19 +64,19 @@ export const Imaginarium = () => {
   const [quizWord, setQuizWord] = useState<Word | null>(null);
   const [maxInARow, setMaxInARow] = useState(0);
   const [currentInARow, setCurrentInARow] = useState(0);
-  const [rightId, setRightId] = useState('');
-  const [wrongId, setWrongId] = useState('');
+  const [rightWord, setRightWord] = useState('');
+  const [wrongWord, setWrongWord] = useState('');
   const [animationIsPlaying, setAnimationIsPlaying] = useState(false);
   const [isResultsModalOpened, setResultsModalOpened] = useState(false);
+  const [notEnoughWords, setNotEnoughWords] = useState(false);
 
-  const words: Word[] = useSelector(selectTextBookWords);
-  const page = useSelector(selectTextBookPage);
-  const group = useSelector(selectTextBookGroup);
+  const gameWords: Word[] = useSelector(selectGameWords);
+  const gameWordsKind: GameWordsKindType = useSelector(selectGameWordsKind);
   const userId = useSelector(selectUserId);
   const error = useSelector(selectTextBookError);
   const wordImageUrls = useMemo(
-    () => words.map((word) => `${SERVER_URL}${word.image}`),
-    [words]
+    () => gameWords.map((word) => `${SERVER_URL}${word.image}`),
+    [gameWords]
   );
   const dispatch = useDispatch();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -99,27 +103,27 @@ export const Imaginarium = () => {
       if (!quizWord) return;
       if (animationIsPlaying) return;
       setAnimationIsPlaying(true);
-      if (word.id === quizWord.id) {
+      if (word.word === quizWord.word) {
         setRightlyAnswered([...rightlyAnswered, quizWord]);
         setCurrentInARow(currentInARow + 1);
         if (currentInARow + 1 > maxInARow) {
           setMaxInARow(currentInARow + 1);
         }
-        setRightId(word.id);
+        setRightWord(word.word);
 
         playSound(CorrectSound);
       } else {
         setWronglyAnswered([...wronglyAnswered, quizWord]);
         setCurrentInARow(0);
-        setWrongId(word.id);
-        setRightId(quizWord.id);
+        setWrongWord(word.word);
+        setRightWord(quizWord.word);
         playSound(WrongSound);
       }
       setTimeout(() => {
         setRound(round + 1);
         setAnimationIsPlaying(false);
-        setRightId('');
-        setWrongId('');
+        setRightWord('');
+        setWrongWord('');
       }, ANIMATION_TIME + 300);
     },
     [
@@ -139,10 +143,10 @@ export const Imaginarium = () => {
   const handleCountdownEnd = (): [boolean, number] | void => {
     setAnimationIsPlaying(true);
     setWronglyAnswered([...wronglyAnswered, quizWordRef.current!]);
-    setWrongId(quizWordRef.current!.id);
+    setWrongWord(quizWordRef.current!.id);
     playSound(WrongSound);
     setTimeout(() => {
-      setWrongId('');
+      setWrongWord('');
       setAnimationIsPlaying(false);
       setRound(round + 1);
       if (round < QUIZ_COUNT) {
@@ -164,8 +168,8 @@ export const Imaginarium = () => {
     setQuizWord(null);
     setMaxInARow(0);
     setCurrentInARow(0);
-    setRightId('');
-    setWrongId('');
+    setRightWord('');
+    setWrongWord('');
   };
 
   const pronounceQuizWord = useCallback(() => {
@@ -177,22 +181,32 @@ export const Imaginarium = () => {
   }, [quizWord?.audio]);
 
   useEffect(() => {
+    if (gameWords.length < 8) {
+      setLoading(false);
+      setModeChoosing(false);
+      setNotEnoughWords(true);
+    }
+  }, [gameWords.length]);
+
+  useEffect(() => {
     if (mode === 'Sounds' && hasStarted && round !== QUIZ_COUNT) {
       pronounceQuizWord();
     }
   }, [pronounceQuizWord, hasStarted, mode, round]);
 
   useEffect(() => {
-    if (!error && !isModeChoosing && !hasStarted && isSoundOn) {
+    if (
+      !error &&
+      !notEnoughWords &&
+      !isModeChoosing &&
+      !hasStarted &&
+      isSoundOn
+    ) {
       playSound(TickingSound);
     } else if (soundRef && soundRef.current && soundRef.current.play) {
       soundRef.current.pause();
     }
-  }, [error, hasStarted, isModeChoosing, playSound, isSoundOn]);
-
-  useEffect(() => {
-    dispatch(loadWords(group, page));
-  }, [dispatch, group, page]);
+  }, [error, hasStarted, isModeChoosing, playSound, isSoundOn, notEnoughWords]);
 
   useEffect(() => {
     dispatch(setPageTitle('Imaginarium'));
@@ -216,7 +230,7 @@ export const Imaginarium = () => {
   }, [currentWords, handleImageClick]);
 
   useEffect(() => {
-    if (!words) return;
+    if (!gameWords) return;
     const preloadedImages = wordImageUrls.map((imageUrl) => {
       const img = new Image();
       img.src = imageUrl;
@@ -226,14 +240,14 @@ export const Imaginarium = () => {
     if (images.length > 0) {
       setLoading(false);
     }
-  }, [words, wordImageUrls, images.length]);
+  }, [gameWords, wordImageUrls, images.length]);
 
   useEffect(() => {
-    const randomWords = shuffle(words).slice(0, 8);
+    const randomWords = shuffle(gameWords).slice(0, 8);
     const randomWord = randomWords[Math.floor(Math.random() * 8)];
     setCurrentWords(randomWords);
     setQuizWord(randomWord);
-  }, [setCurrentWords, setQuizWord, words, round]);
+  }, [setCurrentWords, setQuizWord, gameWords, round]);
 
   useEffect(() => {
     if (round === QUIZ_COUNT) {
@@ -242,6 +256,12 @@ export const Imaginarium = () => {
       if (isSoundOn && soundRef && soundRef.current) {
         soundRef.current.src = FinishSound;
         soundRef.current.play().catch((err) => err);
+      }
+      if (
+        gameWordsKind === WordsSource.FROM_MENU ||
+        gameWordsKind === WordsSource.FROM_DELETED
+      ) {
+        return;
       }
       if (!userId) {
         LocStore.updateGamesStatistics(
@@ -269,6 +289,7 @@ export const Imaginarium = () => {
     rightlyAnswered,
     wronglyAnswered,
     userId,
+    gameWordsKind,
   ]);
 
   const wordImages = currentWords.map((word, index) => (
@@ -276,8 +297,8 @@ export const Imaginarium = () => {
       key={word.word}
       word={word}
       index={index}
-      rightId={rightId}
-      wrongId={wrongId}
+      rightWord={rightWord}
+      wrongWord={wrongWord}
       ANIMATION_TIME={ANIMATION_TIME}
       handleImageClick={handleImageClick}
     />
@@ -286,44 +307,51 @@ export const Imaginarium = () => {
   return (
     <GameContainer ref={containerRef}>
       {error && <ErrorMessage />}
+      {notEnoughWords && (
+        <NotEnoughWordsMessage minWordsCount={MIN_WORDS_TO_PLAY} />
+      )}
       {!error && isModeChoosing && (
         <ModeChoosing setMode={setMode} setModeChoosing={setModeChoosing} />
       )}
       {!error && !isModeChoosing && isLoading && <Loader />}
-      {!error && !isModeChoosing && !isLoading && !hasFinished && (
-        <>
-          <Dashboard
-            isFullscreen={isFullScreen}
-            setFullscreen={setFullScreen}
-            isSoundOn={isSoundOn}
-            setSoundOn={setSoundOn}
-            containerRef={containerRef}
-            hasStarted={hasStarted}
-            setStarted={setStarted}
-            hasFinished={hasFinished}
-            initialCountdownTime={INITIAL_COUNTDOWN_TIME}
-            rightAnswers={rightlyAnswered.length}
-            wrongAnswers={wronglyAnswered.length}
-            round={round}
-            countdownTime={COUNTDOWN_TIME}
-            animationIsPlaying={animationIsPlaying}
-            handleCountdownEnd={handleCountdownEnd}
-          />
-          <GameField ref={gameFieldRef} breakpoints={theme.breakpoints}>
-            {wordImages}
-            <QuizWordContainer breakpoints={theme.breakpoints}>
-              {mode === 'Letters' && quizWord && quizWord.word}
-              {mode === 'Sounds' && (
-                <PronounceButton onClick={pronounceQuizWord} />
-              )}
-            </QuizWordContainer>
-          </GameField>
-          <LinearProgress
-            variant="determinate"
-            value={(round / QUIZ_COUNT) * 100}
-          />
-        </>
-      )}
+      {!error &&
+        !notEnoughWords &&
+        !isModeChoosing &&
+        !isLoading &&
+        !hasFinished && (
+          <>
+            <Dashboard
+              isFullscreen={isFullScreen}
+              setFullscreen={setFullScreen}
+              isSoundOn={isSoundOn}
+              setSoundOn={setSoundOn}
+              containerRef={containerRef}
+              hasStarted={hasStarted}
+              setStarted={setStarted}
+              hasFinished={hasFinished}
+              initialCountdownTime={INITIAL_COUNTDOWN_TIME}
+              rightAnswers={rightlyAnswered.length}
+              wrongAnswers={wronglyAnswered.length}
+              round={round}
+              countdownTime={COUNTDOWN_TIME}
+              animationIsPlaying={animationIsPlaying}
+              handleCountdownEnd={handleCountdownEnd}
+            />
+            <GameField ref={gameFieldRef} breakpoints={theme.breakpoints}>
+              {wordImages}
+              <QuizWordContainer breakpoints={theme.breakpoints}>
+                {mode === 'Letters' && quizWord && quizWord.word}
+                {mode === 'Sounds' && (
+                  <PronounceButton onClick={pronounceQuizWord} />
+                )}
+              </QuizWordContainer>
+            </GameField>
+            <LinearProgress
+              variant="determinate"
+              value={(round / QUIZ_COUNT) * 100}
+            />
+          </>
+        )}
       {hasFinished && (
         <GameResults
           isOpened={isResultsModalOpened}
