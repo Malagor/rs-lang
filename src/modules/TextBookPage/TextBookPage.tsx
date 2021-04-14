@@ -1,6 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StateTextBook, Word } from 'types';
+import { Container } from '@material-ui/core';
+import { LocStore } from 'services';
 import {
   ErrorMessage,
   Loader,
@@ -8,8 +10,6 @@ import {
   WordList,
   NavGame,
 } from 'components';
-
-import { Container } from '@material-ui/core';
 import {
   EASY_DIFFICULTY,
   MIN_WORDS_TO_PLAY,
@@ -66,12 +66,27 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   const dispatch: ThunkDispatch<StateTextBook, void, AnyAction> = useDispatch();
 
+  const onGroupChange = (groupNumber: number) => {
+    dispatch(setGroup(groupNumber));
+    dispatch(setPage(0));
+    LocStore.setTextBookPosition({ group: groupNumber, page: 0 });
+  };
+
+  const onPageClick = (pageNumber: number) => {
+    dispatch(setPage(pageNumber));
+    LocStore.setTextBookPosition({ page: pageNumber });
+  };
+
   useEffect(() => {
     dispatch(setGameWordsKind(WordsSource.FROM_TEXTBOOK));
     dispatch(setIsLoading(true));
     dispatch(setPageTitle('TextBook'));
-    dispatch(setGroup(0));
-    dispatch(setPage(0));
+
+    const { page: pageNumber, group: groupNumber } =
+      LocStore.getTextBookPosition() || {};
+
+    dispatch(setGroup(groupNumber || 0));
+    dispatch(setPage(pageNumber || 0));
   }, [dispatch]);
 
   useEffect(() => {
@@ -188,10 +203,13 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 initialPage={page}
                 forcePage={page}
                 group={group}
+                onPageClick={onPageClick}
               />
             </div>
             <div className={classes.mainGrid}>
               <WordList
+                group={group}
+                page={page}
                 words={words}
                 checkedDifficulties={[EASY_DIFFICULTY]}
                 isButtons={true}
@@ -200,7 +218,11 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
               />
             </div>
             <div className={classes.sideGrid}>
-              <GroupSelector isOpacity={scroll > 200} />
+              <GroupSelector
+                group={group}
+                isOpacity={scroll > 200}
+                onGroupChange={onGroupChange}
+              />
             </div>
             <div className={classes.paginationBottom}>
               <Pagination
@@ -208,6 +230,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 initialPage={page}
                 forcePage={page}
                 group={group}
+                onPageClick={onPageClick}
               />
             </div>
           </div>

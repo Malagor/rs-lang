@@ -63,6 +63,8 @@ export type WordSectionType = 'learning' | 'difficult' | 'deleted';
 export type StateTextBook = {
   group: number;
   page: number;
+  dictionaryGroup: number;
+  dictionaryPage: number;
   words: Word[];
   gameWords: Word[];
   gameWordsKind: GameWordsKindType;

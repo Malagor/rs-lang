@@ -35,6 +35,8 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  SET_DICTIONARY_PAGE,
+  SET_DICTIONARY_GROUP,
   ADD_GAME_WORDS,
   SET_GAME_WORDS,
   SET_GAME_WORDS_KIND,
@@ -47,6 +49,16 @@ export const setPage = (payload: number) => ({
 
 export const setGroup = (payload: number) => ({
   type: SET_GROUP,
+  payload,
+});
+
+export const setDictionaryPage = (payload: number) => ({
+  type: SET_DICTIONARY_PAGE,
+  payload,
+});
+
+export const setDictionaryGroup = (payload: number) => ({
+  type: SET_DICTIONARY_GROUP,
   payload,
 });
 
