@@ -1,14 +1,14 @@
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { COLOR_LAYOUT_GRAY, COLOR_LAYOUT_ORANGE } from 'appConstants/colors';
+import { COLOR_LAYOUT_GRAY } from 'appConstants/colors';
 
 export const useStyles = makeStyles(() => ({
   root: {
     paddingLeft: 32,
     minHeight: 48,
+    color: COLOR_LAYOUT_GRAY,
 
     '&$selected': {
-      color: COLOR_LAYOUT_ORANGE,
-
+      color: COLOR_LAYOUT_GRAY,
       '&::before': {
         content: '""',
         position: 'absolute',
