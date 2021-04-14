@@ -105,10 +105,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
         return;
       }
 
-      // Need MORE words for playing games
-
       if (checkGroupForGameWords === -1 && checkPageForGameWords === -1) {
-        // Can't get more words for playing
         setNoMoreGameWords(true);
         setGettingGameWords(false);
         return;
@@ -145,8 +142,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     checkPageForGameWords,
     noMoreGameWords,
   ]);
-
-  // console.log('updated game words', gameWords);
 
   useEffect(() => {
     let lastKnownScrollPosition = scroll;

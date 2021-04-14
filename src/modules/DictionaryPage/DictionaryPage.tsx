@@ -153,10 +153,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
         return;
       }
 
-      // Need to get more words for the games
-
       if (checkGroupForGameWords === -1 && checkPageForGameWords === -1) {
-        // Can't get more words for playing
         setNoMoreGameWords(true);
         setGettingGameWords(false);
         return;
@@ -196,8 +193,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
     noMoreGameWords,
     wordSection,
   ]);
-
-  // console.log('updated game words', gameWords);
 
   const onLearningWords = () => {
     dispatch(setPage(0));
