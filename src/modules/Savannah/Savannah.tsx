@@ -248,7 +248,7 @@ export const Savannah: FC = () => {
       }
 
       setUserAnswer(index);
-      // if (finishRound) {
+
       console.log('finishRound', finishRound);
       setTimeout(() => {
         setFinishRound(false);
@@ -265,6 +265,15 @@ export const Savannah: FC = () => {
       handlerIncorrectAnswer,
     ]
   );
+
+  // useEffect(() => {
+  //   if (finishRound) {
+  //     setTimeout(() => {
+  //       setFinishRound(false);
+  //       checkAnswer('100');
+  //     }, 1000);
+  //   }
+  // }, [checkAnswer, setUserAnswer, finishRound, setFinishRound]);
 
   // Finish Game
   const handleFinishGame = useCallback(() => {
@@ -347,6 +356,7 @@ export const Savannah: FC = () => {
                 correctIndex={correctAnswerIndex}
                 userChoice={userAnswerIndex}
                 onUserAnswer={checkAnswer}
+                isFinishRound={finishRound}
                 onFinishRound={setFinishRound}
               />
               <PlantContainer>

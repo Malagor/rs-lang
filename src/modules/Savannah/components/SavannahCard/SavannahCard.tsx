@@ -11,6 +11,7 @@ type Props = {
   onUserAnswer: (answerIndex: string) => void;
   userChoice: string;
   onFinishRound: (flag: boolean) => void;
+  isFinishRound: boolean;
 };
 
 export enum UserAnswer {
@@ -26,6 +27,7 @@ export const SavannahCard: FC<Props> = ({
   onUserAnswer,
   userChoice,
   onFinishRound,
+  isFinishRound,
 }) => {
   const userAnswerState = () => {
     if (userChoice === '-1') return UserAnswer.NO_ANSWER;

@@ -27,7 +27,6 @@ export const Question: FC<QuestionProps> = ({
       setTop((prev) => {
         if (userAnswerState !== UserAnswer.NO_ANSWER) {
           refTopPosition.current = prev;
-          // setFinishRound(true);
           return prev;
         }
         if (prev + 10 < 500) {
@@ -38,23 +37,19 @@ export const Question: FC<QuestionProps> = ({
         }
         if (prev >= 500) {
           setEnd(true);
-          setTimeout(() => {
-            // console.log('500');
-            refTopPosition.current = 0;
-            setFinishRound(true);
-          }, ANIMATION_DELAY);
+          // setTimeout(() => {
+          refTopPosition.current = 0;
+          setFinishRound(true);
+          // }, ANIMATION_DELAY);
         }
         refTopPosition.current = 500;
-        // setFinishRound(true);
         return 500;
       });
     }, ANIMATION_DURATION);
 
     if (userAnswerState !== UserAnswer.NO_ANSWER) {
       clearInterval(interval);
-      // setTimeout(()=>{
       setFinishRound(true);
-      // }, 1000)
     }
 
     return () => {
