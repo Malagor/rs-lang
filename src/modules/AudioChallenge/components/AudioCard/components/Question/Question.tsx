@@ -32,12 +32,12 @@ export const Question: FC<QuestionProps> = ({ word, hasAnswer }) => {
 
   return (
     <QuestionWrapper>
-      <ImageWrapper hasAnsver={hasAnswer}>
+      <ImageWrapper hasAnswer={hasAnswer}>
         <img src={`${SERVER_URL}${word.image}`} alt={word.word} />
       </ImageWrapper>
       <InfoBlock>
         {refAudioWord && (
-          <IconWrapper onClick={onPlay} hasAnsver={hasAnswer}>
+          <IconWrapper onClick={onPlay} hasAnswer={hasAnswer}>
             <VolumeUpIcon />
           </IconWrapper>
         )}

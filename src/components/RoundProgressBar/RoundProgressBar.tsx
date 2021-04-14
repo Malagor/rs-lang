@@ -11,7 +11,7 @@ type AudioProgressBarProps = {
   current: number;
 };
 
-export const ProgressBar: FC<AudioProgressBarProps> = ({
+export const RoundProgressBar: FC<AudioProgressBarProps> = ({
   group,
   totalCount,
   current,
@@ -25,7 +25,6 @@ export const ProgressBar: FC<AudioProgressBarProps> = ({
         pathColor: `${LEVEL_COLORS[group]}`,
         textColor: `${LEVEL_COLORS[group]}`,
         trailColor: `${COLOR_LAYOUT_WHITE}`,
-        backgroundColor: '#24c741',
       })}
     />
   </ProgressBarWrapper>

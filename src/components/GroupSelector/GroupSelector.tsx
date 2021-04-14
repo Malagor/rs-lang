@@ -3,29 +3,23 @@ import { COUNT_GROUPS } from 'appConstants/index';
 import { LEVEL_COLORS } from 'appConstants/colors';
 
 import { Grid, Paper, Typography, useTheme } from '@material-ui/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { setGroup } from 'modules/TextBookPage/actions';
-import { selectGroup } from 'store/commonState/selectors';
-import { LocStore } from 'services';
 import { ButtonGroupSelector } from './components';
 import { GroupSelectorStyled, useStyles } from './styled';
 
 type GroupSelectorProps = {
   isOpacity: boolean;
+  group: number;
+  onGroupChange: (group: number) => void;
 };
 
-export const GroupSelector: FC<GroupSelectorProps> = ({ isOpacity }) => {
-  const dispatch = useDispatch();
+export const GroupSelector: FC<GroupSelectorProps> = ({
+  isOpacity,
+  onGroupChange,
+  group,
+}) => {
   const arrayNumberOfPage = Array.from({ length: COUNT_GROUPS }, (v, k) => k);
 
-  const groupNow: number = useSelector(selectGroup);
-
-  const changeGroup = (numberGroup: number) => {
-    LocStore.setNumberGroupPage(numberGroup);
-    dispatch(setGroup(numberGroup));
-  };
-
-  const colorText = LEVEL_COLORS[groupNow];
+  const colorText = LEVEL_COLORS[group];
 
   const theme = useTheme();
   const classes = useStyles({ theme, isOpacity });
@@ -45,8 +39,8 @@ export const GroupSelector: FC<GroupSelectorProps> = ({ isOpacity }) => {
               {arrayNumberOfPage.map((numberGroup: number) => (
                 <ButtonGroupSelector
                   key={numberGroup}
-                  onChangeGroupHandler={() => changeGroup(numberGroup)}
-                  isActivePage={numberGroup === groupNow}
+                  onChangeGroupHandler={() => onGroupChange(numberGroup)}
+                  isActivePage={numberGroup === group}
                   color={LEVEL_COLORS[numberGroup]}
                 >
                   {numberGroup + 1}

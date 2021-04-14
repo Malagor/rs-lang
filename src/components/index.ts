@@ -12,3 +12,5 @@ export { WordCard } from './WordCard';
 export { Countdown } from './Countdown';
 export { FullscreenButton } from './FullscreenButton';
 export { CircularProgressBar } from './CircularProgressBar';
+export { NotEnoughWordsMessage } from './NotEnoughWordsMessage';
+export { RoundProgressBar } from './RoundProgressBar';
