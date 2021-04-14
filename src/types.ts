@@ -1,3 +1,5 @@
+import { WordsSource } from 'appConstants';
+
 export type Auth = {
   message: string;
   token: string;
@@ -14,7 +16,7 @@ export type User = {
   avatar?: string;
 };
 
-export type DifficultyType = 'hard' | 'easy';
+export type DifficultyType = 'hard' | 'normal' | 'easy';
 
 export type UserWord = {
   difficulty: DifficultyType;
@@ -56,16 +58,18 @@ export type ErrorType = {
   message?: string;
 };
 
-export type WordSectionType = 'usual' | 'difficult' | 'deleted';
+export type WordSectionType = 'learning' | 'difficult' | 'deleted';
 
 export type StateTextBook = {
   group: number;
   page: number;
   words: Word[];
+  gameWords: Word[];
+  gameWordsKind: GameWordsKindType;
   sounds: HTMLAudioElement[];
   error?: ErrorType | null;
   playedSound: string;
-  checkedDifficulty: DifficultyType;
+  checkedDifficulties: DifficultyType[];
   pagesCount: number;
   wordSection: WordSectionType;
   isLoading: boolean;
@@ -74,6 +78,8 @@ export type StateTextBook = {
 
 export type StateCommon = {
   title: string;
+  isLoginModalOpen: boolean;
+  isRegistrationModalOpen: boolean;
 };
 
 export type StateLogin = {
@@ -114,3 +120,10 @@ export type GameStatistics = {
 };
 
 export type Partial<T> = { [P in keyof T]?: T[P] };
+
+export type GameWordsKindType =
+  | WordsSource.FROM_MENU
+  | WordsSource.FROM_TEXTBOOK
+  | WordsSource.FROM_LEARNING
+  | WordsSource.FROM_DIFFICULT
+  | WordsSource.FROM_DELETED;

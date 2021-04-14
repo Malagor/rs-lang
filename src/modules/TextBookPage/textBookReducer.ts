@@ -1,4 +1,4 @@
-import { EASY_DIFFICULTY, LEARNING_SECTION } from 'appConstants';
+import { EASY_DIFFICULTY, LEARNING_SECTION, WordsSource } from 'appConstants';
 import { Reducer } from 'redux';
 import { StateTextBook } from 'types';
 import {
@@ -8,11 +8,14 @@ import {
   SET_SOUND,
   SET_WORDS,
   SET_PLAYED_SOUND,
-  SET_CHECKED_DIFFICULTY,
+  SET_CHECKED_DIFFICULTIES,
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  ADD_GAME_WORDS,
+  SET_GAME_WORDS,
+  SET_GAME_WORDS_KIND,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,10 +25,12 @@ export const textBookPageState: StateTextBook = {
   group: 0,
   page: 0,
   words: [],
+  gameWords: [],
+  gameWordsKind: WordsSource.FROM_MENU,
   sounds: [],
   error: null,
   playedSound: '',
-  checkedDifficulty: EASY_DIFFICULTY,
+  checkedDifficulties: [EASY_DIFFICULTY],
   pagesCount: 0,
   wordSection: LEARNING_SECTION,
   isLoading: false,
@@ -41,6 +46,21 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         words: action.payload,
+      };
+    case SET_GAME_WORDS:
+      return {
+        ...state,
+        gameWords: action.payload,
+      };
+    case SET_GAME_WORDS_KIND:
+      return {
+        ...state,
+        gameWordsKind: action.payload,
+      };
+    case ADD_GAME_WORDS:
+      return {
+        ...state,
+        gameWords: [...state.gameWords, ...action.payload],
       };
     case SET_GROUP:
       return {
@@ -73,10 +93,10 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
         playedSound: action.payload,
       };
 
-    case SET_CHECKED_DIFFICULTY:
+    case SET_CHECKED_DIFFICULTIES:
       return {
         ...state,
-        checkedDifficulty: action.payload,
+        checkedDifficulties: action.payload.slice(),
       };
 
     case SET_PAGES_COUNT:

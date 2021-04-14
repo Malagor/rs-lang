@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { useHistory } from 'react-router-dom';
 import { Card, Avatar, Typography, Grid } from '@material-ui/core';
 import { PlayButton, useStyles } from './styled';
 
@@ -9,6 +8,7 @@ type GameCardProps = {
   description: string;
   link: string;
   colorButton: string;
+  setChosenGameLink: React.Dispatch<React.SetStateAction<string>>;
 };
 
 export const GameCard: FC<GameCardProps> = ({
@@ -17,14 +17,13 @@ export const GameCard: FC<GameCardProps> = ({
   description,
   link,
   colorButton,
+  setChosenGameLink,
 }) => {
   const styleProps = { colorButton };
   const classes = useStyles(styleProps);
 
-  const history = useHistory();
-
-  const onGoToGamePage = () => {
-    history.push(link);
+  const handlePlayButtonClick = () => {
+    setChosenGameLink(link);
   };
 
   return (
@@ -59,7 +58,7 @@ export const GameCard: FC<GameCardProps> = ({
           className={`${classes.buttonWrapper} ${classes.wrapper}`}
         >
           <PlayButton
-            onClick={onGoToGamePage}
+            onClick={handlePlayButtonClick}
             variant="contained"
             disableRipple
             className={`${classes.margin} ${classes.root}`}
