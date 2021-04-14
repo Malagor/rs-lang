@@ -1,10 +1,12 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Word } from 'types';
-import { QuestionWrapper, CurrentWord } from './styled';
+import { CurrentWord, QuestionWrapper } from './styled';
+import { UserAnswer } from '../../SavannahCard';
 
 type QuestionProps = {
   word: Word;
-  hasAnswer: boolean;
+  // hasAnswer: boolean;
+  userAnswerState: UserAnswer;
   setAnimation?: (flag: boolean) => void;
   // setFinishRound: (flag: boolean) => void;
 };
@@ -14,7 +16,8 @@ const ANIMATION_DURATION = 100;
 
 export const Question: FC<QuestionProps> = ({
   word,
-  hasAnswer,
+  // hasAnswer,
+  userAnswerState,
   // setFinishRound,
 }) => {
   const [top, setTop] = useState(0);
@@ -23,7 +26,7 @@ export const Question: FC<QuestionProps> = ({
   useEffect(() => {
     const interval = setInterval(() => {
       setTop((prev) => {
-        if (hasAnswer) {
+        if (userAnswerState !== UserAnswer.NO_ANSWER) {
           refTopPosition.current = prev;
 
           return prev;
@@ -45,15 +48,15 @@ export const Question: FC<QuestionProps> = ({
       });
     }, ANIMATION_DURATION);
 
-    if (hasAnswer) {
+    if (userAnswerState !== UserAnswer.NO_ANSWER) {
       clearInterval(interval);
     }
 
     return () => {
-      setTop(0);
+      if (userAnswerState !== UserAnswer.NO_ANSWER) setTop(0);
       clearInterval(interval);
     };
-  }, [hasAnswer]);
+  }, [userAnswerState]);
 
   useEffect(() => {
     setTop(0);
@@ -68,7 +71,10 @@ export const Question: FC<QuestionProps> = ({
 
   return (
     <QuestionWrapper>
-      <CurrentWord style={top || refTopPosition.current ? styleDrop : {}}>
+      <CurrentWord
+        style={top || refTopPosition.current ? styleDrop : {}}
+        userAnswerState={userAnswerState}
+      >
         {word.word}
       </CurrentWord>
     </QuestionWrapper>

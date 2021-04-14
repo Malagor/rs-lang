@@ -1,5 +1,7 @@
-import styled from 'styled-components/macro';
+import styled, { keyframes } from 'styled-components/macro';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
+import { UserAnswer } from '../../SavannahCard';
 
 export const QuestionWrapper = styled.div`
   position: absolute;
@@ -11,29 +13,29 @@ export const QuestionWrapper = styled.div`
   border-bottom: 1px solid #eafff2;
 `;
 
-// const letterSpacing = keyframes`
-//   from {
-//   //opacity: 1;
-//     letter-spacing: 0;
-//   }
-//   to {
-//   //opacity: 0;
-//     letter-spacing: 100px;
-//   }
-// `;
+const letterSpacing = keyframes`
+  0% {
+    letter-spacing: 0;
+  }
 
-// const slidedown = keyframes`
-//   0% {
-//     //opacity: 1;
-//     top: 0;
-//   }
-//   100% {
-//     top: 500px;
-//     //opacity: 1;
-//   }
-// `;
+  100% {
+  opacity: 0;
+    letter-spacing: 50px;
+  }
+`;
 
-export const CurrentWord = styled.div`
+const slidedown = keyframes`
+  95% {
+  opacity: 1;
+  }
+  100% {
+    font-size: 0;
+    top: 120%;
+    opacity: 0;
+  }
+`;
+
+export const CurrentWord = styled.div<{ userAnswerState: UserAnswer }>`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -42,6 +44,21 @@ export const CurrentWord = styled.div`
   font-size: 35px;
   color: ${COLOR_LAYOUT_BACKGROUND};
   opacity: 0;
+  animation: ${({ userAnswerState }) =>
+      // eslint-disable-next-line no-nested-ternary
+      userAnswerState === UserAnswer.NO_ANSWER
+        ? ''
+        : userAnswerState === UserAnswer.WRONG
+        ? letterSpacing
+        : slidedown}
+    1s normal forwards;
 `;
-// top: ${({ topPosition }) => topPosition || 0}px;
-// transition: top 0.5s linear;
+
+export const useStyles = makeStyles({
+  rightAnswer: {
+    color: 'red',
+  },
+  wrongAnswer: {
+    color: 'blue',
+  },
+});
