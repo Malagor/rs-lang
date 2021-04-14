@@ -66,7 +66,8 @@ export const Savannah: FC = () => {
   const [correctAnswerIndex, setCorrectAnswer] = useState('-1');
   const [userAnswerIndex, setUserAnswer] = useState('-1');
   const [lives, setLives] = useState(SAVANNAH_LIVES);
-  const [finishRound, setFinishRound] = useState(false);
+  // const [finishRound, setFinishRound] = useState(false);
+  // const [playAnimation, setPlayAnimation] = useState(false);
 
   // statistics
   const [correctWords, setCorrectWords] = useState<Word[]>([]);
@@ -83,7 +84,7 @@ export const Savannah: FC = () => {
   }, [dispatch]);
 
   const grow = useCallback(() => {
-    const step = MAX_ANIMATION_TIME / words.length;
+    const step = MAX_ANIMATION_TIME / (words.length + 1);
     setPlantGrow((prev) =>
       prev + step < MAX_ANIMATION_TIME ? prev + step : MAX_ANIMATION_TIME
     );
@@ -245,8 +246,12 @@ export const Savannah: FC = () => {
       } else {
         handlerIncorrectAnswer();
       }
+
+      // setPlayAnimation(true);
       setUserAnswer(index);
-      nextRound();
+      setTimeout(() => {
+        nextRound();
+      }, 2000);
     },
     [
       nextRound,
@@ -339,7 +344,7 @@ export const Savannah: FC = () => {
                 userChoice={userAnswerIndex}
                 onUserAnswer={checkAnswer}
                 // onAnimation={setAnimation}
-                onFinishRound={setFinishRound}
+                // onFinishRound={setFinishRound}
               />
               <PlantContainer>
                 <PlantAnimation
