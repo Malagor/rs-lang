@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Paper, Button, lighten } from '@material-ui/core';
 import styled from 'styled-components';
 import {
@@ -7,14 +7,20 @@ import {
 } from 'appConstants/colors';
 import { useHistory } from 'react-router-dom';
 
-export const NotEnoughWordsMessage = () => {
+type NotEnoughWordsMessageProps = {
+  minWordsCount: number;
+};
+
+export const NotEnoughWordsMessage: FC<NotEnoughWordsMessageProps> = ({
+  minWordsCount,
+}) => {
   const history = useHistory();
   return (
     <MessageContainer variant="outlined">
       <MessageHeader>Too Few Words</MessageHeader>
       <MessageText>
-        Sorry, you need at least 8 words to play this game. Go pick up more
-        words and then try again.
+        Sorry, you need at least {minWordsCount} words to play this game. Go
+        pick up more words and then try again.
       </MessageText>
       <OkButton
         variant="contained"

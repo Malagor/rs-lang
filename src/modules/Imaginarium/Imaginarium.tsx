@@ -18,7 +18,12 @@ import {
 import { GameWordsKindType, Word } from 'types';
 import { SERVER_URL, WordsSource } from 'appConstants';
 import { URL_GAMES } from 'appConstants/url';
-import { Loader, GameResults, ErrorMessage } from 'components';
+import {
+  Loader,
+  GameResults,
+  ErrorMessage,
+  NotEnoughWordsMessage,
+} from 'components';
 import { useTheme } from '@material-ui/core/styles';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
@@ -32,12 +37,7 @@ import {
   PronounceButton,
   QuizWordContainer,
 } from './styled';
-import {
-  Dashboard,
-  WordImage,
-  ModeChoosing,
-  NotEnoughWordsMessage,
-} from './components';
+import { Dashboard, WordImage, ModeChoosing } from './components';
 
 const shuffle = (words: Word[]) =>
   words.slice().sort(() => Math.random() - 0.5);
@@ -46,6 +46,7 @@ const INITIAL_COUNTDOWN_TIME = 3;
 const COUNTDOWN_TIME = 10;
 const QUIZ_COUNT = 10;
 const ANIMATION_TIME = 1200;
+const MIN_WORDS_TO_PLAY = 8;
 
 export const Imaginarium = () => {
   const [mode, setMode] = useState('');
@@ -306,7 +307,9 @@ export const Imaginarium = () => {
   return (
     <GameContainer ref={containerRef}>
       {error && <ErrorMessage />}
-      {notEnoughWords && <NotEnoughWordsMessage />}
+      {notEnoughWords && (
+        <NotEnoughWordsMessage minWordsCount={MIN_WORDS_TO_PLAY} />
+      )}
       {!error && isModeChoosing && (
         <ModeChoosing setMode={setMode} setModeChoosing={setModeChoosing} />
       )}
