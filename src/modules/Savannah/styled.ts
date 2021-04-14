@@ -16,3 +16,16 @@ export const GameContainer = styled.div<{ background: string }>`
   height: 100%;
   background-image: ${({ background }) => background || 'black'};
 `;
+
+export const PlantContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  height: 100px;
+`;
+
+export const PlantAnimation = styled.div`
+  height: 100%;
+  width: 100%;
+`;

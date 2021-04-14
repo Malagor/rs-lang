@@ -17,12 +17,21 @@ import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
 import FinishSound from 'assets/sounds/finish.mp3';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
-import { AudioWrapper, GameContainer } from './styled';
+import lottie, { AnimationItem } from 'lottie-web';
+import plantAnimationData from 'assets/animations/growing-plant.json';
+import {
+  AudioWrapper,
+  GameContainer,
+  PlantAnimation,
+  PlantContainer,
+} from './styled';
 import { SavannahCard, ProgressBar, Lives } from './components';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
   .map((_, i) => `${i + 1}`);
+
+const MAX_ANIMATION_TIME = 120;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const mixingArray = (arr: any[]) => {
@@ -46,6 +55,9 @@ export const Savannah: FC = () => {
   const [isSoundOn, setSoundOn] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const soundRef = useRef<HTMLAudioElement>(null);
+  const plantAnimationRef = useRef<HTMLDivElement>(null);
+  const plant = useRef<AnimationItem>();
+  const [plantGrow, setPlantGrow] = useState(0);
 
   // about quiz
   const [words, setWords] = useState<Word[]>([]);
@@ -69,6 +81,31 @@ export const Savannah: FC = () => {
   useEffect(() => {
     dispatch(setPageTitle('Savannah'));
   }, [dispatch]);
+
+  const grow = useCallback(() => {
+    const step = MAX_ANIMATION_TIME / words.length;
+    setPlantGrow((prev) =>
+      prev + step < MAX_ANIMATION_TIME ? prev + step : MAX_ANIMATION_TIME
+    );
+  }, [words.length]);
+
+  useEffect(() => {
+    if (plantAnimationRef.current) {
+      plant.current = lottie.loadAnimation({
+        container: plantAnimationRef.current,
+        renderer: 'svg',
+        loop: false,
+        autoplay: false,
+        animationData: plantAnimationData,
+      });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (plant.current) {
+      plant.current.goToAndStop(plantGrow, true);
+    }
+  }, [plantGrow]);
 
   // Play sound
   const playSound = useCallback(
@@ -103,6 +140,7 @@ export const Savannah: FC = () => {
     setLongerChain(0);
     setIsResultOpen(false);
     setLives(SAVANNAH_LIVES);
+    setPlantGrow(0);
     // setAnimation(false);
   }, []);
 
@@ -136,7 +174,8 @@ export const Savannah: FC = () => {
     setCorrectWords([...correctWords, words[current]]);
     setChain((prev) => prev);
     playSound(CorrectSound);
-  }, [correctWords, words, current, playSound]);
+    grow();
+  }, [grow, correctWords, words, current, playSound]);
 
   // Incorrect Answer
   const handlerIncorrectAnswer = useCallback(() => {
@@ -304,16 +343,31 @@ export const Savannah: FC = () => {
             containerRef={containerRef}
           />
           {hasContent && !isFinish ? (
-            <SavannahCard
-              word={words[current]}
-              variants={answersArray}
-              correctIndex={correctAnswerIndex}
-              userChoice={userAnswerIndex}
-              onUserAnswer={checkAnswer}
-              // onAnimation={setAnimation}
-              onFinishRound={setFinishRound}
-            />
+            <>
+              <SavannahCard
+                word={words[current]}
+                variants={answersArray}
+                correctIndex={correctAnswerIndex}
+                userChoice={userAnswerIndex}
+                onUserAnswer={checkAnswer}
+                // onAnimation={setAnimation}
+                onFinishRound={setFinishRound}
+              />
+              <PlantContainer>
+                <PlantAnimation
+                  ref={plantAnimationRef}
+                  style={{ transition: '0.3s' }}
+                />
+              </PlantContainer>
+            </>
           ) : null}
+
+          <PlantContainer>
+            <PlantAnimation
+              ref={plantAnimationRef}
+              style={{ transition: '0.3s' }}
+            />
+          </PlantContainer>
           {isResultOpen && isFinish && (
             <GameResults
               inARow={longerChain}
@@ -327,6 +381,9 @@ export const Savannah: FC = () => {
           )}
         </AudioWrapper>
       </FullScreenWrapperFlexCenter>
+      <button type="button" onClick={grow}>
+        Рости
+      </button>
     </GameContainer>
   );
 };
