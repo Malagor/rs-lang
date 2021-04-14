@@ -35,7 +35,10 @@ const slidedown = keyframes`
   }
 `;
 
-export const CurrentWord = styled.div<{ userAnswerState: UserAnswer }>`
+export const CurrentWord = styled.div<{
+  userAnswerState: UserAnswer;
+  isEnd: boolean;
+}>`
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -44,9 +47,12 @@ export const CurrentWord = styled.div<{ userAnswerState: UserAnswer }>`
   font-size: 35px;
   color: ${COLOR_LAYOUT_BACKGROUND};
   opacity: 0;
-  animation: ${({ userAnswerState }) =>
+  animation: ${({ isEnd, userAnswerState }) =>
       // eslint-disable-next-line no-nested-ternary
-      userAnswerState === UserAnswer.NO_ANSWER
+      isEnd
+        ? letterSpacing
+        : // eslint-disable-next-line no-nested-ternary
+        userAnswerState === UserAnswer.NO_ANSWER
         ? ''
         : userAnswerState === UserAnswer.WRONG
         ? letterSpacing

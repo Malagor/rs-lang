@@ -10,7 +10,7 @@ type Props = {
   correctIndex: string;
   onUserAnswer: (answerIndex: string) => void;
   userChoice: string;
-  // onFinishRound: (flag: boolean) => void;
+  onFinishRound: (flag: boolean) => void;
 };
 
 export enum UserAnswer {
@@ -25,9 +25,8 @@ export const SavannahCard: FC<Props> = ({
   correctIndex,
   onUserAnswer,
   userChoice,
-  // onFinishRound,
+  onFinishRound,
 }) => {
-  // const hasAnswer = userChoice !== '-1';
   const userAnswerState = () => {
     if (userChoice === '-1') return UserAnswer.NO_ANSWER;
     return correctIndex === userChoice ? UserAnswer.RIGHT : UserAnswer.WRONG;
@@ -37,9 +36,8 @@ export const SavannahCard: FC<Props> = ({
     <SavannahCartStyled>
       <Question
         word={word}
-        // hasAnswer={hasAnswer}
         userAnswerState={userAnswerState()}
-        // setFinishRound={onFinishRound}
+        setFinishRound={onFinishRound}
       />
       <Answers
         answers={variants}

@@ -1,6 +1,6 @@
 import styled from 'styled-components/macro';
 
-export const AudioWrapper = styled.div`
+export const SavannahWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
@@ -9,6 +9,7 @@ export const AudioWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   color: black;
+  overflow: hidden;
 `;
 
 export const GameContainer = styled.div<{ background: string }>`

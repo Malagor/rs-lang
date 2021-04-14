@@ -67,6 +67,7 @@ export const Answers: FC<AnswersProps> = ({
           aria-label="answers"
           name="answers"
           value={userChoice}
+          style={{ justifyContent: 'center' }}
           onChange={(event) => onUserAnswer(event.target.value)}
         >
           {answers.map((answer, index) => {

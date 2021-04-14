@@ -20,7 +20,7 @@ import WrongSound from 'assets/sounds/error.mp3';
 import lottie, { AnimationItem } from 'lottie-web';
 import plantAnimationData from 'assets/animations/growing-plant.json';
 import {
-  AudioWrapper,
+  SavannahWrapper,
   GameContainer,
   PlantAnimation,
   PlantContainer,
@@ -66,7 +66,7 @@ export const Savannah: FC = () => {
   const [correctAnswerIndex, setCorrectAnswer] = useState('-1');
   const [userAnswerIndex, setUserAnswer] = useState('-1');
   const [lives, setLives] = useState(SAVANNAH_LIVES);
-  // const [finishRound, setFinishRound] = useState(false);
+  const [finishRound, setFinishRound] = useState(false);
   // const [playAnimation, setPlayAnimation] = useState(false);
 
   // statistics
@@ -247,13 +247,18 @@ export const Savannah: FC = () => {
         handlerIncorrectAnswer();
       }
 
-      // setPlayAnimation(true);
       setUserAnswer(index);
+      // if (finishRound) {
+      console.log('finishRound', finishRound);
       setTimeout(() => {
+        setFinishRound(false);
         nextRound();
       }, 2000);
+      // }
     },
     [
+      finishRound,
+      setFinishRound,
       nextRound,
       correctAnswerIndex,
       handlerCorrectAnswer,
@@ -312,11 +317,10 @@ export const Savannah: FC = () => {
 
   const hasContent = words.length && words[current];
 
-  // console.log('hasAnimation', hasAnimation);
   return (
     <GameContainer background={SAVANNAH_BACKGROUND} ref={containerRef}>
       <FullScreenWrapperFlexCenter>
-        <AudioWrapper>
+        <SavannahWrapper>
           {!isFinish && (
             <ProgressBar
               group={group}
@@ -343,8 +347,7 @@ export const Savannah: FC = () => {
                 correctIndex={correctAnswerIndex}
                 userChoice={userAnswerIndex}
                 onUserAnswer={checkAnswer}
-                // onAnimation={setAnimation}
-                // onFinishRound={setFinishRound}
+                onFinishRound={setFinishRound}
               />
               <PlantContainer>
                 <PlantAnimation
@@ -372,7 +375,7 @@ export const Savannah: FC = () => {
               doAfterClose={closeResultModal}
             />
           )}
-        </AudioWrapper>
+        </SavannahWrapper>
       </FullScreenWrapperFlexCenter>
     </GameContainer>
   );
