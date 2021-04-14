@@ -22,17 +22,16 @@ import { GameContainer } from './styled';
 
 type GamesProps = {};
 
-export type TGamePages = 'startPage' | 'palyPage' | 'resultsPage';
+export type TGamePages = 'startPage' | 'playPage' | 'resultsPage';
 export const START_PAGE = 'startPage';
-export const PLAY_PAGE = 'palyPage';
+export const PLAY_PAGE = 'playPage';
 export const RESULTS_PAGE = 'resultsPage';
 
-const TIME_GAME = 60;
+const TIME_GAME = 10;
 
 const getRandomIntInclusive = (min: number, max: number) => {
-  const min1 = Math.ceil(min);
-  const max1 = Math.floor(max);
-  return Math.floor(Math.random() * (max1 - min1 + 1)) + min1; // Максимум и минимум включаются
+  const rand = min + Math.random() * (max + 1 - min);
+  return Math.floor(rand);
 };
 
 export const Sprint: FC<GamesProps> = () => {
@@ -145,8 +144,6 @@ export const Sprint: FC<GamesProps> = () => {
     [isSoundOn]
   );
 
-  const playFinishSound = () => playSound(FinishSound);
-
   useEffect(() => {
     dispatch(loadWords(group, page));
   }, [dispatch, group, page]);
@@ -206,7 +203,7 @@ export const Sprint: FC<GamesProps> = () => {
           handleAnswerButton={handleAnswerButton}
           preMultiplier={preMultiplier}
           multiplier={multiplier}
-          playFinishSound={playFinishSound}
+          playFinishSound={() => playSound(FinishSound)}
         />
       )}
       {!error && gamePage === RESULTS_PAGE && (
