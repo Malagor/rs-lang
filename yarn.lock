@@ -1883,13 +1883,6 @@
   resolved "https://registry.npmjs.org/@types/q/-/q-1.5.4.tgz"
   integrity sha512-1HcDas8SEj4z1Wc696tH56G8OlRaH/sqZOynNNB+HF0WOeXPaxTtbYzJY2oEfiUxjSKjhCKr+MvR7dCHcEelug==
 
-"@types/react-countdown-circle-timer@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@types/react-countdown-circle-timer/-/react-countdown-circle-timer-1.0.0.tgz#e19648a1b52888f8781b9154fed88a7d6da9dd3a"
-  integrity sha512-6ZZ0PAhFuLXDNKRMJcoXlu/guZ7+VVDzO04QU7bPJfQiqH6HfEtw1yJbGp4B871Y92uHSC3e+cSp06nzAn7tUQ==
-  dependencies:
-    "@types/react" "*"
-
 "@types/react-dom@^17.0.0":
   version "17.0.2"
   resolved "https://registry.npmjs.org/@types/react-dom/-/react-dom-17.0.2.tgz"

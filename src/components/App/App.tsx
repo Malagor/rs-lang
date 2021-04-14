@@ -15,12 +15,16 @@ import * as URL from 'appConstants/url';
 import { Layout } from 'components';
 import { useDispatch } from 'react-redux';
 import { database, LocStore } from 'services';
-import { loadUserInfoById, setAuth } from 'modules/Login/actions';
-import { setGroup } from 'modules/TextBookPage/actions';
+import {
+  loadUserInfoById,
+  setAuth,
+  setAuthLoading,
+} from 'modules/Login/actions';
 import { Auth } from 'types';
 
 export const App: FC = () => {
   const dispatch = useDispatch();
+  dispatch(setAuthLoading(true));
 
   useEffect(() => {
     const authStr = LocStore.getUser();
@@ -34,11 +38,8 @@ export const App: FC = () => {
       database.setToken(token);
 
       dispatch(loadUserInfoById(id));
-    }
-    const numberGroupPageStr = LocStore.getNumberGroupPage();
-    if (numberGroupPageStr) {
-      const numberGroupPage: number = Number(JSON.parse(numberGroupPageStr));
-      dispatch(setGroup(numberGroupPage));
+    } else {
+      dispatch(setAuthLoading(false));
     }
   }, [dispatch]);
 
