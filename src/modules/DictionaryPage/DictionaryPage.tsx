@@ -49,7 +49,6 @@ import {
   HARD_DIFFICULTY,
   LEARNING_SECTION,
   MIN_WORDS_TO_PLAY,
-  PAGES_IN_EACH_GROUP,
   WordsSource,
   WORDS_ON_EACH_PAGE,
   NORMAL_DIFFICULTY,
@@ -125,7 +124,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
       setCheckPageForGameWords(-1);
     } else if (page === 0) {
       setCheckGroupForGameWords(group - 1);
-      setCheckPageForGameWords(pagesCount - 1);
+      setCheckPageForGameWords(0);
     } else {
       setCheckGroupForGameWords(group);
       setCheckPageForGameWords(page - 1);
@@ -177,7 +176,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           setCheckPageForGameWords(-1);
         } else if (checkPageForGameWords === 0) {
           setCheckGroupForGameWords(checkGroupForGameWords - 1);
-          setCheckPageForGameWords(PAGES_IN_EACH_GROUP - 1);
+          setCheckPageForGameWords(0);
         } else {
           setCheckPageForGameWords(checkPageForGameWords - 1);
         }
