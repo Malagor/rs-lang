@@ -30,7 +30,7 @@ import { AudioCard, NextButton } from './components';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
-  .map((_, i) => `${i + 1}`);
+  .map((_, i) => i + 1);
 
 // Component
 export const AudioChallenge: FC = () => {
@@ -54,8 +54,8 @@ export const AudioChallenge: FC = () => {
   const [words, setWords] = useState<Word[]>([]);
   const [current, setCurrentWord] = useState(0);
   const [answersArray, setAnswers] = useState<string[]>([]);
-  const [correctAnswerIndex, setCorrectAnswer] = useState('-1');
-  const [userAnswerIndex, setUserAnswer] = useState('-1');
+  const [correctAnswerIndex, setCorrectAnswer] = useState(-1);
+  const [userAnswerIndex, setUserAnswer] = useState(-1);
 
   // statistics
   const [correctWords, setCorrectWords] = useState<Word[]>([]);
@@ -139,7 +139,7 @@ export const AudioChallenge: FC = () => {
 
   // Check Answer
   const checkAnswer = useCallback(
-    (index: string) => {
+    (index: number) => {
       setUserAnswer(index);
       if (index === correctAnswerIndex) {
         handlerCorrectAnswer();
@@ -174,13 +174,13 @@ export const AudioChallenge: FC = () => {
       const indexRightAnswer = answer.indexOf(words[current].wordTranslate);
 
       setAnswers(answer);
-      setCorrectAnswer(indexRightAnswer.toString());
+      setCorrectAnswer(indexRightAnswer);
     }
   }, [words, current]);
 
   // Next Question
   const answerHandler = useCallback(() => {
-    setUserAnswer('-1');
+    setUserAnswer(-1);
     if (current === words.length - 1) setFinish(true);
     if (current < words.length) {
       setCurrentWord(current + 1);
@@ -210,17 +210,18 @@ export const AudioChallenge: FC = () => {
   useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent) => {
       const { key, repeat } = e;
+      const numKey = parseInt(key, 10);
 
       // select answer
-      if (!repeat && KEYS_ARRAY.includes(key)) {
+      if (!repeat && KEYS_ARRAY.includes(numKey)) {
         if (isFinish) {
           return;
         }
-        if (userAnswerIndex !== '-1') {
+        if (userAnswerIndex !== -1) {
           return;
         }
 
-        const index = `${parseInt(key, 10) - 1}`;
+        const index = numKey - 1;
         setUserAnswer(index);
         checkAnswer(index);
       }
@@ -230,7 +231,7 @@ export const AudioChallenge: FC = () => {
         if (isFinish) {
           setWords(mixingArray(words));
           handlerNewGame();
-        } else if (userAnswerIndex !== '-1' && buttonRef && buttonRef.current) {
+        } else if (userAnswerIndex !== -1 && buttonRef && buttonRef.current) {
           buttonRef.current.click();
         } else {
           setIncorrectWords([...incorrectWords, words[current]]);
@@ -304,7 +305,7 @@ export const AudioChallenge: FC = () => {
               />
               <NextButton
                 clickHandler={answerHandler}
-                label={userAnswerIndex !== '-1' ? 'next word' : 'i don`t know'}
+                label={userAnswerIndex !== -1 ? 'next word' : 'i don`t know'}
                 buttonRef={buttonRef}
               />
             </>
