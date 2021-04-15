@@ -19,6 +19,7 @@ import {
   ADD_GAME_WORDS,
   SET_GAME_WORDS,
   SET_GAME_WORDS_KIND,
+  SET_SOUND,
 } from './actionConst';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -151,6 +152,11 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
       return {
         ...state,
         isButtons: action.payload,
+      };
+    case SET_SOUND:
+      return {
+        ...state,
+        sounds: action.payload,
       };
 
     default:
