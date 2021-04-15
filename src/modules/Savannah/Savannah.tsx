@@ -45,9 +45,10 @@ const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
   .map((_, i) => i + 1);
 
+// TODO: Выставить обратно правильные значения
 const MAX_ANIMATION_TIME = 100;
 const MIN_WORDS_FOR_PLAY = 6;
-const INITIAL_COUNTDOWN_TIME = 1;
+const INITIAL_COUNTDOWN_TIME = 0;
 
 // Component
 export const Savannah: FC = () => {
@@ -152,6 +153,7 @@ export const Savannah: FC = () => {
 
   // Load Words
   useEffect(() => {
+    // TODO: correct count word
     const mixArr = mixingArray(gameWords.slice(0, 6));
     setWords(mixArr);
     setLoading(false);
@@ -176,6 +178,7 @@ export const Savannah: FC = () => {
 
   // Incorrect Answer
   const handlerIncorrectAnswer = useCallback(() => {
+    console.log('handlerIncorrectAnswer');
     setIncorrectWords([...incorrectWords, words[current]]);
     if (chain > longerChain) {
       setLongerChain(chain);
@@ -227,6 +230,7 @@ export const Savannah: FC = () => {
 
   // Next Round
   const nextRound = useCallback(() => {
+    // console.log('nextRound - current', current);
     // useEffect(() => {
     setUserAnswer(-1);
     if (current === words.length - 1) {
@@ -249,9 +253,10 @@ export const Savannah: FC = () => {
       }
 
       setUserAnswer(index);
+      // setFinishRound(true);
 
       setTimeout(() => {
-        setFinishRound(false);
+        // setFinishRound(false);
         nextRound();
       }, 2000);
     },
@@ -266,10 +271,11 @@ export const Savannah: FC = () => {
 
   // useEffect(() => {
   //   if (finishRound) {
-  //     setTimeout(() => {
-  //       setFinishRound(false);
-  //       checkAnswer('100');
-  //     }, 1000);
+  //     // setTimeout(() => {
+  //     //   setFinishRound(false);
+  //     //   checkAnswer('100');
+  //     // }, 1000);
+  //     console.log('Finish round');
   //   }
   // }, [checkAnswer, setUserAnswer, finishRound, setFinishRound]);
 

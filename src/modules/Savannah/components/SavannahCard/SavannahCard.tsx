@@ -40,6 +40,7 @@ export const SavannahCard: FC<Props> = ({
         word={word}
         userAnswerState={userAnswerState()}
         setFinishRound={onFinishRound}
+        setUserAnswer={onUserAnswer}
       />
       <Answers
         answers={variants}

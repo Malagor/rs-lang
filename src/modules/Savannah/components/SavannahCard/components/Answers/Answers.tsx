@@ -66,7 +66,7 @@ export const Answers: FC<AnswersProps> = ({
           row
           aria-label="answers"
           name="answers"
-          value={userChoice}
+          value={userChoice.toString()}
           style={{ justifyContent: 'center' }}
           onChange={(event) => onUserAnswer(parseInt(event.target.value, 10))}
         >

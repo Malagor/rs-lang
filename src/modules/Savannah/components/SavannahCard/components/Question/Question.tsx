@@ -8,19 +8,21 @@ type QuestionProps = {
   userAnswerState: UserAnswer;
   setAnimation?: (flag: boolean) => void;
   setFinishRound: (flag: boolean) => void;
+  setUserAnswer: (index: number) => void;
 };
 
 const ANIMATION_DELAY = 1000;
-const ANIMATION_DURATION = 100;
+const ANIMATION_DURATION = 30;
 
 export const Question: FC<QuestionProps> = ({
   word,
   userAnswerState,
   setFinishRound,
+  setUserAnswer,
 }) => {
-  const [top, setTop] = useState(0);
-  const refTopPosition = useRef(0);
-  const [end, setEnd] = useState(false);
+  const [top, setTop] = useState(0); // position word
+  const refTopPosition = useRef(0); // last top word position
+  const [end, setEnd] = useState(false); // word has dropped down
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -35,13 +37,13 @@ export const Question: FC<QuestionProps> = ({
 
           return add;
         }
-        if (prev >= 500) {
-          setEnd(true);
-          // setTimeout(() => {
-          refTopPosition.current = 0;
-          setFinishRound(true);
-          // }, ANIMATION_DELAY);
+
+        setEnd(true);
+        if (userAnswerState === UserAnswer.NO_ANSWER) {
+          setUserAnswer(100);
         }
+
+        // setFinishRound(true);
         refTopPosition.current = 500;
         return 500;
       });
@@ -49,7 +51,9 @@ export const Question: FC<QuestionProps> = ({
 
     if (userAnswerState !== UserAnswer.NO_ANSWER) {
       clearInterval(interval);
-      setFinishRound(true);
+      setTop(0);
+
+      // setFinishRound(true);
     }
 
     return () => {
@@ -57,7 +61,7 @@ export const Question: FC<QuestionProps> = ({
       setEnd(false);
       clearInterval(interval);
     };
-  }, [userAnswerState, setFinishRound]);
+  }, [setUserAnswer, userAnswerState]);
 
   useEffect(() => {
     setTop(0);
@@ -70,7 +74,7 @@ export const Question: FC<QuestionProps> = ({
     opacity: 1,
   };
 
-  console.log('end', end);
+  // console.log('end', end);
 
   return (
     <QuestionWrapper>
