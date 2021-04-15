@@ -40,7 +40,7 @@ export const AUTHORS = [
     photo: 'https://avatars.githubusercontent.com/u/58862645?v=4',
     role: 'Frontend developer',
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris. Elementum commodo adipiscing ',
+      'Front-end developer, participated in the development of the registration form, the Sprint game and the group selector component',
   },
   {
     name: 'Liza-Veis',
