@@ -48,7 +48,7 @@ export const AUTHORS = [
     photo: liza,
     role: 'Frontend developer, Designer',
     description:
-      'Designed layout of the application, made main page and statistcs, made games results saving to the server, helped to think throw the logic of an app',
+      'Designed layout of the application, made main page and statistcs, made games results saving to the server, helped to think through the logic of the app',
   },
   {
     name: 'Vadim-Bykov',
