@@ -11,9 +11,9 @@ import {
 } from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
 import { useDispatch, useSelector } from 'react-redux';
-import { InfoBlock } from 'components/WordCard/components/TopPart/styled';
 import { loadUserLearningWords } from 'modules/TextBookPage/actions';
 import { Divider } from '@material-ui/core';
+import { PAGES_IN_EACH_GROUP, WORDS_ON_EACH_PAGE } from 'appConstants';
 import { Accuracy } from './components';
 import {
   Content,
@@ -29,6 +29,7 @@ import {
   PageStatistic,
   PageNumber,
   PageMarkedItem,
+  InfoBlock,
 } from './styled';
 
 interface ICountAnswers {
@@ -45,8 +46,10 @@ export const ModalContent: React.FC = () => {
   const statisticWords = useSelector(selectStatisticWords);
   const dispatch = useDispatch();
 
+  const totalPossibleWords = WORDS_ON_EACH_PAGE * PAGES_IN_EACH_GROUP;
+
   useEffect(() => {
-    dispatch(loadUserLearningWords(userId, group, 0, 600, true));
+    dispatch(loadUserLearningWords(userId, group, 0, totalPossibleWords, true));
   }, [group, userId, dispatch]);
 
   const correctSectionStatistic = statisticWords.reduce(

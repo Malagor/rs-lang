@@ -4,11 +4,23 @@ import styled from 'styled-components/macro';
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  margin: 0 16px;
+  margin: -16px 16px 8px;
 `;
 export const Title = styled.div`
   font-size: 1.5rem;
   margin-right: 12px;
+`;
+
+export const InfoBlock = styled.div<{ color: string }>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 45px;
+  height: 100%;
+  border-radius: 5px;
+  background-color: ${({ color }) => color};
+  color: white;
+  padding: 2px;
 `;
 
 export const Wrapper = styled.div`
