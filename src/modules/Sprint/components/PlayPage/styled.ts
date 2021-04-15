@@ -5,6 +5,8 @@ import {
   COLOR_LAYOUT_BLUE,
   COLOR_LAYOUT_DARK_GRAY,
 } from 'appConstants/colors';
+import styled from 'styled-components';
+import { Button, lighten } from '@material-ui/core';
 
 export const useStyles = makeStyles((theme) => ({
   wrapper: {
@@ -33,6 +35,7 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     width: '329px',
     height: '198px',
+    borderRadius: '10px',
   },
   wrapperIndicator: {
     display: 'flex',
@@ -69,15 +72,26 @@ export const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: theme.spacing(1),
   },
-  buttons: {
-    width: '112px',
-    height: '40px',
-    margin: '0 12px',
-  },
-  right: {
-    backgroundColor: COLOR_LAYOUT_BLUE,
-  },
-  wrong: {
-    backgroundColor: COLOR_LAYOUT_DARK_GRAY,
-  },
 }));
+
+export const ModeButtonRight = styled(Button)`
+  width: 112px;
+  height: 40px;
+  margin: 0 12px;
+  border-radius: 0;
+  background-color: ${COLOR_LAYOUT_BLUE};
+  &:hover {
+    background-color: ${lighten(COLOR_LAYOUT_BLUE, 0.2)};
+  }
+`;
+
+export const ModeButtonWrong = styled(Button)`
+  width: 112px;
+  height: 40px;
+  margin: 0 12px;
+  border-radius: 0;
+  background-color: ${COLOR_LAYOUT_DARK_GRAY};
+  &:hover {
+    background-color: ${lighten(COLOR_LAYOUT_DARK_GRAY, 0.2)};
+  }
+`;

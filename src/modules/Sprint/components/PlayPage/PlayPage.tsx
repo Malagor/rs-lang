@@ -1,9 +1,9 @@
 import React, { FC, useEffect } from 'react';
 import { Countdown, SoundButton, FullscreenButton } from 'components';
-import { Button, Typography, Box, Grid, Paper } from '@material-ui/core';
+import { Typography, Box, Grid, Paper } from '@material-ui/core';
 import clsx from 'clsx';
 import { TGamePages, RESULTS_PAGE } from '../../Sprint';
-import { useStyles } from './styled';
+import { useStyles, ModeButtonWrong, ModeButtonRight } from './styled';
 
 type GameStatisticBoardProps = {
   isFullscreen: boolean;
@@ -126,22 +126,20 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
           </Box>
 
           <Box className={classes.wrapperButtons}>
-            <Button
-              className={clsx(classes.buttons, classes.right)}
+            <ModeButtonRight
               onClick={handleRightButton}
               variant="contained"
               color="primary"
             >
               right
-            </Button>
-            <Button
-              className={clsx(classes.buttons, classes.wrong)}
+            </ModeButtonRight>
+            <ModeButtonWrong
               onClick={handleWrongButton}
               variant="contained"
               color="secondary"
             >
               wrong
-            </Button>
+            </ModeButtonWrong>
           </Box>
         </Paper>
       </Grid>
