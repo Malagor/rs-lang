@@ -50,9 +50,6 @@ export const SideNav: FC<SideNavProps> = () => {
       <MenuItem to={URL_GAMES} title="Minigames">
         <SportsEsportsIcon />
       </MenuItem>
-      <MenuItem to="/games/savannah" title="Savannah Game">
-        <SportsEsportsIcon />
-      </MenuItem>
       <MenuItem to={URL_STATISTICS} title="Statistics">
         <EqualizerIcon />
       </MenuItem>
