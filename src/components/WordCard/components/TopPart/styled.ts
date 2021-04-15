@@ -20,6 +20,11 @@ export const WordBlock = styled.div<{ colorGroup: string }>`
   }
 `;
 
+export const EnglishBlock = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+`;
+
 export const EnglishWord = styled.span`
   text-transform: capitalize;
   font-weight: 500;

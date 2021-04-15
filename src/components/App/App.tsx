@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import {
   DictionaryPage,
   GamesPage,
@@ -24,17 +24,17 @@ import { Auth } from 'types';
 
 export const App: FC = () => {
   const dispatch = useDispatch();
-  dispatch(setAuthLoading(true));
+  const location = useLocation();
 
   useEffect(() => {
+    dispatch(setAuthLoading(true));
+
     const authStr = LocStore.getUser();
     if (authStr) {
       const auth: Auth = JSON.parse(authStr);
       dispatch(setAuth(auth));
 
       const { token, userId: id } = auth;
-      console.log('token', token);
-      console.log('id', id);
       database.setToken(token);
 
       dispatch(loadUserInfoById(id));
@@ -42,6 +42,10 @@ export const App: FC = () => {
       dispatch(setAuthLoading(false));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <Layout>
