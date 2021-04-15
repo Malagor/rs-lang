@@ -261,6 +261,27 @@ export const Savannah: FC = () => {
     ]
   );
 
+  // Save statistics
+  const saveStatistics = useCallback(() => {
+    if (userId) {
+      saveGameResults({
+        userId,
+        game: 'Savannah',
+        rightlyAnswered: correctWords,
+        wronglyAnswered: incorrectWords,
+        maxInARow: longerChain,
+      });
+    } else {
+      LocStore.updateGamesStatistics(
+        'Savannah',
+        correctWords,
+        incorrectWords,
+        longerChain
+      );
+      LocStore.updateWordsStatistics(correctWords, incorrectWords);
+    }
+  }, [userId, longerChain, incorrectWords, correctWords]);
+
   // Finish Game
   const handleFinishGame = useCallback(() => {
     if (isFinish) {
@@ -275,34 +296,9 @@ export const Savannah: FC = () => {
         return;
       }
 
-      if (userId) {
-        saveGameResults({
-          userId,
-          game: 'Savannah',
-          rightlyAnswered: correctWords,
-          wronglyAnswered: incorrectWords,
-          maxInARow: longerChain,
-        });
-      } else {
-        LocStore.updateGamesStatistics(
-          'Savannah',
-          correctWords,
-          incorrectWords,
-          longerChain
-        );
-        LocStore.updateWordsStatistics(correctWords, incorrectWords);
-      }
+      saveStatistics();
     }
-  }, [
-    userId,
-    gameWordsKind,
-    correctWords,
-    incorrectWords,
-    chain,
-    longerChain,
-    playSound,
-    isFinish,
-  ]);
+  }, [saveStatistics, gameWordsKind, chain, longerChain, playSound, isFinish]);
 
   const closeResultModal = useCallback(() => {
     history.push('/games');
