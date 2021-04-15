@@ -5,6 +5,7 @@ const TEXTBOOK_POSITION = 'rslang-TextBookPosition';
 const DICTIONARY_POSITION = 'rslang-DictionaryPosition';
 const GAMES_STATISTICS = 'rslang-GamesStatistics';
 const WORDS_STATISTICS = 'rslang-WordsStatistics';
+const TEXTBOOK_SETTINGS = 'rslang-TextbookSettings';
 
 const getData = (nameField: string) => {
   const dataField = localStorage.getItem(nameField);
@@ -45,6 +46,19 @@ export class LocStore {
     localStorage.setItem(
       DICTIONARY_POSITION,
       JSON.stringify({ ...oldPosition, ...position })
+    );
+  };
+
+  static getTextBookSettings = () => getData(TEXTBOOK_SETTINGS);
+
+  static setTextBookSettings = (settings: {
+    isButtonsShown?: boolean;
+    isTranslationShown?: boolean;
+  }) => {
+    const oldSettings = LocStore.getTextBookSettings();
+    localStorage.setItem(
+      TEXTBOOK_SETTINGS,
+      JSON.stringify({ ...oldSettings, ...settings })
     );
   };
 

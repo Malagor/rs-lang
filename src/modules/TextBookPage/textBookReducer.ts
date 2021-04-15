@@ -12,6 +12,8 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_REF_STATISTIC,
+  SET_IS_TRANSLATION_SHOWN,
+  SET_IS_BUTTONS_SHOWN,
   SET_DICTIONARY_PAGE,
   SET_DICTIONARY_GROUP,
   ADD_GAME_WORDS,
@@ -39,6 +41,8 @@ export const textBookPageState: StateTextBook = {
   wordSection: LEARNING_SECTION,
   isLoading: false,
   refStatistic: null,
+  isTranslationShown: true,
+  isButtonsShown: true,
 };
 
 export const textBookReducer: Reducer<StateTextBook, Action> = (
@@ -138,6 +142,17 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
         refStatistic: action.payload,
       };
 
+    case SET_IS_TRANSLATION_SHOWN:
+      return {
+        ...state,
+        isTranslationShown: action.payload,
+      };
+
+    case SET_IS_BUTTONS_SHOWN:
+      return {
+        ...state,
+        isButtonsShown: action.payload,
+      };
     case SET_SOUND:
       return {
         ...state,
