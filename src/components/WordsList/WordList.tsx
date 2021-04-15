@@ -7,7 +7,6 @@ import {
   selectIsTranslationShown,
 } from 'modules/TextBookPage/selectors';
 import { WordCard } from 'components';
-import { StatisticModal } from 'modules/DictionaryPage/components/StatisticModal';
 import { WordListStyled } from './styled';
 import { NoWordsMessage } from './components';
 
@@ -37,34 +36,31 @@ export const WordList: FC<WordListProps> = ({
   ).length;
 
   return countWords || isLoading ? (
-    <>
-      <StatisticModal />
-      <WordListStyled>
-        {words.map((word) => {
-          const correctWord = !checkedDifficulties.includes(
-            word.userWord?.difficulty!
-          );
-          const wordStatistics = word.userWord?.optional?.statistics;
+    <WordListStyled>
+      {words.map((word) => {
+        const correctWord = !checkedDifficulties.includes(
+          word.userWord?.difficulty!
+        );
+        const wordStatistics = word.userWord?.optional?.statistics;
 
-          return (
-            correctWord && (
-              <WordCard
-                key={word.word}
-                word={word}
-                successCount={wordStatistics?.correct || 0}
-                errorCount={wordStatistics?.incorrect || 0}
-                isTranslationShown={isTranslationShown}
-                isButtonsShown={isButtonsShown}
-                showBtnDeleteDifficult={showBtnDeleteDifficult}
-                showBtnRestore={showBtnRestore}
-                group={group}
-                page={page}
-              />
-            )
-          );
-        })}
-      </WordListStyled>
-    </>
+        return (
+          correctWord && (
+            <WordCard
+              key={word.word}
+              word={word}
+              successCount={wordStatistics?.correct || 0}
+              errorCount={wordStatistics?.incorrect || 0}
+              isTranslationShown={isTranslationShown}
+              isButtonsShown={isButtonsShown}
+              showBtnDeleteDifficult={showBtnDeleteDifficult}
+              showBtnRestore={showBtnRestore}
+              group={group}
+              page={page}
+            />
+          )
+        );
+      })}
+    </WordListStyled>
   ) : (
     <NoWordsMessage />
   );

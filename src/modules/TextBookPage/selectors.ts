@@ -41,8 +41,8 @@ export const selectWordSection = (state: State) =>
 export const selectIsLoading = (state: State) =>
   state.textBookReducer.isLoading;
 
-export const selectRefStatistic = (state: State) =>
-  state.textBookReducer.refStatistic;
+export const selectStatisticWords = (state: State) =>
+  state.textBookReducer.statisticWords;
 
 export const selectIsTranslationShown = (state: State) =>
   state.textBookReducer.isTranslationShown;

@@ -75,7 +75,7 @@ export type StateTextBook = {
   pagesCount: number;
   wordSection: WordSectionType;
   isLoading: boolean;
-  refStatistic: HTMLButtonElement | null;
+  statisticWords: Word[];
   isTranslationShown: boolean;
   isButtonsShown: boolean;
 };
