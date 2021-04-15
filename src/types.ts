@@ -129,3 +129,9 @@ export type GameWordsKindType =
   | WordsSource.FROM_LEARNING
   | WordsSource.FROM_DIFFICULT
   | WordsSource.FROM_DELETED;
+
+export type ChosenGameProps = {
+  gameName: string;
+  gameLink: string;
+  gameColor: string;
+};

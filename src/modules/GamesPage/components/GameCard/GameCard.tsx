@@ -1,5 +1,6 @@
 import React, { FC } from 'react';
 import { Card, Avatar, Typography, Grid } from '@material-ui/core';
+import { ChosenGameProps } from 'types';
 import { PlayButton, useStyles } from './styled';
 
 type GameCardProps = {
@@ -8,7 +9,7 @@ type GameCardProps = {
   description: string;
   link: string;
   colorButton: string;
-  setChosenGameLink: React.Dispatch<React.SetStateAction<string>>;
+  setChosenGame: React.Dispatch<React.SetStateAction<ChosenGameProps | null>>;
 };
 
 export const GameCard: FC<GameCardProps> = ({
@@ -17,13 +18,13 @@ export const GameCard: FC<GameCardProps> = ({
   description,
   link,
   colorButton,
-  setChosenGameLink,
+  setChosenGame,
 }) => {
   const styleProps = { colorButton };
   const classes = useStyles(styleProps);
 
   const handlePlayButtonClick = () => {
-    setChosenGameLink(link);
+    setChosenGame({ gameName: name, gameLink: link, gameColor: colorButton });
   };
 
   return (
