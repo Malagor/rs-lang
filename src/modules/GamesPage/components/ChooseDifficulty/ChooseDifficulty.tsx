@@ -51,7 +51,7 @@ export const ChooseDifficulty: FC<ChooseDifficultyProps> = ({
             setChosenGame(null);
           }}
         >
-          Back
+          Back to games
         </Fab>
       </div>
     </div>
