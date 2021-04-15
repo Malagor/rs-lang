@@ -22,25 +22,9 @@ export const useStyles = makeStyles((theme: Theme) => ({
     width: '428px',
     paddingBottom: '100px',
   },
-  gameNameContainer: {
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: '32px',
-  },
-  backButton: ({ gameColor }: { gameColor: string }) => ({
-    marginRight: '16px',
-    backgroundColor: gameColor,
-    boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.15)',
-    '&:hover': {
-      backgroundColor: lighten(gameColor, 0.2),
-    },
-  }),
-  backArrow: {
-    color: COLOR_LAYOUT_BACKGROUND,
-  },
   gameName: {
     margin: 0,
+    marginBottom: '32px',
     fontSize: '40px',
     lineHeight: '40px',
     fontWeight: 700,
@@ -61,5 +45,14 @@ export const useStyles = makeStyles((theme: Theme) => ({
     padding: theme.spacing(2),
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.15)',
     borderRadius: '10px',
+    marginBottom: '32px',
   },
+  backButton: ({ gameColor }: { gameColor: string }) => ({
+    backgroundColor: gameColor,
+    color: COLOR_LAYOUT_BACKGROUND,
+    boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.15)',
+    '&:hover': {
+      backgroundColor: lighten(gameColor, 0.2),
+    },
+  }),
 }));

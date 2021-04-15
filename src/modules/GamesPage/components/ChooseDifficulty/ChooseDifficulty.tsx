@@ -2,7 +2,6 @@ import React, { FC, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { Paper, Fab } from '@material-ui/core';
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { COUNT_GROUPS } from 'appConstants';
 import { ChosenGameProps, Word } from 'types';
 import { selectGameWords } from 'modules/TextBookPage/selectors';
@@ -39,22 +38,21 @@ export const ChooseDifficulty: FC<ChooseDifficultyProps> = ({
   return (
     <div className={classes.root}>
       <div className={classes.innerWrapper}>
-        <div className={classes.gameNameContainer}>
-          <Fab
-            aria-label="back"
-            className={classes.backButton}
-            onClick={() => {
-              setChosenGame(null);
-            }}
-          >
-            <ArrowBackIcon className={classes.backArrow} />
-          </Fab>
-          <h2 className={classes.gameName}>{gameName}</h2>
-        </div>
+        <h2 className={classes.gameName}>{gameName}</h2>
         <h3 className={classes.selectHeader}>Select the Level</h3>
         <Paper variant="outlined" className={classes.groupButtonsContainer}>
           {getGroupButtons()}
         </Paper>
+        <Fab
+          variant="extended"
+          aria-label="back"
+          className={classes.backButton}
+          onClick={() => {
+            setChosenGame(null);
+          }}
+        >
+          Back
+        </Fab>
       </div>
     </div>
   );
