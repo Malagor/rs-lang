@@ -27,7 +27,7 @@ export const START_PAGE = 'startPage';
 export const PLAY_PAGE = 'playPage';
 export const RESULTS_PAGE = 'resultsPage';
 
-const TIME_GAME = 10;
+const TIME_GAME = 610;
 
 const getRandomIntInclusive = (min: number, max: number) => {
   const rand = min + Math.random() * (max + 1 - min);
