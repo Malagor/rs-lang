@@ -1,10 +1,6 @@
 import styled from 'styled-components/macro';
 import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
 
-export const WordCard = styled.div`
-  display: flex;
-`;
-
 type CardContainerType = {
   difficultColor?: string;
 };
@@ -17,6 +13,8 @@ export const CardContainer = styled.div<CardContainerType>`
     difficultColor || COLOR_LAYOUT_BACKGROUND};
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     flex-direction: column;
+    max-width: 524px;
+    width: 100%;
   }
 `;
 
