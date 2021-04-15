@@ -1,3 +1,4 @@
+import { COLOR_LAYOUT_GRAY, COLOR_LAYOUT_WHITE } from 'appConstants/colors';
 import styled from 'styled-components/macro';
 
 export const Content = styled.div`
@@ -67,4 +68,45 @@ export const Marker = styled.div<{ color: string }>`
   height: 8px;
   border-radius: 50%;
   background-color: ${({ color }) => color};
+`;
+
+export const PagesWrapper = styled.div`
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow: auto;
+  height: 160px;
+
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 50px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: ${COLOR_LAYOUT_GRAY};
+  }
+`;
+
+export const PageStatistic = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 10px;
+`;
+
+export const PageNumber = styled.span`
+  margin-right: 8px;
+`;
+
+export const PageMarkedItem = styled.span<MarkedItemType>`
+  height: 24px;
+  flex-basis: ${({ length }) => length || 6}%;
+  background-color: ${({ color }) => color};
+  margin: 4px 4px;
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: ${COLOR_LAYOUT_WHITE};
 `;

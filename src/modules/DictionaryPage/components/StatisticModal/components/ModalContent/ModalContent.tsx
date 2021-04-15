@@ -6,13 +6,14 @@ import {
   LEVEL_COLORS,
 } from 'appConstants/colors';
 import {
-  selectTextBookGroup,
+  selectDictionaryGroup,
   selectStatisticWords,
 } from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
 import { useDispatch, useSelector } from 'react-redux';
 import { InfoBlock } from 'components/WordCard/components/TopPart/styled';
 import { loadUserLearningWords } from 'modules/TextBookPage/actions';
+import { Divider } from '@material-ui/core';
 import { Accuracy } from './components';
 import {
   Content,
@@ -24,14 +25,22 @@ import {
   Title,
   Wrapper,
   WrapperMarkedBlock,
+  PagesWrapper,
+  PageStatistic,
+  PageNumber,
+  PageMarkedItem,
 } from './styled';
 
 interface ICountAnswers {
-  [key: number]: { correct: number | undefined; incorrect: number | undefined };
+  [key: number]: {
+    correct: number | undefined;
+    incorrect: number | undefined;
+    totalWords: number;
+  };
 }
 
 export const ModalContent: React.FC = () => {
-  const group = useSelector(selectTextBookGroup);
+  const group = useSelector(selectDictionaryGroup);
   const userId = useSelector(selectUserId);
   const statisticWords = useSelector(selectStatisticWords);
   const dispatch = useDispatch();
@@ -60,27 +69,47 @@ export const ModalContent: React.FC = () => {
     pages[word.page]
       ? (pages[word.page] = {
           correct:
-            pages[word.page].correct ||
-            0 + word.userWord?.optional?.statistics!?.correct ||
-            0,
+            (pages[word.page].correct || 0) +
+            (word.userWord?.optional?.statistics!?.correct || 0),
           incorrect:
-            pages[word.page].incorrect ||
-            0 + word.userWord?.optional?.statistics?.incorrect! ||
-            0,
+            (pages[word.page].incorrect || 0) +
+            (word.userWord?.optional?.statistics?.incorrect! || 0),
+          totalWords: (pages[word.page].totalWords += 1),
         })
       : (pages[word.page] = {
           correct: word.userWord?.optional?.statistics?.correct || 0,
           incorrect: word.userWord?.optional?.statistics?.incorrect || 0,
+          totalWords: 1,
         });
   });
 
-  const pagesStatistic = Object.entries(pages).map((page) => (
-    <div key={page[0]}>
-      <span>Page: {+page[0] + 1}</span>
-      <span>correct: {page[1].correct}</span>
-      <span>correct: {page[1].incorrect}</span>
-    </div>
-  ));
+  const pagesStatistic = Object.entries(pages).map((page) => {
+    const totalLength =
+      page[1].totalWords + page[1].correct + page[1].incorrect;
+    return (
+      <PageStatistic key={page[0]}>
+        <PageNumber>{+page[0] + 1}</PageNumber>
+        <PageMarkedItem
+          color={COLOR_LAYOUT_YELLOW}
+          length={(page[1].totalWords / totalLength) * 100}
+        >
+          {page[1].totalWords}
+        </PageMarkedItem>
+        <PageMarkedItem
+          color={COLOR_LAYOUT_BLUE}
+          length={(page[1].correct / totalLength) * 100}
+        >
+          {page[1].correct}
+        </PageMarkedItem>
+        <PageMarkedItem
+          color={COLOR_LAYOUT_ORANGE}
+          length={(page[1].incorrect / totalLength) * 100}
+        >
+          {page[1].incorrect}
+        </PageMarkedItem>
+      </PageStatistic>
+    );
+  });
 
   return (
     <Content>
@@ -131,7 +160,10 @@ export const ModalContent: React.FC = () => {
         </Wrapper>
       </div>
 
-      {pagesStatistic}
+      <Divider style={{ height: 3, marginBottom: 16 }} />
+
+      <Title>Pages</Title>
+      <PagesWrapper>{pagesStatistic}</PagesWrapper>
     </Content>
   );
 };
