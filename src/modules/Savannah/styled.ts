@@ -13,6 +13,7 @@ export const SavannahWrapper = styled.div`
 `;
 
 export const GameContainer = styled.div<{ background: string }>`
+  position: relative;
   width: 100%;
   height: 100%;
   background-image: ${({ background }) => background || 'black'};

@@ -2,67 +2,79 @@ import React, { FC, useCallback, useEffect, useRef, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { setPageTitle } from 'store/commonState/actions';
-import {
-  selectTextBookGroup,
-  selectTextBookPage,
-} from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
-import { FullScreenWrapperFlexCenter } from 'styles';
-import { Word } from 'types';
-import { database, LocStore } from 'services';
 import {
+  selectGameWords,
+  selectGameWordsKind,
+  selectTextBookError,
+  selectTextBookGroup,
+} from 'modules/TextBookPage/selectors';
+import {
+  Countdown,
+  ErrorMessage,
   FullscreenButton,
   GameResults,
+  Loader,
+  NotEnoughWordsMessage,
   RoundProgressBar,
   SoundButton,
 } from 'components';
+import { GameWordsKindType, Word } from 'types';
+import { LocStore } from 'services';
 import { COUNT_ANSWERS, SAVANNAH_LIVES } from 'appConstants/games';
 import 'react-circular-progressbar/dist/styles.css';
 import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
 import FinishSound from 'assets/sounds/finish.mp3';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
-import lottie, { AnimationItem } from 'lottie-web';
 import plantAnimationData from 'assets/animations/growing-plant.json';
+import lottie, { AnimationItem } from 'lottie-web';
+import { mixingArray } from 'helpers/mixingArray';
+import { WordsSource } from 'appConstants';
+import { FullScreenWrapperFlexCenter } from 'styles';
+import { SavannahCard, Lives } from './components';
 import {
   SavannahWrapper,
   GameContainer,
   PlantAnimation,
   PlantContainer,
 } from './styled';
-import { SavannahCard, Lives } from './components';
+import { InitialCountdownContainer } from '../Imaginarium/components/Dashboard/styled';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
   .map((_, i) => i + 1);
 
 const MAX_ANIMATION_TIME = 120;
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const mixingArray = (arr: any[]) => {
-  const locArr = [...arr];
-  locArr.sort(() => Math.random() - 0.5);
-  return locArr;
-};
+const MIN_WORDS_FOR_PLAY = 6;
+const INITIAL_COUNTDOWN_TIME = 3;
 
 // Component
 export const Savannah: FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
+  // Selectors
   const userId = useSelector(selectUserId);
   const group = useSelector(selectTextBookGroup);
-  const page = useSelector(selectTextBookPage);
+  const error = useSelector(selectTextBookError);
+  const gameWordsKind: GameWordsKindType = useSelector(selectGameWordsKind);
+  const gameWords: Word[] = useSelector(selectGameWords);
 
   // helpers
   const [isFullScreen, setIsFullScreen] = useState(false);
   const [isResultOpen, setIsResultOpen] = useState(false);
   const [isSoundOn, setSoundOn] = useState(true);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const soundRef = useRef<HTMLAudioElement>(null);
-  const plantAnimationRef = useRef<HTMLDivElement>(null);
-  const plant = useRef<AnimationItem>();
   const [plantGrow, setPlantGrow] = useState(0);
+  const [notEnoughWords, setNotEnoughWords] = useState(false);
+  const [isLoading, setLoading] = useState(true);
+  const [hasStarted, setStarted] = useState(false);
+
+  // Refs
+  const containerRef = useRef<HTMLDivElement>(null);
+  const plantAnimationRef = useRef<HTMLDivElement>(null);
+  const soundRef = useRef<HTMLAudioElement>(null);
+  const plant = useRef<AnimationItem>();
 
   // about quiz
   const [words, setWords] = useState<Word[]>([]);
@@ -124,18 +136,6 @@ export const Savannah: FC = () => {
     [isSoundOn]
   );
 
-  const saveStatistics = useCallback(() => {
-    if (!userId) {
-      LocStore.updateGamesStatistics(
-        'Audio challenge',
-        correctWords,
-        incorrectWords,
-        longerChain
-      );
-      LocStore.updateWordsStatistics(correctWords, incorrectWords);
-    }
-  }, [userId, correctWords, incorrectWords, longerChain]);
-
   // New Game
   const handlerNewGame = useCallback(() => {
     setFinish(false);
@@ -152,27 +152,19 @@ export const Savannah: FC = () => {
 
   // Load Words
   useEffect(() => {
-    let locWords: Promise<Word[]>;
-    if (userId) {
-      locWords = database
-        .getUserAggregatedWord({
-          userId,
-          group,
-          page,
-          wordPerPage: 6,
-          filter: `{"$or":[{"userWord.difficulty":"hard"},{"userWord":null}]}`,
-        })
-        .then((data) => data[0].paginatedResults);
-    } else {
-      locWords = database.getWords(group, page);
-    }
-
-    locWords.then((data) => {
-      const mixArr = mixingArray(data);
-      setWords(mixArr);
-    });
+    const mixArr = mixingArray(gameWords);
+    setWords(mixArr);
+    setLoading(false);
     handlerNewGame();
-  }, [handlerNewGame, group, page, userId]);
+  }, [handlerNewGame, gameWords]);
+
+  // Check minimal count words
+  useEffect(() => {
+    if (gameWords.length < MIN_WORDS_FOR_PLAY) {
+      setLoading(false);
+      setNotEnoughWords(true);
+    }
+  }, [gameWords.length]);
 
   // Correct Answer
   const handlerCorrectAnswer = useCallback(() => {
@@ -254,15 +246,12 @@ export const Savannah: FC = () => {
 
       setUserAnswer(index);
 
-      console.log('finishRound', finishRound);
       setTimeout(() => {
         setFinishRound(false);
         nextRound();
       }, 2000);
-      // }
     },
     [
-      finishRound,
       setFinishRound,
       nextRound,
       correctAnswerIndex,
@@ -286,15 +275,47 @@ export const Savannah: FC = () => {
       setLongerChain(chain > longerChain ? chain : longerChain);
       setIsResultOpen(true);
       playSound(FinishSound);
-      saveStatistics();
+
+      if (
+        gameWordsKind === WordsSource.FROM_MENU ||
+        gameWordsKind === WordsSource.FROM_DELETED
+      ) {
+        return;
+      }
+
+      if (userId) {
+        // TODO: Вернуть сохранение статистики в зад
+        // saveGameResults({
+        //   userId,
+        //   game: 'Savannah',
+        //   rightlyAnswered: correctWords,
+        //   wronglyAnswered: incorrectWords,
+        //   maxInARow: longerChain,
+        // });
+      } else {
+        LocStore.updateGamesStatistics(
+          'Savannah',
+          correctWords,
+          incorrectWords,
+          longerChain
+        );
+        LocStore.updateWordsStatistics(correctWords, incorrectWords);
+      }
     }
-  }, [chain, longerChain, playSound, isFinish, saveStatistics]);
+  }, [
+    userId,
+    gameWordsKind,
+    correctWords,
+    incorrectWords,
+    chain,
+    longerChain,
+    playSound,
+    isFinish,
+  ]);
 
   const closeResultModal = useCallback(() => {
-    // history.push('/games');
-    // TODO: Убрать начало новой игры и вернуть переадресацию
-    handlerNewGame();
-  }, [handlerNewGame, history]);
+    history.push('/games');
+  }, [history]);
 
   // Keyboard listener
   useEffect(() => {
@@ -334,6 +355,25 @@ export const Savannah: FC = () => {
 
   return (
     <GameContainer background={SAVANNAH_BACKGROUND} ref={containerRef}>
+      {error && <ErrorMessage />}
+      {notEnoughWords && (
+        <NotEnoughWordsMessage minWordsCount={MIN_WORDS_FOR_PLAY} />
+      )}
+
+      {!error && isLoading && <Loader />}
+
+      <InitialCountdownContainer
+        gameIsStarted={hasStarted}
+        background={SAVANNAH_BACKGROUND}
+      >
+        <Countdown
+          duration={INITIAL_COUNTDOWN_TIME}
+          onComplete={() => setStarted(true)}
+          strokeWidth={9}
+          size={110}
+        />
+      </InitialCountdownContainer>
+
       <FullScreenWrapperFlexCenter>
         <SavannahWrapper>
           {!isFinish && (
@@ -354,7 +394,7 @@ export const Savannah: FC = () => {
             setFullscreen={setIsFullScreen}
             containerRef={containerRef}
           />
-          {hasContent && !isFinish ? (
+          {hasContent && !isFinish && hasStarted ? (
             <>
               <SavannahCard
                 word={words[current]}

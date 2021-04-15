@@ -2,6 +2,7 @@ import {
   COLOR_LAYOUT_BACKGROUND,
   COLOR_LAYOUT_ORANGE,
   COLOR_LAYOUT_YELLOW,
+  IMAGINARIUM_BACKGROUND,
 } from 'appConstants/colors';
 import styled from 'styled-components';
 import { Breakpoints } from '@material-ui/core/styles/createBreakpoints';
@@ -40,7 +41,10 @@ export const RightWord = styled.span`
   color: ${COLOR_LAYOUT_YELLOW};
 `;
 
-export const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
+export const InitialCountdownContainer = styled.div<{
+  gameIsStarted: boolean;
+  background?: string;
+}>`
   z-index: 9;
   position: absolute;
   top: 0;
@@ -50,5 +54,6 @@ export const InitialCountdownContainer = styled.div<{ gameIsStarted: boolean }>`
   display: ${({ gameIsStarted }) => (gameIsStarted ? 'none' : 'flex')};
   justify-content: center;
   align-items: center;
-  background: linear-gradient(180deg, #5b3085 0%, #b7498a 100%);
+  background-image: ${({ background }) =>
+    background || IMAGINARIUM_BACKGROUND};);
 `;
