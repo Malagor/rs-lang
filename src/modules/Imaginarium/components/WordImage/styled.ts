@@ -39,15 +39,15 @@ const wrongAnimation = (animationTime: number) => css`
 `;
 
 const chooseAnimation = (
-  id: string,
-  rightId: string,
-  wrongId: string,
+  word: string,
+  rightWord: string,
+  wrongWord: string,
   animationTime: number
 ) => {
-  if (id === rightId) {
+  if (word === rightWord) {
     return rightAnimation(animationTime);
   }
-  if (id === wrongId) {
+  if (word === wrongWord) {
     return wrongAnimation(animationTime);
   }
   return 'none';
@@ -76,15 +76,15 @@ export const WordImageContainer = styled.div<{
 `;
 
 export const Image = styled.img<{
-  id: string;
-  rightId: string;
-  wrongId: string;
+  word: string;
+  rightWord: string;
+  wrongWord: string;
   animationTime: number;
 }>`
   max-width: 100%;
   max-height: 19vh;
   overflow: hidden;
   cursor: pointer;
-  animation: ${({ id, rightId, wrongId, animationTime }) =>
-    chooseAnimation(id, rightId, wrongId, animationTime)};
+  animation: ${({ word, rightWord, wrongWord, animationTime }) =>
+    chooseAnimation(word, rightWord, wrongWord, animationTime)};
 `;

@@ -1,7 +1,8 @@
-import { GameStatistics, Word } from 'types';
+import { GameStatistics, Word, WordSectionType } from 'types';
 
 const USER = 'rslang-User';
-const GROUP_PAGE = 'rslang-GroupPage';
+const TEXTBOOK_POSITION = 'rslang-TextBookPosition';
+const DICTIONARY_POSITION = 'rslang-DictionaryPosition';
 const GAMES_STATISTICS = 'rslang-GamesStatistics';
 const WORDS_STATISTICS = 'rslang-WordsStatistics';
 const TEXTBOOK_SETTINGS = 'rslang-TextbookSettings';
@@ -21,13 +22,32 @@ export class LocStore {
     localStorage.removeItem(USER);
   };
 
-  static setNumberGroupPage = (numberGroupPage: number) => {
-    localStorage.setItem(GROUP_PAGE, JSON.stringify(numberGroupPage));
+  static getTextBookPosition = () => getData(TEXTBOOK_POSITION);
+
+  static setTextBookPosition = (position: {
+    group?: number;
+    page?: number;
+  }) => {
+    const oldPosition = LocStore.getTextBookPosition();
+    localStorage.setItem(
+      TEXTBOOK_POSITION,
+      JSON.stringify({ ...oldPosition, ...position })
+    );
   };
 
-  static getNumberGroupPage = () => getData(GROUP_PAGE);
+  static getDictionaryPosition = () => getData(DICTIONARY_POSITION);
 
-  static deleteNumberGroupPage = () => localStorage.removeItem(GROUP_PAGE);
+  static setDictionaryPosition = (position: {
+    group?: number;
+    page?: number;
+    section?: WordSectionType;
+  }) => {
+    const oldPosition = LocStore.getDictionaryPosition();
+    localStorage.setItem(
+      DICTIONARY_POSITION,
+      JSON.stringify({ ...oldPosition, ...position })
+    );
+  };
 
   static getTextBookSettings = () => getData(TEXTBOOK_SETTINGS);
 
