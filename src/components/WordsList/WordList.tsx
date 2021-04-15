@@ -5,9 +5,7 @@ import {
   selectIsButtons,
   selectIsLoading,
   selectIsTranslate,
-  selectTextBookGroup,
 } from 'modules/TextBookPage/selectors';
-import { LEVEL_COLORS } from 'appConstants/colors';
 import { WordCard } from 'components';
 import { StatisticModal } from 'modules/DictionaryPage/components/StatisticModal';
 import { WordListStyled } from './styled';
@@ -15,24 +13,27 @@ import { NoWordsMessage } from './components';
 
 type WordListProps = {
   words: Word[];
-  checkedDifficulty: DifficultyType;
+  checkedDifficulties: DifficultyType[];
   showBtnDeleteDifficult: boolean;
   showBtnRestore: boolean;
+  group: number;
+  page: number;
 };
 
 export const WordList: FC<WordListProps> = ({
+  group,
+  page,
   words,
-  checkedDifficulty,
+  checkedDifficulties,
   showBtnDeleteDifficult,
   showBtnRestore,
 }) => {
-  const group = useSelector(selectTextBookGroup);
   const isLoading = useSelector(selectIsLoading);
   const isTranslate = useSelector(selectIsTranslate);
   const isButtons = useSelector(selectIsButtons);
 
   const countWords = words.filter(
-    (word) => word.userWord?.difficulty !== checkedDifficulty
+    (word) => !checkedDifficulties.includes(word.userWord?.difficulty!)
   ).length;
 
   return countWords || isLoading ? (
@@ -40,7 +41,9 @@ export const WordList: FC<WordListProps> = ({
       <StatisticModal />
       <WordListStyled>
         {words.map((word) => {
-          const correctWord = word.userWord?.difficulty !== checkedDifficulty;
+          const correctWord = !checkedDifficulties.includes(
+            word.userWord?.difficulty!
+          );
           const wordStatistics = word.userWord?.optional?.statistics;
 
           return (
@@ -48,13 +51,14 @@ export const WordList: FC<WordListProps> = ({
               <WordCard
                 key={word.word}
                 word={word}
-                colorGroup={LEVEL_COLORS[group]}
                 successCount={wordStatistics?.correct || 0}
                 errorCount={wordStatistics?.incorrect || 0}
                 isTranslate={isTranslate}
                 isButtons={isButtons}
                 showBtnDeleteDifficult={showBtnDeleteDifficult}
                 showBtnRestore={showBtnRestore}
+                group={group}
+                page={page}
               />
             )
           );

@@ -9,16 +9,13 @@ import {
   loadUserAggregateWords,
   loadUserDeletedWords,
   loadUserDifficultWords,
+  loadUserLearningWords,
   removeWordFromUserList,
   updateWordInUserList,
 } from 'modules/TextBookPage/actions';
 import { updateStatistics } from 'modules/StatisticsPage/actions';
 
-import {
-  selectTextBookGroup,
-  selectTextBookPage,
-  selectWordSection,
-} from 'modules/TextBookPage/selectors';
+import { selectWordSection } from 'modules/TextBookPage/selectors';
 import { useIsWordIncluded } from 'hooks/useIsWordIncluded';
 import {
   DELETED_SECTION,
@@ -35,6 +32,8 @@ type Props = {
   isHard: boolean | undefined;
   showBtnRestore: boolean;
   wordId: string;
+  page: number;
+  group: number;
 };
 
 export const ButtonsBlock: React.FC<Props> = ({
@@ -43,12 +42,12 @@ export const ButtonsBlock: React.FC<Props> = ({
   showBtnDeleteDifficult,
   isHard,
   showBtnRestore,
+  page,
+  group,
 }) => {
   const theme = useTheme();
   const dispatch = useDispatch();
   const userId = useSelector(selectUserId);
-  const page = useSelector(selectTextBookPage);
-  const group = useSelector(selectTextBookGroup);
   const hasWordInList = useIsWordIncluded(wordId);
   const wordSection = useSelector(selectWordSection);
 
@@ -110,7 +109,7 @@ export const ButtonsBlock: React.FC<Props> = ({
   ) => {
     await removeWordFromUserList(userID, wordID);
     if (wordSection === LEARNING_SECTION)
-      dispatch(loadUserAggregateWords(userID, groupNumber, pageNumber));
+      dispatch(loadUserLearningWords(userID, groupNumber, pageNumber));
 
     if (wordSection === DIFFICULT_SECTION)
       dispatch(loadUserDifficultWords(userID, groupNumber, pageNumber));
