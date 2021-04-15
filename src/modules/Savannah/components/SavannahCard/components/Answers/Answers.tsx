@@ -15,9 +15,9 @@ import { AnswerRadio } from './components/AnswerRadio';
 
 type AnswersProps = {
   answers: string[];
-  correctAnswerIndex: string;
-  onUserAnswer: (userAnswer: string) => void;
-  userChoice: string;
+  correctAnswerIndex: number;
+  onUserAnswer: (userAnswer: number) => void;
+  userChoice: number;
 };
 
 const answerItemStyle = {
@@ -34,7 +34,7 @@ const answerItemStyle = {
 export const useStyles = makeStyles({
   root: {
     color: `${COLOR_LAYOUT_BACKGROUND}`,
-    padding: '8px 16px 8px 12px',
+    padding: '8px 16px 8px 16px',
     cursor: 'pointer',
     transition: '0.3s',
 
@@ -68,10 +68,10 @@ export const Answers: FC<AnswersProps> = ({
           name="answers"
           value={userChoice}
           style={{ justifyContent: 'center' }}
-          onChange={(event) => onUserAnswer(event.target.value)}
+          onChange={(event) => onUserAnswer(parseInt(event.target.value, 10))}
         >
           {answers.map((answer, index) => {
-            const activeItem = parseInt(userChoice, 10) === index;
+            const activeItem = userChoice === index;
 
             return (
               <FormControlLabel
@@ -83,12 +83,10 @@ export const Answers: FC<AnswersProps> = ({
                 style={answerItemStyle}
                 value={index.toString()}
                 control={
-                  <AnswerRadio
-                    iscorrect={`${index === parseInt(correctAnswerIndex, 10)}`}
-                  />
+                  <AnswerRadio iscorrect={`${index === correctAnswerIndex}`} />
                 }
                 label={`${index + 1} ${answer}`}
-                disabled={userChoice !== '-1'}
+                disabled={userChoice !== -1}
               />
             );
           })}

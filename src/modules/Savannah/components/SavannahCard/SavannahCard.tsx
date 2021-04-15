@@ -7,9 +7,9 @@ import { SavannahCartStyled } from './styled';
 type Props = {
   word: Word;
   variants: string[];
-  correctIndex: string;
-  onUserAnswer: (answerIndex: string) => void;
-  userChoice: string;
+  correctIndex: number;
+  onUserAnswer: (answerIndex: number) => void;
+  userChoice: number;
   onFinishRound: (flag: boolean) => void;
   isFinishRound: boolean;
 };
@@ -30,7 +30,7 @@ export const SavannahCard: FC<Props> = ({
   isFinishRound,
 }) => {
   const userAnswerState = () => {
-    if (userChoice === '-1') return UserAnswer.NO_ANSWER;
+    if (userChoice === -1) return UserAnswer.NO_ANSWER;
     return correctIndex === userChoice ? UserAnswer.RIGHT : UserAnswer.WRONG;
   };
 

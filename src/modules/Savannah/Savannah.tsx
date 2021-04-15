@@ -34,7 +34,7 @@ import { SavannahCard, Lives } from './components';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
-  .map((_, i) => `${i + 1}`);
+  .map((_, i) => i + 1);
 
 const MAX_ANIMATION_TIME = 120;
 
@@ -68,8 +68,8 @@ export const Savannah: FC = () => {
   const [words, setWords] = useState<Word[]>([]);
   const [current, setCurrentWord] = useState(0);
   const [answersArray, setAnswers] = useState<string[]>([]);
-  const [correctAnswerIndex, setCorrectAnswer] = useState('-1');
-  const [userAnswerIndex, setUserAnswer] = useState('-1');
+  const [correctAnswerIndex, setCorrectAnswer] = useState(-1);
+  const [userAnswerIndex, setUserAnswer] = useState(-1);
   const [lives, setLives] = useState(SAVANNAH_LIVES);
   const [finishRound, setFinishRound] = useState(false);
   // const [playAnimation, setPlayAnimation] = useState(false);
@@ -229,14 +229,14 @@ export const Savannah: FC = () => {
       const indexRightAnswer = answer.indexOf(words[current].wordTranslate);
 
       setAnswers(answer);
-      setCorrectAnswer(indexRightAnswer.toString());
+      setCorrectAnswer(indexRightAnswer);
     }
   }, [words, current]);
 
   // Next Round
   const nextRound = useCallback(() => {
     // useEffect(() => {
-    setUserAnswer('-1');
+    setUserAnswer(-1);
     if (current === words.length - 1) setFinish(true);
     if (current < words.length) {
       setCurrentWord((prev) => prev + 1);
@@ -245,7 +245,7 @@ export const Savannah: FC = () => {
 
   // Check Answer
   const checkAnswer = useCallback(
-    (index: string) => {
+    (index: number) => {
       if (index === correctAnswerIndex) {
         handlerCorrectAnswer();
       } else {
@@ -300,13 +300,14 @@ export const Savannah: FC = () => {
   useEffect(() => {
     const keyDownHandler = (e: KeyboardEvent) => {
       const { key, repeat } = e;
+      const numKey = parseInt(key, 10);
 
       // select answer
-      if (!repeat && KEYS_ARRAY.includes(key)) {
+      if (!repeat && KEYS_ARRAY.includes(numKey)) {
         if (isFinish) {
           return;
         }
-        const index = `${parseInt(key, 10) - 1}`;
+        const index = numKey - 1;
         checkAnswer(index);
       }
     };
