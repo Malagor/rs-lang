@@ -1,18 +1,18 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { Theme, withStyles, WithStyles } from '@material-ui/core/styles';
-import Button from '@material-ui/core/Button';
+import { withStyles, WithStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
-import MuiDialogContent from '@material-ui/core/DialogContent';
-import MuiDialogActions from '@material-ui/core/DialogActions';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
-import { useDispatch, useSelector } from 'react-redux';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
+import { LocStore } from 'services';
 import {
   selectIsButtons,
   selectIsTranslate,
@@ -32,7 +32,9 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
   const { children, classes, onClose, ...other } = props;
   return (
     <MuiDialogTitle disableTypography className={classes.root} {...other}>
-      <Typography variant="h6">{children}</Typography>
+      <Typography variant="h6" className={classes.title}>
+        {children}
+      </Typography>
       {onClose ? (
         <IconButton
           aria-label="close"
@@ -45,19 +47,6 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
     </MuiDialogTitle>
   );
 });
-
-const DialogContent = withStyles((theme: Theme) => ({
-  root: {
-    padding: theme.spacing(2),
-  },
-}))(MuiDialogContent);
-
-const DialogActions = withStyles((theme: Theme) => ({
-  root: {
-    margin: 0,
-    padding: theme.spacing(1),
-  },
-}))(MuiDialogActions);
 
 export const TextBookSettings: React.FC = () => {
   const isTranslate = useSelector(selectIsTranslate);
@@ -81,6 +70,7 @@ export const TextBookSettings: React.FC = () => {
   const handleClickOpen = () => {
     setOpen(true);
   };
+
   const handleClose = () => {
     setOpen(false);
     setButtons(isButtons);
@@ -91,29 +81,41 @@ export const TextBookSettings: React.FC = () => {
     dispatch(setIsButtons(buttons));
     dispatch(setIsTranslate(translation));
     setOpen(false);
+    LocStore.setTextBookSettings({
+      isButtonsShown: buttons,
+      isTranslationShown: translation,
+    });
   };
+
+  useEffect(() => {
+    const { isButtonsShown, isTranslationShown } =
+      LocStore.getTextBookSettings() || {};
+    dispatch(setIsButtons(isButtonsShown ?? true));
+    dispatch(setIsTranslate(isTranslationShown ?? true));
+  }, [dispatch]);
 
   return (
     <div>
       <SettingsIcon
+        onClick={handleClickOpen}
         style={iconStyles}
         titleAccess="Settings"
-        onClick={handleClickOpen}
       />
       <Dialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
+        classes={{ root: classes.dialog }}
       >
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
-          Textbook settings
+          Settings
         </DialogTitle>
-        <DialogContent dividers>
+        <DialogContent classes={{ root: classes.content }}>
           <FormGroup>
             <FormControlLabel
               control={
                 <Switch
-                  checked={buttons}
+                  checked={isLogin ? buttons : false}
                   onChange={handleShowButtons}
                   name="checkedA"
                   color="primary"
@@ -122,7 +124,7 @@ export const TextBookSettings: React.FC = () => {
               label="Show buttons"
               labelPlacement="start"
               disabled={!isLogin}
-              className={classes.root}
+              classes={{ root: classes.item, label: classes.label }}
             />
             <FormControlLabel
               control={
@@ -135,14 +137,18 @@ export const TextBookSettings: React.FC = () => {
               }
               label="Show translation"
               labelPlacement="start"
-              className={classes.root}
+              classes={{ root: classes.item, label: classes.label }}
             />
           </FormGroup>
         </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={saveChanges} color="primary">
-            Save changes
-          </Button>
+        <DialogActions classes={{ root: classes.footer }}>
+          <button
+            onClick={saveChanges}
+            className={classes.button}
+            type="button"
+          >
+            save
+          </button>
         </DialogActions>
       </Dialog>
     </div>

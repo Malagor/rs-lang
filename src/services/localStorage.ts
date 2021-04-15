@@ -4,6 +4,7 @@ const USER = 'rslang-User';
 const GROUP_PAGE = 'rslang-GroupPage';
 const GAMES_STATISTICS = 'rslang-GamesStatistics';
 const WORDS_STATISTICS = 'rslang-WordsStatistics';
+const TEXTBOOK_SETTINGS = 'rslang-TextbookSettings';
 
 const getData = (nameField: string) => {
   const dataField = localStorage.getItem(nameField);
@@ -27,6 +28,19 @@ export class LocStore {
   static getNumberGroupPage = () => getData(GROUP_PAGE);
 
   static deleteNumberGroupPage = () => localStorage.removeItem(GROUP_PAGE);
+
+  static getTextBookSettings = () => getData(TEXTBOOK_SETTINGS);
+
+  static setTextBookSettings = (settings: {
+    isButtonsShown?: boolean;
+    isTranslationShown?: boolean;
+  }) => {
+    const oldSettings = LocStore.getTextBookSettings();
+    localStorage.setItem(
+      TEXTBOOK_SETTINGS,
+      JSON.stringify({ ...oldSettings, ...settings })
+    );
+  };
 
   static getGamesStatistics = () => getData(GAMES_STATISTICS);
 
