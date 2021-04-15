@@ -9,6 +9,8 @@ import {
   selectTextBookError,
   selectTextBookGroup,
 } from 'modules/TextBookPage/selectors';
+import { saveGameResults } from 'modules/GamesPage/saveGameResults';
+import { InitialCountdownContainer } from 'modules/Imaginarium/components/Dashboard/styled';
 import {
   Countdown,
   ErrorMessage,
@@ -39,16 +41,14 @@ import {
   PlantAnimation,
   PlantContainer,
 } from './styled';
-import { InitialCountdownContainer } from '../Imaginarium/components/Dashboard/styled';
 
 const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
   .map((_, i) => i + 1);
 
-// TODO: Выставить обратно правильные значения
 const MAX_ANIMATION_TIME = 100;
 const MIN_WORDS_FOR_PLAY = 6;
-const INITIAL_COUNTDOWN_TIME = 0;
+const INITIAL_COUNTDOWN_TIME = 3;
 
 // Component
 export const Savannah: FC = () => {
@@ -152,8 +152,7 @@ export const Savannah: FC = () => {
 
   // Load Words
   useEffect(() => {
-    // TODO: correct count word
-    const mixArr = mixingArray(gameWords.slice(0, 6));
+    const mixArr = mixingArray(gameWords);
     setWords(mixArr);
     setLoading(false);
     handlerNewGame();
@@ -277,14 +276,13 @@ export const Savannah: FC = () => {
       }
 
       if (userId) {
-        // TODO: Вернуть сохранение статистики в зад
-        // saveGameResults({
-        //   userId,
-        //   game: 'Savannah',
-        //   rightlyAnswered: correctWords,
-        //   wronglyAnswered: incorrectWords,
-        //   maxInARow: longerChain,
-        // });
+        saveGameResults({
+          userId,
+          game: 'Savannah',
+          rightlyAnswered: correctWords,
+          wronglyAnswered: incorrectWords,
+          maxInARow: longerChain,
+        });
       } else {
         LocStore.updateGamesStatistics(
           'Savannah',
