@@ -76,6 +76,8 @@ export type StateTextBook = {
   wordSection: WordSectionType;
   isLoading: boolean;
   statisticWords: Word[];
+  isTranslationShown: boolean;
+  isButtonsShown: boolean;
 };
 
 export type StateCommon = {

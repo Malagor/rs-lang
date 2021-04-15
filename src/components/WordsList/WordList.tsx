@@ -1,7 +1,11 @@
 import React, { FC } from 'react';
 import { DifficultyType, Word } from 'types';
 import { useSelector } from 'react-redux';
-import { selectIsLoading } from 'modules/TextBookPage/selectors';
+import {
+  selectIsButtonsShown,
+  selectIsLoading,
+  selectIsTranslationShown,
+} from 'modules/TextBookPage/selectors';
 import { WordCard } from 'components';
 import { WordListStyled } from './styled';
 import { NoWordsMessage } from './components';
@@ -9,7 +13,6 @@ import { NoWordsMessage } from './components';
 type WordListProps = {
   words: Word[];
   checkedDifficulties: DifficultyType[];
-  isButtons: boolean;
   showBtnDeleteDifficult: boolean;
   showBtnRestore: boolean;
   group: number;
@@ -21,11 +24,12 @@ export const WordList: FC<WordListProps> = ({
   page,
   words,
   checkedDifficulties,
-  isButtons,
   showBtnDeleteDifficult,
   showBtnRestore,
 }) => {
   const isLoading = useSelector(selectIsLoading);
+  const isTranslationShown = useSelector(selectIsTranslationShown);
+  const isButtonsShown = useSelector(selectIsButtonsShown);
 
   const countWords = words.filter(
     (word) => !checkedDifficulties.includes(word.userWord?.difficulty!)
@@ -46,8 +50,8 @@ export const WordList: FC<WordListProps> = ({
               word={word}
               successCount={wordStatistics?.correct || 0}
               errorCount={wordStatistics?.incorrect || 0}
-              isTranslate={true}
-              isButtons={isButtons}
+              isTranslationShown={isTranslationShown}
+              isButtonsShown={isButtonsShown}
               showBtnDeleteDifficult={showBtnDeleteDifficult}
               showBtnRestore={showBtnRestore}
               group={group}
@@ -58,7 +62,6 @@ export const WordList: FC<WordListProps> = ({
       })}
     </WordListStyled>
   ) : (
-    // </>
     <NoWordsMessage />
   );
 };

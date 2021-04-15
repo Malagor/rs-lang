@@ -212,7 +212,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 page={page}
                 words={words}
                 checkedDifficulties={[EASY_DIFFICULTY]}
-                isButtons={true}
                 showBtnDeleteDifficult={true}
                 showBtnRestore={false}
               />

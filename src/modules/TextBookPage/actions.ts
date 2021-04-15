@@ -35,6 +35,8 @@ import {
   SET_WORD_SECTION,
   SET_IS_LOADING,
   SET_STATISTIC_WORDS,
+  SET_IS_TRANSLATION_SHOWN,
+  SET_IS_BUTTONS_SHOWN,
   SET_DICTIONARY_PAGE,
   SET_DICTIONARY_GROUP,
   ADD_GAME_WORDS,
@@ -129,6 +131,16 @@ export const setIsLoading = (payload: boolean) => ({
 
 export const setStatisticWords = (payload: Word[]) => ({
   type: SET_STATISTIC_WORDS,
+  payload,
+});
+
+export const setIsTranslationShown = (payload: boolean) => ({
+  type: SET_IS_TRANSLATION_SHOWN,
+  payload,
+});
+
+export const setIsButtonsShown = (payload: boolean) => ({
+  type: SET_IS_BUTTONS_SHOWN,
   payload,
 });
 

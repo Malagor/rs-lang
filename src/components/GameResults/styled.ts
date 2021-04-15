@@ -77,7 +77,7 @@ export const PlayAgainButton = styled.button`
   color: white;
   outline: none;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.2s;
 
   &:hover {
     background: ${lighten(COLOR_LAYOUT_BLUE, 0.2)};
