@@ -45,9 +45,9 @@ const KEYS_ARRAY = Array(COUNT_ANSWERS)
   .fill(1)
   .map((_, i) => i + 1);
 
-const MAX_ANIMATION_TIME = 120;
+const MAX_ANIMATION_TIME = 100;
 const MIN_WORDS_FOR_PLAY = 6;
-const INITIAL_COUNTDOWN_TIME = 3;
+const INITIAL_COUNTDOWN_TIME = 1;
 
 // Component
 export const Savannah: FC = () => {
@@ -152,7 +152,7 @@ export const Savannah: FC = () => {
 
   // Load Words
   useEffect(() => {
-    const mixArr = mixingArray(gameWords);
+    const mixArr = mixingArray(gameWords.slice(0, 6));
     setWords(mixArr);
     setLoading(false);
     handlerNewGame();
@@ -229,7 +229,11 @@ export const Savannah: FC = () => {
   const nextRound = useCallback(() => {
     // useEffect(() => {
     setUserAnswer(-1);
-    if (current === words.length - 1) setFinish(true);
+    if (current === words.length - 1) {
+      setTimeout(() => {
+        setFinish(true);
+      }, 2000);
+    }
     if (current < words.length) {
       setCurrentWord((prev) => prev + 1);
     }
