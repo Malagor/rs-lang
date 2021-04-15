@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useRef, useState } from 'react';
 import { Word } from 'types';
+import { SAVANNAH_FIELD_SIZE } from 'appConstants/games';
 import { CurrentWord, QuestionWrapper } from './styled';
 import { UserAnswer } from '../../SavannahCard';
 
@@ -30,7 +31,7 @@ export const Question: FC<QuestionProps> = ({
           return prev;
         }
 
-        if (prev + 10 < 500) {
+        if (prev + 10 < SAVANNAH_FIELD_SIZE) {
           const add = prev + 10;
           refTopPosition.current = add;
           return add;
@@ -40,13 +41,13 @@ export const Question: FC<QuestionProps> = ({
 
         if (
           userAnswerState === UserAnswer.NO_ANSWER &&
-          refTopPosition.current >= 500
+          refTopPosition.current >= SAVANNAH_FIELD_SIZE
         ) {
           setUserAnswer(100);
         }
 
-        refTopPosition.current = 500;
-        return 500;
+        refTopPosition.current = SAVANNAH_FIELD_SIZE;
+        return SAVANNAH_FIELD_SIZE;
       });
     }, ANIMATION_DURATION);
 

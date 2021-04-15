@@ -22,6 +22,7 @@ import {
 
 export const COUNT_ANSWERS = 4;
 export const SAVANNAH_LIVES = 5;
+export const SAVANNAH_FIELD_SIZE = 500;
 
 export const gamesData = [
   {

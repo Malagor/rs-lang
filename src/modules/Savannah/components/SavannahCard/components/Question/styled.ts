@@ -1,6 +1,7 @@
 import styled, { keyframes } from 'styled-components/macro';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { COLOR_LAYOUT_BACKGROUND } from 'appConstants/colors';
+import { SAVANNAH_FIELD_SIZE } from 'appConstants/games';
 import { UserAnswer } from '../../SavannahCard';
 
 export const QuestionWrapper = styled.div`
@@ -8,7 +9,7 @@ export const QuestionWrapper = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  height: 500px;
+  height: ${SAVANNAH_FIELD_SIZE}px;
   width: 500px;
   border-bottom: 1px solid #eafff2;
 `;
