@@ -14,11 +14,14 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogActions from '@material-ui/core/DialogActions';
 import { LocStore } from 'services';
 import {
-  selectIsButtons,
-  selectIsTranslate,
+  selectIsButtonsShown,
+  selectIsTranslationShown,
 } from 'modules/TextBookPage/selectors';
 import { selectUser } from 'modules/Login/selectors';
-import { setIsButtons, setIsTranslate } from 'modules/TextBookPage/actions';
+import {
+  setIsButtonsShown,
+  setIsTranslationShown,
+} from 'modules/TextBookPage/actions';
 import { iconStyles } from '../../styled';
 import { useStyles, styles } from './styled';
 
@@ -49,12 +52,12 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
 });
 
 export const TextBookSettings: React.FC = () => {
-  const isTranslate = useSelector(selectIsTranslate);
-  const isButtons = useSelector(selectIsButtons);
+  const isTranslationShown = useSelector(selectIsTranslationShown);
+  const isButtonsShown = useSelector(selectIsButtonsShown);
   const user = useSelector(selectUser);
   const [open, setOpen] = useState(false);
-  const [translation, setTranslation] = useState(isTranslate);
-  const [buttons, setButtons] = useState(isButtons);
+  const [translation, setTranslation] = useState(isTranslationShown);
+  const [buttons, setButtons] = useState(isButtonsShown);
   const dispatch = useDispatch();
   const classes = useStyles();
   const isLogin = !!user.id;
@@ -73,13 +76,13 @@ export const TextBookSettings: React.FC = () => {
 
   const handleClose = () => {
     setOpen(false);
-    setButtons(isButtons);
-    setTranslation(isTranslate);
+    setButtons(isButtonsShown);
+    setTranslation(isTranslationShown);
   };
 
   const saveChanges = () => {
-    dispatch(setIsButtons(buttons));
-    dispatch(setIsTranslate(translation));
+    dispatch(setIsButtonsShown(buttons));
+    dispatch(setIsTranslationShown(translation));
     setOpen(false);
     LocStore.setTextBookSettings({
       isButtonsShown: buttons,
@@ -88,10 +91,9 @@ export const TextBookSettings: React.FC = () => {
   };
 
   useEffect(() => {
-    const { isButtonsShown, isTranslationShown } =
-      LocStore.getTextBookSettings() || {};
-    dispatch(setIsButtons(isButtonsShown ?? true));
-    dispatch(setIsTranslate(isTranslationShown ?? true));
+    const settings = LocStore.getTextBookSettings() || {};
+    dispatch(setIsButtonsShown(settings.isButtonsShown ?? true));
+    dispatch(setIsTranslationShown(settings.isTranslationShown ?? true));
   }, [dispatch]);
 
   return (

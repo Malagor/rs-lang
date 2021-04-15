@@ -2,9 +2,9 @@ import React, { FC } from 'react';
 import { DifficultyType, Word } from 'types';
 import { useSelector } from 'react-redux';
 import {
-  selectIsButtons,
+  selectIsButtonsShown,
   selectIsLoading,
-  selectIsTranslate,
+  selectIsTranslationShown,
 } from 'modules/TextBookPage/selectors';
 import { WordCard } from 'components';
 import { StatisticModal } from 'modules/DictionaryPage/components/StatisticModal';
@@ -29,8 +29,8 @@ export const WordList: FC<WordListProps> = ({
   showBtnRestore,
 }) => {
   const isLoading = useSelector(selectIsLoading);
-  const isTranslate = useSelector(selectIsTranslate);
-  const isButtons = useSelector(selectIsButtons);
+  const isTranslationShown = useSelector(selectIsTranslationShown);
+  const isButtonsShown = useSelector(selectIsButtonsShown);
 
   const countWords = words.filter(
     (word) => !checkedDifficulties.includes(word.userWord?.difficulty!)
@@ -53,8 +53,8 @@ export const WordList: FC<WordListProps> = ({
                 word={word}
                 successCount={wordStatistics?.correct || 0}
                 errorCount={wordStatistics?.incorrect || 0}
-                isTranslate={isTranslate}
-                isButtons={isButtons}
+                isTranslationShown={isTranslationShown}
+                isButtonsShown={isButtonsShown}
                 showBtnDeleteDifficult={showBtnDeleteDifficult}
                 showBtnRestore={showBtnRestore}
                 group={group}
