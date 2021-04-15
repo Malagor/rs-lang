@@ -11,13 +11,11 @@ type QuestionProps = {
   setUserAnswer: (index: number) => void;
 };
 
-const ANIMATION_DELAY = 1000;
-const ANIMATION_DURATION = 30;
+const ANIMATION_DURATION = 100;
 
 export const Question: FC<QuestionProps> = ({
   word,
   userAnswerState,
-  setFinishRound,
   setUserAnswer,
 }) => {
   const [top, setTop] = useState(0); // position word
@@ -31,19 +29,22 @@ export const Question: FC<QuestionProps> = ({
           refTopPosition.current = prev;
           return prev;
         }
+
         if (prev + 10 < 500) {
           const add = prev + 10;
           refTopPosition.current = add;
-
           return add;
         }
 
         setEnd(true);
-        if (userAnswerState === UserAnswer.NO_ANSWER) {
+
+        if (
+          userAnswerState === UserAnswer.NO_ANSWER &&
+          refTopPosition.current >= 500
+        ) {
           setUserAnswer(100);
         }
 
-        // setFinishRound(true);
         refTopPosition.current = 500;
         return 500;
       });
@@ -52,8 +53,6 @@ export const Question: FC<QuestionProps> = ({
     if (userAnswerState !== UserAnswer.NO_ANSWER) {
       clearInterval(interval);
       setTop(0);
-
-      // setFinishRound(true);
     }
 
     return () => {
@@ -73,8 +72,6 @@ export const Question: FC<QuestionProps> = ({
     transition: `top ${ANIMATION_DURATION}ms linear`,
     opacity: 1,
   };
-
-  // console.log('end', end);
 
   return (
     <QuestionWrapper>

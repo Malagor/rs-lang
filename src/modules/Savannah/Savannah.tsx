@@ -148,7 +148,6 @@ export const Savannah: FC = () => {
     setIsResultOpen(false);
     setLives(SAVANNAH_LIVES);
     setPlantGrow(0);
-    // setAnimation(false);
   }, []);
 
   // Load Words
@@ -178,7 +177,6 @@ export const Savannah: FC = () => {
 
   // Incorrect Answer
   const handlerIncorrectAnswer = useCallback(() => {
-    console.log('handlerIncorrectAnswer');
     setIncorrectWords([...incorrectWords, words[current]]);
     if (chain > longerChain) {
       setLongerChain(chain);
@@ -230,8 +228,6 @@ export const Savannah: FC = () => {
 
   // Next Round
   const nextRound = useCallback(() => {
-    // console.log('nextRound - current', current);
-    // useEffect(() => {
     setUserAnswer(-1);
     if (current === words.length - 1) {
       setTimeout(() => {
@@ -253,31 +249,18 @@ export const Savannah: FC = () => {
       }
 
       setUserAnswer(index);
-      // setFinishRound(true);
 
       setTimeout(() => {
-        // setFinishRound(false);
         nextRound();
       }, 2000);
     },
     [
-      setFinishRound,
       nextRound,
       correctAnswerIndex,
       handlerCorrectAnswer,
       handlerIncorrectAnswer,
     ]
   );
-
-  // useEffect(() => {
-  //   if (finishRound) {
-  //     // setTimeout(() => {
-  //     //   setFinishRound(false);
-  //     //   checkAnswer('100');
-  //     // }, 1000);
-  //     console.log('Finish round');
-  //   }
-  // }, [checkAnswer, setUserAnswer, finishRound, setFinishRound]);
 
   // Finish Game
   const handleFinishGame = useCallback(() => {
@@ -357,7 +340,9 @@ export const Savannah: FC = () => {
   // Finish game listener
   useEffect(() => {
     if (lives <= 0 || isFinish) {
-      handleFinishGame();
+      setTimeout(() => {
+        handleFinishGame();
+      }, 1000);
     }
   }, [handleFinishGame, lives, isFinish]);
 
