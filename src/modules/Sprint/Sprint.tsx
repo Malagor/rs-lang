@@ -16,18 +16,18 @@ import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
 import { LocStore } from 'services/localStorage';
+import { saveGameResults } from 'modules/GamesPage/saveGameResults';
 import { selectUserId } from '../Login/selectors';
-import { StartPage, PlayPage } from './components';
+import { PlayPage } from './components';
 import { GameContainer } from './styled';
 
 type GamesProps = {};
 
-export type TGamePages = 'startPage' | 'playPage' | 'resultsPage';
-export const START_PAGE = 'startPage';
+export type TGamePages = 'playPage' | 'resultsPage';
 export const PLAY_PAGE = 'playPage';
 export const RESULTS_PAGE = 'resultsPage';
 
-const TIME_GAME = 610;
+const TIME_GAME = 60;
 
 const getRandomIntInclusive = (min: number, max: number) => {
   const rand = min + Math.random() * (max + 1 - min);
@@ -35,9 +35,9 @@ const getRandomIntInclusive = (min: number, max: number) => {
 };
 
 export const Sprint: FC<GamesProps> = () => {
-  const [gamePage, setGamePage] = useState<TGamePages>(START_PAGE);
-  const [group, setGroup] = useState(useSelector(selectTextBookGroup));
+  const [gamePage, setGamePage] = useState<TGamePages>(PLAY_PAGE);
   const [isSoundOn, setSoundOn] = useState(true);
+  const [isFullScreen, setFullScreen] = useState(false);
 
   const [gamePoints, setGamePoints] = useState(0);
   const [preMultiplier, setPreMultiplier] = useState(0);
@@ -56,6 +56,7 @@ export const Sprint: FC<GamesProps> = () => {
   const [isResultsModalOpened, setResultsModalOpened] = useState(true);
 
   const words: Word[] = useSelector(selectTextBookWords);
+  const group = useSelector(selectTextBookGroup);
   const page = useSelector(selectTextBookPage);
   const userId = useSelector(selectUserId);
   const error = useSelector(selectTextBookError);
@@ -63,6 +64,7 @@ export const Sprint: FC<GamesProps> = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const containerRef = useRef<HTMLDivElement>(null);
   const soundRef = useRef<HTMLAudioElement>(null);
 
   const startOver = () => {
@@ -104,7 +106,7 @@ export const Sprint: FC<GamesProps> = () => {
         console.log('rightlyAnswered', rightlyAnswered);
         console.log(' wronglyAnswered', wronglyAnswered);
         LocStore.updateWordsStatistics(rightlyAnswered, wronglyAnswered);
-      } /* else {
+      } else {
         saveGameResults({
           userId,
           game: 'Sprint',
@@ -112,7 +114,7 @@ export const Sprint: FC<GamesProps> = () => {
           wronglyAnswered,
           maxInARow,
         });
-      } */
+      }
     }
   }, [rightlyAnswered, wronglyAnswered, userId, gamePage]);
 
@@ -181,17 +183,15 @@ export const Sprint: FC<GamesProps> = () => {
   }, [dispatch]);
 
   return (
-    <GameContainer>
+    <GameContainer ref={containerRef}>
       {error && <ErrorMessage />}
-      {!error && gamePage === START_PAGE && (
-        <StartPage
-          setGamePage={setGamePage}
-          setGroup={setGroup}
-          group={group}
-        />
-      )}
       {!error && gamePage === PLAY_PAGE && (
         <PlayPage
+          isFullscreen={isFullScreen}
+          setFullscreen={setFullScreen}
+          isSoundOn={isSoundOn}
+          setSoundOn={setSoundOn}
+          containerRef={containerRef}
           timeGame={TIME_GAME}
           setGamePage={setGamePage}
           gamePoints={gamePoints}
