@@ -43,3 +43,9 @@ export const selectIsLoading = (state: State) =>
 
 export const selectRefStatistic = (state: State) =>
   state.textBookReducer.refStatistic;
+
+export const selectIsTranslationShown = (state: State) =>
+  state.textBookReducer.isTranslationShown;
+
+export const selectIsButtonsShown = (state: State) =>
+  state.textBookReducer.isButtonsShown;

@@ -12,8 +12,8 @@ type WordCardProps = {
   word: Word;
   successCount: number;
   errorCount: number;
-  isTranslate: boolean;
-  isButtons: boolean;
+  isTranslationShown: boolean;
+  isButtonsShown: boolean;
   showBtnDeleteDifficult: boolean;
   showBtnRestore: boolean;
   page: number;
@@ -24,8 +24,8 @@ export const WordCard: React.FC<WordCardProps> = ({
   word,
   successCount,
   errorCount,
-  isTranslate,
-  isButtons,
+  isTranslationShown,
+  isButtonsShown,
   showBtnDeleteDifficult,
   showBtnRestore,
   page,
@@ -55,10 +55,10 @@ export const WordCard: React.FC<WordCardProps> = ({
           colorGroup={colorGroup}
           successCount={successCount}
           errorCount={errorCount}
-          isTranslate={isTranslate}
+          isTranslationShown={isTranslationShown}
         />
-        <SentencesBlock word={word} isTranslate={isTranslate} />
-        {isButtons && isLogin && (
+        <SentencesBlock word={word} isTranslationShown={isTranslationShown} />
+        {isButtonsShown && isLogin && (
           <ButtonsBlock
             colorGroup={colorGroup}
             wordId={wordId}

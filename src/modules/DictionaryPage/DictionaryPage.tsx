@@ -4,6 +4,7 @@ import { ThunkDispatch } from 'redux-thunk';
 import { AnyAction } from 'redux';
 import { StateTextBook, Word, WordSectionType } from 'types';
 import { Container } from '@material-ui/core';
+import { useIsPageTopMatch } from 'hooks/useIsPageTopMatch';
 import { LocStore } from 'services';
 import {
   ErrorMessage,
@@ -72,7 +73,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
 
   const userId = useSelector(selectUserId);
   const isUserLoading = useSelector(selectAuthLoadingStatus);
-  const [scroll, setScroll] = useState(0);
+  const isGroupSelectorHidden = useIsPageTopMatch(200);
   const classes = useStyles();
   const [gettingGameWords, setGettingGameWords] = useState(false);
   const [checkPageForGameWords, setCheckPageForGameWords] = useState(-1);
@@ -130,27 +131,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
       );
     }
   }, [dispatch, pagesCount]);
-
-  useEffect(() => {
-    let lastKnownScrollPosition = scroll;
-    let ticking = false;
-
-    const handlerScroll = () => {
-      lastKnownScrollPosition = window.scrollY;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScroll(lastKnownScrollPosition);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handlerScroll);
-    return () => {
-      window.removeEventListener('scroll', handlerScroll);
-    };
-  }, [scroll]);
 
   useEffect(() => {
     dispatch(setGameWords(words));
@@ -281,7 +261,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
               page={page}
               words={words}
               checkedDifficulties={checkedDifficulties}
-              isButtons={true}
               showBtnDeleteDifficult={wordSection === LEARNING_SECTION}
               showBtnRestore={wordSection !== LEARNING_SECTION}
             />
@@ -289,7 +268,7 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
           <div className={classes.sideGrid}>
             <GroupSelector
               group={group}
-              isOpacity={scroll > 200}
+              isOpacity={isGroupSelectorHidden}
               onGroupChange={onGroupChange}
             />
           </div>
