@@ -5,11 +5,7 @@ export const useIsPageTopMatch = (minTop: number) => {
 
   useEffect(() => {
     const handlerScroll = () => {
-      if (window.scrollY > minTop) {
-        setIsMatch(true);
-      } else {
-        setIsMatch(false);
-      }
+      setIsMatch(window.scrollY > minTop);
     };
 
     window.addEventListener('scroll', handlerScroll);
