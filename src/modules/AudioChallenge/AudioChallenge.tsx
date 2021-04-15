@@ -193,12 +193,15 @@ export const AudioChallenge: FC = () => {
       setLongerChain(chain > longerChain ? chain : longerChain);
       setIsResultOpen(true);
       playSound(FinishSound);
+
       if (
         gameWordsKind === WordsSource.FROM_MENU ||
         gameWordsKind === WordsSource.FROM_DELETED
       ) {
-        saveStatistics();
+        return;
       }
+
+      saveStatistics();
     }
   }, [chain, longerChain, playSound, isFinish, saveStatistics, gameWordsKind]);
 
