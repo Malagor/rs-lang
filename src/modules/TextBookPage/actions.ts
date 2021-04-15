@@ -222,8 +222,8 @@ export const loadUserAggregateWords = (
       (words) => {
         forStatistic
           ? dispatch(setStatisticWords(words[0].paginatedResults))
-          : dispatch(setWords(words[0].paginatedResults));
-        dispatch(setPagesCount(getCountWords(words[0].totalCount)));
+          : dispatch(setWords(words[0].paginatedResults)) &&
+            dispatch(setPagesCount(getCountWords(words[0].totalCount)));
         dispatch(clearWordsError());
         dispatch(setIsLoading(false));
       },
