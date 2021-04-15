@@ -11,7 +11,7 @@ import {
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
   SET_IS_LOADING,
-  SET_REF_STATISTIC,
+  SET_STATISTIC_WORDS,
   SET_IS_TRANSLATION_SHOWN,
   SET_IS_BUTTONS_SHOWN,
   SET_DICTIONARY_PAGE,
@@ -40,7 +40,7 @@ export const textBookPageState: StateTextBook = {
   pagesCount: 0,
   wordSection: LEARNING_SECTION,
   isLoading: false,
-  refStatistic: null,
+  statisticWords: [],
   isTranslationShown: true,
   isButtonsShown: true,
 };
@@ -136,10 +136,10 @@ export const textBookReducer: Reducer<StateTextBook, Action> = (
         isLoading: action.payload,
       };
 
-    case SET_REF_STATISTIC:
+    case SET_STATISTIC_WORDS:
       return {
         ...state,
-        refStatistic: action.payload,
+        statisticWords: action.payload,
       };
 
     case SET_IS_TRANSLATION_SHOWN:

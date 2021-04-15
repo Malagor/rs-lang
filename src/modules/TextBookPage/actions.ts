@@ -34,7 +34,7 @@ import {
   SET_PAGES_COUNT,
   SET_WORD_SECTION,
   SET_IS_LOADING,
-  SET_REF_STATISTIC,
+  SET_STATISTIC_WORDS,
   SET_IS_TRANSLATION_SHOWN,
   SET_IS_BUTTONS_SHOWN,
   SET_DICTIONARY_PAGE,
@@ -129,8 +129,8 @@ export const setIsLoading = (payload: boolean) => ({
   payload,
 });
 
-export const setRefStatistic = (payload: HTMLButtonElement) => ({
-  type: SET_REF_STATISTIC,
+export const setStatisticWords = (payload: Word[]) => ({
+  type: SET_STATISTIC_WORDS,
   payload,
 });
 
@@ -210,7 +210,8 @@ export const loadUserAggregateWords = (
   group: number = 0,
   page: number = 0,
   wordPerPage: number = 20,
-  filter: string = ''
+  filter: string = '',
+  forStatistic: boolean = false
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
@@ -219,8 +220,10 @@ export const loadUserAggregateWords = (
     .getUserAggregatedWord({ userId, group, page, wordPerPage, filter })
     .then(
       (words) => {
-        dispatch(setWords(words[0].paginatedResults));
-        dispatch(setPagesCount(getCountWords(words[0].totalCount)));
+        forStatistic
+          ? dispatch(setStatisticWords(words[0].paginatedResults))
+          : dispatch(setWords(words[0].paginatedResults)) &&
+            dispatch(setPagesCount(getCountWords(words[0].totalCount)));
         dispatch(clearWordsError());
         dispatch(setIsLoading(false));
       },
@@ -247,12 +250,22 @@ export const loadUserLearningWords = (
   userId: string,
   group: number = 0,
   page: number = 0,
-  wordPerPage: number = 20
+  wordPerPage: number = 20,
+  forStatistic: boolean = false
 ): ThunkAction<void, StateTextBook, unknown, Action<string>> => async (
   dispatch
 ) => {
   const filter = `{"$or":[{"userWord.difficulty":"${NORMAL_DIFFICULTY}"},{"userWord.difficulty":"${HARD_DIFFICULTY}"}]}`;
-  dispatch(loadUserAggregateWords(userId, group, page, wordPerPage, filter));
+  dispatch(
+    loadUserAggregateWords(
+      userId,
+      group,
+      page,
+      wordPerPage,
+      filter,
+      forStatistic
+    )
+  );
 };
 
 export const loadUserDeletedWords = (
