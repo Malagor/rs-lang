@@ -38,6 +38,10 @@ https://github.com/rolling-scopes-school/tasks/blob/master/tasks/react/react-rsl
 11. react-countdown-circle-timer - https://www.npmjs.com/package/react-countdown-circle-timer
 12. swiper - https://swiperjs.com/
 
+### Linters:
+- prettier
+- eslint.
+
 ##Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
