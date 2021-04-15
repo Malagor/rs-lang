@@ -281,7 +281,6 @@ export const DictionaryPage: FC<DictionaryProps> = () => {
               page={page}
               words={words}
               checkedDifficulties={checkedDifficulties}
-              isButtons={true}
               showBtnDeleteDifficult={wordSection === LEARNING_SECTION}
               showBtnRestore={wordSection !== LEARNING_SECTION}
             />
