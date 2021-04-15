@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StateTextBook, Word } from 'types';
 import { Container } from '@material-ui/core';
-import { LocStore } from 'services';
 import {
   ErrorMessage,
   Loader,
@@ -16,6 +15,8 @@ import {
   PAGES_IN_EACH_GROUP,
   WordsSource,
 } from 'appConstants';
+import { LocStore } from 'services';
+import { useIsPageTopMatch } from 'hooks/useIsPageTopMatch';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
 import {
@@ -58,7 +59,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const userId = useSelector(selectUserId);
   const isLoading = useSelector(selectIsLoading);
   const isUserLoading = useSelector(selectAuthLoadingStatus);
-  const [scroll, setScroll] = useState(0);
+  const isGroupSelectorHidden = useIsPageTopMatch(200);
   const [gettingGameWords, setGettingGameWords] = useState(false);
   const [checkPageForGameWords, setCheckPageForGameWords] = useState(-1);
   const [checkGroupForGameWords, setCheckGroupForGameWords] = useState(-1);
@@ -158,27 +159,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     noMoreGameWords,
   ]);
 
-  useEffect(() => {
-    let lastKnownScrollPosition = scroll;
-    let ticking = false;
-
-    const handlerScroll = () => {
-      lastKnownScrollPosition = window.scrollY;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScroll(lastKnownScrollPosition);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handlerScroll);
-    return () => {
-      window.removeEventListener('scroll', handlerScroll);
-    };
-  }, [scroll]);
-
   const classes = useStyles();
 
   const hasContent = words && words.length;
@@ -219,7 +199,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
             <div className={classes.sideGrid}>
               <GroupSelector
                 group={group}
-                isOpacity={scroll > 200}
+                isOpacity={isGroupSelectorHidden}
                 onGroupChange={onGroupChange}
               />
             </div>
