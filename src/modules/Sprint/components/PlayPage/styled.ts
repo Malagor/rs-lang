@@ -2,7 +2,6 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
   COLOR_LAYOUT_GRAY,
   COLOR_LAYOUT_BACKGROUND,
-  COLOR_LAYOUT_BLUE,
   COLOR_LEVEL_1,
   COLOR_LAYOUT_DARK_GRAY,
 } from 'appConstants/colors';
