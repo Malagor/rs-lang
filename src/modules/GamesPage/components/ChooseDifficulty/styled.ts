@@ -51,6 +51,7 @@ export const useStyles = makeStyles((theme: Theme) => ({
     backgroundColor: gameColor,
     color: COLOR_LAYOUT_BACKGROUND,
     boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.15)',
+    borderRadius: 0,
     '&:hover': {
       backgroundColor: lighten(gameColor, 0.2),
     },

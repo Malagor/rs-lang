@@ -11,7 +11,6 @@ const gameColor = game ? game.color : COLOR_LAYOUT_BLUE;
 
 export const useStyles = makeStyles<Theme, Props>({
   root: {
-    // background: COLOR_LAYOUT_BLUE,
     backgroundColor: (props: Props) =>
       props.color === 'primary' ? COLOR_LAYOUT_BLUE : gameColor,
     border: 0,
@@ -25,8 +24,8 @@ export const useStyles = makeStyles<Theme, Props>({
     '&:hover': {
       background: (props: Props) =>
         props.color === 'primary'
-          ? lighten(COLOR_LAYOUT_BLUE, 0.1)
-          : lighten(gameColor, 0.1),
+          ? lighten(COLOR_LAYOUT_BLUE, 0.2)
+          : lighten(gameColor, 0.2),
     },
   },
 });
