@@ -32,7 +32,7 @@ export const AUTHORS = [
     photo: 'https://avatars.githubusercontent.com/u/55946100?v=4',
     role: 'Frontend developer',
     description:
-      'Developed "Imaginarium" minigame, various common components for the minigames, and customized pagination. Hope you enjoy learning English with this app.',
+      'Developed "Imaginarium" minigame, various common components for the minigames, and customized pagination. Hope you enjoy learning English with this app',
   },
   {
     name: 'Andrei107Q',
@@ -48,7 +48,7 @@ export const AUTHORS = [
     photo: liza,
     role: 'Frontend developer, Designer',
     description:
-      'Designed layout of the application, made main page and statistcs, made games results saving to the server, helped to think through the logic of the app',
+      'Designed layout of the application, made main page and statistics, made games results saving to the server, helped to think through the logic of the app',
   },
   {
     name: 'Vadim-Bykov',
