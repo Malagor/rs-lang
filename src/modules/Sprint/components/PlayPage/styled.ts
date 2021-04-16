@@ -27,7 +27,7 @@ export const useStyles = makeStyles((theme) => ({
     color: COLOR_LAYOUT_BACKGROUND,
   },
   changeColor: {
-    animation: '$blink 120ms infinite',
+    animation: '$blink 300ms infinite',
     color: COLOR_LEVEL_1,
   },
   '@keyframes blink': {
