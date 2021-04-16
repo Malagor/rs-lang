@@ -7,13 +7,14 @@ import { gamesData } from 'appConstants/games';
 import { setGameWords, setGameWordsKind } from 'modules/TextBookPage/actions';
 import { selectIsLoading } from 'modules/TextBookPage/selectors';
 import { Loader } from 'components';
+import { ChosenGameProps } from 'types';
 import { GameCard, ChooseDifficulty } from './components';
 import { useStyles } from './styled';
 
 type GamesProps = {};
 
 export const GamesPage: FC<GamesProps> = () => {
-  const [chosenGameLink, setChosenGameLink] = useState('');
+  const [chosenGame, setChosenGame] = useState<ChosenGameProps | null>(null);
   const isLoading = useSelector(selectIsLoading);
   const dispatch = useDispatch();
 
@@ -27,7 +28,7 @@ export const GamesPage: FC<GamesProps> = () => {
 
   return (
     <>
-      {!chosenGameLink && (
+      {!chosenGame && (
         <Container>
           <Grid
             container
@@ -44,13 +45,18 @@ export const GamesPage: FC<GamesProps> = () => {
                 description={description}
                 link={link}
                 colorButton={color}
-                setChosenGameLink={setChosenGameLink}
+                setChosenGame={setChosenGame}
               />
             ))}
           </Grid>
         </Container>
       )}
-      {chosenGameLink && <ChooseDifficulty chosenGameLink={chosenGameLink} />}
+      {chosenGame && (
+        <ChooseDifficulty
+          chosenGame={chosenGame}
+          setChosenGame={setChosenGame}
+        />
+      )}
       {isLoading && (
         <div style={{ zIndex: 10 }}>
           <Loader fixed />

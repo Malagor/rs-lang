@@ -11,13 +11,16 @@ export const COLOR_LAYOUT_YELLOW = '#F79928';
 export const COLOR_LAYOUT_ORANGE = '#FA5833';
 export const COLOR_LAYOUT_BACKGROUND = '#FAFCFE';
 export const COLOR_LAYOUT_TEXT = '#1E1E1E';
+export const COLOR_LAYOUT_BACKGROUND_RGB = '250, 252, 254';
+
 export const COLOR_LAYOUT_GRAY = '#C4C4C4';
 export const COLOR_LAYOUT_WHITE = '#FFFFFF';
+export const COLOR_LAYOUT_HEADER = '#F5F5F5';
 export const COLOR_LAYOUT_LIGHT_GRAY = '#888888';
 export const COLOR_LAYOUT_DARK_GRAY = '#8D8D8D';
 
 export const SAVANNAH_BACKGROUND =
-  'linear-gradient(180deg, #FF5F6D 0%, #FF8C6F 43.75%, #FFC371 100%)';
+  'linear-gradient(180deg, #870510 0%,#6e1600 43.75%,#5b5040 100%)';
 export const AUDIO_CHALLENGE_BACKGROUND =
   'linear-gradient(180deg, #185A9D 0%, #43CEA2 100%)';
 export const SPRINT_BACKGROUND =

@@ -4,10 +4,10 @@ import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunkMiddleware from 'redux-thunk';
 import { State } from 'types';
-import { textBookReducer } from '../modules/TextBookPage/textBookReducer';
+import { textBookReducer } from 'modules/TextBookPage/textBookReducer';
+import { loginReducer } from 'modules/Login/loginReducer';
+import { statisticsReducer } from 'modules/StatisticsPage/statisticsReducer';
 import { commonReducer } from './commonState/commonReducer';
-import { loginReducer } from '../modules/Login/loginReducer';
-import { statisticsReducer } from '../modules/StatisticsPage/statisticsReducer';
 
 const appReducer = combineReducers<State>({
   textBookReducer,

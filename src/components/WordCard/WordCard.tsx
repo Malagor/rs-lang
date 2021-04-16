@@ -3,30 +3,33 @@ import { HARD_DIFFICULTY, SERVER_URL } from 'appConstants';
 import { Word } from 'types';
 import { lighten, useTheme } from '@material-ui/core';
 import { useSelector } from 'react-redux';
+import { LEVEL_COLORS } from 'appConstants/colors';
 import { selectUser } from 'modules/Login/selectors';
 import { TopPart, SentencesBlock, ButtonsBlock } from './components';
 import { CardContainer, ContentBlock, WordImage } from './styled';
 
 type WordCardProps = {
   word: Word;
-  colorGroup: string;
   successCount: number;
   errorCount: number;
-  isTranslate: boolean;
-  isButtons: boolean;
+  isTranslationShown: boolean;
+  isButtonsShown: boolean;
   showBtnDeleteDifficult: boolean;
   showBtnRestore: boolean;
+  page: number;
+  group: number;
 };
 
 export const WordCard: React.FC<WordCardProps> = ({
   word,
-  colorGroup,
   successCount,
   errorCount,
-  isTranslate,
-  isButtons,
+  isTranslationShown,
+  isButtonsShown,
   showBtnDeleteDifficult,
   showBtnRestore,
+  page,
+  group,
 }) => {
   const theme = useTheme();
   const user = useSelector(selectUser);
@@ -34,6 +37,7 @@ export const WordCard: React.FC<WordCardProps> = ({
   // eslint-disable-next-line no-underscore-dangle
   const wordId = word._id || word.id;
   const isHard = word.userWord && word.userWord.difficulty === HARD_DIFFICULTY;
+  const colorGroup = LEVEL_COLORS[group];
 
   const difficultColor = lighten(colorGroup, 0.85);
 
@@ -51,16 +55,18 @@ export const WordCard: React.FC<WordCardProps> = ({
           colorGroup={colorGroup}
           successCount={successCount}
           errorCount={errorCount}
-          isTranslate={isTranslate}
+          isTranslationShown={isTranslationShown}
         />
-        <SentencesBlock word={word} isTranslate={isTranslate} />
-        {isButtons && isLogin && (
+        <SentencesBlock word={word} isTranslationShown={isTranslationShown} />
+        {isButtonsShown && isLogin && (
           <ButtonsBlock
             colorGroup={colorGroup}
             wordId={wordId}
             showBtnDeleteDifficult={showBtnDeleteDifficult}
             isHard={isHard}
             showBtnRestore={showBtnRestore}
+            page={page}
+            group={group}
           />
         )}
       </ContentBlock>

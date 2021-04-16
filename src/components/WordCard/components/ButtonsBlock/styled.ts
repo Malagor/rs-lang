@@ -12,10 +12,6 @@ export const Container = styled.div`
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     width: 258px;
-    margin: 24px auto 0;
-
-    button {
-      margin: 0 auto;
-    }
+    margin: 24px 0 0;
   }
 `;

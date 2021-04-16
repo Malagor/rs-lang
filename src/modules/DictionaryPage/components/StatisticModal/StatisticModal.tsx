@@ -1,9 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { Theme, withStyles } from '@material-ui/core/styles';
+import TimelineIcon from '@material-ui/icons/Timeline';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogContent from '@material-ui/core/DialogContent';
-import { useDispatch } from 'react-redux';
-import { setRefStatistic } from 'modules/TextBookPage/actions';
 import { DialogTitle, ModalContent } from './components';
 
 const DialogContent = withStyles((theme: Theme) => ({
@@ -15,13 +14,6 @@ const DialogContent = withStyles((theme: Theme) => ({
 
 export const StatisticModal: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-  const refOpenStatistic = useRef<HTMLButtonElement>(null);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (refOpenStatistic.current)
-      dispatch(setRefStatistic(refOpenStatistic.current as HTMLButtonElement));
-  }, [dispatch]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -30,16 +22,19 @@ export const StatisticModal: React.FC = () => {
     setOpen(false);
   };
 
+  const iconStyles = {
+    fontSize: '2rem',
+    cursor: 'pointer',
+    margin: '8px 0 0 5px',
+  };
+
   return (
     <div>
-      <button
-        type="button"
+      <TimelineIcon
+        style={iconStyles}
+        titleAccess="Statistic"
         onClick={handleClickOpen}
-        ref={refOpenStatistic}
-        style={{ display: 'none' }}
-      >
-        Open dialog
-      </button>
+      />
 
       <Dialog
         onClose={handleClose}
@@ -50,7 +45,7 @@ export const StatisticModal: React.FC = () => {
           Statistic
         </DialogTitle>
 
-        <DialogContent dividers style={{ paddingBottom: 30 }}>
+        <DialogContent dividers>
           <ModalContent />
         </DialogContent>
       </Dialog>

@@ -7,16 +7,13 @@ export const Container = styled.div`
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     flex-direction: column-reverse;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
   }
 `;
 
 export const WordBlock = styled.div<{ colorGroup: string }>`
   border-left: 3px solid ${({ colorGroup }) => colorGroup};
-  padding-left: 20px;
-  padding-right: 32px;
-  display: flex;
-  flex-direction: column;
+  padding-left: 23px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     margin-top: 16px;
@@ -45,18 +42,18 @@ export const WordTranslate = styled.div`
 `;
 
 export const WordStatistic = styled.div`
-  width: 95px;
+  width: 115px;
   height: 30px;
   display: flex;
   justify-content: space-between;
-  margin-right: 8px;
+  margin-right: 40px;
 `;
 
 export const InfoBlock = styled.div<{ color: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 45px;
+  width: 55px;
   height: 100%;
   border-radius: 5px;
   background-color: ${({ color }) => color};
@@ -64,9 +61,5 @@ export const InfoBlock = styled.div<{ color: string }>`
 `;
 
 export const WrapperIconWithStatistic = styled.div`
-  flex: 1 1 auto;
   display: flex;
-  width: 100%;
-  max-width: 165px;
-  justify-content: space-between;
 `;

@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { StateTextBook, Word } from 'types';
+import { Container } from '@material-ui/core';
 import {
   ErrorMessage,
   Loader,
@@ -8,14 +9,14 @@ import {
   WordList,
   NavGame,
 } from 'components';
-
-import { Container } from '@material-ui/core';
 import {
   EASY_DIFFICULTY,
   MIN_WORDS_TO_PLAY,
   PAGES_IN_EACH_GROUP,
   WordsSource,
 } from 'appConstants';
+import { LocStore } from 'services';
+import { useIsPageTopMatch } from 'hooks/useIsPageTopMatch';
 import { setPageTitle } from 'store/commonState/actions';
 import { GroupSelector } from 'components/GroupSelector';
 import {
@@ -58,7 +59,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
   const userId = useSelector(selectUserId);
   const isLoading = useSelector(selectIsLoading);
   const isUserLoading = useSelector(selectAuthLoadingStatus);
-  const [scroll, setScroll] = useState(0);
+  const isGroupSelectorHidden = useIsPageTopMatch(200);
   const [gettingGameWords, setGettingGameWords] = useState(false);
   const [checkPageForGameWords, setCheckPageForGameWords] = useState(-1);
   const [checkGroupForGameWords, setCheckGroupForGameWords] = useState(-1);
@@ -66,12 +67,27 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
 
   const dispatch: ThunkDispatch<StateTextBook, void, AnyAction> = useDispatch();
 
+  const onGroupChange = (groupNumber: number) => {
+    dispatch(setGroup(groupNumber));
+    dispatch(setPage(0));
+    LocStore.setTextBookPosition({ group: groupNumber, page: 0 });
+  };
+
+  const onPageClick = (pageNumber: number) => {
+    dispatch(setPage(pageNumber));
+    LocStore.setTextBookPosition({ page: pageNumber });
+  };
+
   useEffect(() => {
     dispatch(setGameWordsKind(WordsSource.FROM_TEXTBOOK));
     dispatch(setIsLoading(true));
     dispatch(setPageTitle('TextBook'));
-    dispatch(setGroup(0));
-    dispatch(setPage(0));
+
+    const { page: pageNumber, group: groupNumber } =
+      LocStore.getTextBookPosition() || {};
+
+    dispatch(setGroup(groupNumber || 0));
+    dispatch(setPage(pageNumber || 0));
   }, [dispatch]);
 
   useEffect(() => {
@@ -143,27 +159,6 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
     noMoreGameWords,
   ]);
 
-  useEffect(() => {
-    let lastKnownScrollPosition = scroll;
-    let ticking = false;
-
-    const handlerScroll = () => {
-      lastKnownScrollPosition = window.scrollY;
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          setScroll(lastKnownScrollPosition);
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    window.addEventListener('scroll', handlerScroll);
-    return () => {
-      window.removeEventListener('scroll', handlerScroll);
-    };
-  }, [scroll]);
-
   const classes = useStyles();
 
   const hasContent = words && words.length;
@@ -188,19 +183,25 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 initialPage={page}
                 forcePage={page}
                 group={group}
+                onPageClick={onPageClick}
               />
             </div>
             <div className={classes.mainGrid}>
               <WordList
+                group={group}
+                page={page}
                 words={words}
                 checkedDifficulties={[EASY_DIFFICULTY]}
-                isButtons={true}
                 showBtnDeleteDifficult={true}
                 showBtnRestore={false}
               />
             </div>
             <div className={classes.sideGrid}>
-              <GroupSelector isOpacity={scroll > 200} />
+              <GroupSelector
+                group={group}
+                isOpacity={isGroupSelectorHidden}
+                onGroupChange={onGroupChange}
+              />
             </div>
             <div className={classes.paginationBottom}>
               <Pagination
@@ -208,6 +209,7 @@ export const TextBookPage: FC<TextBookPageProps> = () => {
                 initialPage={page}
                 forcePage={page}
                 group={group}
+                onPageClick={onPageClick}
               />
             </div>
           </div>
