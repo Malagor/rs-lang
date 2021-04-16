@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { MOBILE_WIDTH } from 'appConstants';
 
 export const useIsMobile = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < MOBILE_WIDTH);
 
   useEffect(() => {
     const callback = () => {
