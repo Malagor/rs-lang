@@ -2,8 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { Countdown, SoundButton, FullscreenButton } from 'components';
 import { Typography, Box, Grid, Paper } from '@material-ui/core';
 import clsx from 'clsx';
-import { TGamePages, RESULTS_PAGE } from '../../Sprint';
-import { useStyles, ModeButtonWrong, ModeButtonRight } from './styled';
+import { useStyles, ModeAnswerButton } from './styled';
 
 type GameStatisticBoardProps = {
   isFullscreen: boolean;
@@ -12,7 +11,7 @@ type GameStatisticBoardProps = {
   setSoundOn: React.Dispatch<React.SetStateAction<boolean>>;
   containerRef: React.RefObject<HTMLDivElement>;
   timeGame: number;
-  setGamePage: React.Dispatch<React.SetStateAction<TGamePages>>;
+  setFinish: React.Dispatch<React.SetStateAction<boolean>>;
   gamePoints: number;
   setGamePoints: React.Dispatch<React.SetStateAction<number>>;
   isRightCase: boolean | null;
@@ -32,7 +31,7 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
   setSoundOn,
   containerRef,
   timeGame,
-  setGamePage,
+  setFinish,
   gamePoints,
   setGamePoints,
   isRightCase,
@@ -48,20 +47,10 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
 
   useEffect(() => {
     setNumNextWord();
-  }, []);
+  }, [setNumNextWord]);
 
-  const handleRightButton = () => {
-    if (isRightCase) {
-      setGamePoints(gamePoints + 10 * multiplier);
-      handleAnswerButton(true);
-    } else {
-      handleAnswerButton(false);
-    }
-    setNumNextWord();
-  };
-
-  const handleWrongButton = () => {
-    if (!isRightCase) {
+  const handleButton = (isCorrectAnswer: boolean | null) => {
+    if (typeof isCorrectAnswer === 'boolean' && isCorrectAnswer) {
       setGamePoints(gamePoints + 10 * multiplier);
       handleAnswerButton(true);
     } else {
@@ -72,7 +61,7 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
 
   const handleComplete = () => {
     playFinishSound();
-    setGamePage(RESULTS_PAGE);
+    setFinish(true);
   };
 
   return (
@@ -126,20 +115,21 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
           </Box>
 
           <Box className={classes.wrapperButtons}>
-            <ModeButtonRight
-              onClick={handleRightButton}
+            <ModeAnswerButton
+              onClick={() => handleButton(isRightCase)}
               variant="contained"
               color="primary"
+              isRightAnswerButton={true}
             >
               right
-            </ModeButtonRight>
-            <ModeButtonWrong
-              onClick={handleWrongButton}
+            </ModeAnswerButton>
+            <ModeAnswerButton
+              onClick={() => handleButton(!isRightCase)}
               variant="contained"
               color="secondary"
             >
               wrong
-            </ModeButtonWrong>
+            </ModeAnswerButton>
           </Box>
         </Paper>
       </Grid>
