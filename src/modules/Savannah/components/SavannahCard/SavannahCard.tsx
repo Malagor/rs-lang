@@ -14,6 +14,8 @@ type Props = {
   isFinishRound: boolean;
 };
 
+//eslint-disable-next-line @typescript-eslint/comma-dangle
+
 export enum UserAnswer {
   NO_ANSWER = 'no answer',
   RIGHT = 'right answer',
