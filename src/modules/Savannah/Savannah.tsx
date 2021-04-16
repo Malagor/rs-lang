@@ -9,7 +9,6 @@ import {
   selectTextBookError,
   selectTextBookGroup,
 } from 'modules/TextBookPage/selectors';
-import { saveGameResults } from 'modules/GamesPage/saveGameResults';
 import { InitialCountdownContainer } from 'modules/Imaginarium/components/Dashboard/styled';
 import {
   Countdown,
@@ -22,7 +21,6 @@ import {
   SoundButton,
 } from 'components';
 import { GameWordsKindType, Word } from 'types';
-import { LocStore } from 'services';
 import { COUNT_ANSWERS, SAVANNAH_LIVES } from 'appConstants/games';
 import 'react-circular-progressbar/dist/styles.css';
 import { SAVANNAH_BACKGROUND } from 'appConstants/colors';
@@ -34,6 +32,7 @@ import lottie, { AnimationItem } from 'lottie-web';
 import { mixingArray } from 'helpers/mixingArray';
 import { WordsSource } from 'appConstants';
 import { FullScreenWrapperFlexCenter } from 'styles';
+import { saveStatistics } from 'helpers/saveStatistics';
 import { SavannahCard, Lives } from './components';
 import {
   SavannahWrapper,
@@ -169,7 +168,7 @@ export const Savannah: FC = () => {
   // Correct Answer
   const handlerCorrectAnswer = useCallback(() => {
     setCorrectWords([...correctWords, words[current]]);
-    setChain((prev) => prev);
+    setChain((prev) => prev + 1);
     playSound(CorrectSound);
     grow();
   }, [grow, correctWords, words, current, playSound]);
@@ -261,27 +260,6 @@ export const Savannah: FC = () => {
     ]
   );
 
-  // Save statistics
-  const saveStatistics = useCallback(() => {
-    if (userId) {
-      saveGameResults({
-        userId,
-        game: 'Savannah',
-        rightlyAnswered: correctWords,
-        wronglyAnswered: incorrectWords,
-        maxInARow: longerChain,
-      });
-    } else {
-      LocStore.updateGamesStatistics(
-        'Savannah',
-        correctWords,
-        incorrectWords,
-        longerChain
-      );
-      LocStore.updateWordsStatistics(correctWords, incorrectWords);
-    }
-  }, [userId, longerChain, incorrectWords, correctWords]);
-
   // Finish Game
   const handleFinishGame = useCallback(() => {
     if (isFinish) {
@@ -296,9 +274,24 @@ export const Savannah: FC = () => {
         return;
       }
 
-      saveStatistics();
+      saveStatistics({
+        userId,
+        gameName: 'Savannah',
+        rightlyAnswered: correctWords,
+        wronglyAnswered: incorrectWords,
+        maxInARow: longerChain,
+      });
     }
-  }, [saveStatistics, gameWordsKind, chain, longerChain, playSound, isFinish]);
+  }, [
+    userId,
+    incorrectWords,
+    correctWords,
+    gameWordsKind,
+    chain,
+    longerChain,
+    playSound,
+    isFinish,
+  ]);
 
   const closeResultModal = useCallback(() => {
     history.push('/games');
