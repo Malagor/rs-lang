@@ -20,6 +20,8 @@ import {
   IMAGINARIUM_STRONG_COLOR,
 } from './colors';
 
+export const SPRINT_TIME_GAME = 60;
+
 export const gamesData = [
   {
     name: 'Savannah',

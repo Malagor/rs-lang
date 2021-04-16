@@ -1,33 +1,30 @@
 import React, { FC, useEffect, useRef, useState, useCallback } from 'react';
-import { Word } from 'types';
+import { GameWordsKindType, Word } from 'types';
 import { URL_GAMES } from 'appConstants/url';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setPageTitle } from 'store/commonState/actions';
-import { GameResults, ErrorMessage } from 'components';
+import { GameResults, ErrorMessage, Countdown } from 'components';
 import {
-  selectTextBookWords,
   selectTextBookGroup,
-  selectTextBookPage,
   selectTextBookError,
+  selectGameWords,
+  selectGameWordsKind,
 } from 'modules/TextBookPage/selectors';
-import { loadWords } from 'modules/TextBookPage/actions';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
-import { LocStore } from 'services/localStorage';
-import { saveGameResults } from 'modules/GamesPage/saveGameResults';
+import { SPRINT_TIME_GAME } from 'appConstants/games';
 import { selectUserId } from '../Login/selectors';
 import { PlayPage } from './components';
 import { GameContainer } from './styled';
+import { WordsSource } from '../../appConstants';
+import { saveStatistics } from '../../helpers/saveStatistics';
+import { InitialCountdownContainer } from '../Imaginarium/components/Dashboard/styled';
 
 type GamesProps = {};
 
-export type TGamePages = 'playPage' | 'resultsPage';
-export const PLAY_PAGE = 'playPage';
-export const RESULTS_PAGE = 'resultsPage';
-
-const TIME_GAME = 60;
+const INITIAL_COUNTDOWN_TIME = 3;
 
 const getRandomIntInclusive = (min: number, max: number) => {
   const rand = min + Math.random() * (max + 1 - min);
@@ -35,7 +32,8 @@ const getRandomIntInclusive = (min: number, max: number) => {
 };
 
 export const Sprint: FC<GamesProps> = () => {
-  const [gamePage, setGamePage] = useState<TGamePages>(PLAY_PAGE);
+  const [hasStarted, setStarted] = useState(false);
+  const [isFinishGame, setFinishGame] = useState(false);
   const [isSoundOn, setSoundOn] = useState(true);
   const [isFullScreen, setFullScreen] = useState(false);
 
@@ -55,9 +53,9 @@ export const Sprint: FC<GamesProps> = () => {
 
   const [isResultsModalOpened, setResultsModalOpened] = useState(true);
 
-  const words: Word[] = useSelector(selectTextBookWords);
+  const words: Word[] = useSelector(selectGameWords);
+  const gameWordsKind: GameWordsKindType = useSelector(selectGameWordsKind);
   const group = useSelector(selectTextBookGroup);
-  const page = useSelector(selectTextBookPage);
   const userId = useSelector(selectUserId);
   const error = useSelector(selectTextBookError);
 
@@ -67,8 +65,8 @@ export const Sprint: FC<GamesProps> = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const soundRef = useRef<HTMLAudioElement>(null);
 
-  const startOver = () => {
-    setGamePage(PLAY_PAGE);
+  const startOver = useCallback(() => {
+    setFinishGame(false);
     setIndexWordNow(null);
     setGamePoints(0);
     setPreMultiplier(0);
@@ -76,65 +74,49 @@ export const Sprint: FC<GamesProps> = () => {
     setRightCase(null);
     setIndexWordNow(null);
     setMaxInARow(0);
-  };
+  }, []);
 
-  const rightMultiplierHandle = () => {
+  const rightMultiplierHandle = useCallback(() => {
     if (preMultiplier === 3) {
       setPreMultiplier(0);
-      setMultiplier(multiplier + 1);
+      setMultiplier((prev) => prev + 1);
     } else {
-      setPreMultiplier(preMultiplier + 1);
+      setPreMultiplier((prev) => prev + 1);
     }
-  };
+  }, [preMultiplier]);
 
-  const rightInARow = () => {
-    setCurrentInARow(currentInARow + 1);
+  const rightInARow = useCallback(() => {
+    setCurrentInARow((prev) => prev + 1);
     if (currentInARow + 1 > maxInARow) {
-      setMaxInARow(currentInARow + 1);
+      setMaxInARow((prev) => prev + 1);
     }
-  };
+  }, [currentInARow, maxInARow]);
 
   useEffect(() => {
-    if (gamePage === RESULTS_PAGE) {
-      if (!userId) {
-        LocStore.updateGamesStatistics(
-          'Sprint',
-          rightlyAnswered,
-          wronglyAnswered,
-          maxInARow
-        );
-        console.log('rightlyAnswered', rightlyAnswered);
-        console.log(' wronglyAnswered', wronglyAnswered);
-        LocStore.updateWordsStatistics(rightlyAnswered, wronglyAnswered);
-      } else {
-        saveGameResults({
-          userId,
-          game: 'Sprint',
-          rightlyAnswered,
-          wronglyAnswered,
-          maxInARow,
-        });
+    if (isFinishGame) {
+      if (
+        gameWordsKind === WordsSource.FROM_MENU ||
+        gameWordsKind === WordsSource.FROM_DELETED
+      ) {
+        return;
       }
-    }
-  }, [rightlyAnswered, wronglyAnswered, userId, gamePage]);
 
-  const handleAnswerButton = (answer: boolean) => {
-    if (indexWordNow) {
-      const quizWord = words[indexWordNow];
-
-      if (answer) {
-        setRightlyAnswered([...rightlyAnswered, quizWord]);
-        rightMultiplierHandle();
-        rightInARow();
-        playSound(CorrectSound);
-      } else {
-        setWronglyAnswered([...wronglyAnswered, quizWord]);
-        setPreMultiplier(0);
-        setCurrentInARow(0);
-        playSound(WrongSound);
-      }
+      saveStatistics({
+        gameName: 'Sprint',
+        maxInARow,
+        rightlyAnswered,
+        userId,
+        wronglyAnswered,
+      });
     }
-  };
+  }, [
+    gameWordsKind,
+    maxInARow,
+    rightlyAnswered,
+    wronglyAnswered,
+    userId,
+    isFinishGame,
+  ]);
 
   const playSound = useCallback(
     (soundUrl: string) => {
@@ -146,9 +128,34 @@ export const Sprint: FC<GamesProps> = () => {
     [isSoundOn]
   );
 
-  useEffect(() => {
-    dispatch(loadWords(group, page));
-  }, [dispatch, group, page]);
+  const handleAnswerButton = useCallback(
+    (isCorrectAnswer: boolean) => {
+      if (indexWordNow) {
+        const quizWord = words[indexWordNow];
+
+        if (isCorrectAnswer) {
+          setRightlyAnswered([...rightlyAnswered, quizWord]);
+          rightMultiplierHandle();
+          rightInARow();
+          playSound(CorrectSound);
+        } else {
+          setWronglyAnswered([...wronglyAnswered, quizWord]);
+          setPreMultiplier(0);
+          setCurrentInARow(0);
+          playSound(WrongSound);
+        }
+      }
+    },
+    [
+      indexWordNow,
+      playSound,
+      rightInARow,
+      rightMultiplierHandle,
+      rightlyAnswered,
+      words,
+      wronglyAnswered,
+    ]
+  );
 
   useEffect(() => {
     if (!error && words && indexWordNow) {
@@ -172,11 +179,11 @@ export const Sprint: FC<GamesProps> = () => {
     }
   }, [indexWordNow, error, words, isRightCase]);
 
-  const setNumNextWord = () => {
+  const setNumNextWord = useCallback(() => {
     const randomNumWord = getRandomIntInclusive(0, words.length - 1);
     setIndexWordNow(randomNumWord);
     setRightCase(Boolean(getRandomIntInclusive(-1, 0)));
-  };
+  }, [words.length]);
 
   useEffect(() => {
     dispatch(setPageTitle('Sprint'));
@@ -185,15 +192,21 @@ export const Sprint: FC<GamesProps> = () => {
   return (
     <GameContainer ref={containerRef}>
       {error && <ErrorMessage />}
-      {!error && gamePage === PLAY_PAGE && (
+      <InitialCountdownContainer gameIsStarted={hasStarted}>
+        <Countdown
+          duration={INITIAL_COUNTDOWN_TIME}
+          onComplete={() => setStarted(true)}
+        />
+      </InitialCountdownContainer>
+      {!error && !isFinishGame && hasStarted && (
         <PlayPage
           isFullscreen={isFullScreen}
           setFullscreen={setFullScreen}
           isSoundOn={isSoundOn}
           setSoundOn={setSoundOn}
           containerRef={containerRef}
-          timeGame={TIME_GAME}
-          setGamePage={setGamePage}
+          timeGame={SPRINT_TIME_GAME}
+          setFinish={setFinishGame}
           gamePoints={gamePoints}
           setGamePoints={setGamePoints}
           isRightCase={isRightCase}
@@ -206,7 +219,7 @@ export const Sprint: FC<GamesProps> = () => {
           playFinishSound={() => playSound(FinishSound)}
         />
       )}
-      {!error && gamePage === RESULTS_PAGE && (
+      {!error && isFinishGame && (
         <GameResults
           isOpened={isResultsModalOpened}
           setOpened={setResultsModalOpened}

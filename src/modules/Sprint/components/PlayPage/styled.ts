@@ -74,24 +74,19 @@ export const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const ModeButtonRight = styled(Button)`
+export const ModeAnswerButton = styled(Button)<{
+  isRightAnswerButton?: boolean;
+}>`
   width: 112px;
   height: 40px;
   margin: 0 12px;
   border-radius: 0;
-  background-color: ${COLOR_LAYOUT_BLUE};
+  background-color: ${({ isRightAnswerButton }) =>
+    isRightAnswerButton ? COLOR_LAYOUT_BLUE : COLOR_LAYOUT_DARK_GRAY};
   &:hover {
-    background-color: ${lighten(COLOR_LAYOUT_BLUE, 0.2)};
-  }
-`;
-
-export const ModeButtonWrong = styled(Button)`
-  width: 112px;
-  height: 40px;
-  margin: 0 12px;
-  border-radius: 0;
-  background-color: ${COLOR_LAYOUT_DARK_GRAY};
-  &:hover {
-    background-color: ${lighten(COLOR_LAYOUT_DARK_GRAY, 0.2)};
+    background-color: ${({ isRightAnswerButton }) =>
+      isRightAnswerButton
+        ? lighten(COLOR_LAYOUT_BLUE, 0.2)
+        : lighten(COLOR_LAYOUT_DARK_GRAY, 0.2)};
   }
 `;
