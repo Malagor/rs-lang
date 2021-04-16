@@ -30,7 +30,7 @@ export const gamesData = [
     img: SAVANNAH_ICON,
     link: URL_GAME_SAVANNA,
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
+      'Try to raise a savannah plant by watering it with you knowledge. Be quick though, as time for thinking is limited.',
     color: COLOR_LAYOUT_YELLOW,
     background: SAVANNAH_BACKGROUND,
   },
@@ -39,7 +39,7 @@ export const gamesData = [
     img: AUDIO_CHALLENGE_ICON,
     link: URL_GAME_AUDIO_CHALLENGE,
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
+      'Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess. ',
     color: COLOR_LAYOUT_ORANGE,
     background: AUDIO_CHALLENGE_BACKGROUND,
   },
@@ -48,7 +48,7 @@ export const gamesData = [
     img: SPRINT_ICON,
     link: URL_GAME_SPRINT,
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.',
+      'Check how much points you can get in one minute, making educated guesses about what is right and what is wrong.',
     color: COLOR_LAYOUT_BLUE,
     background: SPRINT_BACKGROUND,
   },
@@ -57,7 +57,7 @@ export const gamesData = [
     img: IMAGINARIUM_ICON,
     link: URL_GAME_IMAGINARIUM,
     description:
-      'Enhance your remembering by using visual memory and building strong illustrative connections right in your head.',
+      'Enhance your remembering by using visual memory and building strong connections right in your head.',
     color: COLOR_LAYOUT_DARKBLUE,
     background: IMAGINARIUM_BACKGROUND,
     strongColor: IMAGINARIUM_STRONG_COLOR,
