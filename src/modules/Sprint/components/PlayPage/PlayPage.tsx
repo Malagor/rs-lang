@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import { Countdown, SoundButton, FullscreenButton } from 'components';
 import { Typography, Box, Grid, Paper } from '@material-ui/core';
 import clsx from 'clsx';
@@ -45,6 +45,8 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
 }) => {
   const classes = useStyles();
 
+  const [isChangeMultiplier, setChangeMultiplier] = useState(false);
+
   useEffect(() => {
     setNumNextWord();
   }, [setNumNextWord]);
@@ -64,6 +66,13 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
     setFinish(true);
   };
 
+  useEffect(() => {
+    setChangeMultiplier(true);
+    setTimeout(() => {
+      setChangeMultiplier(false);
+    }, 600);
+  }, [multiplier]);
+
   return (
     <Grid container className={classes.wrapper}>
       <SoundButton isSoundOn={isSoundOn} setSoundOn={setSoundOn} />
@@ -77,34 +86,40 @@ export const PlayPage: FC<GameStatisticBoardProps> = ({
         <Typography variant="h4" className={classes.points}>
           {gamePoints}
         </Typography>
-        <Typography variant="subtitle1" className={classes.pointsAdd}>
+        <Typography
+          variant="subtitle1"
+          className={clsx(
+            classes.pointsAdd,
+            isChangeMultiplier && classes.changeColor
+          )}
+        >
           {`+${multiplier}0 points`}
         </Typography>
+
+        <Box className={classes.wrapperIndicator}>
+          <Box
+            className={clsx(
+              classes.indicator,
+              preMultiplier < 1 && classes.indicatorInactive
+            )}
+          />
+          <Box
+            className={clsx(
+              classes.indicator,
+              preMultiplier < 2 && classes.indicatorInactive
+            )}
+          />
+          <Box
+            className={clsx(
+              classes.indicator,
+              preMultiplier < 3 && classes.indicatorInactive
+            )}
+          />
+        </Box>
       </Grid>
 
       <Grid item className={classes.wrapperPaper}>
         <Paper elevation={0} className={classes.paperSize}>
-          <Box className={classes.wrapperIndicator}>
-            <Box
-              className={clsx(
-                classes.indicator,
-                preMultiplier < 1 && classes.indicatorActive
-              )}
-            />
-            <Box
-              className={clsx(
-                classes.indicator,
-                preMultiplier < 2 && classes.indicatorActive
-              )}
-            />
-            <Box
-              className={clsx(
-                classes.indicator,
-                preMultiplier < 3 && classes.indicatorActive
-              )}
-            />
-          </Box>
-
           <Box className={classes.wrapperWords}>
             <Typography variant="h4" className={classes.englishWord}>
               {gameEnglishWord}

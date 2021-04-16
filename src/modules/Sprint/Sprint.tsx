@@ -142,6 +142,7 @@ export const Sprint: FC<GamesProps> = () => {
         } else {
           setWronglyAnswered([...wronglyAnswered, quizWord]);
           setPreMultiplier(0);
+          setMultiplier(1);
           setCurrentInARow(0);
           playSound(WrongSound);
         }
