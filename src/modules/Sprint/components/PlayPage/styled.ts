@@ -3,6 +3,7 @@ import {
   COLOR_LAYOUT_GRAY,
   COLOR_LAYOUT_BACKGROUND,
   COLOR_LAYOUT_BLUE,
+  COLOR_LEVEL_1,
   COLOR_LAYOUT_DARK_GRAY,
 } from 'appConstants/colors';
 import styled from 'styled-components';
@@ -23,11 +24,23 @@ export const useStyles = makeStyles((theme) => ({
     color: COLOR_LAYOUT_BACKGROUND,
   },
   pointsAdd: {
-    fontSize: '14px',
+    fontSize: '22px',
     color: COLOR_LAYOUT_BACKGROUND,
   },
+  changeColor: {
+    animation: '$blink 120ms infinite',
+    color: COLOR_LEVEL_1,
+  },
+  '@keyframes blink': {
+    '0%': {
+      opacity: 1,
+    },
+    '100%': {
+      opacity: 0.1,
+    },
+  },
   wrapperPaper: {
-    margin: theme.spacing(4, 0, 3),
+    margin: theme.spacing(3, 0),
   },
   paperSize: {
     display: 'flex',
@@ -40,27 +53,28 @@ export const useStyles = makeStyles((theme) => ({
   wrapperIndicator: {
     display: 'flex',
     justifyContent: 'space-between',
-    width: '56px',
-    height: '8px',
-    marginTop: theme.spacing(3),
+    minWidth: '56px',
+    marginTop: theme.spacing(1),
   },
 
   indicator: {
-    width: theme.spacing(1),
-    height: theme.spacing(1),
+    width: '20px',
+    height: '20px',
     borderRadius: '50%',
-    backgroundColor: COLOR_LAYOUT_BLUE,
+    margin: '4px',
+    backgroundColor: COLOR_LEVEL_1,
   },
-  indicatorActive: {
+  indicatorInactive: {
     backgroundColor: COLOR_LAYOUT_GRAY,
   },
 
   wrapperWords: {
-    margin: theme.spacing(3),
+    margin: theme.spacing(5, 0, 3, 0),
   },
   englishWord: {
     textAlign: 'center',
     fontSize: '22px',
+    marginBottom: theme.spacing(1),
   },
   translatedWord: {
     textAlign: 'center',
@@ -81,12 +95,13 @@ export const ModeAnswerButton = styled(Button)<{
   height: 40px;
   margin: 0 12px;
   border-radius: 0;
+  text-transform: none;
   background-color: ${({ isRightAnswerButton }) =>
-    isRightAnswerButton ? COLOR_LAYOUT_BLUE : COLOR_LAYOUT_DARK_GRAY};
+    isRightAnswerButton ? COLOR_LEVEL_1 : COLOR_LAYOUT_DARK_GRAY};
   &:hover {
     background-color: ${({ isRightAnswerButton }) =>
       isRightAnswerButton
-        ? lighten(COLOR_LAYOUT_BLUE, 0.2)
+        ? lighten(COLOR_LEVEL_1, 0.2)
         : lighten(COLOR_LAYOUT_DARK_GRAY, 0.2)};
   }
 `;
