@@ -20,6 +20,7 @@ import {
   IMAGINARIUM_STRONG_COLOR,
 } from './colors';
 
+export const SPRINT_TIME_GAME = 60;
 export const COUNT_ANSWERS = 4;
 export const SAVANNAH_LIVES = 5;
 export const SAVANNAH_FIELD_SIZE = 500;

@@ -43,7 +43,7 @@ export const Answers: FC<AnswersProps> = ({
                   root: classes.root,
                   disabled: activeItem ? classes.disabled : '',
                 }}
-                value={index.toString()}
+                value={index}
                 control={
                   <AnswerRadio iscorrect={`${index === correctAnswerIndex}`} />
                 }
