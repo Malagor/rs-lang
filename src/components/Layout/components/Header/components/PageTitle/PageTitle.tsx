@@ -1,35 +1,30 @@
 import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Typography } from '@material-ui/core';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import { selectRefStatistic } from 'modules/TextBookPage/selectors';
+import { URL_DICTIONARY, URL_TEXT_BOOK } from 'appConstants/url';
 import { selectPageTitle } from 'store/commonState/selectors';
+import { StatisticModal } from 'modules/DictionaryPage/components/StatisticModal';
 import { TitleWrapper, useStyles } from './styled';
+import { TextBookSettings } from './components';
 
 type PageTitleProps = {};
 
 export const PageTitle: FC<PageTitleProps> = () => {
+  const location = useLocation();
   const title = useSelector(selectPageTitle);
-  const refStatistic = useSelector(selectRefStatistic);
   const classes = useStyles();
-
-  const iconStyles = {
-    fontSize: '2rem',
-    cursor: 'pointer',
-    margin: '8px 0 0 5px',
-  };
 
   return (
     <TitleWrapper>
       <Typography variant="h4" component="h1" className={classes.title}>
         {title}
       </Typography>
-      {title === 'Dictionary' && (
-        <TimelineIcon
-          style={iconStyles}
-          titleAccess="Statistic"
-          onClick={() => refStatistic?.click()}
-        />
+
+      {location.pathname === URL_DICTIONARY && <StatisticModal />}
+
+      {[URL_DICTIONARY, URL_TEXT_BOOK].includes(location.pathname) && (
+        <TextBookSettings />
       )}
     </TitleWrapper>
   );

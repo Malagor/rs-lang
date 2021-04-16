@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useLocation } from 'react-router-dom';
 import {
   DictionaryPage,
   GamesPage,
@@ -20,34 +20,32 @@ import {
   setAuth,
   setAuthLoading,
 } from 'modules/Login/actions';
-import { setGroup } from 'modules/TextBookPage/actions';
 import { Auth } from 'types';
 
 export const App: FC = () => {
   const dispatch = useDispatch();
-  dispatch(setAuthLoading(true));
+  const location = useLocation();
 
   useEffect(() => {
+    dispatch(setAuthLoading(true));
+
     const authStr = LocStore.getUser();
     if (authStr) {
       const auth: Auth = JSON.parse(authStr);
       dispatch(setAuth(auth));
 
       const { token, userId: id } = auth;
-      console.log('token', token);
-      console.log('id', id);
       database.setToken(token);
 
       dispatch(loadUserInfoById(id));
     } else {
       dispatch(setAuthLoading(false));
     }
-    const numberGroupPageStr = LocStore.getNumberGroupPage();
-    if (numberGroupPageStr) {
-      const numberGroupPage: number = Number(JSON.parse(numberGroupPageStr));
-      dispatch(setGroup(numberGroupPage));
-    }
   }, [dispatch]);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
 
   return (
     <Layout>

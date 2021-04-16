@@ -5,6 +5,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import { useSelector } from 'react-redux';
 import { useIsMobile } from 'hooks/useIsMobile';
 import { selectUser } from 'modules/Login/selectors';
+import { ContentWrapperFlex } from 'styles';
 import { PageTitle, UserInfoBlock, LoginModal } from './components';
 import { useStyles } from './styled';
 
@@ -37,9 +38,11 @@ export const Header: FC<HeaderProps> = ({ open, handleDrawerOpen }) => {
         >
           <MenuIcon />
         </IconButton>
-        <PageTitle />
-        <div className={classes.grow} />
-        {user.name ? <UserInfoBlock /> : <LoginModal />}
+        <ContentWrapperFlex>
+          <PageTitle />
+          <div className={classes.grow} />
+          {user.name ? <UserInfoBlock /> : <LoginModal />}
+        </ContentWrapperFlex>
       </Toolbar>
     </AppBar>
   );

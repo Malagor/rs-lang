@@ -5,20 +5,23 @@ import { Container, Sentence, SentenceTranslate } from './styled';
 
 type Props = {
   word: Word;
-  isTranslate: boolean;
+  isTranslationShown: boolean;
 };
 
-export const SentencesBlock: React.FC<Props> = ({ word, isTranslate }) => (
+export const SentencesBlock: React.FC<Props> = ({
+  word,
+  isTranslationShown,
+}) => (
   <Container>
     <div>
       <Sentence dangerouslySetInnerHTML={{ __html: word.textMeaning }} />
-      {isTranslate && (
+      {isTranslationShown && (
         <SentenceTranslate>{word.textMeaningTranslate}</SentenceTranslate>
       )}
     </div>
     <div>
       <Sentence dangerouslySetInnerHTML={{ __html: word.textExample }} />
-      {isTranslate && (
+      {isTranslationShown && (
         <SentenceTranslate>{word.textExampleTranslate}</SentenceTranslate>
       )}
     </div>

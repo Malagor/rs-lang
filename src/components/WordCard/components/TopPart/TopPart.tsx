@@ -29,7 +29,7 @@ export type WordCardProps = {
   colorGroup: string;
   successCount: number;
   errorCount: number;
-  isTranslate: boolean;
+  isTranslationShown: boolean;
 };
 
 export const TopPart: React.FC<WordCardProps> = ({
@@ -37,7 +37,7 @@ export const TopPart: React.FC<WordCardProps> = ({
   colorGroup,
   successCount,
   errorCount,
-  isTranslate,
+  isTranslationShown,
 }) => {
   const refAudioWord = useRef<HTMLAudioElement>(null);
   const refAudioMeaning = useRef<HTMLAudioElement>(null);
@@ -108,7 +108,9 @@ export const TopPart: React.FC<WordCardProps> = ({
           <EnglishWord>{word.word}</EnglishWord>
           <WordTranscription>{word.transcription}</WordTranscription>
         </EnglishBlock>
-        {isTranslate && <WordTranslate>{word.wordTranslate}</WordTranslate>}
+        {isTranslationShown && (
+          <WordTranslate>{word.wordTranslate}</WordTranslate>
+        )}
       </WordBlock>
 
       <WrapperIconWithStatistic>

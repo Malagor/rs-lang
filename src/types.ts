@@ -63,6 +63,8 @@ export type WordSectionType = 'learning' | 'difficult' | 'deleted';
 export type StateTextBook = {
   group: number;
   page: number;
+  dictionaryGroup: number;
+  dictionaryPage: number;
   words: Word[];
   gameWords: Word[];
   gameWordsKind: GameWordsKindType;
@@ -73,7 +75,9 @@ export type StateTextBook = {
   pagesCount: number;
   wordSection: WordSectionType;
   isLoading: boolean;
-  refStatistic: HTMLButtonElement | null;
+  statisticWords: Word[];
+  isTranslationShown: boolean;
+  isButtonsShown: boolean;
 };
 
 export type StateCommon = {
@@ -127,3 +131,9 @@ export type GameWordsKindType =
   | WordsSource.FROM_LEARNING
   | WordsSource.FROM_DIFFICULT
   | WordsSource.FROM_DELETED;
+
+export type ChosenGameProps = {
+  gameName: string;
+  gameLink: string;
+  gameColor: string;
+};

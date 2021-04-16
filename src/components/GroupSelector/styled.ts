@@ -88,5 +88,6 @@ export const GroupSelectorStyled = styled.div<GroupSelectorWrapper>`
     width: 98%;
     transform: none;
     margin: 0;
+    opacity: 1;
   }
 `;

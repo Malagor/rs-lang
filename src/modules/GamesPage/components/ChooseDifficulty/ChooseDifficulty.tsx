@@ -1,21 +1,23 @@
 import React, { FC, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Paper } from '@material-ui/core';
+import { Paper, Fab } from '@material-ui/core';
 import { COUNT_GROUPS } from 'appConstants';
-import { Word } from 'types';
+import { ChosenGameProps, Word } from 'types';
 import { selectGameWords } from 'modules/TextBookPage/selectors';
 import { useStyles } from './styled';
 import { GroupButton } from './components';
 
 type ChooseDifficultyProps = {
-  chosenGameLink: string;
+  chosenGame: ChosenGameProps;
+  setChosenGame: React.Dispatch<React.SetStateAction<ChosenGameProps | null>>;
 };
 
 export const ChooseDifficulty: FC<ChooseDifficultyProps> = ({
-  chosenGameLink,
+  chosenGame: { gameName, gameLink, gameColor },
+  setChosenGame,
 }) => {
-  const classes = useStyles();
+  const classes = useStyles({ gameColor });
   const history = useHistory();
   const gameWords: Word[] = useSelector(selectGameWords);
 
@@ -29,17 +31,28 @@ export const ChooseDifficulty: FC<ChooseDifficultyProps> = ({
 
   useEffect(() => {
     if (gameWords.length) {
-      history.push(chosenGameLink);
+      history.push(gameLink);
     }
-  }, [gameWords.length, chosenGameLink, history]);
+  }, [gameWords.length, gameLink, history]);
 
   return (
     <div className={classes.root}>
       <div className={classes.innerWrapper}>
+        <h2 className={classes.gameName}>{gameName}</h2>
         <h3 className={classes.selectHeader}>Select the Level</h3>
         <Paper variant="outlined" className={classes.groupButtonsContainer}>
           {getGroupButtons()}
         </Paper>
+        <Fab
+          variant="extended"
+          aria-label="back"
+          className={classes.backButton}
+          onClick={() => {
+            setChosenGame(null);
+          }}
+        >
+          Back to games
+        </Fab>
       </div>
     </div>
   );

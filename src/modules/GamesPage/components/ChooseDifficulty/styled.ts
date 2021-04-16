@@ -1,9 +1,13 @@
 import { Theme } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { lighten, makeStyles } from '@material-ui/core/styles';
 
-import { COLOR_LAYOUT_DARK_GRAY } from 'appConstants/colors';
+import {
+  COLOR_LAYOUT_BACKGROUND,
+  COLOR_LAYOUT_DARK_GRAY,
+  COLOR_LAYOUT_TEXT,
+} from 'appConstants/colors';
 
-export const useStyles = makeStyles<Theme>((theme) => ({
+export const useStyles = makeStyles((theme: Theme) => ({
   root: {
     height: '100%',
     display: 'flex',
@@ -17,6 +21,14 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     alignItems: 'center',
     width: '428px',
     paddingBottom: '100px',
+  },
+  gameName: {
+    margin: 0,
+    marginBottom: '32px',
+    fontSize: '40px',
+    lineHeight: '40px',
+    fontWeight: 700,
+    color: COLOR_LAYOUT_TEXT,
   },
   selectHeader: {
     margin: 0,
@@ -33,5 +45,15 @@ export const useStyles = makeStyles<Theme>((theme) => ({
     padding: theme.spacing(2),
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.15)',
     borderRadius: '10px',
+    marginBottom: '32px',
   },
+  backButton: ({ gameColor }: { gameColor: string }) => ({
+    backgroundColor: gameColor,
+    color: COLOR_LAYOUT_BACKGROUND,
+    boxShadow: '0px 0px 5px rgba(0, 0, 0, 0.15)',
+    borderRadius: 0,
+    '&:hover': {
+      backgroundColor: lighten(gameColor, 0.2),
+    },
+  }),
 }));
