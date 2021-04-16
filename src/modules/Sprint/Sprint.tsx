@@ -15,12 +15,13 @@ import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
 import FinishSound from 'assets/sounds/finish.mp3';
 import { SPRINT_TIME_GAME } from 'appConstants/games';
-import { selectUserId } from '../Login/selectors';
-import { PlayPage } from './components';
+import { selectUserId } from 'modules/Login/selectors';
+import { WordsSource } from 'appConstants';
+import { saveStatistics } from 'helpers/saveStatistics';
+import { InitialCountdownContainer } from 'modules/Imaginarium/components/Dashboard/styled';
+import { SPRINT_BACKGROUND } from 'appConstants/colors';
 import { GameContainer } from './styled';
-import { WordsSource } from '../../appConstants';
-import { saveStatistics } from '../../helpers/saveStatistics';
-import { InitialCountdownContainer } from '../Imaginarium/components/Dashboard/styled';
+import { PlayPage } from './components';
 
 type GamesProps = {};
 
@@ -192,7 +193,10 @@ export const Sprint: FC<GamesProps> = () => {
   return (
     <GameContainer ref={containerRef}>
       {error && <ErrorMessage />}
-      <InitialCountdownContainer gameIsStarted={hasStarted}>
+      <InitialCountdownContainer
+        gameIsStarted={hasStarted}
+        background={SPRINT_BACKGROUND}
+      >
         <Countdown
           duration={INITIAL_COUNTDOWN_TIME}
           onComplete={() => setStarted(true)}
