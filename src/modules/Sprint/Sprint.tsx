@@ -4,7 +4,7 @@ import { URL_GAMES } from 'appConstants/url';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { setPageTitle } from 'store/commonState/actions';
-import { GameResults, ErrorMessage } from 'components';
+import { GameResults, ErrorMessage, Countdown } from 'components';
 import {
   selectTextBookGroup,
   selectTextBookError,
@@ -20,8 +20,11 @@ import { PlayPage } from './components';
 import { GameContainer } from './styled';
 import { WordsSource } from '../../appConstants';
 import { saveStatistics } from '../../helpers/saveStatistics';
+import { InitialCountdownContainer } from '../Imaginarium/components/Dashboard/styled';
 
 type GamesProps = {};
+
+const INITIAL_COUNTDOWN_TIME = 3;
 
 const getRandomIntInclusive = (min: number, max: number) => {
   const rand = min + Math.random() * (max + 1 - min);
@@ -29,6 +32,7 @@ const getRandomIntInclusive = (min: number, max: number) => {
 };
 
 export const Sprint: FC<GamesProps> = () => {
+  const [hasStarted, setStarted] = useState(false);
   const [isFinishGame, setFinishGame] = useState(false);
   const [isSoundOn, setSoundOn] = useState(true);
   const [isFullScreen, setFullScreen] = useState(false);
@@ -188,7 +192,13 @@ export const Sprint: FC<GamesProps> = () => {
   return (
     <GameContainer ref={containerRef}>
       {error && <ErrorMessage />}
-      {!error && !isFinishGame && (
+      <InitialCountdownContainer gameIsStarted={hasStarted}>
+        <Countdown
+          duration={INITIAL_COUNTDOWN_TIME}
+          onComplete={() => setStarted(true)}
+        />
+      </InitialCountdownContainer>
+      {!error && !isFinishGame && hasStarted && (
         <PlayPage
           isFullscreen={isFullScreen}
           setFullscreen={setFullScreen}
