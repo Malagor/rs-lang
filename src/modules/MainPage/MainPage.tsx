@@ -85,9 +85,9 @@ export const MainPage: FC<MainPageProps> = () => {
             Learning English has never been so easy
           </Subtitle>
           <Paragraph theme={theme}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Elementum
-            commodo adipiscing malesuada sed ullamcorper mi sit enim mauris.
-            Ipsum, mauris laoreet laoreet potenti maecenas convallis.
+            Memorizing English words can be fun and challenging. Play games,
+            listen to pronunciation, improve your knowledge. With our app,
+            learning is a joy.
           </Paragraph>
           <ButtonLink
             to={URL_TEXT_BOOK}

@@ -1,3 +1,6 @@
+import liza from 'assets/images/liza.jpg';
+import vadim from 'assets/images/vadim.jpg';
+
 export const APP_NAME = 'RSLang';
 export const SERVER_URL = 'https://rs-lang-react.herokuapp.com/';
 
@@ -17,48 +20,43 @@ export const AUTHORS = [
   {
     name: 'Malagor',
     gitHub: 'https://github.com/Malagor',
-    photo:
-      'https://i1.wp.com/alkiansgroup.com/wp-content/uploads/2018/11/male-placeholder-image.jpg?fit=1000%2C1000&ssl=1',
-    role: 'backend developer',
+    photo: 'https://avatars.githubusercontent.com/u/20399054?v=4',
+    role: 'Team leader, Frontend developer',
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris. Elementum commodo adipiscing ',
+      'Did basic project settings, initial layout, redux setup, router setup, login form, part of the TextBook page, "Audio Challenge" game, "Savannah" game, backend',
   },
 
   {
     name: 'Femiarkh',
     gitHub: 'https://github.com/femiarkh',
-    photo:
-      'https://i1.wp.com/alkiansgroup.com/wp-content/uploads/2018/11/male-placeholder-image.jpg?fit=1000%2C1000&ssl=1',
-    role: 'backend developer',
+    photo: 'https://avatars.githubusercontent.com/u/55946100?v=4',
+    role: 'Frontend developer',
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris. Elementum commodo adipiscing ',
+      'Developed "Imaginarium" minigame, various common components for the minigames, and customized pagination. Hope you enjoy learning English with this app',
   },
   {
     name: 'Andrei107Q',
     gitHub: 'https://github.com/Andrei107Q',
-    photo:
-      'https://i1.wp.com/alkiansgroup.com/wp-content/uploads/2018/11/male-placeholder-image.jpg?fit=1000%2C1000&ssl=1',
-    role: 'backend developer',
+    photo: 'https://avatars.githubusercontent.com/u/58862645?v=4',
+    role: 'Frontend developer',
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris. Elementum commodo adipiscing ',
+      'Front-end developer, participated in the development of the registration form, the Sprint game and the group selector component',
   },
   {
     name: 'Liza-Veis',
     gitHub: 'https://github.com/Liza-Veis',
-    photo:
-      'https://i1.wp.com/alkiansgroup.com/wp-content/uploads/2018/11/male-placeholder-image.jpg?fit=1000%2C1000&ssl=1',
-    role: 'backend developer',
+    photo: liza,
+    role: 'Frontend developer, Designer',
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris. Elementum commodo adipiscing ',
+      'Designed layout of the application, made main page and statistics, made games results saving to the server, helped to think through the logic of the app',
   },
   {
     name: 'Vadim-Bykov',
     gitHub: 'https://github.com/Vadim-Bykov',
-    photo:
-      'https://i1.wp.com/alkiansgroup.com/wp-content/uploads/2018/11/male-placeholder-image.jpg?fit=1000%2C1000&ssl=1',
-    role: 'backend developer',
+    photo: vadim,
+    role: 'Frontend developer',
     description:
-      'Elementum commodo adipiscing malesuada sed ullamcorper mi sit enim mauris. Elementum commodo adipiscing ',
+      'Conducted the development of the pages of the textbook and dictionary. Made a card for words, implemented textbook settings and output of word statistics in the dictionary',
   },
 ];
 
