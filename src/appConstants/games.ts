@@ -20,6 +20,8 @@ import {
   IMAGINARIUM_STRONG_COLOR,
 } from './colors';
 
+export const COUNT_ANSWERS = 4;
+
 export const gamesData = [
   {
     name: 'Savannah',

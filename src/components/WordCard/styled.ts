@@ -34,7 +34,7 @@ export const ContentBlock = styled.div`
   flex: 1 1 auto;
   display: flex;
   flex-direction: column;
-  padding-left: 32px;
+  padding-left: 40px;
 
   @media (max-width: ${(props) => props.theme.breakpoints.values.md}px) {
     padding-left: 0;

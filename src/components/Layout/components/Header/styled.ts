@@ -1,11 +1,16 @@
-import makeStyles from '@material-ui/core/styles/makeStyles';
 import {
   COLOR_LAYOUT_DARKBLUE,
   COLOR_LAYOUT_GRAY,
   COLOR_LAYOUT_TEXT,
+  COLOR_LAYOUT_HEADER,
 } from 'appConstants/colors';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 export const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    paddingRight: 24, // keep right padding when drawer closed
+    backgroundColor: COLOR_LAYOUT_HEADER,
+  },
   toolbarIcon: {
     display: 'flex',
     alignItems: 'center',
@@ -53,5 +58,9 @@ export const useStyles = makeStyles((theme) => ({
   },
   marginLeft: {
     marginLeft: 10,
+  },
+  contentWrapper: {
+    display: 'flex',
+    maxWidth: '832px',
   },
 }));
