@@ -110,28 +110,15 @@ export const HeroContent = styled.div`
   max-width: 424px;
 `;
 
-export const HeroAnimationContainer = styled.div`
+export const HeroImage = styled.img`
+  display: block;
   position: relative;
   max-width: 350px;
   width: 100%;
   height: 420px;
-  overflow: hidden;
   @media (max-width: ${({ theme }) => theme.breakpoints.values.sm}px) {
     max-width: 250px;
     height: 300px;
-  }
-`;
-
-export const HeroAnimation = styled.div`
-  position: absolute;
-  width: 450px;
-  height: 450px;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%);
-  @media (max-width: ${({ theme }) => theme.breakpoints.values.sm}px) {
-    width: 320px;
-    height: 320px;
   }
 `;
 
@@ -179,4 +166,16 @@ export const DontForgetAnimation = styled.div`
   bottom: auto;
   top: -65px;
   transform: translate(-50%);
+`;
+
+export const DontForgetImage = styled.img`
+  display: block;
+  position: relative;
+  max-width: 450px;
+  width: 100%;
+  height: 315px;
+  margin-top: ${({ theme }) => theme.spacing(4)}px;
+  @media (max-width: ${({ theme }) => theme.breakpoints.values.sm}px) {
+    margin-top: ${({ theme }) => theme.spacing(3)}px;
+  }
 `;

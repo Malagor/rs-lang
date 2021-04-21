@@ -1,26 +1,23 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, useTheme } from '@material-ui/core';
-import lottie from 'lottie-web';
 import { URL_TEXT_BOOK } from 'appConstants/url';
+import heroImageSrc from 'assets/svg/main-hero.svg';
+import dontForgetImageSrc from 'assets/svg/main-dont-forget.svg';
 import { COLOR_LAYOUT_BLUE, COLOR_LAYOUT_YELLOW } from 'appConstants/colors';
 import {
   setLoginModalOpen,
   setPageTitle,
   setRegistrationModalOpen,
 } from 'store/commonState/actions';
-import heroAnimationData from 'assets/animations/main-hero.json';
-import dontForgetAnimationData from 'assets/animations/main-dont-forget.json';
 import {
   Button,
   ButtonLink,
-  DontForgetAnimation,
-  DontForgetAnimationContainer,
   DontForgetContent,
+  DontForgetImage,
   Hero,
-  HeroAnimation,
-  HeroAnimationContainer,
   HeroContent,
+  HeroImage,
   Paragraph,
   Section,
   SectionTitle,
@@ -39,9 +36,6 @@ export const MainPage: FC<MainPageProps> = () => {
   const theme = useTheme();
   const dispatch = useDispatch();
 
-  const heroAnimationRef = useRef<HTMLDivElement>(null);
-  const dontForgetAnimationRef = useRef<HTMLDivElement>(null);
-
   const handleLoginButtonClick = () => {
     dispatch(setLoginModalOpen(true));
     dispatch(setRegistrationModalOpen(false));
@@ -54,27 +48,6 @@ export const MainPage: FC<MainPageProps> = () => {
   useEffect(() => {
     dispatch(setPageTitle('Main'));
   }, [dispatch]);
-
-  useEffect(() => {
-    if (heroAnimationRef.current) {
-      lottie.loadAnimation({
-        container: heroAnimationRef.current,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: heroAnimationData,
-      });
-    }
-    if (dontForgetAnimationRef.current) {
-      lottie.loadAnimation({
-        container: dontForgetAnimationRef.current,
-        renderer: 'svg',
-        loop: true,
-        autoplay: true,
-        animationData: dontForgetAnimationData,
-      });
-    }
-  }, []);
 
   return (
     <Container>
@@ -98,9 +71,7 @@ export const MainPage: FC<MainPageProps> = () => {
             let's start
           </ButtonLink>
         </HeroContent>
-        <HeroAnimationContainer theme={theme}>
-          <HeroAnimation ref={heroAnimationRef} theme={theme} />
-        </HeroAnimationContainer>
+        <HeroImage src={heroImageSrc} theme={theme} />
       </Hero>
       <Section theme={theme}>
         <SectionTitle theme={theme}>Advantages</SectionTitle>
@@ -136,9 +107,7 @@ export const MainPage: FC<MainPageProps> = () => {
             sign up
           </Button>
         </DontForgetContent>
-        <DontForgetAnimationContainer theme={theme}>
-          <DontForgetAnimation ref={dontForgetAnimationRef} />
-        </DontForgetAnimationContainer>
+        <DontForgetImage src={dontForgetImageSrc} theme={theme} />
       </Section>
       <Section theme={theme}>
         <SectionTitle theme={theme}>Our team</SectionTitle>
