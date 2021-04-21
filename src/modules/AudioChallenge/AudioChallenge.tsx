@@ -9,7 +9,6 @@ import {
 } from 'modules/TextBookPage/selectors';
 import { selectUserId } from 'modules/Login/selectors';
 import { GameWordsKindType, Word } from 'types';
-import { LocStore } from 'services';
 import {
   FullscreenButton,
   GameResults,
@@ -20,11 +19,11 @@ import 'react-circular-progressbar/dist/styles.css';
 import FinishSound from 'assets/sounds/finish.mp3';
 import CorrectSound from 'assets/sounds/correct.mp3';
 import WrongSound from 'assets/sounds/error.mp3';
-import { saveGameResults } from 'modules/GamesPage/saveGameResults';
 import { WordsSource } from 'appConstants';
 import { COUNT_ANSWERS } from 'appConstants/games';
 import { mixingArray } from 'helpers/mixingArray';
 import { FullScreenWrapperFlexCenter } from 'styles';
+import { saveStatistics } from 'helpers/saveStatistics';
 import { AudioGameContainer, AudioWrapper } from './styled';
 import { AudioCard, NextButton } from './components';
 
@@ -81,26 +80,6 @@ export const AudioChallenge: FC = () => {
     },
     [isSoundOn]
   );
-
-  const saveStatistics = useCallback(() => {
-    if (!userId) {
-      LocStore.updateGamesStatistics(
-        'Audio challenge',
-        correctWords,
-        incorrectWords,
-        longerChain
-      );
-      LocStore.updateWordsStatistics(correctWords, incorrectWords);
-    } else {
-      saveGameResults({
-        userId,
-        game: 'Audio challenge',
-        rightlyAnswered: correctWords,
-        wronglyAnswered: incorrectWords,
-        maxInARow: longerChain,
-      });
-    }
-  }, [userId, correctWords, incorrectWords, longerChain]);
 
   // New Game
   const handlerNewGame = useCallback(() => {
@@ -201,9 +180,24 @@ export const AudioChallenge: FC = () => {
         return;
       }
 
-      saveStatistics();
+      saveStatistics({
+        userId,
+        gameName: 'Audio challenge',
+        rightlyAnswered: correctWords,
+        wronglyAnswered: incorrectWords,
+        maxInARow: longerChain,
+      });
     }
-  }, [chain, longerChain, playSound, isFinish, saveStatistics, gameWordsKind]);
+  }, [
+    correctWords,
+    incorrectWords,
+    userId,
+    chain,
+    longerChain,
+    playSound,
+    isFinish,
+    gameWordsKind,
+  ]);
 
   const closeResultModal = useCallback(() => {
     history.push('/games');

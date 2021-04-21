@@ -14,6 +14,9 @@ https://github.com/rolling-scopes-school/tasks/blob/master/tasks/react/react-rsl
 #### Deploy: 
 - https://rss-lang-team-53.web.app/
 
+#### Video
+- https://youtu.be/v56g_IdSihQ
+
 #### Backend 
 - repo: https://github.com/Malagor/react-rslang-be
 - deploy https://rs-lang-react.herokuapp.com/
