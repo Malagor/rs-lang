@@ -1,0 +1,1 @@
+export { SentencesBlock } from './SentencesBlock';

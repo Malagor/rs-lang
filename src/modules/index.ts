@@ -1,0 +1,9 @@
+export { MainPage } from './MainPage';
+export { TextBookPage } from './TextBookPage';
+export { GamesPage } from './GamesPage';
+export { StatisticsPage } from './StatisticsPage';
+export { Imaginarium } from './Imaginarium';
+export { DictionaryPage } from './DictionaryPage';
+export { AudioChallenge } from './AudioChallenge';
+export { Savannah } from './Savannah';
+export { Sprint } from './Sprint';
